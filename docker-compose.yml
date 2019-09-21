@@ -1,0 +1,16 @@
+---
+version: '2'
+services:
+  mobile:
+    image: unmymind/docker-android-sdk
+    container_name: mobile
+    build: .
+    depends_on:
+      - aqueduct
+  aqueduct:
+    container_name: "aqueduct"
+    build: .
+    ports:
+      - "8000"
+volumes:
+  db_data: {}
