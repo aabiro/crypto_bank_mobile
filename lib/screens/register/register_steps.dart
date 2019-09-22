@@ -33,17 +33,8 @@ class UserStepsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                MaterialButton(
-                  height: 45.0,
-                  minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("Back",
-                      textAlign: TextAlign.center
-                  ),
-                ),
+                SizedBox(
+                  height: 20.0),
                 MaterialButton(
                   height: 45.0,
                   minWidth: MediaQuery.of(context).size.width,
@@ -52,6 +43,17 @@ class UserStepsScreen extends StatelessWidget {
                     Navigator.pushNamed(context, '/register/info');
                   },
                   child: Text("Ok!",
+                      textAlign: TextAlign.center
+                  ),
+                ),
+                MaterialButton(
+                  height: 45.0,
+                  minWidth: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Back",
                       textAlign: TextAlign.center
                   ),
                 ),

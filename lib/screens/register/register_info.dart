@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-// import 'lib/models/user.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../models/user.dart';
 import 'dart:convert';
 
 // Create a Form widget.
@@ -15,10 +16,7 @@ class UserInfoScreen extends StatefulWidget {
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<UserInfoScreen> {
-  final _personalInfoFormKey = GlobalKey<FormState>();
-  static final String userId = 2.toString();
-  static final userToken = '';
-  final url = "http://10.0.2.2:8888/users/$userId";  //update this user
+  // final _personalInfoFormKey = GlobalKey<FormState>();
 
   final myFirstNameController = TextEditingController();
   final myLastNameController = TextEditingController();
@@ -49,7 +47,6 @@ class MyCustomFormState extends State<UserInfoScreen> {
               }
               return null;
             },
-      obscureText: true,
       controller: myLastNameController,
       // style: style,
       decoration: InputDecoration(
@@ -67,7 +64,6 @@ class MyCustomFormState extends State<UserInfoScreen> {
               }
               return null;
             },
-      obscureText: true,
       // style: style,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -80,15 +76,20 @@ class MyCustomFormState extends State<UserInfoScreen> {
     final firstName = myFirstNameController.text;
     final lastName = myLastNameController.text;
     final birthDate = '1989-09-23';
-    final body = "{\"firstName\":\"$firstName\", \"lastName\": \"$lastName\, \"birthdate\": \"$birthDate\"}";
+    final body = "{\"firstname\":\"Aaryn\", \"lastname\": \"Biro\", \"birthdate\": \"1989-09-23\"}";
+    // final body = "{\"firstname\":\"$firstName\", \"lastname\": \"$lastName\", \"birthdate\": \"$birthDte\"}";
 
     Future<void> _updateUser() async {
+      final storage = new FlutterSecureStorage();
+      String accessToken = await storage.read(key: "access_token");
+      String userId = await storage.read(key: "id");
+      final url = "http://10.0.2.2:8888/users/$userId";  //update this user
       try {
-        await http.post(
+        await http.put(
           url,
           headers: {
           "Content-Type": "application/json",
-          // "Authorization": "Basic $clientCredentials"
+          "Authorization": "Bearer $accessToken"
           },
           body: body
         ).then((http.Response response) {
@@ -97,8 +98,9 @@ class MyCustomFormState extends State<UserInfoScreen> {
           if (statusCode < 200 || statusCode > 400 || json == null) {
             throw new Exception("Error while fetching data");
           }
+          Navigator.pushNamed(context, '/register/address');
           return json.decode(response.body);
-          //go to next step
+          //Update User , go to next step
         });
       } catch (e) {
         print(e);
@@ -116,35 +118,36 @@ class MyCustomFormState extends State<UserInfoScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 100.0,
+                  height: 50.0,
                   child: Image.asset(
                     "assets/logo.png",
                     fit: BoxFit.contain,
                   ),
                 ),
-                SizedBox(height: 45.0),
+                SizedBox(height: 30.0),
                 firstNameField,
-                SizedBox(height: 25.0),
+                SizedBox(height: 15.0),
                 lastNameField,
-                SizedBox(
-                  height: 25.0,
-                ),
+                SizedBox(height: 15.0),
                 birthdateField,
                 SizedBox(
-                  height: 25.0
+                  height: 15.0
+                ),
+                MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  onPressed: _updateUser,
+                  child: Text("Continue",
+                      textAlign: TextAlign.center
+                  ),
                 ),
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                   onPressed: () {
-                    if(true){  //maybe a try catch instead
-                      _updateUser();
-                      Navigator.pushNamed(context, '/register');
-                    } else {
-                      return null;
-                    }                 
+                      Navigator.pop(context);
                   },
-                  child: Text("Continue",
+                  child: Text("Back",
                       textAlign: TextAlign.center
                   ),
                 ),

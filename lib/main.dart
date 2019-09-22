@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/login.dart';
-import 'package:flutter_app/screens/register/steps.dart';
-import 'package:flutter_app/screens/register.dart';
-import 'package:flutter_app/screens/register/register_personal.dart';
+import 'package:flutter_app/screens/register/register_steps.dart';
+import 'package:flutter_app/screens/register/register.dart';
+import 'package:flutter_app/screens/register/register_info.dart';
 import 'package:flutter_app/screens/register/register_address.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -25,13 +25,16 @@ class MyApp extends StatelessWidget {
         '/register': (context) => RegisterScreen(),
         '/register/steps': (context) => UserStepsScreen(),
         '/register/info': (context) => UserInfoScreen(),
-        '/register/address': (context) => UserAddressScreen()
+        '/register/address': (context) => UserAddressScreen(),
+        '/home': (context) => HomeScreen()
+        // ,
+        // '/': (context) => HomeScreen()
       },
     );
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
 
   Future<void> _signOut() async {
     try {
@@ -43,84 +46,76 @@ class HomePage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    const _heroesUrl = 'http://10.0.2.2:8888/users';
-
-    List<User> createUsersList(List data) {
-      List<User> list = new List();
-
-      for (int i = 0; i < data.length; i++) {
-        String username = data[i]["username"];
-        int id = data[i]["id"];
-        User hero = new User(username: username, id: id);
-        list.add(hero);
-      }
-
-      return list;
-    }
-
-    final mysecrettoken = '';
-
-    Future<List<User>> getAll() async {
-      final response = await http.get(
-        _heroesUrl,
-        headers: {
-          "bearer": mysecrettoken
-        }
-      );
-      print(response.body);
-      List responseJson = json.decode(response.body.toString());
-      List<User> userList = createUsersList(responseJson);
-      return userList;
-    }
-
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("List from Database"),
-          actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'Logout',
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white,
+    Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Container(
+        color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Home', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20)),
+                  ],
+                ),
               ),
-            ),
-            onPressed: _signOut,
-          ),
-        ],
-        ),
-        body: new Container(
-          child: new FutureBuilder<List<User>>(
-            future: getAll(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return new ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    return new Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new Text(snapshot.data[index].username,
-                          style: new TextStyle(fontWeight: FontWeight.bold)),
-                        new Divider()
-                      ]
-                    );
+              const SizedBox(height: 30),
+              const RaisedButton(
+                onPressed: null,
+                child: Text(
+                  'Logout',
+                  style: TextStyle(fontSize: 20)
+                ),
+              ),
+              const SizedBox(height: 30),
+              RaisedButton(
+                onPressed: _signOut,
+                child: const Text(
+                  'Logout',
+                  style: TextStyle(fontSize: 20)
+                ),
+              ),
+              const SizedBox(height: 30),
+              RaisedButton(
+                onPressed: _signOut,
+                textColor: Colors.white,
+                padding: const EdgeInsets.all(0.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: <Color>[
+                        Color(0xFF0D47A1),
+                        Color(0xFF1976D2),
+                        Color(0xFF42A5F5),
+                      ],
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: const Text(
+                    'Logout',
+                    style: TextStyle(fontSize: 20)
+                  ),
+                ),
+              ),
+              MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  onPressed: () {
+                      Navigator.pop(context);
                   },
-                );
-              } else if (snapshot.hasError) {
-                return new Text("${snapshot.error}");
-              }
-              return new CircularProgressIndicator();
-            },
+                  child: Text("Back",
+                      textAlign: TextAlign.center
+                  ),
+                ),
+            ],
           ),
         ),
-      ),
+      )
     );
   }
-
-
 }
 
 class User {

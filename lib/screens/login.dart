@@ -18,7 +18,7 @@ class MyCustomFormState extends State<LoginScreen> {
   static final clientID = "com.example.flutter_app"; 
   static final mysecret = "mysecret";
   final clientCredentials = Base64Encoder().convert("$clientID:$mysecret".codeUnits);
-  final url = "http://10.0.2.2:8888/login";  //create this
+  final url = "http://10.0.2.2:8888/auth/token";
 
   final myUsernameController = TextEditingController();
   final myPasswordController = TextEditingController();
@@ -64,7 +64,7 @@ class MyCustomFormState extends State<LoginScreen> {
     final email = myUsernameController.text;
     final password = myPasswordController.text;
 
-    final body = "{\"username\":\"$email\", \"password\": \"$password\"}";
+    final body = "{\"username\":\"$email\", \"password\": \"$password\", \"grant_type\": \"password\"}";
     Future<void> _login() async {
       try {
         await http.post(
@@ -80,7 +80,8 @@ class MyCustomFormState extends State<LoginScreen> {
           if (statusCode < 200 || statusCode > 400 || json == null) {
             throw new Exception("Error while fetching data");
           }
-          return json.decode(response.body);
+          print(json.decode(response.body));
+          Navigator.pushNamed(context, '/');
         });
       } catch (e) {
         print(e);
@@ -123,18 +124,18 @@ class MyCustomFormState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 100.0,
+                  height: 50.0,
                   child: Image.asset(
                     "assets/logo.png",
                     fit: BoxFit.contain,
                   ),
                 ),
-                SizedBox(height: 45.0),
+                SizedBox(height: 15.0),
                 emailField,
-                SizedBox(height: 25.0),
+                SizedBox(height: 15.0),
                 passwordField,
                 SizedBox(
-                  height: 35.0,
+                  height: 15.0,
                 ),
                 loginButon,
                 SizedBox(
