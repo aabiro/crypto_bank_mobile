@@ -137,7 +137,7 @@ class MyCustomFormState extends State<UserAddressScreen> {
             throw new Exception("Error while fetching data");
           } else {
             print(json.decode(response.body));
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushNamed(context, '/register/upload');
           }
           //go to next step
         });

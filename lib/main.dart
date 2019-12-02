@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/login.dart';
+import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/screens/register/register_steps.dart';
 import 'package:flutter_app/screens/register/register.dart';
 import 'package:flutter_app/screens/register/register_info.dart';
 import 'package:flutter_app/screens/register/register_address.dart';
+import 'package:flutter_app/screens/register/upload/choose_upload.dart';
+import 'package:flutter_app/screens/register/upload/photo_id.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -26,20 +29,37 @@ class MyApp extends StatelessWidget {
         '/register/steps': (context) => UserStepsScreen(),
         '/register/info': (context) => UserInfoScreen(),
         '/register/address': (context) => UserAddressScreen(),
-        '/home': (context) => HomeScreen()
-        // ,
-        // '/': (context) => HomeScreen()
+        '/register/upload': (context) => UploadChoice(),
+        // '/register/upload/photo': (context) => TakePictureScreen(),
+        '/register/': (context) => UploadChoice(),
+        '/map': (context) => UploadChoice(),
+        '/home': (context) => MapScreen()
       },
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  HomeScreenState createState() {
+    return HomeScreenState();
+  }
+}
+
+  
+  class HomeScreenState extends State<HomeScreen> {
 
   Future<void> _signOut() async {
     try {
-      // await FirebaseAuth.instance.signOut();
-      print('add signout function');
+      Navigator.pushNamed(context, '/login');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _goToMap() async {
+    try {
+      Navigator.pushNamed(context, '/map');
     } catch (e) {
       print(e);
     }
@@ -72,9 +92,9 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               RaisedButton(
-                onPressed: _signOut,
+                onPressed: _goToMap,
                 child: const Text(
-                  'Logout',
+                  'To Map',
                   style: TextStyle(fontSize: 20)
                 ),
               ),

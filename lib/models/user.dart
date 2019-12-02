@@ -19,8 +19,7 @@ class User {
   bool active;
 
   /// Setters
-  ///
-
+  /// 
   set userId(int id) {
     this.id = id;
   }
@@ -45,19 +44,12 @@ class User {
     this.birthdate = userBirthdate;
   }
 
-  // set user_address_form(String country, String city, String street,
-  //     String address, String zipcode, String addressInfo) {
-  //   this.country = country;
-  //   this.city = city;
-  //   this.street = street;
-  //   this.address = address;
-  //   this.zipcode = zipcode;
-  //   this.addressInfo = addressInfo;
-  // }
+  set userAccessToken(String userAccessToken) {
+    this.accesstoken = userAccessToken;
+  }
 
   /// Getters
   ///
-
   String get userName {
     return username;
   }
@@ -78,6 +70,11 @@ class User {
     return birthdate;
   }
 
+  String get userAccessToken {
+    return accesstoken;
+  }
+
+
   /// Constructors
   ///
 
@@ -87,21 +84,4 @@ class User {
 
   /// Functions
   /// 
-  
-  //   factory User.fromJson(Map<String, dynamic> json) {
-  //   return User(
-  //     id: json["id"];
-  //     username: json["username"];
-  //     firstname: json["firstname"];;
-  //     lastname: json["lastname"];
-  //     email: json["email"];
-  //     birthdate: json["birthdate"];
-  //     country: json["country"];
-  //     city: json["city"];
-  //     street: json["street"];
-  //     address: json["address"];
-  //     zipcode: json["zipcode"];
-  //     )
-  // }
-  
 }

@@ -15,11 +15,6 @@ class LoginScreen extends StatefulWidget {
 // This class holds data related to the form.
 class MyCustomFormState extends State<LoginScreen> {
   final _loginFormKey = GlobalKey<FormState>();
-  static final clientID = "com.example.flutter_app"; 
-  static final mysecret = "mysecret";
-  final clientCredentials = Base64Encoder().convert("$clientID:$mysecret".codeUnits);
-  final url = "http://10.0.2.2:8888/auth/token";
-
   final myUsernameController = TextEditingController();
   final myPasswordController = TextEditingController();
 
@@ -27,12 +22,12 @@ class MyCustomFormState extends State<LoginScreen> {
   Widget build(BuildContext context) {
 
     final emailField = TextFormField(
-      validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
+      // validator: (value) {
+      //         if (value.isEmpty) {
+      //           return 'Please enter some text';
+      //         }
+      //         return null;
+      //       },
       obscureText: false,
       controller: myUsernameController,
       // style: style,
@@ -44,12 +39,12 @@ class MyCustomFormState extends State<LoginScreen> {
     );
 
     final passwordField = TextFormField(
-      validator: (value) {
-              if (value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
+      // validator: (value) {
+      //         if (value.isEmpty) {
+      //           return 'Please enter some text';
+      //         }
+      //         return null;
+      //       },
       obscureText: true,
       controller: myPasswordController,
       // style: style,
@@ -57,31 +52,40 @@ class MyCustomFormState extends State<LoginScreen> {
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
           hintText: "Password",
           border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)))
               
     );
 
-    final email = myUsernameController.text;
-    final password = myPasswordController.text;
+    String username = myUsernameController.text;
+    String password = myPasswordController.text;
 
-    final body = "{\"username\":\"$email\", \"password\": \"$password\", \"grant_type\": \"password\"}";
+    final url = "http://10.0.2.2:8888/auth/token";
+    // final body = "{\"username\":\"$username\", \"password\": \"$password\", \"grant_type\": \"password\"}";
+    final body = "username=$username&password=$password&grant_type=password";
     Future<void> _login() async {
+      // final storage = new FlutterSecureStorage();
+
+      // String accessToken = await storage.read(key: "access_token");
+      final clientID = "com.example.flutter_app";
+      final mysecret = "mysecret";
+      final clientCredentials = Base64Encoder().convert("$clientID:$mysecret".codeUnits);
       try {
-        await http.post(
+        await http.post( //needs embeded login form from web.html aqueduct
           url,
           headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
           "Authorization": "Basic $clientCredentials"
           },
           body: body
         ).then((http.Response response) {
           final int statusCode = response.statusCode;
       
-          if (statusCode < 200 || statusCode > 400 || json == null) {
+          if (statusCode < 200 || statusCode >= 400 || json == null) {
             throw new Exception("Error while fetching data");
+          } else {
+            print(json.decode(response.body));
+            Navigator.pushNamed(context, '/home');
           }
-          print(json.decode(response.body));
-          Navigator.pushNamed(context, '/');
         });
       } catch (e) {
         print(e);
@@ -91,23 +95,14 @@ class MyCustomFormState extends State<LoginScreen> {
     final loginButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Color(0xff01A0C7),
+      color: Color(0xff2de1c2),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-                // Validate returns true if the form is valid, or false
-                // otherwise.
-                if (_loginFormKey.currentState.validate()) {
-                  // If the form is valid, display a Snackbar.
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text('Processing Data')));
-                   _login();
-                }
-              },
+        onPressed: _login,
         child: Text("Login",
             textAlign: TextAlign.center),
-            // ,
+            // color: Color(),
             // style: style.copyWith(
             //     color: Colors.white, fontWeight: FontWeight.bold)),
       ),

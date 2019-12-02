@@ -78,11 +78,12 @@ class MyCustomFormState extends State<RegisterScreen> {
           } else {
              final storage = new FlutterSecureStorage();
              var data = json.decode(response.body);
+            //  var accesstoken = data["authorization"]["access_token"];
              await storage.write(key: "access_token", value: data["authorization"]["access_token"]);
              await storage.write(key: "id", value: data["id"].toString());
              print(response);
-             User(username);
-             Navigator.pushNamed(context, '/register/steps');
+            //  User(username);
+             Navigator.pushNamed(context, '/register/info');
           }
         });
       } catch (e) {
@@ -93,7 +94,8 @@ class MyCustomFormState extends State<RegisterScreen> {
     final registerButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Color(0xff01A0C7),
+      // color: Color(0xff98C1D9),
+      color: Color(0xff2de1c2),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),

@@ -20,6 +20,7 @@ class MyCustomFormState extends State<UserInfoScreen> {
 
   final myFirstNameController = TextEditingController();
   final myLastNameController = TextEditingController();
+  final myCountryController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,23 @@ class MyCustomFormState extends State<UserInfoScreen> {
               
     );
 
+    final countryField = TextFormField(
+      validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+      controller: myCountryController,
+      // style: style,
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          hintText: "Country",
+          border:
+              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+    );
+
+
     final birthdateField = TextFormField(
       validator: (value) {
               if (value.isEmpty) {
@@ -76,7 +94,9 @@ class MyCustomFormState extends State<UserInfoScreen> {
     final firstName = myFirstNameController.text;
     final lastName = myLastNameController.text;
     final birthDate = '1989-09-23';
-    final body = "{\"firstname\":\"Aaryn\", \"lastname\": \"Biro\", \"birthdate\": \"1989-09-23\"}";
+    final country = myCountryController.text;
+    // final body = "{\"firstname\":\"Aaryn\", \"lastname\": \"Biro\", \"birthdate\": \"1989-09-23\"}";
+    final body = "{\"firstname\":\"Aaryn\", \"lastname\": \"Biro\", \"country\":\"Canada\"}";
     // final body = "{\"firstname\":\"$firstName\", \"lastname\": \"$lastName\", \"birthdate\": \"$birthDte\"}";
 
     Future<void> _updateUser() async {
@@ -98,7 +118,7 @@ class MyCustomFormState extends State<UserInfoScreen> {
           if (statusCode < 200 || statusCode > 400 || json == null) {
             throw new Exception("Error while fetching data");
           }
-          Navigator.pushNamed(context, '/register/address');
+          Navigator.pushNamed(context, '/home');
           return json.decode(response.body);
           //Update User , go to next step
         });
@@ -129,7 +149,7 @@ class MyCustomFormState extends State<UserInfoScreen> {
                 SizedBox(height: 15.0),
                 lastNameField,
                 SizedBox(height: 15.0),
-                birthdateField,
+                countryField,
                 SizedBox(
                   height: 15.0
                 ),
