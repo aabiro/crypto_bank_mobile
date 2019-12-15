@@ -12,7 +12,9 @@ import 'package:flutter_app/screens/settings.dart';
 import './screens/login.dart';
 import './screens/profile.dart';
 import './screens/camera_screen.dart';
+import './screens/stats.dart';
 import './screens/become_lender.dart';
+import './screens/journey.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -68,7 +70,9 @@ class MyApp extends StatelessWidget {
         '/camera': (context) => CameraScreen(cameras),
         SettingsScreen.routeName: (context) => SettingsScreen(),
         ProfileScreen.routeName: (context) => ProfileScreen(),
-        PlansScreen.routeName: (context) => PlansScreen()
+        PlansScreen.routeName: (context) => PlansScreen(),
+        StatsScreen.routeName: (context) => StatsScreen(),
+        JourneyScreen.routeName: (context) => JourneyScreen()
         // CameraScreen.routeName: (context) => CameraScreen(cameras)
       },
     );

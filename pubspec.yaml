@@ -23,6 +23,7 @@ dependencies:
   flutter_map:
   flutter_secure_storage: ^3.3.1+1
   charts_flutter: ^0.8.1
+  pie_chart:
   camera:
   path_provider:
   path:

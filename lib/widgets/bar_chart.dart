@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class IncomeChart extends StatelessWidget {
   final List<SubscriberSeries> data;
 
-  IncomeChart(@required this.data);
+  IncomeChart({@required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class IncomeChart extends StatelessWidget {
       padding: EdgeInsets.all(20),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             children: <Widget>[
               Text(

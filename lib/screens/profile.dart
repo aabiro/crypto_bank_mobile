@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:charts_flutter/flutter.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_app/models/income_chart.dart';
+import 'package:flutter_app/widgets/bar_chart.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const routeName = '/profile';

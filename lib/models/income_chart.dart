@@ -6,8 +6,9 @@ class SubscriberSeries {
   final int income;
   final charts.Color barColor;
 
-  SubscriberSeries(
+  SubscriberSeries({
       @required this.day,
       @required this.income,
-      @required this.barColor);
+      @required this.barColor
+  });
 }

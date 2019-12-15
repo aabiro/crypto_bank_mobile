@@ -12,7 +12,7 @@ class PlansScreen extends StatelessWidget {
                     padding: EdgeInsets.all(20),
                     width: double.infinity,
                     height: 200, 
-                    child: Text(text, style: TextStyle(
+                    child: Text(text, textAlign: TextAlign.center, style: TextStyle(
                       fontFamily: 'OpenSans', 
                       fontWeight: FontWeight.bold,
                       fontSize: 18),
