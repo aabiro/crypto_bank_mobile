@@ -34,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
     ),
      SubscriberSeries(
       day: "4",
-      income: 6,
+      income: 0,
       barColor: charts.ColorUtil.fromDartColor(Colors.blue),
     ),
     SubscriberSeries(
@@ -44,19 +44,14 @@ class ProfileScreen extends StatelessWidget {
     ),
      SubscriberSeries(
       day: "6",
-      income: 2,
+      income: 0,
       barColor: charts.ColorUtil.fromDartColor(Colors.blue),
     ),
     SubscriberSeries(
       day: "7",
-      income: 0,
+      income: 1,
       barColor: charts.ColorUtil.fromDartColor(Colors.blue),
     ),
-     SubscriberSeries(
-      day: "8",
-      income: 5,
-      barColor: charts.ColorUtil.fromDartColor(Colors.blue),
-    )
 ];
     
     return Scaffold(
@@ -65,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
           children: <Widget> [
             new AppBar(
                 centerTitle: true,
-                backgroundColor: Color(0xff98c1d9),
+                backgroundColor: Color(0xff673AB7),
                 title: new Text(
                   'GivnGo',
                   style: TextStyle(),
@@ -78,25 +73,35 @@ class ProfileScreen extends StatelessWidget {
                 width: double.infinity,
                 child: new CircleAvatar(
                   maxRadius: mediaQuery.size.height * 0.15,
-                  backgroundColor: Colors.purple,
-                  child: Text('AB')
+                  backgroundColor: Color(0xff9575CD),
+                  child: Text('AB', style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900)
+                    ),
                 ),
               ),
               SizedBox(height: 30),
               new Material(
                 elevation: 5.0,
                 borderRadius: BorderRadius.circular(7.0),
-                color: Color(0xff2de1c2),
+                color: Color(0xff2196F3),
                 child: MaterialButton(
                   minWidth: mediaQuery.size.width / 3 ,
                   padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                   onPressed: () {},
-                  child: Text("Edit Profile", textAlign: TextAlign.center,
+                  child: Text("Edit Profile", 
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                    // fontSize: 40,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900)
+                    ),
                   // color: Color(),
                   // style: style.copyWith(
                   // //     color: Colors.white, 
                   // fontWeight: FontWeight.bold)
-                  ),
+                  // ),
                 ),
               ),
               SizedBox(height: 30),
@@ -104,6 +109,11 @@ class ProfileScreen extends StatelessWidget {
                 padding: EdgeInsets.all(30),
                 child: buildTextField("Username", "aabiro")
               ),
+              // TextFormField(
+              //   decoration: InputDecoration(
+              //     labelText: 'Enter your username'
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.all(30),
                 child: buildTextField("Password", "******")

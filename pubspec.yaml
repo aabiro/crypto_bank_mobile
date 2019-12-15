@@ -21,6 +21,8 @@ dependencies:
     sdk: flutter
 
   flutter_map:
+  google_maps_flutter:
+  location: ^2.3.5
   flutter_secure_storage: ^3.3.1+1
   charts_flutter: ^0.8.1
   pie_chart:

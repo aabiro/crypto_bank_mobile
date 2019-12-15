@@ -139,12 +139,12 @@ class MyCustomFormState extends State<RegisterScreen> {
                 ),
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0),
+                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                       // MediaQuery.of(context).viewInsets.bottom + 15.0),
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
                   },
-                  child: Text("Back to Login", textAlign: TextAlign.center),
+                  child: Text("Or Login", textAlign: TextAlign.center),
                 ),
               ],
             ),

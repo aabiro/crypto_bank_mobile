@@ -48,7 +48,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
               cardInfo,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(0xff2de1c2),
+                color: Color(0xff2196F3),
                 fontFamily: 'OpenSans',
                 fontWeight: FontWeight.bold,
                 fontSize: 28),
@@ -71,7 +71,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
           children: <Widget>[
             new AppBar(
               centerTitle: true,
-              backgroundColor: Color(0xff98c1d9),
+              backgroundColor: Color(0xff673AB7),
               title: new Text(
                 'GivnGo',
                 style: TextStyle(),

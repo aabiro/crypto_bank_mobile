@@ -27,9 +27,13 @@ class IncomeChart extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                "Monthly Income from Lending",
+                "Weekly Income from Lending", style: TextStyle(
+                    // fontSize: 40,
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.w900),
+                    ),
                 // style: Theme.of(context).textTheme.body2,
-              ),
+              // ),
               Expanded(
                 child: charts.BarChart(series, animate: true),
               )

@@ -31,9 +31,10 @@ class MyCustomFormState extends State<LoginScreen> {
       obscureText: false,
       controller: controller,
       decoration: InputDecoration(
-                hintText: hintText,
+                // hintText: hintText,
+                labelText: hintText,
                 hintStyle: TextStyle(
-                  color: Colors.purple,
+                  color: Color(0xff2196F3),
                   // fontStyle: FontStyle.italic,
                 ),
               ),
@@ -88,16 +89,18 @@ class MyCustomFormState extends State<LoginScreen> {
     final loginButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Color(0xff2de1c2),
+      color: Color(0xff673AB7),
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: _login,
-        child: Text("Login", textAlign: TextAlign.center,
-        // color: Color(),
-        // style: style.copyWith(
-        // //     color: Colors.white, 
-        // fontWeight: FontWeight.bold)
+        child: Text("Login", 
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.white
+          ),
         ),
       ),
     );
@@ -106,6 +109,7 @@ class MyCustomFormState extends State<LoginScreen> {
       body: Center(
         child: Container(
           color: Colors.white,
+          // color: Color(0xff2196F3),
           child: Padding(
             padding: const EdgeInsets.all(36.0),
             child: Column(
@@ -131,15 +135,15 @@ class MyCustomFormState extends State<LoginScreen> {
                 SizedBox(
                   height: 15.0,
                 ),
-                Text("Not registered? Register now"),
+                // Text("Not registered? Register now"),
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0),
+                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                       // MediaQuery.of(context).viewInsets.bottom + 15.0),
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
-                  child: Text("Register", textAlign: TextAlign.center),
+                  child: Text("Or Register", textAlign: TextAlign.center),
                 ),
               ],
             ),

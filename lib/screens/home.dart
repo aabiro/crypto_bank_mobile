@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/drawer_menu.dart';
+import 'package:location/location.dart';
 import './camera_screen.dart';
 import 'package:flutter_app/components/app_bar.dart';
+
 
 class MapScreen extends StatefulWidget {
   @override
@@ -13,12 +16,18 @@ class MapScreen extends StatefulWidget {
 }
 
 class MapScreenState extends State<MapScreen> {
+  // Future<void> _getGPSLocation() async {
+  //   final gps_loc = await Location().getLocation();
+  //   print(gps_loc.latitude);
+  //   print(gps_loc.longitude);
+  // }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
       centerTitle: true,
-      backgroundColor: Color(0xff98c1d9),
+      backgroundColor: Constants.mainColor,
       title: new Text(
         'GivnGo',
         style: TextStyle(),
@@ -68,6 +77,7 @@ class MapScreenState extends State<MapScreen> {
   //       new TileLayerOptions(
   //         urlTemplate: "https://api.tiles.mapbox.com/v4/"
   //             "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+  // "mapbox://styles/aabiro/ck46sjhgh38m91cohk4r9tvj2" "pk.eyJ1IjoiYWFiaXJvIiwiYSI6ImNrMWsydGk3bTAzYnQzY28xMGptZXZib28ifQ.s6yg-6eFTAAYJ9wB96FPiA"
   //         additionalOptions: {
   //           'accessToken': '<PUT_ACCESS_TOKEN_HERE>',
   //           'id': 'mapbox.streets',
