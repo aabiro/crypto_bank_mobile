@@ -1,25 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/home.dart';
+import 'package:flutter_app/screens/profile.dart';
 import 'package:flutter_app/screens/register/register_steps.dart';
 import 'package:flutter_app/screens/register/register.dart';
 import 'package:flutter_app/screens/register/register_info.dart';
 import 'package:flutter_app/screens/register/register_address.dart';
 import 'package:flutter_app/screens/register/upload/choose_upload.dart';
 import 'package:flutter_app/screens/register/upload/photo_id.dart';
+import 'package:flutter_app/screens/settings.dart';
+import './screens/login.dart';
+import './screens/profile.dart';
+import './screens/camera_screen.dart';
+import './screens/become_lender.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import 'package:camera/camera.dart';
 
-void main() => runApp(MyApp());
+List<CameraDescription> cameras;
+
+Future<Null> main() async {
+  cameras = await availableCameras();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '1er',
+      // title: '1er',
+      //The app theme
       theme: ThemeData(
         primarySwatch: Colors.indigo,
+        accentColor: Colors.amber,
+        fontFamily: 'Comfortaa',
+        textTheme: ThemeData.light().textTheme.copyWith(
+          title: TextStyle(
+            fontFamily: 'OpenSans', 
+            fontWeight: FontWeight.bold,
+            fontSize: 18)
+        ),
+        //appBar theme
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+            title: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 20,
+              fontWeight: FontWeight.bold
+              ),
+            ), 
+        ),
       ),
       home: LoginScreen(),
       initialRoute: '/login',
@@ -30,10 +61,15 @@ class MyApp extends StatelessWidget {
         '/register/info': (context) => UserInfoScreen(),
         '/register/address': (context) => UserAddressScreen(),
         '/register/upload': (context) => UploadChoice(),
-        // '/register/upload/photo': (context) => TakePictureScreen(),
+        // '/register/upload/photo': (context) => TakePictureScreen(camera: cameras.,),
         '/register/': (context) => UploadChoice(),
         '/map': (context) => UploadChoice(),
-        '/home': (context) => MapScreen()
+        '/home': (context) => MapScreen(),
+        '/camera': (context) => CameraScreen(cameras),
+        SettingsScreen.routeName: (context) => SettingsScreen(),
+        ProfileScreen.routeName: (context) => ProfileScreen(),
+        PlansScreen.routeName: (context) => PlansScreen()
+        // CameraScreen.routeName: (context) => CameraScreen(cameras)
       },
     );
   }

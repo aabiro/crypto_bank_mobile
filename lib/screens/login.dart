@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:path/path.dart';
+
 // Create a Form widget.
 class LoginScreen extends StatefulWidget {
   @override
@@ -18,10 +20,8 @@ class MyCustomFormState extends State<LoginScreen> {
   final myUsernameController = TextEditingController();
   final myPasswordController = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
-
-    final emailField = TextFormField(
+  Widget buildInputField(TextEditingController controller, String hintText) {
+    return TextFormField(
       // validator: (value) {
       //         if (value.isEmpty) {
       //           return 'Please enter some text';
@@ -29,33 +29,25 @@ class MyCustomFormState extends State<LoginScreen> {
       //         return null;
       //       },
       obscureText: false,
-      controller: myUsernameController,
-      // style: style,
+      controller: controller,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Username",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+                hintText: hintText,
+                hintStyle: TextStyle(
+                  color: Colors.purple,
+                  // fontStyle: FontStyle.italic,
+                ),
+              ),
+          // contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+          // hintText: hintText,
+          // border:
+          //     OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
+  }
 
-    final passwordField = TextFormField(
-      // validator: (value) {
-      //         if (value.isEmpty) {
-      //           return 'Please enter some text';
-      //         }
-      //         return null;
-      //       },
-      obscureText: true,
-      controller: myPasswordController,
-      // style: style,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Password",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)))
-              
-    );
-
+  @override
+  Widget build(BuildContext context) {
+    final usernameField = buildInputField(myUsernameController, "Username");
+    final passwordField = buildInputField(myPasswordController, "Password");
     String username = myUsernameController.text;
     String password = myPasswordController.text;
 
@@ -64,27 +56,28 @@ class MyCustomFormState extends State<LoginScreen> {
     final body = "username=$username&password=$password&grant_type=password";
     Future<void> _login() async {
       // final storage = new FlutterSecureStorage();
-
       // String accessToken = await storage.read(key: "access_token");
+
       final clientID = "com.example.flutter_app";
       final mysecret = "mysecret";
-      final clientCredentials = Base64Encoder().convert("$clientID:$mysecret".codeUnits);
+      final clientCredentials =
+          Base64Encoder().convert("$clientID:$mysecret".codeUnits);
       try {
-        await http.post( //needs embeded login form from web.html aqueduct
-          url,
-          headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Authorization": "Basic $clientCredentials"
-          },
-          body: body
-        ).then((http.Response response) {
+        await http
+            .post(url,
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  "Authorization": "Basic $clientCredentials"
+                },
+                body: body)
+            .then((http.Response response) {
           final int statusCode = response.statusCode;
-      
+
           if (statusCode < 200 || statusCode >= 400 || json == null) {
             throw new Exception("Error while fetching data");
           } else {
             print(json.decode(response.body));
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushReplacementNamed(context, '/home');
           }
         });
       } catch (e) {
@@ -100,11 +93,12 @@ class MyCustomFormState extends State<LoginScreen> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: _login,
-        child: Text("Login",
-            textAlign: TextAlign.center),
-            // color: Color(),
-            // style: style.copyWith(
-            //     color: Colors.white, fontWeight: FontWeight.bold)),
+        child: Text("Login", textAlign: TextAlign.center,
+        // color: Color(),
+        // style: style.copyWith(
+        // //     color: Colors.white, 
+        // fontWeight: FontWeight.bold)
+        ),
       ),
     );
 
@@ -120,13 +114,14 @@ class MyCustomFormState extends State<LoginScreen> {
               children: <Widget>[
                 SizedBox(
                   height: 50.0,
-                  child: Image.asset(
-                    "assets/logo.png",
-                    fit: BoxFit.contain,
-                  ),
+                  child: Icon(Icons.directions_bike, size: 60),
+                  // child: Image.asset(
+                  //   "assets/gnglogo.png",
+                  //   fit: BoxFit.contain,
+                  // ),
                 ),
                 SizedBox(height: 15.0),
-                emailField,
+                usernameField,
                 SizedBox(height: 15.0),
                 passwordField,
                 SizedBox(
@@ -139,13 +134,12 @@ class MyCustomFormState extends State<LoginScreen> {
                 Text("Not registered? Register now"),
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0),
+                      // MediaQuery.of(context).viewInsets.bottom + 15.0),
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
-                  child: Text("Register",
-                      textAlign: TextAlign.center
-                  ),
+                  child: Text("Register", textAlign: TextAlign.center),
                 ),
               ],
             ),
