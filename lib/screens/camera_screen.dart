@@ -47,7 +47,7 @@ class _CameraScreenState extends State<CameraScreen> {
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () {},
-        child: const Icon(Icons.camera),
+        child: const Icon(Icons.center_focus_strong),
         //  onPressed:
         //  _isReady ? capture : null,
         // child: const Icon(

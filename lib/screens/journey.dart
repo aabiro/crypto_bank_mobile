@@ -12,20 +12,20 @@ class _JourneyScreenState extends State<JourneyScreen> {
   String _timeString = "2 min 5 sec";
   String _getCost = "\$ 4.99";
 
-  // @override
-  // void initState() {
-  //   _timeString =
-  //       "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
-  //   Timer.periodic(Duration(seconds: 1), (Timer t) => _getCurrentTime());
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    _timeString =
+        "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _getCurrentTime());
+    super.initState();
+  }
 
-  // void _getCurrentTime() {
-  //   setState(() {
-  //     _timeString =
-  //         "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
-  //   });
-  // }
+  void _getCurrentTime() {
+    setState(() {
+      _timeString =
+          "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
+    });
+  }
 
   Widget buildCard(String text, String cardInfo) {
     return Card(

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/screens/profile.dart';
-import 'package:flutter_app/screens/register/register_steps.dart';
-import 'package:flutter_app/screens/register/register.dart';
-import 'package:flutter_app/screens/register/register_info.dart';
-import 'package:flutter_app/screens/register/register_address.dart';
-import 'package:flutter_app/screens/register/upload/choose_upload.dart';
-import 'package:flutter_app/screens/register/upload/photo_id.dart';
+import 'package:flutter_app/screens/extra_screens/register_steps.dart';
+import 'package:flutter_app/screens/register.dart';
+import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:flutter_app/screens/extra_screens/register_info.dart';
+import 'package:flutter_app/screens/extra_screens/register_address.dart';
+import 'package:flutter_app/screens/extra_screens/choose_upload.dart';
+import 'package:flutter_app/screens/extra_screens/photo_id.dart';
 import 'package:flutter_app/screens/settings.dart';
 import './screens/login.dart';
 import './screens/profile.dart';
@@ -15,6 +16,8 @@ import './screens/camera_screen.dart';
 import './screens/stats.dart';
 import './screens/become_lender.dart';
 import './screens/journey.dart';
+import './screens/wallet.dart';
+import './screens/set_map_area.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -34,8 +37,8 @@ class MyApp extends StatelessWidget {
       // title: '1er',
       //The app theme
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        accentColor: Colors.amber,
+        // primarySwatch: Colors.indigo,
+        accentColor: Constants.accentColor,
         fontFamily: 'Comfortaa',
         textTheme: ThemeData.light().textTheme.copyWith(
           title: TextStyle(
@@ -60,19 +63,15 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/register/steps': (context) => UserStepsScreen(),
-        '/register/info': (context) => UserInfoScreen(),
-        '/register/address': (context) => UserAddressScreen(),
-        '/register/upload': (context) => UploadChoice(),
-        // '/register/upload/photo': (context) => TakePictureScreen(camera: cameras.,),
-        '/register/': (context) => UploadChoice(),
-        '/map': (context) => UploadChoice(),
         '/home': (context) => MapScreen(),
         '/camera': (context) => CameraScreen(cameras),
         SettingsScreen.routeName: (context) => SettingsScreen(),
         ProfileScreen.routeName: (context) => ProfileScreen(),
         PlansScreen.routeName: (context) => PlansScreen(),
         StatsScreen.routeName: (context) => StatsScreen(),
-        JourneyScreen.routeName: (context) => JourneyScreen()
+        JourneyScreen.routeName: (context) => JourneyScreen(),
+        SetMapAreaScreen.routeName: (context) => SetMapAreaScreen(),
+        WalletScreen.routeName: (context) => WalletScreen()
         // CameraScreen.routeName: (context) => CameraScreen(cameras)
       },
     );

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/screens/journey.dart';
 import 'package:flutter_app/screens/settings.dart';
+import 'package:flutter_app/screens/wallet.dart';
+import 'package:flutter_app/theme/constants.dart' as Constants;
 import '../screens/profile.dart';
 import '../screens/settings.dart';
 import '../screens/become_lender.dart';
@@ -35,7 +37,8 @@ class MenuDrawer extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(20),
               alignment: Alignment.centerLeft,
-              color: Color(0xff98c1d9),
+              // color: Color(0xff98c1d9),
+              color: Constants.mainColor,
               child: Text('',
                 // 'Menu',
                 style: TextStyle(
@@ -53,6 +56,9 @@ class MenuDrawer extends StatelessWidget {
             }),
             buildListTile('Profile', Icons.account_box, () {
               Navigator.of(context).pushNamed(ProfileScreen.routeName);
+            }),
+            buildListTile('Wallet', Icons.attach_money, () {
+              Navigator.of(context).pushNamed(WalletScreen.routeName);
             }),
             buildListTile('My Stats', Icons.star, () {
               Navigator.of(context).pushNamed(StatsScreen.routeName);

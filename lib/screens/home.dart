@@ -16,6 +16,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class MapScreenState extends State<MapScreen> {
+  
   // Future<void> _getGPSLocation() async {
   //   final gps_loc = await Location().getLocation();
   //   print(gps_loc.latitude);
@@ -24,15 +25,16 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return new Scaffold(
       appBar: new AppBar(
-      centerTitle: true,
-      backgroundColor: Constants.mainColor,
-      title: new Text(
-        'GivnGo',
-        style: TextStyle(),
+        centerTitle: true,
+        backgroundColor: Constants.mainColor,
+        title: new Text(
+          'GivnGo',
+          style: TextStyle(),
+        ),
       ),
-    ),
       drawer: MenuDrawer(),
       body: new FlutterMap(
           options: new MapOptions(
@@ -50,7 +52,7 @@ class MapScreenState extends State<MapScreen> {
                   builder: (context) => new Container(
                         child: IconButton(
                           icon: Icon(Icons.location_on),
-                          color: Color(0xff2de1c2),
+                          color: Constants.optionalColor,
                           iconSize: 45.0,
                           onPressed: () {
                             print('Marker tapped');
@@ -60,12 +62,61 @@ class MapScreenState extends State<MapScreen> {
             ])
           ]),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.smartphone),
-        onPressed: () {
-          Navigator.pushNamed(context, '/camera');
-        },
+      floatingActionButton: 
+      // Material(
+      // elevation: 5.0,
+      // borderRadius: BorderRadius.circular(30.0),
+      // color: Constants.accentColor,
+      // child: 
+      SizedBox(
+        width: mediaQuery.size.width * 0.7,
+        height: mediaQuery.size.height * 0.1,
+        child: RaisedButton.icon(
+              elevation: 0.5,
+              shape: RoundedRectangleBorder(
+                 borderRadius: BorderRadius.circular(40.0)),
+              icon: Icon(Icons.center_focus_strong),
+              textColor: Colors.white,
+              color: Constants.accentColor,
+              label: const Text('Scan to Ride', style: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20
+                )
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/camera');
+              },
+            )
       ),
+      
+            
+      
+    //     MaterialButton(
+    //     minWidth: MediaQuery.of(context).size.width/2,
+    //     padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+    //     onPressed: () {
+    //        Navigator.pushNamed(context, '/camera');
+    //     },
+        
+    //     child: Text("Scan to Ride",
+    //       textAlign: TextAlign.center,
+    //       style: TextStyle(
+    //         fontSize: 18,
+    //         fontWeight: FontWeight.w700,
+    //         color: Colors.white,
+    //       ),
+    //     ),
+    //   ),
+    // ),
+       
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(Icons.center_focus_strong),
+      //   onPressed: () {
+      //     Navigator.pushNamed(context, '/camera');
+      //   },
+      // ),
     );
   }
   //   return new FlutterMap(

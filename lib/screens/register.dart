@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../models/user.dart';
+import 'package:flutter_app/models/user.dart';
 import 'dart:convert';
 
 // Create a Form widget.
