@@ -59,7 +59,21 @@ class SettingsScreen extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.all(30),
-                // child: 
+                child: OutlineButton(
+                  // minWidth: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  onPressed: () {
+                    // Navigator.pushNamed(context, '/delete');
+                  },
+                  child: Text("Delete Account", 
+                  textAlign: TextAlign.center, 
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 16
+                    ),
+                    ),
+                ),
               ),
           ],
         ),

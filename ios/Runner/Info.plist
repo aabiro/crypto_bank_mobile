@@ -22,6 +22,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enable face id?</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Enable camera to scan the QR code</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

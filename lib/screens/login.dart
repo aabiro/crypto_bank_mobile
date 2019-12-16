@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/services/local_authentication_service.dart';
+import 'package:flutter_app/services/service_locator.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'dart:convert';
 
 import 'package:path/path.dart';
@@ -19,6 +22,28 @@ class MyCustomFormState extends State<LoginScreen> {
   final _loginFormKey = GlobalKey<FormState>();
   final myUsernameController = TextEditingController();
   final myPasswordController = TextEditingController();
+
+
+  Widget buildMaterialButton(String text, Function goTo, Color _color, double widthDivisor, double _fontSize, BuildContext context) {
+    return Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(30.0),
+      color: _color,
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width/widthDivisor,
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: goTo,
+        child: Text(text, 
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: _fontSize,
+            fontWeight: FontWeight.w700,
+            color: Colors.white
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget buildInputField(TextEditingController controller, String hintText) {
     return TextFormField(
@@ -47,6 +72,7 @@ class MyCustomFormState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final LocalAuthenticationService _localAuth = locator<LocalAuthenticationService>();
     final usernameField = buildInputField(myUsernameController, "Username");
     final passwordField = buildInputField(myPasswordController, "Password");
     String username = myUsernameController.text;
@@ -86,24 +112,8 @@ class MyCustomFormState extends State<LoginScreen> {
       }
     }
 
-    final loginButon = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Color(0xff673AB7),
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: _login,
-        child: Text("Login", 
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.white
-          ),
-        ),
-      ),
-    );
+    final loginButon = buildMaterialButton("Login", _login, Constants.mainColor, 1, 18, context);
+    final localAuthButon = buildMaterialButton("Use Face/Touch ID", _localAuth.authenticate, Constants.accentColor, 2, 12, context);
 
     return Scaffold(
       body: Center(
@@ -117,12 +127,12 @@ class MyCustomFormState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 50.0,
-                  child: Icon(Icons.directions_bike, size: 60),
-                  // child: Image.asset(
-                  //   "assets/gnglogo.png",
-                  //   fit: BoxFit.contain,
-                  // ),
+                  height: 150.0,
+                  width: double.infinity,
+                  child: Image.asset(
+                    "assets/gnglogo.png",
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 SizedBox(height: 15.0),
                 usernameField,
@@ -133,18 +143,17 @@ class MyCustomFormState extends State<LoginScreen> {
                 ),
                 loginButon,
                 SizedBox(
-                  height: 15.0,
+                  height: 5.0,
                 ),
-                // Text("Not registered? Register now"),
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      // MediaQuery.of(context).viewInsets.bottom + 15.0),
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
                   child: Text("Or Register", textAlign: TextAlign.center),
                 ),
+                localAuthButon
               ],
             ),
           ),

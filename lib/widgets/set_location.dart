@@ -14,8 +14,7 @@ class _SetLocationState extends State<SetLocation> {
 
   Future<void> _getGPSLocation() async {
     final gpsLoc = await Location().getLocation();
-    
-    final gpsImageUrl = MapsHelper.locationImageUrlTemplate(gpsLoc.latitude, gpsLoc.longitude);
+    final gpsImageUrl = MapsHelper.locationImageUrlTemplate(gpsLoc.latitude, gpsLoc.longitude, 5);
     // final gpsImageUrl = MapsHelper.locationImageUrl(gpsLoc.latitude, gpsLoc.longitude);
 
     setState(() {
@@ -36,11 +35,23 @@ class _SetLocationState extends State<SetLocation> {
             Container(
               height: mediaQuery.size.height * 0.4,
               width: double.infinity,
-              child: map_image == null ? Text('No Location', textAlign: TextAlign.center) : Image.network(map_image, fit: BoxFit.cover, width: double.infinity),
+              child: map_image == null ? Text('No Location', textAlign: TextAlign.center) : Image.network(map_image, 
+              fit: BoxFit.contain,
+              alignment: Alignment.center,
+              width: double.infinity),
             ),
           ),     
-          Row(children: <Widget>[
-            FlatButton.icon(icon: Icon(Icons.navigation,), label: Text("Set Allowable Riding Area"), onPressed: () {
+          SizedBox(height: 5,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+            FlatButton.icon(icon: Icon(Icons.pin_drop, color: Colors.blueGrey,), 
+            label: Text("Set Allowable Riding Area", style: TextStyle(
+              color: Colors.blueGrey,
+              fontWeight: FontWeight.w800,
+              fontSize: 18
+              ),
+              ), onPressed: () {
               // Navigator.of(context).pushNamed(SetMapAreaScreen.routeName);
               Navigator.of(context).push(MaterialPageRoute(
                 fullscreenDialog: true,

@@ -26,6 +26,7 @@ class IncomeChart extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: <Widget>[
+              SizedBox(height: 5),
               Text(
                 "Weekly Income from Lending", style: TextStyle(
                     // fontSize: 40,

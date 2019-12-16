@@ -4,6 +4,7 @@ import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/screens/profile.dart';
 import 'package:flutter_app/screens/extra_screens/register_steps.dart';
 import 'package:flutter_app/screens/register.dart';
+import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/screens/extra_screens/register_info.dart';
 import 'package:flutter_app/screens/extra_screens/register_address.dart';
@@ -17,6 +18,7 @@ import './screens/stats.dart';
 import './screens/become_lender.dart';
 import './screens/journey.dart';
 import './screens/wallet.dart';
+import './screens/add_credit_card.dart';
 import './screens/set_map_area.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -26,6 +28,7 @@ import 'package:camera/camera.dart';
 List<CameraDescription> cameras;
 
 Future<Null> main() async {
+  setupLocator();
   cameras = await availableCameras();
   runApp(MyApp());
 }
@@ -65,13 +68,15 @@ class MyApp extends StatelessWidget {
         '/register/steps': (context) => UserStepsScreen(),
         '/home': (context) => MapScreen(),
         '/camera': (context) => CameraScreen(cameras),
+        // 'credit': (context) => CreditCardScreen(),
         SettingsScreen.routeName: (context) => SettingsScreen(),
         ProfileScreen.routeName: (context) => ProfileScreen(),
         PlansScreen.routeName: (context) => PlansScreen(),
         StatsScreen.routeName: (context) => StatsScreen(),
         JourneyScreen.routeName: (context) => JourneyScreen(),
         SetMapAreaScreen.routeName: (context) => SetMapAreaScreen(),
-        WalletScreen.routeName: (context) => WalletScreen()
+        WalletScreen.routeName: (context) => WalletScreen(),
+        CreditCardScreen.routeName: (context) => CreditCardScreen()
         // CameraScreen.routeName: (context) => CameraScreen(cameras)
       },
     );
