@@ -78,7 +78,7 @@ class PlansScreen extends StatelessWidget {
                 centerTitle: true,
                 backgroundColor: Constants.mainColor,
                 title: new Text(
-                  'GivnGo',
+                  'Become a Lender',
                   style: TextStyle(),
                 ),
               ),

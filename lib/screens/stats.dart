@@ -69,6 +69,7 @@ class StatsScreen extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(20, 40, 20, 20),
             child: Text(
               'Health Metrics',
+              textAlign: TextAlign.left,
               style: TextStyle(
                 color: Colors.blueGrey,
                 fontSize: 30,
@@ -183,6 +184,7 @@ class StatsScreen extends StatelessWidget {
             padding: EdgeInsets.all(20),
             child: Text(
               'Financal Charts',
+              textAlign: TextAlign.left,
               style: TextStyle(
                 color: Colors.blueGrey,
                 fontSize: 30,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter_app/theme/constants.dart' as Constants;
 
 class JourneyScreen extends StatefulWidget {
   static const routeName = '/journey';
@@ -38,12 +39,13 @@ class _JourneyScreenState extends State<JourneyScreen> {
             text,
             textAlign: TextAlign.center,
             style: TextStyle(
+              color: Colors.blueGrey,
                 fontFamily: 'OpenSans',
                 fontWeight: FontWeight.bold,
                 fontSize: 18),
           ),
           Padding(
-            padding: EdgeInsets.all(10), 
+            padding: EdgeInsets.all(20), 
             child: Text(
               cardInfo,
               textAlign: TextAlign.center,
@@ -82,9 +84,35 @@ class _JourneyScreenState extends State<JourneyScreen> {
               child: buildCard("Time of Journey", _timeString),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(30, 0, 30, 30),
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: buildCard("Total Price of Journey", _getCost),
-            )
+            ),
+            SizedBox(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Text('Lock your bike to end the trip!\n\n Or', textAlign: TextAlign.center, style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontFamily: 'Comfortaa',
+                  fontWeight: FontWeight.w800),),
+              ),
+              
+            ),
+            RaisedButton(
+              elevation: 0.5,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0)),
+              textColor: Colors.white,
+              color: Constants.optionalColor,
+              child: const Text('Stop Trip',
+                  style: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 18)),
+              onPressed: () {
+                //save flip card and return
+                // Navigator.pushNamed(context, '/camera');
+              },
+            ),
           ],
         ),
       ),

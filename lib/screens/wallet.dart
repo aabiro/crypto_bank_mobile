@@ -61,7 +61,7 @@ class WalletScreen extends StatelessWidget {
                 centerTitle: true,
                 backgroundColor: Constants.mainColor,
                 title: new Text(
-                  'GivnGo',
+                  'Wallet',
                   style: TextStyle(),
                 ),
               ),
