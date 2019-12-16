@@ -1,3 +1,5 @@
+import 'package:flutter_app/models/bike.dart';
+
 class User {
   int id;
   String username;
@@ -17,6 +19,7 @@ class User {
   String accesstoken;
   String userType;
   bool active;
+  List<Bike> bikes;
 
   /// Setters
   /// 
@@ -74,6 +77,11 @@ class User {
     return accesstoken;
   }
 
+  List<Bike> get bikeList {
+    return bikes;
+  }
+
+
 
   /// Constructors
   ///
@@ -84,4 +92,13 @@ class User {
 
   /// Functions
   /// 
+
+  void addBike(Bike b) {
+    this.bikes.add(b);
+  }
+
+  void removeBike(Bike b) {
+    this.bikes.remove(b); //also deactivate the bike
+  }
+
 }

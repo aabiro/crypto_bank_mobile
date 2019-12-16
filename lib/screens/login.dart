@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/services/local_authentication_service.dart';
 import 'package:flutter_app/services/service_locator.dart';
 import 'package:http/http.dart' as http;
+import '../helpers/user_helper.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'dart:convert';
 
@@ -23,27 +24,29 @@ class MyCustomFormState extends State<LoginScreen> {
   final myUsernameController = TextEditingController();
   final myPasswordController = TextEditingController();
 
-
-  Widget buildMaterialButton(String text, Function goTo, Color _color, double widthDivisor, double _fontSize, BuildContext context) {
-    return Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: _color,
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width/widthDivisor,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: goTo,
-        child: Text(text, 
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: _fontSize,
-            fontWeight: FontWeight.w700,
-            color: Colors.white
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget buildMaterialButton(String text, Future<void> goTo, Color _color,
+  //     double widthDivisor, double _fontSize, BuildContext context) {
+  //   return Material(
+  //     elevation: 5.0,
+  //     borderRadius: BorderRadius.circular(30.0),
+  //     color: _color,
+  //     child: MaterialButton(
+  //       minWidth: MediaQuery.of(context).size.width / widthDivisor,
+  //       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+  //       onPressed: () {
+  //         goTo();
+  //       },
+  //       child: Text(
+  //         text,
+  //         textAlign: TextAlign.center,
+  //         style: TextStyle(
+  //             fontSize: _fontSize,
+  //             fontWeight: FontWeight.w700,
+  //             color: Colors.white),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget buildInputField(TextEditingController controller, String hintText) {
     return TextFormField(
@@ -56,64 +59,32 @@ class MyCustomFormState extends State<LoginScreen> {
       obscureText: false,
       controller: controller,
       decoration: InputDecoration(
-                // hintText: hintText,
-                labelText: hintText,
-                hintStyle: TextStyle(
-                  color: Color(0xff2196F3),
-                  // fontStyle: FontStyle.italic,
-                ),
-              ),
-          // contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          // hintText: hintText,
-          // border:
-          //     OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+        // hintText: hintText,
+        labelText: hintText,
+        hintStyle: TextStyle(
+          color: Color(0xff2196F3),
+          // fontStyle: FontStyle.italic,
+        ),
+      ),
+      // contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+      // hintText: hintText,
+      // border:
+      //     OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final LocalAuthenticationService _localAuth = locator<LocalAuthenticationService>();
+    final LocalAuthenticationService _localAuth =
+        locator<LocalAuthenticationService>();
     final usernameField = buildInputField(myUsernameController, "Username");
     final passwordField = buildInputField(myPasswordController, "Password");
     String username = myUsernameController.text;
     String password = myPasswordController.text;
 
-    final url = "http://10.0.2.2:8888/auth/token";
-    // final body = "{\"username\":\"$username\", \"password\": \"$password\", \"grant_type\": \"password\"}";
     final body = "username=$username&password=$password&grant_type=password";
-    Future<void> _login() async {
-      // final storage = new FlutterSecureStorage();
-      // String accessToken = await storage.read(key: "access_token");
-
-      final clientID = "com.example.flutter_app";
-      final mysecret = "mysecret";
-      final clientCredentials =
-          Base64Encoder().convert("$clientID:$mysecret".codeUnits);
-      try {
-        await http
-            .post(url,
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded",
-                  "Authorization": "Basic $clientCredentials"
-                },
-                body: body)
-            .then((http.Response response) {
-          final int statusCode = response.statusCode;
-
-          if (statusCode < 200 || statusCode >= 400 || json == null) {
-            throw new Exception("Error while fetching data");
-          } else {
-            print(json.decode(response.body));
-            Navigator.pushReplacementNamed(context, '/home');
-          }
-        });
-      } catch (e) {
-        print(e);
-      }
-    }
-
-    final loginButon = buildMaterialButton("Login", _login, Constants.mainColor, 1, 18, context);
-    final localAuthButon = buildMaterialButton("Use Face/Touch ID", _localAuth.authenticate, Constants.accentColor, 2, 12, context);
+    // final loginButon = buildMaterialButton("Login", , , 1, 18, context);
+    // final localAuthButon = buildMaterialButton("Use Face/Touch ID", _localAuth.authenticate, Constants.accentColor, 2, 12, context);
 
     return Scaffold(
       body: Center(
@@ -141,7 +112,26 @@ class MyCustomFormState extends State<LoginScreen> {
                 SizedBox(
                   height: 15.0,
                 ),
-                loginButon,
+                Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.circular(30.0),
+                  color: Constants.mainColor,
+                  child: MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    onPressed: () {
+                      UserHelper.login(body, context);
+                    },
+                    child: Text(
+                      "Login",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: 5.0,
                 ),
@@ -153,7 +143,24 @@ class MyCustomFormState extends State<LoginScreen> {
                   },
                   child: Text("Or Register", textAlign: TextAlign.center),
                 ),
-                localAuthButon
+                Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.circular(30.0),
+                  color: Constants.accentColor,
+                  child: MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width / 2,
+                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    onPressed: _localAuth.authenticate,
+                    child: Text(
+                      "Use Face/Touch ID",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

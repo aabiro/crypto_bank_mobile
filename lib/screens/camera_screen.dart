@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_app/helpers/bike_helper.dart';
+import 'package:flutter_app/models/bike.dart';
 
 class CameraScreen extends StatefulWidget {
   static final routeName = '/camera';
@@ -33,6 +35,16 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
+  void _addNewBike(int id) {
+    Bike newBike = Bike(id, "nsnsn", 1919, true, true, false, "www.image");
+    //use http request to send the data
+        // final body = "{\"username\":\"$username\", \"password\": \"$password\", \"grant_type\": \"password\"}";
+        // final body = "username=$username&password=$password&grant_type=password";
+    final body = "model=sksksk";
+    BikeHelper.addBike(body, context);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     // if (!_isReady) return new Container();
@@ -46,7 +58,9 @@ class _CameraScreenState extends State<CameraScreen> {
         ),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _addNewBike(22);
+        },
         child: const Icon(Icons.center_focus_strong),
         //  onPressed:
         //  _isReady ? capture : null,

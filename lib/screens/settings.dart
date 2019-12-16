@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/bike_list_view.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/set_location.dart';
 
@@ -48,7 +49,7 @@ class SettingsScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           fullscreenDialog: true,
-                          builder: (context) => PlansScreen(),
+                          builder: (context) => BikeList(),
                           maintainState: false)),
                   child: Container(
                     padding: EdgeInsets.all(20),
