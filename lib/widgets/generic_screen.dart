@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 
-class ActivationCompleteScreen extends StatelessWidget {
-  static const routeName = '/activation_complete';
+class GenericScreen extends StatelessWidget {
+  static const routeName = '/generic_screen';
+  String type; 
+  String mainText; 
+  String buttonText; 
+  String picPath;
+  String goToRouteName;
 
-  @override
+  GenericScreen(this.type, this.mainText, this.buttonText, this.picPath, this.goToRouteName);
+ 
   Widget build(BuildContext context) {
+    Color buttonColor = Constants.mainColor;
+    if (this.type == 'error') {
+      buttonColor = Colors.red;
+    }
+    @override
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -21,7 +31,6 @@ class ActivationCompleteScreen extends StatelessWidget {
               icon: Icon(Icons.close),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/home');
-                // Navigator.of(context).pushReplacement(MapScreen.routeName);
               })
         ],
       ),
@@ -30,7 +39,7 @@ class ActivationCompleteScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.fromLTRB(30, 60, 30, 20),
             child: Text(
-                'Congratulations, your bike has been activated.\nYou are now ready to lend your bike on the platform!',
+                mainText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.w800,
@@ -43,7 +52,7 @@ class ActivationCompleteScreen extends StatelessWidget {
                 width: double.infinity,
                 height: mediaQuery.size.height * 0.4,
                 child: Image.asset(
-                    "assets/gnglogo.png",
+                    picPath,
                     fit: BoxFit.contain,
                   ),
             )
@@ -57,17 +66,17 @@ class ActivationCompleteScreen extends StatelessWidget {
                   elevation: 0.5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(7.0)),
-                  // icon: Icon(Icons.attach_money),
                   textColor: Colors.white,
-                  color: Constants.accentColor,
-                  child: const Text('Ok',
+                  color: buttonColor,
+                  child: Text(
+                      buttonText,
                       style: TextStyle(
                           fontFamily: 'OpenSans',
                           fontWeight: FontWeight.bold,
                           fontSize: 18)),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/home');
-                    // Navigator.pushNamed(context, '/camera');
+                    Navigator.of(context)
+                              .pushNamed(goToRouteName);
                   },
                 )),
           )

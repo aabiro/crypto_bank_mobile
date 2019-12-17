@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 
+import 'order_locks.dart';
+
 class PlansScreen extends StatelessWidget {
   static const routeName = '/plans';
 
-  Widget buildCard(String title, String text, String priceText) {
+  Widget buildCard(String title, String text, String priceText, BuildContext context) {
     Color greyText = Colors.blueGrey;
-    return Card(
+    return 
+    Container(child: 
+    Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.white70, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: InkWell(
-        splashColor: Constants.accentColor,
-        onTap: () {},
+        // splashColor: Constants.accentColor,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OrderLocksScreen(title),
+              )
+          );// Navigator.of(context).pushNamed(OrderLocksScreen.routeName);
+        },
         child: Container(
           padding: EdgeInsets.all(20),
           width: double.infinity,
@@ -52,6 +67,7 @@ class PlansScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Constants.optionalColor,
+                      fontWeight: FontWeight.w800,
                       fontFamily: 'Comfortaa',
                       fontSize: 25),
                 ),
@@ -62,6 +78,13 @@ class PlansScreen extends StatelessWidget {
 
         // textAlign: Alignment.center
       ),
+    ),
+    decoration: new BoxDecoration(boxShadow: [
+        new BoxShadow(
+          color: Constants.optionalColor,
+          blurRadius: 20.0,
+        ),
+      ]),
     );
   }
 
@@ -83,28 +106,30 @@ class PlansScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
                 child: Text(
                   "Get Started Today!",
                   style: TextStyle(
                       color: Constants.mainColor,
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.bold,
-                      fontSize: 18),
+                      fontSize: 24),
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
                   child: buildCard(
                       'Individual Plan',
                       'Single lock delivery\nSet up support\nSet your area and start lending',
-                      "\$ 19.99")),
+                      "\$ 19.99 per lock",
+                      context)),
               Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
                   child: buildCard(
                       'Company Plan',
-                      'Control your own fleet of bikes\nCustomize your locks\nDiscounted price per lock',
-                      "\$ 5.99 per lock")),
+                      'For larger orders (30+)\nControl your own fleet of bikes\nCustomize your locks\nDiscounted price per lock',
+                      "\$ 5.99 per lock",
+                      context)),
             ],
           ),
         )

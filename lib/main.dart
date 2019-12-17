@@ -22,8 +22,10 @@ import './screens/become_lender.dart';
 import './screens/journey.dart';
 import './screens/wallet.dart';
 import './screens/bike_list_view.dart';
+import './screens/order_locks.dart';
 import './screens/add_credit_card.dart';
 import './screens/set_map_area.dart';
+import './screens/order_complete.dart';
 import './screens/activation_complete.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -84,7 +86,9 @@ class MyApp extends StatelessWidget {
         WalletScreen.routeName: (context) => WalletScreen(),
         CreditCardScreen.routeName: (context) => CreditCardScreen(),
         BikeList.routeName: (context) => BikeList(),
-        ActivationCompleteScreen.routeName: (context) => ActivationCompleteScreen()
+        ActivationCompleteScreen.routeName: (context) => ActivationCompleteScreen(),
+        // OrderLocksScreen.routeName: (context) => OrderLocksScreen(),
+        OrderCompleteScreen.routeName: (context) => OrderCompleteScreen()
         
         // CameraScreen.routeName: (context) => CameraScreen(cameras)
       },

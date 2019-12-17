@@ -26,4 +26,12 @@ class Bike {
     // this.outOfBounds, 
     this.imageUrl
   );
+
+    int get _id {
+    return id;
+  }
+
+    int get ownerId {
+    return ownerId;
+  }
 }

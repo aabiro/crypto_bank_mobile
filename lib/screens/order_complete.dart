@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 
-class ActivationCompleteScreen extends StatelessWidget {
-  static const routeName = '/activation_complete';
+class OrderCompleteScreen extends StatelessWidget {
+  static const routeName = '/order_complete';
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class ActivationCompleteScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.fromLTRB(30, 60, 30, 20),
             child: Text(
-                'Congratulations, your bike has been activated.\nYou are now ready to lend your bike on the platform!',
+                'Thank you for your order!\nYour lock will be on it\'s way very soon',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.w800,

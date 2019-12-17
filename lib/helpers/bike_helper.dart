@@ -39,10 +39,10 @@ class BikeHelper {
     }
   }
 
-  static Future<Response> getBikes() async {
+    static Future<void> getBike() async {
     // String userId = await  Constants.storage.read(key: "id");
-    int userId = 137;
-    final url = "http://10.0.2.2:8888/usersbikes/$userId";
+    // int userId = 137;
+    final url = "http://10.0.2.2:8888/bikes/7";
     final clientCredentials = Constants.clientCredentials;
     print('clientCredentials:');
     print(clientCredentials);
@@ -62,7 +62,41 @@ class BikeHelper {
           throw new Exception("Error while fetching data for Bike Route");
         } else {
           print(json.decode(response.body));
-          return response;
+          // return response;
+          // Navigator.pushReplacementNamed(context, '/home');
+        }
+      });
+    } catch (e) {
+      print(e);
+      // return e;
+      
+    }
+  }
+
+  static Future<void> getBikes() async {
+    // String userId = await  Constants.storage.read(key: "id");
+    int userId = 137;
+    final url = "http://10.0.2.2:8888/bikes/user/$userId";
+    final clientCredentials = Constants.clientCredentials;
+    print('clientCredentials:');
+    print(clientCredentials);
+    try {
+      await http
+          .get(url,
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic $clientCredentials"
+              })
+          .then((http.Response response) {
+        final int statusCode = response.statusCode;
+
+        if (statusCode < 200 || statusCode >= 400 || json == null) {
+          print(response);
+          
+          throw new Exception("Error while fetching data for Bike Route");
+        } else {
+          print(json.decode(response.body));
+          // return response;
           // Navigator.pushReplacementNamed(context, '/home');
         }
       });

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:flutter_app/widgets/generic_screen.dart';
 
 class JourneyScreen extends StatefulWidget {
   static const routeName = '/journey';
@@ -109,8 +110,18 @@ class _JourneyScreenState extends State<JourneyScreen> {
                       fontWeight: FontWeight.w800,
                       fontSize: 18)),
               onPressed: () {
-                //save flip card and return
-                // Navigator.pushNamed(context, '/camera');
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GenericScreen(
+                      'regular',
+                      'Trip Summary',
+                      'Ok',
+                      'assets/gnglogo.png',
+                      '/home'
+                    ),
+              ),
+            );
               },
             ),
           ],

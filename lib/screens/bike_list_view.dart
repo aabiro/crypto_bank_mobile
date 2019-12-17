@@ -22,8 +22,13 @@ class _BikeListState extends State<BikeList> {
   
   @override
   Widget build(BuildContext context) {
-    Future<Response> bikes2 = BikeHelper.getBikes();
-    print(bikes2);
+    // Future<void> bikes2 = BikeHelper.getBikes();
+    // print(bikes2);
+
+
+    Future<void> bikes2 = BikeHelper.getBike();
+    // print(bikes2);
+
     // bikes = 
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
