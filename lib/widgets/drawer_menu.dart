@@ -10,6 +10,7 @@ import '../screens/settings.dart';
 import '../screens/become_lender.dart';
 import '../screens/stats.dart';
 import '../screens/journey.dart';
+import '../helpers/user_helper.dart';
 
 class MenuDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function navigateTo) {
@@ -66,9 +67,17 @@ class MenuDrawer extends StatelessWidget {
             buildListTile('Become a Lender', Icons.directions_bike, () {
               Navigator.of(context).pushNamed(PlansScreen.routeName);
             }),
-            buildListTile('Sign Out', Icons.exit_to_app, () {
-              // Navigator.of(context).pushNamed(PlansScreen.routeName);
-            }),
+            ListTile(
+              leading: Icon(Icons.exit_to_app, size: 26),
+              title: Text(
+                'Sign Out',
+                style: TextStyle(
+                    fontFamily: 'Comfortaa', fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              onTap: () {
+                UserHelper.logout(context);
+              },
+            ),
             buildListTile('Route for Trip', Icons.explore, () {
               Navigator.of(context).pushNamed(JourneyScreen.routeName);
             }),

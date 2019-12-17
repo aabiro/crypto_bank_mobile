@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/bike.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:http/src/response.dart';
+import '../helpers/bike_helper.dart';
 
 class BikeList extends StatefulWidget {
   // BikeList(this.bikes);
@@ -17,8 +19,12 @@ class _BikeListState extends State<BikeList> {
     Bike(2, "nsnsn", 1919, true, true, false, "www.")
   ];
 
+  
   @override
   Widget build(BuildContext context) {
+    Future<Response> bikes2 = BikeHelper.getBikes();
+    print(bikes2);
+    // bikes = 
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
         appBar: AppBar(

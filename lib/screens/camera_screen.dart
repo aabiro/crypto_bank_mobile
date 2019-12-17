@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter_app/helpers/bike_helper.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/models/bike.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CameraScreen extends StatefulWidget {
   static final routeName = '/camera';
@@ -42,8 +43,10 @@ class _CameraScreenState extends State<CameraScreen> {
 
     // final body = "{\"model\":\"roadbike\",\"isActivated\":\"true\"}"; //isActivated : true causing failure
     // final body = "{\"model\":\"roadbike\"}"; //works
-    String id = await Constants.storage.read(key: "id");
-    final body = "{\"model\":\"roadbike\",\"userId\":$id}";
+    final storage = new FlutterSecureStorage();
+    String id = await storage.read(key: "id");
+    // int id2 = int.parse(id);
+    final body = "{\"model\":\"roadbike\",\"userId\":137}"; //need to be this number format for user id
     BikeHelper.addBike(body, context);
 
   }
