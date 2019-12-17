@@ -14,6 +14,7 @@ import 'package:flutter_app/screens/extra_screens/choose_upload.dart';
 import 'package:flutter_app/screens/extra_screens/photo_id.dart';
 import 'package:flutter_app/screens/settings.dart';
 import './screens/login.dart';
+import './screens/home.dart';
 import './screens/profile.dart';
 import './screens/camera_screen.dart';
 import './screens/stats.dart';
@@ -23,6 +24,7 @@ import './screens/wallet.dart';
 import './screens/bike_list_view.dart';
 import './screens/add_credit_card.dart';
 import './screens/set_map_area.dart';
+import './screens/activation_complete.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -72,6 +74,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => MapScreen(),
         '/camera': (context) => CameraScreen(cameras),
         // 'bike_list': (context) => BikeList(),
+        MapScreen.routeName: (context) => MapScreen(),
         SettingsScreen.routeName: (context) => SettingsScreen(),
         ProfileScreen.routeName: (context) => ProfileScreen(),
         PlansScreen.routeName: (context) => PlansScreen(),
@@ -81,6 +84,7 @@ class MyApp extends StatelessWidget {
         WalletScreen.routeName: (context) => WalletScreen(),
         CreditCardScreen.routeName: (context) => CreditCardScreen(),
         BikeList.routeName: (context) => BikeList(),
+        ActivationCompleteScreen.routeName: (context) => ActivationCompleteScreen()
         
         // CameraScreen.routeName: (context) => CameraScreen(cameras)
       },

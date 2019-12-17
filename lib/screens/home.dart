@@ -15,6 +15,8 @@ import 'package:flutter_app/components/app_bar.dart';
 
 
 class MapScreen extends StatefulWidget {
+  static const routeName = '/home';
+
   @override
   MapScreenState createState() {
     return MapScreenState();
@@ -34,6 +36,7 @@ class MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+
     return new Scaffold(
       appBar: new AppBar(
         centerTitle: true,

@@ -75,8 +75,7 @@ class MyCustomFormState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final LocalAuthenticationService _localAuth =
-        locator<LocalAuthenticationService>();
+    final LocalAuthenticationService _localAuth = locator<LocalAuthenticationService>();
     final usernameField = buildInputField(myUsernameController, "Username");
     final passwordField = buildInputField(myPasswordController, "Password");
     String username = myUsernameController.text;

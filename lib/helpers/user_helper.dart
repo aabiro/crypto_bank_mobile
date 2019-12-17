@@ -16,6 +16,8 @@ class UserHelper {
     // final storage = new FlutterSecureStorage();
     // String accessToken = await storage.read(key: "access_token");
 
+    // final clientID = "com.example.flutter_app";
+    // final mysecret = "mysecret";
     final clientCredentials = Constants.clientCredentials;
     try {
       await http

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_app/helpers/bike_helper.dart';
+import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/models/bike.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -35,12 +36,14 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
-  void _addNewBike(int id) {
-    Bike newBike = Bike(id, "nsnsn", 1919, true, true, false, "www.image");
+  Future<void> _addNewBike(int id) async {
+    // Bike newBike = Bike(id, "nsnsn", 1919, true, true, false, "www.image");
     //use http request to send the data
-        // final body = "{\"username\":\"$username\", \"password\": \"$password\", \"grant_type\": \"password\"}";
-        // final body = "username=$username&password=$password&grant_type=password";
-    final body = "model=sksksk";
+
+    // final body = "{\"model\":\"roadbike\",\"isActivated\":\"true\"}"; //isActivated : true causing failure
+    // final body = "{\"model\":\"roadbike\"}"; //works
+    String id = await Constants.storage.read(key: "id");
+    final body = "{\"model\":\"roadbike\",\"userId\":$id}";
     BikeHelper.addBike(body, context);
 
   }
