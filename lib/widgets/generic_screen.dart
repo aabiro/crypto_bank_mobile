@@ -3,14 +3,15 @@ import 'package:flutter_app/theme/constants.dart' as Constants;
 
 class GenericScreen extends StatelessWidget {
   static const routeName = '/generic_screen';
-  String type; 
-  String mainText; 
-  String buttonText; 
+  String type;
+  String mainText;
+  String buttonText;
   String picPath;
   String goToRouteName;
 
-  GenericScreen(this.type, this.mainText, this.buttonText, this.picPath, this.goToRouteName);
- 
+  GenericScreen(this.type, this.mainText, this.buttonText, this.picPath,
+      this.goToRouteName);
+
   Widget build(BuildContext context) {
     Color buttonColor = Constants.mainColor;
     if (this.type == 'error') {
@@ -38,8 +39,7 @@ class GenericScreen extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.fromLTRB(30, 60, 30, 20),
-            child: Text(
-                mainText,
+            child: Text(mainText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.w800,
@@ -47,16 +47,15 @@ class GenericScreen extends StatelessWidget {
                     fontSize: 20)),
           ),
           Padding(
-          padding: EdgeInsets.all(5),
-            child: SizedBox(
+              padding: EdgeInsets.all(5),
+              child: SizedBox(
                 width: double.infinity,
                 height: mediaQuery.size.height * 0.4,
                 child: Image.asset(
-                    picPath,
-                    fit: BoxFit.contain,
-                  ),
-            )
-          ),
+                  picPath,
+                  fit: BoxFit.contain,
+                ),
+              )),
           Padding(
             padding: EdgeInsets.all(20),
             child: SizedBox(
@@ -68,15 +67,13 @@ class GenericScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(7.0)),
                   textColor: Colors.white,
                   color: buttonColor,
-                  child: Text(
-                      buttonText,
+                  child: Text(buttonText,
                       style: TextStyle(
                           fontFamily: 'OpenSans',
                           fontWeight: FontWeight.bold,
                           fontSize: 18)),
                   onPressed: () {
-                    Navigator.of(context)
-                              .pushNamed(goToRouteName);
+                    Navigator.of(context).pushReplacementNamed(goToRouteName);
                   },
                 )),
           )

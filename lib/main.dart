@@ -5,6 +5,7 @@ import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/screens/profile.dart';
 import 'package:flutter_app/screens/extra_screens/register_steps.dart';
+import 'package:flutter_app/screens/qr_scan.dart';
 import 'package:flutter_app/screens/register.dart';
 import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
@@ -26,6 +27,7 @@ import './screens/order_locks.dart';
 import './screens/add_credit_card.dart';
 import './screens/set_map_area.dart';
 import './screens/order_complete.dart';
+import './screens/qr_scan.dart';
 import './screens/activation_complete.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -87,6 +89,8 @@ class MyApp extends StatelessWidget {
         CreditCardScreen.routeName: (context) => CreditCardScreen(),
         BikeList.routeName: (context) => BikeList(),
         ActivationCompleteScreen.routeName: (context) => ActivationCompleteScreen(),
+        // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
+        QrScan.routeName: (context) => QrScan(),
         // OrderLocksScreen.routeName: (context) => OrderLocksScreen(),
         OrderCompleteScreen.routeName: (context) => OrderCompleteScreen()
         

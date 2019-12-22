@@ -84,10 +84,10 @@ class WalletScreen extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Icon(Icons.attach_money, color: Colors.blueGrey),
+                                  Icon(Icons.credit_card, color: Colors.blueGrey),
                                   // Icon(Icons.attach_money),
                                   Text(
                                     'Add Payment Method',
@@ -143,7 +143,7 @@ class WalletScreen extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Icon(Icons.account_balance_wallet, color: Colors.blueGrey),

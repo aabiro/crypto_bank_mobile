@@ -11,6 +11,7 @@ import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/drawer_menu.dart';
 import 'package:location/location.dart';
 import './camera_screen.dart';
+import './qr_scan.dart';
 import 'package:flutter_app/components/app_bar.dart';
 
 
@@ -37,11 +38,11 @@ class MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         centerTitle: true,
         backgroundColor: Constants.mainColor,
-        title: new Text(
+        title: Text(
           'GivnGo',
           style: TextStyle(),
         ),
@@ -66,19 +67,20 @@ class MapScreenState extends State<MapScreen> {
         child: RaisedButton.icon(
               elevation: 0.5,
               shape: RoundedRectangleBorder(
-                 borderRadius: BorderRadius.circular(40.0)),
-              icon: Icon(Icons.center_focus_strong),
-              textColor: Colors.white,
-              color: Constants.accentColor,
-              label: const Text('Scan to Ride', style: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20
-                )
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/camera');
-              },
+                borderRadius: BorderRadius.circular(40.0)),
+                icon: Icon(Icons.center_focus_strong),
+                textColor: Colors.white,
+                color: Constants.accentColor,
+                label: const Text('Scan to Ride', style: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20
+                  )
+                ),
+                onPressed: () {
+                  // Navigator.pushNamed(context, '/camera');
+                  Navigator.of(context).pushNamed(QrScan.routeName);
+                },
             )
       ),
     );

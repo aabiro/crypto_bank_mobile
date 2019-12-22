@@ -67,7 +67,6 @@ class ActivationCompleteScreen extends StatelessWidget {
                           fontSize: 18)),
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, '/home');
-                    // Navigator.pushNamed(context, '/camera');
                   },
                 )),
           )
