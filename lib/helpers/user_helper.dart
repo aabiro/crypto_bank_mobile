@@ -119,12 +119,12 @@ class UserHelper {
           throw new Exception("Error while fetching data");
         } else {
           print(json.decode(response.body));
-          Navigator.pushNamed(context, '/login');
+          Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
         }
       });
     } catch (e) {
       print(e);
-      Navigator.pushNamed(context, '/login');
+      Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
     }
   }
 }

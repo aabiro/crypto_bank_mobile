@@ -53,19 +53,19 @@ class MenuDrawer extends StatelessWidget {
               height: 20,
             ),
             buildListTile('Settings', Icons.settings, () {
-              Navigator.of(context).pushNamed(SettingsScreen.routeName);
+              Navigator.of(context).popAndPushNamed(SettingsScreen.routeName);
             }),
             buildListTile('Profile', Icons.account_box, () {
-              Navigator.of(context).pushNamed(ProfileScreen.routeName);
+              Navigator.of(context).popAndPushNamed(ProfileScreen.routeName);
             }),
             buildListTile('Wallet', Icons.attach_money, () {
-              Navigator.of(context).pushNamed(WalletScreen.routeName);
+              Navigator.of(context).popAndPushNamed(WalletScreen.routeName);
             }),
             buildListTile('My Stats', Icons.star, () {
-              Navigator.of(context).pushNamed(StatsScreen.routeName);
+              Navigator.of(context).popAndPushNamed(StatsScreen.routeName);
             }),
             buildListTile('Become a Lender', Icons.directions_bike, () {
-              Navigator.of(context).pushNamed(PlansScreen.routeName);
+              Navigator.of(context).popAndPushNamed(PlansScreen.routeName);
             }),
             ListTile(
               leading: Icon(Icons.exit_to_app, size: 26),
@@ -79,7 +79,7 @@ class MenuDrawer extends StatelessWidget {
               },
             ),
             buildListTile('Route for Trip', Icons.explore, () {
-              Navigator.of(context).pushNamed(JourneyScreen.routeName);
+              Navigator.of(context).popAndPushNamed(JourneyScreen.routeName);
             }),
           ],
         ),

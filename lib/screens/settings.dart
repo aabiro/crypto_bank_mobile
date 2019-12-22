@@ -19,26 +19,26 @@ class SettingsScreen extends StatelessWidget {
             centerTitle: true,
             backgroundColor: Constants.mainColor,
             title: new Text(
-              'GivnGo',
+              'Settings',
               style: TextStyle(),
             ),
           ),
           SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: EdgeInsets.all(20),
-            child: Text(
-              'Settings',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Colors.blueGrey,
-                fontSize: 30,
-                fontWeight: FontWeight.w800,
-                fontFamily: 'Comfortaa',
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.all(20),
+          //   child: Text(
+          //     'Settings',
+          //     textAlign: TextAlign.left,
+          //     style: TextStyle(
+          //       color: Colors.blueGrey,
+          //       fontSize: 30,
+          //       fontWeight: FontWeight.w800,
+          //       fontFamily: 'Comfortaa',
+          //     ),
+          //   ),
+          // ),
           Padding(
             padding: EdgeInsets.all(20),
             child: Hero(
@@ -85,7 +85,8 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
           ),
-          Padding(padding: EdgeInsets.all(20), child: new SetLocation()),
+          Padding(padding: EdgeInsets.all(20), 
+            child: new SetLocation()),
           Padding(
             padding: EdgeInsets.all(20),
             child: OutlineButton(

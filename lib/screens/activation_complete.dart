@@ -66,6 +66,8 @@ class ActivationCompleteScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 18)),
                   onPressed: () {
+                    //push to bike details, add details here and see on map button
+                    //use .pushNamedAndRemoveUntil('/bike_detail', (Route<dynamic> route) => false);
                     Navigator.pushReplacementNamed(context, '/home');
                   },
                 )),

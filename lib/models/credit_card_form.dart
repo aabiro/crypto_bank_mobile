@@ -216,6 +216,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       fontSize: 18)),
               onPressed: () {
                 //save flip card and return
+                Navigator.pop(context);
                 // Navigator.pushNamed(context, '/camera');
               },
             ),

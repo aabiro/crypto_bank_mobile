@@ -100,7 +100,7 @@ class MyCustomFormState extends State<LoginScreen> {
                   height: 150.0,
                   width: double.infinity,
                   child: Image.asset(
-                    "assets/gnglogo.png",
+                    "assets/gnglogoblue.png",
                     fit: BoxFit.contain,
                   ),
                 ),

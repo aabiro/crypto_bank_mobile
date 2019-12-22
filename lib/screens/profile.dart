@@ -28,14 +28,13 @@ class ProfileScreen extends StatelessWidget {
               centerTitle: true,
               backgroundColor: Color(0xff673AB7),
               title: new Text(
-                'GivnGo',
+                'Profile',
                 style: TextStyle(),
               ),
             ),
             Padding(
               padding: EdgeInsets.all(30),
-            ),
-            SizedBox(
+              child: SizedBox(
               width: double.infinity,
               child: new CircleAvatar(
                 maxRadius: mediaQuery.size.height * 0.15,
@@ -46,8 +45,9 @@ class ProfileScreen extends StatelessWidget {
                         fontSize: 40,
                         fontWeight: FontWeight.w900)),
               ),
+            ),        
             ),
-            SizedBox(height: 30),
+            // SizedBox(height: 0),
             new Material(
               elevation: 5.0,
               borderRadius: BorderRadius.circular(7.0),

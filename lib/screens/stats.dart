@@ -121,7 +121,7 @@ class StatsScreen extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.all(30),
                             child: Text(
-                              'Rides',
+                              'Trips',
                               style: TextStyle(
                                 color: Colors.blueGrey,
                                 fontSize: 10,

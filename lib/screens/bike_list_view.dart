@@ -15,8 +15,8 @@ class BikeList extends StatefulWidget {
 class _BikeListState extends State<BikeList> {
   //get bikes from the db from the user id
   List<Bike> bikes = [
-    Bike(1, "mam", 1919, true, true, false, "www."),
-    Bike(2, "nsnsn", 1919, true, true, false, "www.")
+    Bike(1, "bike 1", 1919, true, true, false, "www."),
+    Bike(2, "bike 2", 1919, true, true, false, "www.")
   ];
 
   
@@ -54,6 +54,7 @@ class _BikeListState extends State<BikeList> {
               children: bikes.map((b) {
                 return Card(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
                         margin: EdgeInsets.symmetric(
@@ -74,7 +75,29 @@ class _BikeListState extends State<BikeList> {
                               fontWeight: FontWeight.w800,
                               fontSize: 20),
                         ),
-                      )
+                      ),
+                       Align(  //only show if they are lenders
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              width: mediaQuery.size.width * 0.15,
+              height: mediaQuery.size.height * 0.15,
+              child: Icon(Icons.error_outline, color: Colors.redAccent,
+              semanticLabel: 'Alert!',)
+            ),
+          ),
+                      Align(  //only show if they are lenders
+            alignment: Alignment.topRight,
+            child: SizedBox(
+              width: mediaQuery.size.width * 0.15,
+              height: mediaQuery.size.height * 0.15,
+              child: IconButton(
+                  //my location ocation searching gps fixed gps not fixed error error outline
+                  icon: Icon(Icons.arrow_forward),
+                  color: Constants.accentColor,
+                  
+                onPressed: () {}),
+            ),
+          ),
                     ],
                   ),
                 );
@@ -109,7 +132,7 @@ class _BikeListState extends State<BikeList> {
                     // minWidth: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/camera');
+                      Navigator.popAndPushNamed(context, '/camera');
                     },
                     child: Text(
                       "Activate Ride",

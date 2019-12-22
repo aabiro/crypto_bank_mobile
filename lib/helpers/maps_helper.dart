@@ -21,11 +21,62 @@ class MapsHelper {
     mc.setMapStyle(val);
   }
 
-  Future<void> getGPSLocation() async {
-    final gpsLoc = await Location().getLocation();
-    print(gpsLoc.latitude);
-    print(gpsLoc.longitude);
-    return gpsLoc;
+  static moveToLocation(GoogleMapController mc, LatLng target, double zoom) {
+    mc.animateCamera(CameraUpdate.newCameraPosition(
+    CameraPosition(
+      target: LatLng(43.65, -79.38),
+      zoom: 3,
+      bearing: 45.0,
+      tilt: 45.0)));
+  }
+
+  static Future<LocationData> getUserLocation() async {
+    var currentLocation; //= LocationData;
+
+    var location = new Location();
+
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      currentLocation = await location.getLocation();
+    } 
+    // on PlatformException catch (e) {
+    //   if (e.code == 'PERMISSION_DENIED') {
+    //     error = 'Permission denied';
+    //   } 
+    //   currentLocation = null;
+    // } 
+    catch (e) {
+       currentLocation = null;
+      print(e);
+    }
+
+    location.onLocationChanged().listen((LocationData currentLocation) {
+      print(currentLocation.latitude);
+      print(currentLocation.longitude);
+    });
+    print(currentLocation);
+    return currentLocation;
+    //from flutter location package
+
+//     class LocationData {
+//   final double latitude; // Latitude, in degrees
+//   final double longitude; // Longitude, in degrees
+//   final double accuracy; // Estimated horizontal accuracy of this location, radial, in meters
+//   final double altitude; // In meters above the WGS 84 reference ellipsoid
+//   final double speed; // In meters/second
+//   final double speedAccuracy; // In meters/second, always 0 on iOS
+//   final double heading; //Heading is the horizontal direction of travel of this device, in degrees
+//   final double time; //timestamp of the LocationData
+// }
+
+
+// enum LocationAccuracy { 
+//   POWERSAVE, // To request best accuracy possible with zero additional power consumption, 
+//   LOW, // To request "city" level accuracy
+//   BALANCED, // To request "block" level accuracy
+//   HIGH, // To request the most accurate locations available
+//   NAVIGATION // To request location for navigation usage (affect only iOS)
+// }
   }
 }
 
