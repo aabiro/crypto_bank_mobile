@@ -5,6 +5,8 @@ import 'package:flutter_app/widgets/generic_screen.dart';
 
 class JourneyScreen extends StatefulWidget {
   static const routeName = '/journey';
+  String bikeId;
+  JourneyScreen(this.bikeId);
 
   @override
   _JourneyScreenState createState() => _JourneyScreenState();
@@ -66,7 +68,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-
+    final JourneyScreen args = ModalRoute.of(context).settings.arguments;
+    final bId = args.bikeId;
     return Scaffold(
       body: SingleChildScrollView(
         //add to Scroll whole screen
@@ -91,7 +94,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
             SizedBox(
               child: Padding(
                 padding: EdgeInsets.all(10),
-                child: Text('Lock your bike to end the trip!\n\n Or', textAlign: TextAlign.center, style: TextStyle(
+                child: Text('Lock your bike id: $bId to end the trip!\n\n Or', textAlign: TextAlign.center, style: TextStyle(
                   color: Colors.blueGrey,
                   fontFamily: 'Comfortaa',
                   fontWeight: FontWeight.w800),),

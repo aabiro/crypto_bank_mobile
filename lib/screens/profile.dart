@@ -48,7 +48,7 @@ class ProfileScreen extends StatelessWidget {
             ),        
             ),
             // SizedBox(height: 0),
-            new Material(
+            Material(
               elevation: 5.0,
               borderRadius: BorderRadius.circular(7.0),
               color: Color(0xff2196F3),

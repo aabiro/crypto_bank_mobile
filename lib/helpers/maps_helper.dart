@@ -31,7 +31,7 @@ class MapsHelper {
   }
 
   static Future<LocationData> getUserLocation() async {
-    var currentLocation; //= LocationData;
+    LocationData currentLocation;
 
     var location = new Location();
 

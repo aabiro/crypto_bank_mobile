@@ -58,8 +58,9 @@ class MapScreenState extends State<MapScreen> {
 
     @override
     void initState() {
+      userLocation = MapsHelper.getUserLocation();
       super.initState();
-      // userLocation = MapsHelper.getUserLocation();
+      //
       markers.add(Marker(
           markerId: MarkerId('mymarker'),
           draggable: false,
@@ -83,6 +84,7 @@ class MapScreenState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        elevation: 5,
         backgroundColor: Constants.mainColor,
         title: Text(
           'GivnGo',
@@ -102,6 +104,7 @@ class MapScreenState extends State<MapScreen> {
               initialCameraPosition:
                   CameraPosition(target: LatLng(43.65, 79.38), zoom: 7),
               markers: Set.from(markers),
+              // myLocationEnabled: true,
             ),
           ),
           
@@ -128,6 +131,7 @@ class MapScreenState extends State<MapScreen> {
                   icon: Icon(Icons.error_outline),
                   color: Constants.accentColor,
                   // tooltip: 'Increase volume by 10',
+                  
                   onPressed: moveToLocation),
             ),
           ),
@@ -139,7 +143,7 @@ class MapScreenState extends State<MapScreen> {
                     width: mediaQuery.size.width * 0.7,
                     height: mediaQuery.size.height * 0.1,
                     child: RaisedButton.icon(
-                      elevation: 0.5,
+                      elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40.0)),
                       icon: Icon(Icons.center_focus_strong),
@@ -152,7 +156,7 @@ class MapScreenState extends State<MapScreen> {
                               fontSize: 20)),
                       onPressed: () {
                         // Navigator.pushNamed(context, '/camera');
-                        Navigator.of(context).pushNamed(QrScan.routeName);
+                        Navigator.of(context).pushNamed(QrScan.routeName, arguments: QrScan(false));
                       },
                     )),
               )),

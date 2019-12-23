@@ -15,43 +15,42 @@ class _SetLocationState extends State<SetLocation> {
   // @override
   // void dispose() {
   //   super.dispose();
-  // } 
+  // }
+  // Future<void> _getGPSLocation() async {
+  //   final gpsLoc = await Location().getLocation();
+  //   final gpsImageUrl = MapsHelper.locationImageUrlTemplate(
+  //       gpsLoc.latitude, gpsLoc.longitude, 5);
+  //   // final gpsImageUrl = MapsHelper.locationImageUrl(gpsLoc.latitude, gpsLoc.longitude);
 
-  Future<void> _getGPSLocation() async {
-    final gpsLoc = await Location().getLocation();
-    final gpsImageUrl = MapsHelper.locationImageUrlTemplate(
-        gpsLoc.latitude, gpsLoc.longitude, 5);
-    // final gpsImageUrl = MapsHelper.locationImageUrl(gpsLoc.latitude, gpsLoc.longitude);
-
-    if (this.mounted){
-      setState((){
-        map_image = gpsImageUrl;
-        coordinates = gpsLoc;
-      });
-    }
+  //   if (this.mounted){
+  //     setState((){
+  //       map_image = gpsImageUrl;
+  //       coordinates = gpsLoc;
+  //     });
+  //   }
 
 
-  }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    _getGPSLocation();
+    // _getGPSLocation();
     final mediaQuery = MediaQuery.of(context);
     return Column(
       children: <Widget>[
-        Hero(
-          tag: 'map',
-          child: Container(
-            height: mediaQuery.size.height * 0.4,
-            width: double.infinity,
-            child: map_image == null
-                ? Text('No Location', textAlign: TextAlign.center)
-                : Image.network(map_image,
-                    fit: BoxFit.contain,
-                    alignment: Alignment.center,
-                    width: double.infinity),
-          ),
-        ),
+        // Hero(
+        //   tag: 'map',
+        //   child: Container(
+        //     height: mediaQuery.size.height * 0.4,
+        //     width: double.infinity,
+        //     child: map_image == null
+        //         ? Text('No Location', textAlign: TextAlign.center)
+        //         : Image.network(map_image,
+        //             fit: BoxFit.contain,
+        //             alignment: Alignment.center,
+        //             width: double.infinity),
+        //   ),
+        // ),
         SizedBox(
           height: 5,
         ),

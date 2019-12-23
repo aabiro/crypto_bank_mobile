@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/bike_list_view.dart';
+import 'package:flutter_app/screens/alert_screen.dart';
+import 'package:flutter_app/screens/bike_list.dart';
 import 'package:flutter_app/models/bike.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/home.dart';
@@ -22,7 +23,8 @@ import './screens/stats.dart';
 import './screens/become_lender.dart';
 import './screens/journey.dart';
 import './screens/wallet.dart';
-import './screens/bike_list_view.dart';
+import './screens/bike_list.dart';
+import './screens/bike_detail_view.dart';
 import './screens/order_locks.dart';
 import './screens/add_credit_card.dart';
 import './screens/set_map_area.dart';
@@ -83,14 +85,16 @@ class MyApp extends StatelessWidget {
         ProfileScreen.routeName: (context) => ProfileScreen(),
         PlansScreen.routeName: (context) => PlansScreen(),
         StatsScreen.routeName: (context) => StatsScreen(),
-        JourneyScreen.routeName: (context) => JourneyScreen(),
+        JourneyScreen.routeName: (context) => JourneyScreen(''),
         SetMapAreaScreen.routeName: (context) => SetMapAreaScreen(),
         WalletScreen.routeName: (context) => WalletScreen(),
         CreditCardScreen.routeName: (context) => CreditCardScreen(),
         BikeList.routeName: (context) => BikeList(),
-        ActivationCompleteScreen.routeName: (context) => ActivationCompleteScreen(),
+        ActivationCompleteScreen.routeName: (context) => ActivationCompleteScreen(''),
+        BikeDetailScreen.routeName: (context) => BikeDetailScreen(),
+        AlertScreen.routeName: (context) => AlertScreen(),
         // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
-        QrScan.routeName: (context) => QrScan(),
+        QrScan.routeName: (context) => QrScan(false),
         // OrderLocksScreen.routeName: (context) => OrderLocksScreen(),
         OrderCompleteScreen.routeName: (context) => OrderCompleteScreen()
         

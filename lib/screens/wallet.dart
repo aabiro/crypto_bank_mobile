@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/add_credit_card.dart';
+import 'package:flutter_app/screens/card_list.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 
 class WalletScreen extends StatelessWidget {
@@ -164,6 +165,65 @@ class WalletScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 15.0),
+          Padding(
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: Text(
+              'Default Payment Method:',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.blueGrey,
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                fontFamily: 'Comfortaa',
+              ),
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        "Credit Card\n ending in XXXX",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: 'Comfortaa',
+                            // fontWeight: FontWeight.w900,
+                            fontSize: 15),
+                      ),
+               OutlineButton(
+              // minWidth: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => CardScreen(),
+                      maintainState: false));
+              },
+              child: Text(
+                "Change",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Constants.mainColor,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 16),
+              ),
+            ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
             ],
           ),
         ));
