@@ -55,6 +55,7 @@ class MapScreenState extends State<MapScreen> {
     Future<LocationData> userLocation;
     List<Marker> markers = [];
     List<Marker> userMarker;
+    String dropdownValue;
 
     @override
     void initState() {
@@ -107,7 +108,42 @@ class MapScreenState extends State<MapScreen> {
               // myLocationEnabled: true,
             ),
           ),
-          
+          Align(
+            alignment: Alignment.topCenter,
+            child: DropdownButton<String>(
+              hint: Text('Find My Ride', 
+              style: TextStyle(
+                color: Colors.blueGrey,
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.w800,
+                fontSize: 18),),
+              value: dropdownValue,
+              icon: Icon(Icons.location_on, color: Constants.mainColor),
+              iconSize: 24,
+              elevation: 16,
+              style: TextStyle(
+                color: Colors.blueGrey,
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.w800,
+                fontSize: 18),
+              underline: Container(
+                height: 2,
+                color: Constants.mainColor,
+              ),
+              onChanged: (String newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                });
+              },
+              items: <String>['Bike 1', 'Bike 2', 'Bmx', 'Mntn B']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ),
           Align(
             alignment: Alignment.bottomRight,
             child: SizedBox(
@@ -131,7 +167,7 @@ class MapScreenState extends State<MapScreen> {
                   icon: Icon(Icons.error_outline),
                   color: Constants.accentColor,
                   // tooltip: 'Increase volume by 10',
-                  
+
                   onPressed: moveToLocation),
             ),
           ),
@@ -156,7 +192,8 @@ class MapScreenState extends State<MapScreen> {
                               fontSize: 20)),
                       onPressed: () {
                         // Navigator.pushNamed(context, '/camera');
-                        Navigator.of(context).pushNamed(QrScan.routeName, arguments: QrScan(false));
+                        Navigator.of(context).pushNamed(QrScan.routeName,
+                            arguments: QrScan(false));
                       },
                     )),
               )),
