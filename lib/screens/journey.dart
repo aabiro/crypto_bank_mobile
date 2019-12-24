@@ -24,6 +24,12 @@ class _JourneyScreenState extends State<JourneyScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _timeString = null;  //??
+    super.dispose();
+  }
+
   void _getCurrentTime() {
     setState(() {
       _timeString =

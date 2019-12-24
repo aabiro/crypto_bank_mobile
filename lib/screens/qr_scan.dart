@@ -1,7 +1,10 @@
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/bikes.dart';
 import 'add_credit_card.dart';
 import 'activation_complete.dart';
 import 'journey.dart';
@@ -129,10 +132,10 @@ class QrScanState extends State<QrScan> {
                         bypass(args.activation);
                         // scan(args.activation);
                       },
-                      child: const Text('Scan the QR code',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 15),
+                      child: const Text(
+                        'Scan the QR code',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 15),
                       ),
                     ),
                   ),
@@ -143,7 +146,8 @@ class QrScanState extends State<QrScan> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     // EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: Text("Just \$1.00 to unlock\nOnly 20 cents/min after",
+                    child: Text(
+                        "Just \$1.00 to unlock\nOnly 20 cents/min after",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.w800,
@@ -300,10 +304,10 @@ class QrScanState extends State<QrScan> {
                         bypass(args.activation);
                         // scan(args.activation);
                       },
-                      child: const Text('Scan the QR code',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 15),
+                      child: const Text(
+                        'Scan the QR code',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 15),
                       ),
                     ),
                   ),
@@ -319,13 +323,16 @@ class QrScanState extends State<QrScan> {
   void bypass(bool activation) {
     print('activation');
     print(activation);
-    activation == false
-        ? Navigator.of(context).popAndPushNamed(
-            JourneyScreen.routeName,
-            arguments: JourneyScreen('001'))
-        : Navigator.of(context).popAndPushNamed(
-            ActivationCompleteScreen.routeName,
-            arguments: ActivationCompleteScreen('001'));
+    String barcode = '001';
+    if (activation == false) {
+      Navigator.of(context).popAndPushNamed(JourneyScreen.routeName,
+          arguments: JourneyScreen('001'));
+    } else {
+      Provider.of<Bikes>(context)
+          .addBike(Bike(qrCode: barcode, isActive: true, name: 'New Bike'));
+      Navigator.of(context).popAndPushNamed(ActivationCompleteScreen.routeName,
+          arguments: ActivationCompleteScreen('001'));
+    }
   }
 
   Future scan(bool activation) async {

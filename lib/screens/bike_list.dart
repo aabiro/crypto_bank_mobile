@@ -53,12 +53,13 @@ class _BikeListState extends State<BikeList> {
             child: ListView(
               children: bikes.map(
                 (bike) {
-                  return ChangeNotifierProvider(  //notify of changes for each individual bike item
-                    create: (_) => bike,
+                  //use .value because items are lost
+                  return ChangeNotifierProvider.value(  //notify of changes for each individual bike item
+                    value: bike,
                     child: BikeListItem(
                       // bike.id, bike.name, bike.isActive, bike.imageUrl
                       ),
-                  );                        
+                  );                     
                 },
               ).toList(),
             ),

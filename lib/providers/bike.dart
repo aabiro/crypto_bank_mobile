@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 class Bike with ChangeNotifier {
   String id;
   int userId;
-  int qrCode; // image?
+  String qrCode; // image?
   String name;
   String model;
   double lat;
@@ -21,16 +21,23 @@ class Bike with ChangeNotifier {
 
   //need daily income model to update for each ride
 
-  Bike(
-    [this.id, 
+  Bike({
+    this.id, 
     this.name,
-    // this.model, 
-    // this.userId, 
-    // this.isAvailable, 
-    // this.isVerified, 
     this.isActive, 
-    // this.imageUrl
-    ]
+    this.userId,
+    this.qrCode,
+    this.model,
+    this.lat,
+    this.lng,
+    this.passengerId,
+    this.isVerified, // other users have verified
+    this.isAvailable,
+    this.isOutOfOrder,
+    this.outOfBounds,
+    this.imageUrl,
+    this.totalIncomeGenerated = 0
+  }
   );
 
   void toggleActive() {
