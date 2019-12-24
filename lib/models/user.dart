@@ -1,4 +1,4 @@
-import 'package:flutter_app/models/bike.dart';
+import 'package:flutter_app/providers/bike.dart';
 
 class User {
   int id;

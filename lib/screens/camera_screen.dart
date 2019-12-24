@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_app/helpers/bike_helper.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'package:flutter_app/models/bike.dart';
+import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CameraScreen extends StatefulWidget {

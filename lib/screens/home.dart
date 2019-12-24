@@ -9,6 +9,8 @@ import './camera_screen.dart';
 import './qr_scan.dart';
 import 'package:flutter_app/components/app_bar.dart';
 
+
+
 class MapScreen extends StatefulWidget {
   static const routeName = '/home';
 
@@ -103,7 +105,7 @@ class MapScreenState extends State<MapScreen> {
                 // _controller.complete(mc);
               },
               initialCameraPosition:
-                  CameraPosition(target: LatLng(43.65, 79.38), zoom: 7),
+                  CameraPosition(target: LatLng(40.6281, 14.4850), zoom: 5),
               markers: Set.from(markers),
               // myLocationEnabled: true,
             ),
@@ -151,7 +153,7 @@ class MapScreenState extends State<MapScreen> {
               height: mediaQuery.size.height * 0.15,
               child: IconButton(
                   //my location ocation searching gps fixed gps not fixed error error outline
-                  icon: Icon(Icons.gps_fixed),
+                  icon: Icon(Icons.gps_fixed, size: 30,),
                   color: Constants.accentColor,
                   // tooltip: 'Increase volume by 10',
                   onPressed: moveToLocation),
@@ -164,7 +166,7 @@ class MapScreenState extends State<MapScreen> {
               height: mediaQuery.size.height * 0.15,
               child: IconButton(
                   //my location ocation searching gps fixed gps not fixed error error outline
-                  icon: Icon(Icons.error_outline),
+                  icon: Icon(Icons.error_outline, size: 30,),
                   color: Constants.accentColor,
                   // tooltip: 'Increase volume by 10',
 
@@ -182,7 +184,7 @@ class MapScreenState extends State<MapScreen> {
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40.0)),
-                      icon: Icon(Icons.center_focus_strong),
+                      icon: Icon(Icons.center_focus_strong, size: 30,),
                       textColor: Colors.white,
                       color: Constants.accentColor,
                       label: const Text('Scan to Ride',

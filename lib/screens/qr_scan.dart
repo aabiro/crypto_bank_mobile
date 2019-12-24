@@ -47,12 +47,12 @@ class QrScanState extends State<QrScan> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
                     child: Text(
-                        "Ready to ride? Find the QR code on the bicycle lock and unlock your ride to start your journey.",
+                        "Ready to ride? Find the QR code on the GivnGo bicycle lock and unlock the ride to start your journey.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.w800,
                             color: Colors.blueGrey,
-                            fontSize: 15)),
+                            fontSize: 20)),
                   ),
                   //           Padding(
                   //   padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
@@ -129,17 +129,21 @@ class QrScanState extends State<QrScan> {
                         bypass(args.activation);
                         // scan(args.activation);
                       },
-                      child: const Text('Scan the QR code'),
+                      child: const Text('Scan the QR code',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15),
+                      ),
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     // EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: Text("\$1.00 to unlock, 20 cents/min after",
+                    child: Text("Just \$1.00 to unlock\nOnly 20 cents/min after",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.w800,
@@ -296,7 +300,11 @@ class QrScanState extends State<QrScan> {
                         bypass(args.activation);
                         // scan(args.activation);
                       },
-                      child: const Text('Scan the QR code'),
+                      child: const Text('Scan the QR code',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15),
+                      ),
                     ),
                   ),
                   SizedBox(

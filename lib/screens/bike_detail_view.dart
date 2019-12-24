@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/set_location.dart';
+import 'package:provider/provider.dart';
+import '../providers/bikes.dart';
 
 import 'alert_screen.dart';
 import 'bike_list.dart';
 
 class BikeDetailScreen extends StatefulWidget {
-  static final routeName = 'bike_detail';
+  static final routeName = '/bike_detail';
+  final String bikeId;
+  BikeDetailScreen(this.bikeId);
+
   @override
   _BikeDetailScreenState createState() => _BikeDetailScreenState();
 }
@@ -43,6 +48,11 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
     final nameController = TextEditingController();
     final modelController = TextEditingController();
     final conditionController = TextEditingController();
+    final BikeDetailScreen args = ModalRoute.of(context).settings.arguments;
+    final bike = Provider.of<Bikes>(
+      context,
+      // listen: false, //does not change on changeNotifier, check if does on update and open screen
+      ).findById(args.bikeId);
     return Scaffold(
       body: SingleChildScrollView(
         //add to Scroll whole screen
@@ -52,7 +62,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               centerTitle: true,
               backgroundColor: Color(0xff673AB7),
               title: new Text(
-                'Bike Name',
+                bike.name,
                 // planType,
                 style: TextStyle(),
               ),
@@ -209,10 +219,13 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                               ),
                             ),
                             Switch(
-                              value: isSwitched,
+                              value: !bike.isActive,
                               onChanged: (value) {
                                 setState(() {
-                                  isSwitched = value;
+                                  print(bike.isActive);
+                                  bike.toggleActive();
+                                  print(bike.isActive);
+                                  isSwitched = bike.isActive;                        
                                 });
                               },
                               activeTrackColor: Constants.mainColor,

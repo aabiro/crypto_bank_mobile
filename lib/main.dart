@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/alert_screen.dart';
 import 'package:flutter_app/screens/bike_list.dart';
-import 'package:flutter_app/models/bike.dart';
+import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/screens/profile.dart';
@@ -35,11 +35,16 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import 'package:camera/camera.dart';
+import 'package:provider/provider.dart';
+import './providers/bikes.dart';
+// import './models/bike.dart';
+
 
 List<CameraDescription> cameras;
 
 Future<Null> main() async {
   setupLocator();
+  WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
   runApp(MyApp());
 }
@@ -47,7 +52,11 @@ Future<Null> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Bikes()),
+      ],
+      child:  MaterialApp(
       // title: '1er',
       //The app theme
       theme: ThemeData(
@@ -91,7 +100,7 @@ class MyApp extends StatelessWidget {
         CreditCardScreen.routeName: (context) => CreditCardScreen(),
         BikeList.routeName: (context) => BikeList(),
         ActivationCompleteScreen.routeName: (context) => ActivationCompleteScreen(''),
-        BikeDetailScreen.routeName: (context) => BikeDetailScreen(),
+        BikeDetailScreen.routeName: (context) => BikeDetailScreen(''),
         AlertScreen.routeName: (context) => AlertScreen(),
         // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
         QrScan.routeName: (context) => QrScan(false),
@@ -100,6 +109,7 @@ class MyApp extends StatelessWidget {
         
         // CameraScreen.routeName: (context) => CameraScreen(cameras)
       },
+    )
     );
   }
 }

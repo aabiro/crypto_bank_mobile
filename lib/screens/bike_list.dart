@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/bike.dart';
+import 'package:flutter_app/providers/bike.dart';
+import 'package:flutter_app/screens/bike_list_item.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:http/src/response.dart';
 import '../helpers/bike_helper.dart';
 import 'bike_detail_view.dart';
 import 'qr_scan.dart';
+import '../providers/bikes.dart';
+import 'package:provider/provider.dart';
 
 class BikeList extends StatefulWidget {
-  // BikeList(this.bikes);
   static final routeName = '/bike_list';
 
   @override
@@ -16,18 +18,12 @@ class BikeList extends StatefulWidget {
 
 class _BikeListState extends State<BikeList> {
   //get bikes from the db from the user id
-  List<Bike> bikes = [
-    Bike(1, "bike 1", 1919, true, true, false, "Active"),
-    Bike(2, "bike 2", 1919, true, true, false, "Deactivated")
-  ];
 
   @override
   Widget build(BuildContext context) {
+    final bikesData = Provider.of<Bikes>(context);
+    final bikes = bikesData.items;
     // Future<void> bikes2 = BikeHelper.getBikes();
-    // print(bikes2);
-
-    Future<void> bikes2 = BikeHelper.getBike();
-    // print(bikes2);
 
     // bikes =
     final mediaQuery = MediaQuery.of(context);
@@ -53,124 +49,16 @@ class _BikeListState extends State<BikeList> {
           height: mediaQuery.size.height,
           child: Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            //make this a list view builder!!
             child: ListView(
               children: bikes.map(
-                (b) {
-                  return Padding(
-                    padding: EdgeInsets.all(0),
-                    // child: Hero(
-                    //   tag: "bike3",
-                    child: Card(
-                      child: InkWell(
-                        onTap: () => Navigator.of(context)
-                            .pushNamed(BikeDetailScreen.routeName),
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          width: double.infinity,
-                          height: 85,
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                    child: Text(
-                                      b.model.toString(),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontFamily: 'OpenSans',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                    child: Text(
-                                      b.imageUrl.toString(),
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 20),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                    child: Icon(Icons.error_outline,
-                                        color: Colors.red),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                (bike) {
+                  return ChangeNotifierProvider(  //notify of changes for each individual bike item
+                    create: (_) => bike,
+                    child: BikeListItem(
+                      // bike.id, bike.name, bike.isActive, bike.imageUrl
                       ),
-                    ),
-                    // ),
-                  );
-                  // return Card(
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: <Widget>[
-                  //       Container(
-                  //         margin: EdgeInsets.symmetric(
-                  //           vertical: 10,
-                  //           horizontal: 15,
-                  //         ),
-                  //         decoration: BoxDecoration(
-                  //           border: Border.all(
-                  //             color: Constants.accentColor,
-                  //             width: 2,
-                  //           ),
-                  //         ),
-                  //         padding: EdgeInsets.all(10),
-                  //         child: Text(
-                  //           b.model.toString(),
-                  //           style: TextStyle(
-                  //               color: Colors.blueGrey,
-                  //               fontWeight: FontWeight.w800,
-                  //               fontSize: 20),
-                  //         ),
-                  //       ),
-                  //       Align(
-                  //         //only show if they are lenders
-                  //         alignment: Alignment.centerRight,
-                  //         child: SizedBox(
-                  //             width: mediaQuery.size.width * 0.15,
-                  //             height: mediaQuery.size.height * 0.15,
-                  //             child: Icon(
-                  //               Icons.error_outline,
-                  //               color: Colors.redAccent,
-                  //               semanticLabel: 'Alert!',
-                  //             )),
-                  //       ),
-                  //       Align(
-                  //         //only show if they are lenders
-                  //         alignment: Alignment.topRight,
-                  //         child: SizedBox(
-                  //           width: mediaQuery.size.width * 0.15,
-                  //           height: mediaQuery.size.height * 0.15,
-                  //           child: IconButton(
-                  //               //my location ocation searching gps fixed gps not fixed error error outline
-                  //               icon: Icon(Icons.arrow_forward),
-                  //               color: Constants.accentColor,
-                  //               onPressed: () {
-                  //                 Navigator.push(
-                  //                   context,
-                  //                   MaterialPageRoute(
-                  //                       fullscreenDialog: true,
-                  //                       builder: (context) => BikeDetailScreen(),
-                  //                       maintainState: false),
-                  //                 );
-                  //               }),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // );
+                  );                        
                 },
               ).toList(),
             ),
