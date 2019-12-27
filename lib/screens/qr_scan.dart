@@ -50,7 +50,7 @@ class QrScanState extends State<QrScan> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
                     child: Text(
-                        "Ready to ride? Find the QR code on the GivnGo bicycle lock and unlock the ride to start your journey.",
+                        "Find the QR code on the GivnGo bicycle lock.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.w800,
@@ -134,8 +134,10 @@ class QrScanState extends State<QrScan> {
                       },
                       child: const Text(
                         'Scan the QR code',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: 15),
+                            // fontWeight: FontWeight.w800, 
+                            fontSize: 15),
                       ),
                     ),
                   ),
@@ -264,22 +266,22 @@ class QrScanState extends State<QrScan> {
                       ),
                     ],
                   ),
+                  // Padding(
+                  //   padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                  //   child: Text(
+                  //     "Step 1",
+                  //     textAlign: TextAlign.center,
+                  //     style: TextStyle(
+                  //         fontWeight: FontWeight.w800,
+                  //         color: Colors.blueGrey,
+                  //         decoration: TextDecoration.underline,
+                  //         fontSize: 25),
+                  //   ),
+                  // ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
                     child: Text(
-                      "Step 1",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.blueGrey,
-                          decoration: TextDecoration.underline,
-                          fontSize: 25),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
-                    child: Text(
-                      "It is important follow the directions on the label of the GivnGo lock mechanism and correctly affix the lock to your bicycle.\n\nNext, \nscan the barcode.",
+                      "Follow the directions on the label of the GivnGo lock mechanism to affix the lock to your bicycle.(Done button goes to bike detail and verification code) \n\nNext, \nscan the barcode.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w800,
@@ -307,7 +309,8 @@ class QrScanState extends State<QrScan> {
                       child: const Text(
                         'Scan the QR code',
                         style: TextStyle(
-                            fontWeight: FontWeight.w800, fontSize: 15),
+                            // fontWeight: FontWeight.w800, 
+                            fontSize: 15),
                       ),
                     ),
                   ),

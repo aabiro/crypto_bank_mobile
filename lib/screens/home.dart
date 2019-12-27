@@ -99,6 +99,7 @@ class MapScreenState extends State<MapScreen> {
         children: <Widget>[
           SizedBox(
             child: GoogleMap(
+              
               onMapCreated: (GoogleMapController mc) {
                 mapCreated(mc);
                 MapsHelper.setStyle(mc, context);
@@ -107,7 +108,8 @@ class MapScreenState extends State<MapScreen> {
               initialCameraPosition:
                   CameraPosition(target: LatLng(40.6281, 14.4850), zoom: 5),
               markers: Set.from(markers),
-              // myLocationEnabled: true,
+              // myLocationEnabled: false,
+              myLocationButtonEnabled: false,
             ),
           ),
           Align(
@@ -184,14 +186,14 @@ class MapScreenState extends State<MapScreen> {
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40.0)),
-                      icon: Icon(Icons.center_focus_strong, size: 30,),
+                      icon: Icon(Icons.center_focus_strong, size: 25,),
                       textColor: Colors.white,
                       color: Constants.accentColor,
                       label: const Text('Scan to Ride',
                           style: TextStyle(
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.bold,
-                              fontSize: 20)),
+                              fontSize: 15)),
                       onPressed: () {
                         // Navigator.pushNamed(context, '/camera');
                         Navigator.of(context).pushNamed(QrScan.routeName,

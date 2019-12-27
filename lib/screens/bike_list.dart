@@ -91,7 +91,7 @@ class _BikeListState extends State<BikeList> {
                     Navigator.popAndPushNamed(context, QrScan.routeName, arguments: QrScan(true));
                   },
                   child: Text(
-                    "Activate Ride",
+                    "Yes, activate ride",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Constants.mainColor,
