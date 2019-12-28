@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/screens/journey.dart';
+import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/settings.dart';
 import 'package:flutter_app/screens/wallet.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:provider/provider.dart';
 import '../screens/profile.dart';
 import '../screens/settings.dart';
 import '../screens/become_lender.dart';
@@ -75,7 +78,9 @@ class MenuDrawer extends StatelessWidget {
                     fontFamily: 'Comfortaa', fontSize: 14, fontWeight: FontWeight.bold),
               ),
               onTap: () {
-                UserHelper.logout(context);
+                // UserHelper.logout(context);
+                Navigator.of(context).pop();
+                Provider.of<Authentication>(context).logout(context);
               },
             ),
             buildListTile('Route for Trip', Icons.explore, () {

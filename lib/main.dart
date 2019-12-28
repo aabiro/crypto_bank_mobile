@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/alert_screen.dart';
+import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/screens/bike_list.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/screens/login.dart';
@@ -59,12 +60,17 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProxyProvider<Authentication, Bikes>(
           // fix other providers to use token also
-          create: (_) => Bikes(),
+          create: (_) => Bikes(
+            // auth.accessToken, 
+            // auth.userId,
+            // prevBikes.items
+          ),
           // update: (_, auth, prevBikes) => Bikes(auth.accessToken, prevBikes == null ? [] : prevBikes.items),
           update: (_, auth, prevBikes) => Bikes(
             auth.accessToken, 
             auth.userId,
-            prevBikes.items),
+            prevBikes.items
+            ),
           ),
       ],
       child: Consumer<Authentication>(
@@ -99,6 +105,7 @@ class MyApp extends StatelessWidget {
             '/home': (context) => MapScreen(),
             '/camera': (context) => CameraScreen(cameras),
             // 'bike_list': (context) => BikeList(),
+            LoginScreen.routeName: (context) => LoginScreen(),
             MapScreen.routeName: (context) => MapScreen(),
             SettingsScreen.routeName: (context) => SettingsScreen(),
             ProfileScreen.routeName: (context) => ProfileScreen(),
@@ -110,8 +117,9 @@ class MyApp extends StatelessWidget {
             CreditCardScreen.routeName: (context) => CreditCardScreen(),
             BikeList.routeName: (context) => BikeList(),
             ActivationCompleteScreen.routeName: (context) =>
-                ActivationCompleteScreen(''),
+                ActivationCompleteScreen(),
             BikeDetailScreen.routeName: (context) => BikeDetailScreen(''),
+            BikeFormScreen.routeName: (context) => BikeFormScreen(''),
             AlertScreen.routeName: (context) => AlertScreen(),
             // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
             QrScan.routeName: (context) => QrScan(false),

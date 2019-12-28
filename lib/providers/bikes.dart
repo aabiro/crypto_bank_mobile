@@ -45,28 +45,35 @@ class Bikes with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUserBikes(String token) async {
-    final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
-    final response = await http.get(url);
-    final data = json.decode(response.body) as Map<String, dynamic>;
-    print(json.decode(response.body));
-    final List<Bike> bikesLoaded = [];
-    data.forEach((bikeId, bikeData) {
-      //watch out for called on null
-      bikesLoaded.add(
-        //this is needed for the correct initial list loading... it loads the bikes upon app load
-        Bike(
-            id: bikeId,
-            userId: bikeData['userId'],
-            isActive: bikeData['isActive'],
-            name: bikeData["name"]
-            // lat: 0,     //laod correct lat lng here
-            // lng: 0
-            ),
-      );
+  Future<void> getUserBikes(String _token, String userId) async {
+    //no token or userId here, when coming back to map...
+    final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$_token&orderBy="userId"&equalTo="$userId"';
+    // final url = 'https://capstone-addb0.firebaseio.com/bikes.json&orderBy="userId"&equalTo="$userId"';
+    final response = await http.get(url).then((response) {
+      final data = json.decode(response.body) as Map<String, dynamic>;
+      print(json.decode(response.body));
+      final List<Bike> bikesLoaded = [];
+      if (data != null) {
+        print(data);
+        data.forEach((bikeId, bikeData) {
+          //watch out for called on null
+          bikesLoaded.add(
+            //this is needed for the correct initial list loading... it loads the bikes upon app load
+            Bike(
+                id: bikeId,
+                userId: bikeData["userId"],
+                isActive: bikeData["isActive"],
+                name: bikeData["name"]
+                // lat: 0,     //laod correct lat lng here
+                // lng: 0
+                ),
+          );
+        });
+        _userBikes = bikesLoaded;
+      }
+      notifyListeners();
     });
-    _userBikes = bikesLoaded;
-    notifyListeners();
+    //.then?
   }
 
   Bike findById(String id) {
@@ -74,7 +81,7 @@ class Bikes with ChangeNotifier {
   }
 
   //add bike to the users bike list
-  void addBike(Bike bike, String userId, String token) {
+  void addBike(Bike bike) {
     final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
     http
         .post(url,

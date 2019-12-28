@@ -18,17 +18,30 @@ class BikeList extends StatefulWidget {
 }
 
 class _BikeListState extends State<BikeList> {
- 
+   var _init = true;
+   var _isLoading = false; //for a loader later see transform fetched data
   //get bikes from the db from the user id
 
   @override
+  void didChangeDependencies() {
+    // if (_init) {
+    //   setState(() {
+    //     _isLoading = true;
+    //   });
+    //   var accessToken = Provider.of<Authentication>(context).accessToken;
+    //   Provider.of<Bikes>(context).getUserBikes(accessToken).then((_){
+    //     setState((){
+    //       _isLoading = false;
+    //     });
+    //   });
+    // }
+    // _init = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // var token = Provider.of<Authentication>(context).accessToken;
     final bikesData = Provider.of<Bikes>(context);
     final bikes = bikesData.userBikes;
-    // Future<void> bikes2 = BikeHelper.getBikes();
-
-    // bikes =
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
         appBar: AppBar(
@@ -72,7 +85,6 @@ class _BikeListState extends State<BikeList> {
   }
 
   void _showDialog() {
-    // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {

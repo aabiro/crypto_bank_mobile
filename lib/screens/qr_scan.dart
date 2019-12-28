@@ -1,6 +1,7 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
+import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import '../providers/authentication.dart';
 import 'add_credit_card.dart';
 import 'activation_complete.dart';
 import 'journey.dart';
+import 'bike_form.dart';
 
 class QrScan extends StatefulWidget {
   bool activation;
@@ -283,7 +285,7 @@ class QrScanState extends State<QrScan> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
                     child: Text(
-                      "Follow the directions on the label of the GivnGo lock mechanism to affix the lock to your bicycle.(Done button goes to bike detail and verification code) \n\nNext, \nscan the barcode.",
+                      "Follow the directions on the label of the GivnGo lock mechanism to affix the lock to your bicycle.(Done button goes to bike detail and verification code) \n\nNext,",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w800,
@@ -333,16 +335,16 @@ class QrScanState extends State<QrScan> {
       Navigator.of(context).popAndPushNamed(JourneyScreen.routeName,
           arguments: JourneyScreen('001'));
     } else {
-      Provider.of<Bikes>(context).addBike(
-          Bike(
-            qrCode: barcode,
-            isActive: true,
-            name: 'New Bike',
-          ),
-          Provider.of<Authentication>(context).userId,
-          Provider.of<Authentication>(context).accessToken);
-      Navigator.of(context).popAndPushNamed(ActivationCompleteScreen.routeName,
-          arguments: ActivationCompleteScreen('001'));
+      // Provider.of<Bikes>(context).addBike(
+      //     Bike(
+      //       qrCode: barcode,
+      //       isActive: true,
+      //       name: 'New Bike',
+      //     ),
+      //     Provider.of<Authentication>(context).userId,
+      //     Provider.of<Authentication>(context).accessToken);
+      Navigator.of(context).popAndPushNamed(BikeFormScreen.routeName,
+          arguments: BikeFormScreen('001'));
     }
   }
 
@@ -357,8 +359,8 @@ class QrScanState extends State<QrScan> {
           ? Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
               arguments: JourneyScreen(barcode))
           : Navigator.of(context).pushReplacementNamed(
-              ActivationCompleteScreen.routeName,
-              arguments: ActivationCompleteScreen(barcode));
+              BikeFormScreen.routeName,
+              arguments: BikeFormScreen(barcode));
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {

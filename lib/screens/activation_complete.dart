@@ -6,15 +6,12 @@ import 'bike_list.dart';
 
 class ActivationCompleteScreen extends StatelessWidget {
   static const routeName = '/activation_complete';
-  String bikeId;
-  ActivationCompleteScreen(this.bikeId);
+  // String bikeId;
+  ActivationCompleteScreen();
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final ActivationCompleteScreen args =
-        ModalRoute.of(context).settings.arguments;
-    final bId = args.bikeId;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -132,7 +129,7 @@ class ActivationCompleteScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.fromLTRB(30, 30, 30, 20),
             child: Text(
-                'Congratulations, your bike $bId has been activated.\nYou are now ready to lend your bike on the platform!\n\nYou can now manage this ride in your Settings.',
+                'Congratulations, your bike has been activated.\nYou are now ready to lend your bike on the platform!\n\nYou can now manage this ride in your Settings.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.w800,

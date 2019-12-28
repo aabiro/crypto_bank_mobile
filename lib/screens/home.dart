@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/helpers/maps_helper.dart';
 import 'package:flutter_app/providers/authentication.dart';
+import 'package:flutter_app/providers/bike.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/drawer_menu.dart';
@@ -11,8 +12,6 @@ import './camera_screen.dart';
 import '../providers/bikes.dart';
 import './qr_scan.dart';
 import 'package:flutter_app/components/app_bar.dart';
-
-
 
 class MapScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -25,10 +24,13 @@ class MapScreen extends StatefulWidget {
 
 class MapScreenState extends State<MapScreen> {
   var _init = true;
+  var _isLoading = false;
   GoogleMapController mc;
   Completer<GoogleMapController> _controller = Completer();
   LatLng toronto = new LatLng(43.65, -79.38);
   Future<LocationData> userLocation = _getGPSLocation();
+  List<Bikes> userBikes;
+  // var array = userBikes.map( (n) { return n.name;} );
   CameraPosition torontoCP = CameraPosition(
     //make this userlocation
     target: LatLng(43.65, -79.38),
@@ -57,22 +59,47 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   void initState() {
-    // Provider.of<Bikes>(context).getBikes();
-    // Future.delayed(Duration.zero).then((_) {
-    //   Provider.of<Bikes>(context).getBikes();
-    // });
+    var user;
+    if (_init) {
+      setState(() {
+        _isLoading = true;
+      });
+      Future.delayed(Duration.zero).then((_) {
+        Provider.of<Bikes>(context).getBikes();
+      });
+      Future.delayed(Duration.zero).then((_) {
+        user = Provider.of<Authentication>(context);
+      });
+      Future.delayed(Duration.zero).then((_) {
+        Provider.of<Bikes>(context)
+            .getUserBikes(user.accessToken, user.userId)
+            .then((_) {
+          setState(() {
+            _isLoading = false;
+          });
+        });
+      });
+    }
+    _init = false;
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    if (_init) {
-      var accessToken = Provider.of<Authentication>(context).accessToken;
-      Provider.of<Bikes>(context).getBikes();
-      Provider.of<Bikes>(context).getUserBikes(accessToken);
-    }
-    _init = false;
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   //  if (_init) {
+  //   //   setState(() {
+  //   //     _isLoading = true;
+  //   //   });
+  //   //   Provider.of<Bikes>(context).getBikes();
+  //   //   // var accessToken = Provider.of<Authentication>(context).accessToken;
+  //   //   Provider.of<Bikes>(context).getUserBikes().then((_){
+  //   //     setState((){
+  //   //       _isLoading = false;
+  //   //     });
+  //   //   });
+  //   // }
+  //   // _init = false;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +108,13 @@ class MapScreenState extends State<MapScreen> {
     List<Marker> markers = [];
     List<Marker> userMarker;
     String dropdownValue;
+    List<Bike> userBikes = Provider.of<Bikes>(context).userBikes;
+    var array = userBikes.map((ub) => ub.bikeName).toList();
 
     @override
     void initState() {
       userLocation = MapsHelper.getUserLocation();
-      
+
       //
       markers.add(Marker(
           markerId: MarkerId('mymarker'),
@@ -123,7 +152,6 @@ class MapScreenState extends State<MapScreen> {
         children: <Widget>[
           SizedBox(
             child: GoogleMap(
-              
               onMapCreated: (GoogleMapController mc) {
                 mapCreated(mc);
                 MapsHelper.setStyle(mc, context);
@@ -139,21 +167,23 @@ class MapScreenState extends State<MapScreen> {
           Align(
             alignment: Alignment.topCenter,
             child: DropdownButton<String>(
-              hint: Text('Find My Ride', 
-              style: TextStyle(
-                color: Colors.blueGrey,
-                fontFamily: 'OpenSans',
-                fontWeight: FontWeight.w800,
-                fontSize: 18),),
+              hint: Text(
+                'Find My Ride',
+                style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18),
+              ),
               value: dropdownValue,
               icon: Icon(Icons.location_on, color: Constants.mainColor),
               iconSize: 24,
               elevation: 16,
               style: TextStyle(
-                color: Colors.blueGrey,
-                fontFamily: 'OpenSans',
-                fontWeight: FontWeight.w800,
-                fontSize: 18),
+                  color: Colors.blueGrey,
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.w800,
+                  fontSize: 18),
               underline: Container(
                 height: 2,
                 color: Constants.mainColor,
@@ -163,8 +193,9 @@ class MapScreenState extends State<MapScreen> {
                   dropdownValue = newValue;
                 });
               },
-              items: <String>['Bike 1', 'Bike 2', 'Bmx', 'Mntn B']
-                  .map<DropdownMenuItem<String>>((String value) {
+
+              // items: <String>['Bike 1', 'Bike 2', 'Bmx', 'Mntn B']
+              items: array.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -179,7 +210,10 @@ class MapScreenState extends State<MapScreen> {
               height: mediaQuery.size.height * 0.15,
               child: IconButton(
                   //my location ocation searching gps fixed gps not fixed error error outline
-                  icon: Icon(Icons.gps_fixed, size: 30,),
+                  icon: Icon(
+                    Icons.gps_fixed,
+                    size: 30,
+                  ),
                   color: Constants.accentColor,
                   // tooltip: 'Increase volume by 10',
                   onPressed: moveToLocation),
@@ -192,7 +226,10 @@ class MapScreenState extends State<MapScreen> {
               height: mediaQuery.size.height * 0.15,
               child: IconButton(
                   //my location ocation searching gps fixed gps not fixed error error outline
-                  icon: Icon(Icons.error_outline, size: 30,),
+                  icon: Icon(
+                    Icons.error_outline,
+                    size: 30,
+                  ),
                   color: Constants.accentColor,
                   // tooltip: 'Increase volume by 10',
 
@@ -210,7 +247,10 @@ class MapScreenState extends State<MapScreen> {
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40.0)),
-                      icon: Icon(Icons.center_focus_strong, size: 25,),
+                      icon: Icon(
+                        Icons.center_focus_strong,
+                        size: 25,
+                      ),
                       textColor: Colors.white,
                       color: Constants.accentColor,
                       label: const Text('Scan to Ride',

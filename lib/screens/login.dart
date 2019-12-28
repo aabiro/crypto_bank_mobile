@@ -15,6 +15,7 @@ import 'package:path/path.dart';
 
 // Create a Form widget.
 class LoginScreen extends StatefulWidget {
+  static final routeName = '/login';
   
   @override
   MyCustomFormState createState() {
@@ -25,7 +26,7 @@ class LoginScreen extends StatefulWidget {
 // Create a corresponding State class.
 // This class holds data related to the form.
 class MyCustomFormState extends State<LoginScreen> {
-  final _loginFormKey = GlobalKey<FormState>();
+  // final _loginFormKey = GlobalKey<FormState>();
   final myEmailController = TextEditingController();
   final myPasswordController = TextEditingController();
 
