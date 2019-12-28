@@ -1,10 +1,12 @@
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/bikes.dart';
+import '../providers/authentication.dart';
 import 'add_credit_card.dart';
 import 'activation_complete.dart';
 import 'journey.dart';
@@ -24,6 +26,7 @@ class QrScan extends StatefulWidget {
 
 //courtesy of medium.com
 class QrScanState extends State<QrScan> {
+  // Provider.of<Authentication>(context).userId();
   // bool activation;
   // QrScanState(this.activation);
 
@@ -49,8 +52,7 @@ class QrScanState extends State<QrScan> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
-                    child: Text(
-                        "Find the QR code on the GivnGo bicycle lock.",
+                    child: Text("Find the QR code on the GivnGo bicycle lock.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.w800,
@@ -136,7 +138,7 @@ class QrScanState extends State<QrScan> {
                         'Scan the QR code',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            // fontWeight: FontWeight.w800, 
+                            // fontWeight: FontWeight.w800,
                             fontSize: 15),
                       ),
                     ),
@@ -309,7 +311,7 @@ class QrScanState extends State<QrScan> {
                       child: const Text(
                         'Scan the QR code',
                         style: TextStyle(
-                            // fontWeight: FontWeight.w800, 
+                            // fontWeight: FontWeight.w800,
                             fontSize: 15),
                       ),
                     ),
@@ -331,8 +333,14 @@ class QrScanState extends State<QrScan> {
       Navigator.of(context).popAndPushNamed(JourneyScreen.routeName,
           arguments: JourneyScreen('001'));
     } else {
-      Provider.of<Bikes>(context)
-          .addBike(Bike(qrCode: barcode, isActive: true, name: 'New Bike'));
+      Provider.of<Bikes>(context).addBike(
+          Bike(
+            qrCode: barcode,
+            isActive: true,
+            name: 'New Bike',
+          ),
+          Provider.of<Authentication>(context).userId,
+          Provider.of<Authentication>(context).accessToken);
       Navigator.of(context).popAndPushNamed(ActivationCompleteScreen.routeName,
           arguments: ActivationCompleteScreen('001'));
     }

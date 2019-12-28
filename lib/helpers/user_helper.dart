@@ -7,7 +7,9 @@ import 'package:flutter_app/theme/constants.dart' as Constants;
 //http requests for user
 
 class UserHelper {
-  static String getUserData() {}
+  static String getUserData() {
+    
+  }
 
   static Future<void> login(String body, BuildContext context) async {
     final url = "http://10.0.2.2:8888/auth/token";
@@ -40,6 +42,10 @@ class UserHelper {
       print(e);
     }
   }
+
+  // static Future<void> registerFB(String ) async {
+  //   Provider.of<Authentication>(context).register()
+  // }
 
   static Future<void> register(String body, BuildContext context) async {
     final url = "http://10.0.2.2:8888/register";

@@ -37,8 +37,8 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:provider/provider.dart';
 import './providers/bikes.dart';
+import './providers/authentication.dart';
 // import './models/bike.dart';
-
 
 List<CameraDescription> cameras;
 
@@ -54,62 +54,74 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => Bikes()),
-      ],
-      child:  MaterialApp(
-      // title: '1er',
-      //The app theme
-      theme: ThemeData(
-        // primarySwatch: Colors.indigo,
-        accentColor: Constants.accentColor,
-        fontFamily: 'Comfortaa',
-        textTheme: ThemeData.light().textTheme.copyWith(
-          title: TextStyle(
-            fontFamily: 'OpenSans', 
-            fontWeight: FontWeight.bold,
-            fontSize: 18)
+        ChangeNotifierProvider.value(
+          value: Authentication(),
         ),
-        //appBar theme
-        appBarTheme: AppBarTheme(
-          textTheme: ThemeData.light().textTheme.copyWith(
-            title: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-              ),
-            ), 
+        ChangeNotifierProxyProvider<Authentication, Bikes>(
+          // fix other providers to use token also
+          create: (_) => Bikes(),
+          // update: (_, auth, prevBikes) => Bikes(auth.accessToken, prevBikes == null ? [] : prevBikes.items),
+          update: (_, auth, prevBikes) => Bikes(
+            auth.accessToken, 
+            auth.userId,
+            prevBikes.items),
+          ),
+      ],
+      child: Consumer<Authentication>(
+        builder: (context, auth, _) => MaterialApp(
+          // title: '1er',
+          //The app theme
+          theme: ThemeData(
+            // primarySwatch: Colors.indigo,
+            accentColor: Constants.accentColor,
+            fontFamily: 'Comfortaa',
+            textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18)),
+            //appBar theme
+            appBarTheme: AppBarTheme(
+              textTheme: ThemeData.light().textTheme.copyWith(
+                    title: TextStyle(
+                        fontFamily: 'OpenSans',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+            ),
+          ),
+          home: auth.isLoggedIn ? MapScreen() : LoginScreen(),
+          initialRoute: '/login',
+          routes: {
+            '/login': (context) => LoginScreen(),
+            '/register': (context) => RegisterScreen(),
+            '/register/steps': (context) => UserStepsScreen(),
+            '/home': (context) => MapScreen(),
+            '/camera': (context) => CameraScreen(cameras),
+            // 'bike_list': (context) => BikeList(),
+            MapScreen.routeName: (context) => MapScreen(),
+            SettingsScreen.routeName: (context) => SettingsScreen(),
+            ProfileScreen.routeName: (context) => ProfileScreen(),
+            PlansScreen.routeName: (context) => PlansScreen(),
+            StatsScreen.routeName: (context) => StatsScreen(),
+            JourneyScreen.routeName: (context) => JourneyScreen(''),
+            SetMapAreaScreen.routeName: (context) => SetMapAreaScreen(),
+            WalletScreen.routeName: (context) => WalletScreen(),
+            CreditCardScreen.routeName: (context) => CreditCardScreen(),
+            BikeList.routeName: (context) => BikeList(),
+            ActivationCompleteScreen.routeName: (context) =>
+                ActivationCompleteScreen(''),
+            BikeDetailScreen.routeName: (context) => BikeDetailScreen(''),
+            AlertScreen.routeName: (context) => AlertScreen(),
+            // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
+            QrScan.routeName: (context) => QrScan(false),
+            // OrderLocksScreen.routeName: (context) => OrderLocksScreen(),
+            OrderCompleteScreen.routeName: (context) => OrderCompleteScreen()
+
+            // CameraScreen.routeName: (context) => CameraScreen(cameras)
+          },
         ),
       ),
-      home: LoginScreen(),
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => LoginScreen(),
-        '/register': (context) => RegisterScreen(),
-        '/register/steps': (context) => UserStepsScreen(),
-        '/home': (context) => MapScreen(),
-        '/camera': (context) => CameraScreen(cameras),
-        // 'bike_list': (context) => BikeList(),
-        MapScreen.routeName: (context) => MapScreen(),
-        SettingsScreen.routeName: (context) => SettingsScreen(),
-        ProfileScreen.routeName: (context) => ProfileScreen(),
-        PlansScreen.routeName: (context) => PlansScreen(),
-        StatsScreen.routeName: (context) => StatsScreen(),
-        JourneyScreen.routeName: (context) => JourneyScreen(''),
-        SetMapAreaScreen.routeName: (context) => SetMapAreaScreen(),
-        WalletScreen.routeName: (context) => WalletScreen(),
-        CreditCardScreen.routeName: (context) => CreditCardScreen(),
-        BikeList.routeName: (context) => BikeList(),
-        ActivationCompleteScreen.routeName: (context) => ActivationCompleteScreen(''),
-        BikeDetailScreen.routeName: (context) => BikeDetailScreen(''),
-        AlertScreen.routeName: (context) => AlertScreen(),
-        // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
-        QrScan.routeName: (context) => QrScan(false),
-        // OrderLocksScreen.routeName: (context) => OrderLocksScreen(),
-        OrderCompleteScreen.routeName: (context) => OrderCompleteScreen()
-        
-        // CameraScreen.routeName: (context) => CameraScreen(cameras)
-      },
-    )
     );
   }
 }
@@ -121,9 +133,7 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-  
-  class HomeScreenState extends State<HomeScreen> {
-
+class HomeScreenState extends State<HomeScreen> {
   Future<void> _signOut() async {
     try {
       Navigator.pushNamed(context, '/login');
@@ -141,75 +151,66 @@ class HomeScreen extends StatefulWidget {
   }
 
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
+        body: Center(
+      child: Container(
         color: Colors.white,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: <TextSpan>[
-                    TextSpan(text: 'Home', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20)),
-                  ],
-                ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            RichText(
+              text: TextSpan(
+                style: DefaultTextStyle.of(context).style,
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'Home',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, fontSize: 20)),
+                ],
               ),
-              const SizedBox(height: 30),
-              const RaisedButton(
-                onPressed: null,
-                child: Text(
-                  'Logout',
-                  style: TextStyle(fontSize: 20)
-                ),
-              ),
-              const SizedBox(height: 30),
-              RaisedButton(
-                onPressed: _goToMap,
-                child: const Text(
-                  'To Map',
-                  style: TextStyle(fontSize: 20)
-                ),
-              ),
-              const SizedBox(height: 30),
-              RaisedButton(
-                onPressed: _signOut,
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0.0),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: <Color>[
-                        Color(0xFF0D47A1),
-                        Color(0xFF1976D2),
-                        Color(0xFF42A5F5),
-                      ],
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: const Text(
-                    'Logout',
-                    style: TextStyle(fontSize: 20)
+            ),
+            const SizedBox(height: 30),
+            const RaisedButton(
+              onPressed: null,
+              child: Text('Logout', style: TextStyle(fontSize: 20)),
+            ),
+            const SizedBox(height: 30),
+            RaisedButton(
+              onPressed: _goToMap,
+              child: const Text('To Map', style: TextStyle(fontSize: 20)),
+            ),
+            const SizedBox(height: 30),
+            RaisedButton(
+              onPressed: _signOut,
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: <Color>[
+                      Color(0xFF0D47A1),
+                      Color(0xFF1976D2),
+                      Color(0xFF42A5F5),
+                    ],
                   ),
                 ),
+                padding: const EdgeInsets.all(10.0),
+                child: const Text('Logout', style: TextStyle(fontSize: 20)),
               ),
-              MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                  onPressed: () {
-                      Navigator.pop(context);
-                  },
-                  child: Text("Back",
-                      textAlign: TextAlign.center
-                  ),
-                ),
-            ],
-          ),
+            ),
+            MaterialButton(
+              minWidth: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Back", textAlign: TextAlign.center),
+            ),
+          ],
         ),
-      )
-    );
+      ),
+    ));
   }
 }
 

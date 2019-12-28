@@ -62,7 +62,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               centerTitle: true,
               backgroundColor: Color(0xff673AB7),
               title: new Text(
-                bike.name,
+                'bike.name',
                 // planType,
                 style: TextStyle(),
               ),

@@ -14,6 +14,7 @@ class BikeListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bike = Provider.of<Bike>(context);
+    print(bike);
     // final BikeListItem args =
     //     ModalRoute.of(context).settings.arguments;
     // final bId = args.bikeId;
@@ -25,7 +26,7 @@ class BikeListItem extends StatelessWidget {
         child: InkWell(
           onTap: () => Navigator.of(context).pushNamed(
             BikeDetailScreen.routeName,
-            arguments: BikeDetailScreen(bike.id),
+            arguments: BikeDetailScreen(bike.bikeId),
           ),
           child: Container(
             padding: EdgeInsets.all(20),

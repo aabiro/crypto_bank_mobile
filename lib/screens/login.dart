@@ -3,14 +3,19 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/services/local_authentication_service.dart';
 import 'package:flutter_app/services/service_locator.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import '../helpers/user_helper.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'dart:convert';
+import '../providers/authentication.dart';
+import 'package:provider/provider.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:path/path.dart';
 
 // Create a Form widget.
 class LoginScreen extends StatefulWidget {
+  
   @override
   MyCustomFormState createState() {
     return MyCustomFormState();
@@ -21,75 +26,34 @@ class LoginScreen extends StatefulWidget {
 // This class holds data related to the form.
 class MyCustomFormState extends State<LoginScreen> {
   final _loginFormKey = GlobalKey<FormState>();
-  final myUsernameController = TextEditingController();
+  final myEmailController = TextEditingController();
   final myPasswordController = TextEditingController();
-
-  // Widget buildMaterialButton(String text, Future<void> goTo, Color _color,
-  //     double widthDivisor, double _fontSize, BuildContext context) {
-  //   return Material(
-  //     elevation: 5.0,
-  //     borderRadius: BorderRadius.circular(30.0),
-  //     color: _color,
-  //     child: MaterialButton(
-  //       minWidth: MediaQuery.of(context).size.width / widthDivisor,
-  //       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-  //       onPressed: () {
-  //         goTo();
-  //       },
-  //       child: Text(
-  //         text,
-  //         textAlign: TextAlign.center,
-  //         style: TextStyle(
-  //             fontSize: _fontSize,
-  //             fontWeight: FontWeight.w700,
-  //             color: Colors.white),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget buildInputField(TextEditingController controller, String hintText) {
     return TextFormField(
-      // validator: (value) {
-      //         if (value.isEmpty) {
-      //           return 'Please enter some text';
-      //         }
-      //         return null;
-      //       },
       obscureText: false,
       controller: controller,
       decoration: InputDecoration(
-        // hintText: hintText,
         labelText: hintText,
         hintStyle: TextStyle(
           color: Color(0xff2196F3),
-          // fontStyle: FontStyle.italic,
         ),
       ),
-      // contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-      // hintText: hintText,
-      // border:
-      //     OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final LocalAuthenticationService _localAuth = locator<LocalAuthenticationService>();
-    final usernameField = buildInputField(myUsernameController, "Username");
+    final emailField = buildInputField(myEmailController, "Email");
     final passwordField = buildInputField(myPasswordController, "Password");
-    String username = myUsernameController.text;
+    String email = myEmailController.text;
     String password = myPasswordController.text;
-
-    final body = "username=$username&password=$password&grant_type=password";
-    // final loginButon = buildMaterialButton("Login", , , 1, 18, context);
-    // final localAuthButon = buildMaterialButton("Use Face/Touch ID", _localAuth.authenticate, Constants.accentColor, 2, 12, context);
 
     return Scaffold(
       body: Center(
         child: Container(
           color: Colors.white,
-          // color: Color(0xff2196F3),
           child: Padding(
             padding: const EdgeInsets.all(36.0),
             child: Column(
@@ -105,7 +69,7 @@ class MyCustomFormState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: 15.0),
-                usernameField,
+                emailField,
                 SizedBox(height: 15.0),
                 passwordField,
                 SizedBox(
@@ -119,7 +83,7 @@ class MyCustomFormState extends State<LoginScreen> {
                     minWidth: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                     onPressed: () {
-                      UserHelper.login(body, context);
+                      Provider.of<Authentication>(context).login(email, password, context);
                     },
                     child: Text(
                       "Login",

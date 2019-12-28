@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/helpers/user_helper.dart';
+import 'package:flutter_app/services/local_authentication_service.dart';
+import 'package:flutter_app/services/service_locator.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_app/models/user.dart';
+import 'package:provider/provider.dart';
+import '../helpers/user_helper.dart';
+import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'dart:convert';
+import '../providers/authentication.dart';
+import 'package:provider/provider.dart';
+
+import 'package:path/path.dart';
 
 // Create a Form widget.
 class RegisterScreen extends StatefulWidget {
+  
   @override
   MyCustomFormState createState() {
     return MyCustomFormState();
   }
 }
 
-// Create a corresponding State class.
-// This class holds data related to the form.
-class MyCustomFormState extends State<RegisterScreen> {
-  // final _registerFormKey = GlobalKey<FormState>();
 
-  final myUsernameController = TextEditingController();
+class MyCustomFormState extends State<RegisterScreen> {
+  final myEmailController = TextEditingController();
   final myPasswordController = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
-    final usernameField = TextFormField(
+  Widget buildInputField(TextEditingController controller, String hintText) {
+    return TextFormField(
       // validator: (value) {
       //         if (value.isEmpty) {
       //           return 'Please enter some text';
@@ -32,52 +35,34 @@ class MyCustomFormState extends State<RegisterScreen> {
       //         return null;
       //       },
       obscureText: false,
-      controller: myUsernameController,
-      // style: style,
+      controller: controller,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Username",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    );
-
-    final passwordField = TextFormField(
-      obscureText: true,
-      controller: myPasswordController,
-      // style: style,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Password",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    );
-
-    final username = myUsernameController.text;
-    final password = myPasswordController.text;
-    final body = "{\"username\":\"$username\", \"password\": \"$password\"}";
-
-    final registerButton = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      // color: Color(0xff98C1D9),
-      color: Color(0xff2de1c2),
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          UserHelper.register(body, context);
-        },
-        child: Text("Register", textAlign: TextAlign.center),
-        // ,
-        // style: style.copyWith(
-        //     color: Colors.white, fontWeight: FontWeight.bold)),
+        // hintText: hintText,
+        labelText: hintText,
+        hintStyle: TextStyle(
+          color: Color(0xff2196F3),
+          // fontStyle: FontStyle.italic,
+        ),
       ),
+      // contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+      // hintText: hintText,
+      // border:
+      //     OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final emailField = buildInputField(myEmailController, "Email");
+    final passwordField = buildInputField(myPasswordController, "Password");
+    String email = myEmailController.text;
+    String password = myPasswordController.text;
 
     return Scaffold(
       body: Center(
         child: Container(
           color: Colors.white,
+          // color: Color(0xff2196F3),
           child: Padding(
             padding: const EdgeInsets.all(36.0),
             child: Column(
@@ -85,28 +70,47 @@ class MyCustomFormState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 50.0,
-                  child: Icon(Icons.directions_bike, size: 60),
-                  // child: Image.asset(
-                  //   "assets/gng_logo.png",
-                  //   fit: BoxFit.contain,
-                  // ),
+                  height: 150.0,
+                  width: double.infinity,
+                  child: Image.asset(
+                    "assets/gnglogoblue.png",
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 SizedBox(height: 15.0),
-                usernameField,
+                emailField,
                 SizedBox(height: 15.0),
                 passwordField,
                 SizedBox(
                   height: 15.0,
                 ),
-                registerButton,
+                Material(
+                  elevation: 5.0,
+                  borderRadius: BorderRadius.circular(30.0),
+                  color: Constants.mainColor,
+                  child: MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    onPressed: () {
+                      Provider.of<Authentication>(context, listen: false).register(email, password, context);
+                      // UserHelper.Email(body, context);
+                    },
+                    child: Text(
+                      "Register",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
                 SizedBox(
-                  height: 15.0,
+                  height: 5.0,
                 ),
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                  // MediaQuery.of(context).viewInsets.bottom + 15.0),
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
                   },

@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/helpers/maps_helper.dart';
+import 'package:flutter_app/providers/authentication.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/drawer_menu.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 import './camera_screen.dart';
+import '../providers/bikes.dart';
 import './qr_scan.dart';
 import 'package:flutter_app/components/app_bar.dart';
 
@@ -21,6 +24,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class MapScreenState extends State<MapScreen> {
+  var _init = true;
   GoogleMapController mc;
   Completer<GoogleMapController> _controller = Completer();
   LatLng toronto = new LatLng(43.65, -79.38);
@@ -52,6 +56,25 @@ class MapScreenState extends State<MapScreen> {
   }
 
   @override
+  void initState() {
+    // Provider.of<Bikes>(context).getBikes();
+    // Future.delayed(Duration.zero).then((_) {
+    //   Provider.of<Bikes>(context).getBikes();
+    // });
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_init) {
+      var accessToken = Provider.of<Authentication>(context).accessToken;
+      Provider.of<Bikes>(context).getBikes();
+      Provider.of<Bikes>(context).getUserBikes(accessToken);
+    }
+    _init = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     Future<LocationData> userLocation;
@@ -62,7 +85,7 @@ class MapScreenState extends State<MapScreen> {
     @override
     void initState() {
       userLocation = MapsHelper.getUserLocation();
-      super.initState();
+      
       //
       markers.add(Marker(
           markerId: MarkerId('mymarker'),
@@ -82,6 +105,7 @@ class MapScreenState extends State<MapScreen> {
         // position:
         // position: LatLng(userLocation.latitude, userLocation.longitude)
       ));
+      super.initState();
     }
 
     return Scaffold(

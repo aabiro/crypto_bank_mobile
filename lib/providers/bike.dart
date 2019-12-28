@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 class Bike with ChangeNotifier {
   String id;
-  int userId;
+  String userId;
   String qrCode; // image?
   String name;
   String model;
@@ -22,7 +22,7 @@ class Bike with ChangeNotifier {
   //need daily income model to update for each ride
 
   Bike({
-    this.id, 
+    this.id,
     this.name,
     this.isActive, 
     this.userId,
@@ -45,7 +45,7 @@ class Bike with ChangeNotifier {
       notifyListeners();
   }
 
-    String get _id {
+    String get bikeId {
     return id;
   }
 

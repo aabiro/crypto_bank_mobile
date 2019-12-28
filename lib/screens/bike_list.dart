@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/screens/bike_list_item.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
@@ -17,12 +18,14 @@ class BikeList extends StatefulWidget {
 }
 
 class _BikeListState extends State<BikeList> {
+ 
   //get bikes from the db from the user id
 
   @override
   Widget build(BuildContext context) {
+    // var token = Provider.of<Authentication>(context).accessToken;
     final bikesData = Provider.of<Bikes>(context);
-    final bikes = bikesData.items;
+    final bikes = bikesData.userBikes;
     // Future<void> bikes2 = BikeHelper.getBikes();
 
     // bikes =
@@ -51,7 +54,8 @@ class _BikeListState extends State<BikeList> {
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             //make this a list view builder!!
             child: ListView(
-              children: bikes.map(
+              children: 
+                bikes?.map(
                 (bike) {
                   //use .value because items are lost
                   return ChangeNotifierProvider.value(  //notify of changes for each individual bike item
@@ -61,7 +65,7 @@ class _BikeListState extends State<BikeList> {
                       ),
                   );                     
                 },
-              ).toList(),
+              )?.toList() ?? [],
             ),
           ),
         ));
