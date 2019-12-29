@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/providers/bikes.dart';
 import 'package:provider/provider.dart';
 import '../providers/bike.dart';
 import 'bike_detail_view.dart';
 
-class BikeListItem extends StatelessWidget {
-  // final String id;
+
+class BikeListItem extends StatefulWidget {
+    // final String id;
+  final Bike bike;
   // final String name;
   // final bool isActive;
   // final String imageUrl;
+  BikeListItem(this.bike);
 
-  // BikeListItem(this.id, this.name, this.isActive, this.imageUrl);
+  
+
+  @override
+  _BikeListItemState createState() => _BikeListItemState();
+}
+
+class _BikeListItemState extends State<BikeListItem> {
 
   @override
   Widget build(BuildContext context) {
-    final bike = Provider.of<Bike>(context);
-    print(bike);
+    // final bike = Provider.of<Bike>(context);
+    // print(bike);
+    print(widget.bike.id); //when poped goes away...
     // final BikeListItem args =
     //     ModalRoute.of(context).settings.arguments;
     // final bId = args.bikeId;
@@ -24,10 +35,19 @@ class BikeListItem extends StatelessWidget {
       //   tag: "bike3",
       child: Card(
         child: InkWell(
-          onTap: () => Navigator.of(context).pushNamed(
-            BikeDetailScreen.routeName,
-            arguments: BikeDetailScreen(bike.bikeId),
-          ),
+          onTap: () => 
+           Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => BikeDetailScreen(widget.bike),
+                      maintainState: false),),
+
+
+          // Navigator.of(context).pushNamed(
+          //   BikeDetailScreen.routeName,
+          //   arguments: BikeDetailScreen(bike.bikeId),
+          // ),
           child: Container(
             padding: EdgeInsets.all(20),
             width: double.infinity,
@@ -41,7 +61,7 @@ class BikeListItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Text(
-                        bike.name.toString(),
+                        widget.bike.name.toString(),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colors.blueGrey,
@@ -53,7 +73,7 @@ class BikeListItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Text(
-                        bike.isActive == true ? 'Active' : 'Deactivated',
+                        (widget.bike.isActive) == true ? 'Active' : 'Deactivated',
                         style: TextStyle(
                             color: Colors.blueGrey,
                             fontWeight: FontWeight.w800,

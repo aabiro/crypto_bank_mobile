@@ -24,18 +24,18 @@ class _BikeListState extends State<BikeList> {
 
   @override
   void didChangeDependencies() {
-    // if (_init) {
-    //   setState(() {
-    //     _isLoading = true;
-    //   });
-    //   var accessToken = Provider.of<Authentication>(context).accessToken;
-    //   Provider.of<Bikes>(context).getUserBikes(accessToken).then((_){
-    //     setState((){
-    //       _isLoading = false;
-    //     });
-    //   });
-    // }
-    // _init = false;
+    if (_init) {
+      setState(() {
+        _isLoading = true;
+      });
+      // var accessToken = Provider.of<Authentication>(context).accessToken;
+      Provider.of<Bikes>(context).getUserBikes().then((_){
+        setState((){
+          _isLoading = false;
+        });
+      });
+    }
+    _init = false;
   }
 
   @override
@@ -73,7 +73,7 @@ class _BikeListState extends State<BikeList> {
                   //use .value because items are lost
                   return ChangeNotifierProvider.value(  //notify of changes for each individual bike item
                     value: bike,
-                    child: BikeListItem(
+                    child: BikeListItem(bike
                       // bike.id, bike.name, bike.isActive, bike.imageUrl
                       ),
                   );                     

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../models/exception_handler.dart';
 import 'bike.dart';
 
 class Bikes with ChangeNotifier {
@@ -23,10 +24,62 @@ class Bikes with ChangeNotifier {
     return _userBikes;
   }
 
+  Future<void> updateBike(String id, Bike newBike) async {
+    final bikeIndex = userBikes.indexWhere((bike) => bike.id == id);
+    if (bikeIndex >= 0) {
+      final url = "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
+      final response = await http.patch(
+        url,
+        body: json.encode(
+          {
+            //merges with existing values on server
+            'name': newBike.name,
+            'model': newBike.model,
+            // 'isActive': newBike.isActive  //this line causes null error on detail view..!!
+            // 'imageUrl': newBike.imageUrl,
+          },
+        ),
+      );
+      if (response.statusCode >= 400) {
+        print(response.statusCode);
+        print("$response");
+        // userBikes.insert(bikeIndex, bike); //keep bike if the delete did not work, optimistic updating
+        // notifyListeners();
+        throw ExceptionHandler('Cannot update bike.');
+      }
+      userBikes[bikeIndex] = newBike;
+      notifyListeners();
+    } else {
+      print('did not update');
+    }
+  }
+
+  Future<void> deleteBike(String id) async {
+    print('delete id: $id');
+    final url = "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
+    //has been added to user bikes
+    final bikeIndex = userBikes.indexWhere((bike) => bike.id == id);
+    var bike = userBikes[bikeIndex];
+    print('delete bike id: ${bike.id}, at index $bikeIndex');
+    userBikes.removeAt(bikeIndex);
+    notifyListeners();
+    final response = await http.delete(url);
+    // var data = json.decode(response);
+    if (response.statusCode >= 400) {
+      print(response.statusCode);
+      print("$response");
+      userBikes.insert(bikeIndex, bike); //keep bike if the delete did not work, optimistic updating
+      notifyListeners();
+      throw ExceptionHandler('Cannot delete bike.');
+    }
+    bike = null;
+  }
+
   //the bikes shown on map
   Future<void> getBikes() async {
     final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
     final response = await http.get(url);
+
     final data = json.decode(response.body) as Map<String, dynamic>;
     print(json.decode(response.body));
     final List<Bike> bikesLoaded = [];
@@ -45,18 +98,19 @@ class Bikes with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUserBikes(String _token, String userId) async {
+  Future<void> getUserBikes() async {
     //no token or userId here, when coming back to map...
-    final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$_token&orderBy="userId"&equalTo="$userId"';
-    // final url = 'https://capstone-addb0.firebaseio.com/bikes.json&orderBy="userId"&equalTo="$userId"';
+    print('token get user bikes $token');
+    final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token&orderBy="userId"&equalTo="$userId"';
     final response = await http.get(url).then((response) {
       final data = json.decode(response.body) as Map<String, dynamic>;
       print(json.decode(response.body));
       final List<Bike> bikesLoaded = [];
-      if (data != null) {
+      // if (data != null) {
         print(data);
         data.forEach((bikeId, bikeData) {
           //watch out for called on null
+          print(bikeId);
           bikesLoaded.add(
             //this is needed for the correct initial list loading... it loads the bikes upon app load
             Bike(
@@ -70,7 +124,7 @@ class Bikes with ChangeNotifier {
           );
         });
         _userBikes = bikesLoaded;
-      }
+      // }
       notifyListeners();
     });
     //.then?
@@ -82,6 +136,7 @@ class Bikes with ChangeNotifier {
 
   //add bike to the users bike list
   void addBike(Bike bike) {
+    print('token add bike $token');
     final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
     http
         .post(url,
@@ -89,20 +144,24 @@ class Bikes with ChangeNotifier {
               'qrCode': bike.qrCode,
               'isActive': bike.isActive,
               'name': bike.name,
-              'userId': userId,
+              'userId': bike.userId,
             }))
         .then(
       (response) {
+        var data = json.decode(response.body);
+        print('response $data');
         final newBike = Bike(
           id: json.decode(response.body)["name"], //'name' is the id of the bike
           qrCode: bike.qrCode,
           isActive: true,
           name: bike.name,
-          userId: userId,
+          userId: bike.userId,
         );
-
+        print('newbike id: ${newBike.id}');
+        print('newbike userId: ${newBike.userId}');
+        print('token add bike $token');
         userBikes.add(newBike);
-        print(userBikes);
+        // print(userBikes);
         notifyListeners();
       },
     );

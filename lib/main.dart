@@ -3,6 +3,7 @@ import 'package:flutter_app/screens/alert_screen.dart';
 import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/screens/bike_list.dart';
 import 'package:flutter_app/providers/bike.dart';
+import 'package:flutter_app/screens/edit_bike.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/screens/profile.dart';
@@ -31,6 +32,7 @@ import './screens/add_credit_card.dart';
 import './screens/set_map_area.dart';
 import './screens/order_complete.dart';
 import './screens/qr_scan.dart';
+import './screens/edit_bike.dart';
 import './screens/activation_complete.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -118,8 +120,9 @@ class MyApp extends StatelessWidget {
             BikeList.routeName: (context) => BikeList(),
             ActivationCompleteScreen.routeName: (context) =>
                 ActivationCompleteScreen(),
-            BikeDetailScreen.routeName: (context) => BikeDetailScreen(''),
+            // BikeDetailScreen.routeName: (context) => BikeDetailScreen(),
             BikeFormScreen.routeName: (context) => BikeFormScreen(''),
+            EditBike.routeName: (context) => EditBike(''),
             AlertScreen.routeName: (context) => AlertScreen(),
             // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
             QrScan.routeName: (context) => QrScan(false),

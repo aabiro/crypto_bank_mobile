@@ -4,14 +4,17 @@ import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/set_location.dart';
 import 'package:provider/provider.dart';
 import '../providers/bikes.dart';
+import '../providers/bike.dart';
 
 import 'alert_screen.dart';
 import 'bike_list.dart';
+import 'edit_bike.dart';
 
 class BikeDetailScreen extends StatefulWidget {
   static final routeName = '/bike_detail';
-  final String bikeId;
-  BikeDetailScreen(this.bikeId);
+  final Bike bike;
+  BikeDetailScreen(this.bike);
+  
 
   @override
   _BikeDetailScreenState createState() => _BikeDetailScreenState();
@@ -19,8 +22,9 @@ class BikeDetailScreen extends StatefulWidget {
 
 class _BikeDetailScreenState extends State<BikeDetailScreen> {
   bool isSwitched = false;
-
+  
   buildInputField(TextEditingController controller, String hintText) {
+
     return Padding(
       padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
       child: TextFormField(
@@ -48,11 +52,12 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
     final nameController = TextEditingController();
     final modelController = TextEditingController();
     final conditionController = TextEditingController();
-    final BikeDetailScreen args = ModalRoute.of(context).settings.arguments;
-    final bike = Provider.of<Bikes>(
-      context,
+    print('yesss ${widget.bike.id}');
+    // final BikeDetailScreen args = ModalRoute.of(context).settings.arguments;
+    // final bike = Provider.of<Bikes>(context).findById(args.bikeId);
+
       // listen: false, //does not change on changeNotifier, check if does on update and open screen
-      ).findById(args.bikeId);
+
     return Scaffold(
       body: SingleChildScrollView(
         //add to Scroll whole screen
@@ -62,7 +67,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               centerTitle: true,
               backgroundColor: Color(0xff673AB7),
               title: new Text(
-                'bike.name',
+                widget.bike.name,
                 // planType,
                 style: TextStyle(),
               ),
@@ -177,7 +182,14 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               child: MaterialButton(
                 minWidth: mediaQuery.size.width / 3,
                 padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => EditBike(widget.bike.id),
+                      maintainState: false),);
+                },
                 child: Text("Edit",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -219,13 +231,13 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                               ),
                             ),
                             Switch(
-                              value: !bike.isActive,
+                              value: !widget.bike.isActive,
                               onChanged: (value) {
                                 setState(() {
-                                  print(bike.isActive);
-                                  bike.toggleActive();
-                                  print(bike.isActive);
-                                  isSwitched = bike.isActive;                        
+                                  print(widget.bike.isActive);
+                                  widget.bike.toggleActive();
+                                  print(widget.bike.isActive);
+                                  isSwitched = widget.bike.isActive;                        
                                 });
                               },
                               activeTrackColor: Constants.mainColor,
@@ -250,7 +262,11 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                 child: OutlineButton(
                   // minWidth: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  onPressed: _showDialog,
+                  onPressed: () {
+                    // print(bike);
+                    print(widget.bike.id);
+                    _showDialog(widget.bike.id);
+                  },
                   child: Text(
                     "Remove from Platform",
                     textAlign: TextAlign.center,
@@ -268,11 +284,12 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
     );
   }
 
-   void _showDialog() {
+   void _showDialog(String id) {
     // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        
         // return object of type Dialog
         return AlertDialog(
           title: new Text(
@@ -288,7 +305,19 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               children: <Widget>[
                 OutlineButton(
                   padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                  onPressed: () {
+                  onPressed: () async {
+                    try {
+                      // print(id);
+                      
+                      await Provider.of<Bikes>(context).deleteBike(id);
+                    } catch (error) {
+                      print(error);
+                      print('deleting failed'); //handle this error
+                      // Scaffold.of(context).showSnackBar(Snackbar(content:
+                      // Text('Deleteing failed!')));
+                    }
+                    // Navigator.of(context).pop();
+    
                     Navigator.push(
                         context,
                         MaterialPageRoute(

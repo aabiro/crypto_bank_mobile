@@ -72,7 +72,10 @@ class MapScreenState extends State<MapScreen> {
       });
       Future.delayed(Duration.zero).then((_) {
         Provider.of<Bikes>(context)
-            .getUserBikes(user.accessToken, user.userId)
+            .getUserBikes(
+              // user.accessToken, 
+              // user.userId
+              )
             .then((_) {
           setState(() {
             _isLoading = false;

@@ -85,19 +85,23 @@ class WalletScreen extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Icon(Icons.credit_card, color: Colors.blueGrey),
+                                  Icon(Icons.credit_card,
+                                      color: Colors.blueGrey),
                                   // Icon(Icons.attach_money),
-                                  Text(
-                                    'Add Payment Method',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.blueGrey,
-                                        fontFamily: 'OpenSans',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
+                                  Expanded(
+                                    child: Text(
+                                      'Add Payment Method',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontFamily: 'OpenSans',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
                                   ),
                                 ]),
                           ],
@@ -144,18 +148,22 @@ class WalletScreen extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Icon(Icons.account_balance_wallet, color: Colors.blueGrey),
-                                  Text(
-                                    ' Enroll in Direct Deposit',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.blueGrey,
-                                        fontFamily: 'OpenSans',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
+                                  Icon(Icons.account_balance_wallet,
+                                      color: Colors.blueGrey),
+                                  Expanded(
+                                    child: Text(
+                                      ' Enroll in Direct Deposit',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontFamily: 'OpenSans',
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
                                   ),
                                 ]),
                           ],
@@ -166,64 +174,64 @@ class WalletScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 15.0),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: Text(
-              'Default Payment Method:',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.blueGrey,
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-                fontFamily: 'Comfortaa',
-              ),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(
-                        "Credit Card\n ending in XXXX",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: 'Comfortaa',
-                            // fontWeight: FontWeight.w900,
-                            fontSize: 15),
-                      ),
-               OutlineButton(
-              // minWidth: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      fullscreenDialog: true,
-                      builder: (context) => CardScreen(),
-                      maintainState: false));
-              },
-              child: Text(
-                "Change",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Constants.mainColor,
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                child: Text(
+                  'Default Payment Method:',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontSize: 20,
                     fontWeight: FontWeight.w800,
-                    fontSize: 16),
+                    fontFamily: 'Comfortaa',
+                  ),
+                ),
               ),
-            ),
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Text(
+                            "Credit Card\n ending in XXXX",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.blueGrey,
+                                fontFamily: 'Comfortaa',
+                                // fontWeight: FontWeight.w900,
+                                fontSize: 15),
+                          ),
+                          OutlineButton(
+                            // minWidth: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      fullscreenDialog: true,
+                                      builder: (context) => CardScreen(),
+                                      maintainState: false));
+                            },
+                            child: Text(
+                              "Change",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Constants.mainColor,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 16),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
-            ),
-          ),
             ],
           ),
         ));

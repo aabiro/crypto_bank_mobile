@@ -53,7 +53,7 @@ class Bike with ChangeNotifier {
     return name;
   }
 
-    int get ownerId {
-    return ownerId;
+    String get _userId {
+    return userId;
   }
 }

@@ -48,6 +48,8 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
     final nameController = TextEditingController();
     final conditionController = TextEditingController();
     final typeController = TextEditingController();
+    String name = nameController.text;
+    // String password = myPasswordController.text;
     // final countryController = TextEditingController();
     // final zipController = TextEditingController();
 
@@ -101,9 +103,10 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
               onPressed: () {
                 Provider.of<Bikes>(context).addBike(
                     Bike(
+                      userId: Provider.of<Authentication>(context).userId,
                       qrCode: qrCode, //do this check later
                       isActive: true,
-                      name: nameController.text,
+                      name: name,
                     ),);
                     // Provider.of<Authentication>(context).userId,
                     // Provider.of<Authentication>(context).accessToken);
@@ -115,7 +118,7 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
                   style: TextStyle(
                       // fontSize: 40,
                       color: Colors.white,
-                      fontWeight: FontWeight.w900)),
+                      fontWeight: FontWeight.w900),),
               // color: Color(),
               // style: style.copyWith(
               // //     color: Colors.white,

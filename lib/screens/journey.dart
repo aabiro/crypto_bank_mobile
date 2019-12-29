@@ -7,6 +7,7 @@ class JourneyScreen extends StatefulWidget {
   static const routeName = '/journey';
   String bikeId;
   JourneyScreen(this.bikeId);
+  Timer _tripTimer;
 
   @override
   _JourneyScreenState createState() => _JourneyScreenState();
@@ -18,22 +19,25 @@ class _JourneyScreenState extends State<JourneyScreen> {
 
   @override
   void initState() {
-    _timeString =
-        "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
-    Timer.periodic(Duration(seconds: 1), (Timer t) => _getCurrentTime());
+    _timeString = "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
+    // Timer _t;
+    Timer.periodic(Duration(seconds: 1), (_tripTimer) => _getCurrentTime());
     super.initState();
   }
 
   @override
-  void dispose() {
-    _timeString = null;  //??
+  void dispose() { //and on stop button
+    setState(() {
+      _timeString = null;
+    });
+    // _tripTimer.cancel(); need to cancel this memory leak
+      //??
     super.dispose();
   }
 
   void _getCurrentTime() {
     setState(() {
-      _timeString =
-          "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
+      _timeString = "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
     });
   }
 
@@ -119,6 +123,10 @@ class _JourneyScreenState extends State<JourneyScreen> {
                       fontWeight: FontWeight.w800,
                       fontSize: 18)),
               onPressed: () {
+                setState(() {
+                  _timeString = null;
+                });
+                 //run disposing of timer here
                  Navigator.push(
                   context,
                   MaterialPageRoute(
