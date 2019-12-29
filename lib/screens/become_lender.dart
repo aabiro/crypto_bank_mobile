@@ -41,15 +41,17 @@ class PlansScreen extends StatelessWidget {
                     fontSize: 20),
               ),
               SizedBox(height: 10),
-              Text(
-                text,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: greyText,  
-                    fontFamily: 'Comfortaa',
-                    fontSize: 18),
+              Expanded(
+                              child: Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: greyText,  
+                      fontFamily: 'Comfortaa',
+                      fontSize: 18),
+                ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -113,7 +115,7 @@ class PlansScreen extends StatelessWidget {
                       color: Constants.mainColor,
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.bold,
-                      fontSize: 24),
+                      fontSize: 15),
                 ),
               ),
               Padding(

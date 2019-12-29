@@ -101,11 +101,20 @@ class Bikes with ChangeNotifier {
   Future<void> getUserBikes() async {
     //no token or userId here, when coming back to map...
     print('token get user bikes $token');
+    final List<Bike> bikesLoaded = [];
     final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token&orderBy="userId"&equalTo="$userId"';
     final response = await http.get(url).then((response) {
-      final data = json.decode(response.body) as Map<String, dynamic>;
-      print(json.decode(response.body));
-      final List<Bike> bikesLoaded = [];
+     
+      if (response.statusCode < 200 || response.statusCode >= 400 || json == null) {
+          //handle exceptions
+          throw new Exception(response.body);
+        } else {
+           
+          
+          final data = json.decode(response.body) as Map<String, dynamic>;
+      // print(json.decode(response.body));
+      print('got user bike data: $data');
+      
       // if (data != null) {
         print(data);
         data.forEach((bikeId, bikeData) {
@@ -124,8 +133,15 @@ class Bikes with ChangeNotifier {
           );
         });
         _userBikes = bikesLoaded;
+   notifyListeners();
+          // print(data);
+        }
+
+
+      
+        
       // }
-      notifyListeners();
+     
     });
     //.then?
   }

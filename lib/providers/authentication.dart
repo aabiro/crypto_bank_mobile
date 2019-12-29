@@ -20,7 +20,10 @@ class Authentication with ChangeNotifier {
   String _accessToken;
   DateTime _expiry;
   String _userId;
+  String _email;
+  String _displayName;
   Timer _signInTimer;
+  String _photoUrl;
 
   bool get isLoggedIn {
     return accessToken != null;
@@ -28,6 +31,14 @@ class Authentication with ChangeNotifier {
 
   String get userId {
     return _userId;
+  }
+
+  String get email {
+    return _email;
+  }
+
+  String get displayName {
+    return _displayName;
   }
 
   String get accessToken {
@@ -55,6 +66,134 @@ class Authentication with ChangeNotifier {
                 )
               ],
             ));
+  }
+
+  Future<void> getUserData() async {
+    final url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=$fireBaseApi";
+    try {
+      await http.post(
+        url,
+        body: json.encode(
+          {
+            'idToken': _accessToken,
+            'email': _email
+          },
+        ),
+      ).then((response) {
+        var data = json.decode(response.body);
+        // var msg = data['error']['message'];
+        print('getting user data...');
+        _email = data["email"];
+        _displayName = data["displayName"];
+        _photoUrl = data["photoUrl"];
+      });
+    } catch (e) {
+      print('cannot get userdata: $e');
+    }
+  }
+
+  Future<void> updateEmail(String newEmail, BuildContext context) async {
+    final url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=$fireBaseApi";
+    try {
+      await http.post(
+        url,
+        body: json.encode(
+          {
+            'idToken': _accessToken,
+            'email': newEmail,
+            'returnSecureToken': true
+          },
+        ),
+      ).then((response) {
+        var data = json.decode(response.body);
+        var msg = data['error']['message'];
+
+        if (response.statusCode < 200 || response.statusCode >= 400 || json == null) {
+          //handle exceptions
+          // var data = json.decode(response.body);
+          // var msg = data['error']['message'];
+          // showError(msg, context);
+          showError(msg, context);
+          throw new Exception(response.body);
+        } else {
+          print('user updated: $data');
+
+           _email = data["email"];
+          _accessToken = data["idToken"];
+
+          // print(data);
+        }
+       
+        
+
+      });
+    } catch (e) {
+      print('email not reset: $e');
+    }
+
+  }
+
+  Future<void> resetPassword(String newPassword) async {
+    final url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=$fireBaseApi";
+    try {
+      await http.post(
+        url,
+        body: json.encode(
+          {
+            'idToken': _accessToken,
+            'password': newPassword,
+            'returnSecureToken': true
+          },
+        ),
+      );
+    } catch (e) {
+      print('password not reset: $e');
+    }
+  }
+
+  Future<void> updateUser(String displayName, String photUrl) async {
+//     idToken	string	A Firebase Auth ID token for the user.
+//      displayName	string	User's new display name.
+//      photoUrl	string	User's new photo url.
+//      deleteAttribute	List of strings	List of attributes to delete, "DISPLAY_NAME" or "PHOTO_URL". This will nullify these values.
+//      returnSecureToken	boolean	Whether or not to return an ID and refresh token.
+    final String url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=$fireBaseApi";
+    try {
+      await http
+          .post(registerUrl,
+              body: json.encode({
+                'idToken': accessToken,
+                'displayName': displayName,
+                'returnSecureToken': true
+              }))
+          .then((http.Response response) async {
+          var data = json.decode(response.body);
+          // var msg = data['error']['message'];
+          print('update all : $data');
+          // _displayName = ;
+        final int statusCode = response.statusCode;
+        print('update status $statusCode');
+        if (statusCode < 200 || statusCode >= 400 || json == null) {
+          //handle exceptions
+          // var data = json.decode(response.body);
+          // var msg = data['error']['message'];
+          // showError(msg, context);
+
+          throw new Exception(response.body);
+        } else {
+          var data = json.decode(response.body);
+          var msg = data['displayName'];
+          print('user updated');
+           print('new displayName : $msg');
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> register(
@@ -108,7 +247,7 @@ class Authentication with ChangeNotifier {
       await http
           .post(loginUrl,
               body: json.encode({
-                'email': 'email@gmail.com',
+                'email': 'neww@gmail.com',
                 'password': 'test10',
                 'returnSecureToken': true,
                 // 'email': 'aaryn@gmail.com',
@@ -132,6 +271,7 @@ class Authentication with ChangeNotifier {
           var data = json.decode(response.body);
           _accessToken = data["idToken"];
           _userId = data["localId"];
+          _email = data["email"];
           _expiry = DateTime.now()
               .add(Duration(seconds: int.parse(data['expiresIn'])));
           _logoutAuto(context);
