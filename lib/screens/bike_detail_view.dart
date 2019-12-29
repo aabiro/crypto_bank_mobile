@@ -281,6 +281,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                                   print(widget.bike.isActive);
                                   isSwitched = widget.bike.isActive;
                                 });
+                                Provider.of<Bikes>(context).updateBike(widget.bike.id, widget.bike);
                               },
                               activeTrackColor: Constants.mainColor,
                               activeColor: Constants.optionalColor,

@@ -11,6 +11,7 @@ import 'package:flutter_app/screens/profile.dart';
 import 'package:flutter_app/screens/extra_screens/register_steps.dart';
 import 'package:flutter_app/screens/qr_scan.dart';
 import 'package:flutter_app/screens/register.dart';
+import 'package:flutter_app/screens/review_order.dart';
 import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/screens/extra_screens/register_info.dart';
@@ -54,6 +55,7 @@ Future<Null> main() async {
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -63,7 +65,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProxyProvider<Authentication, Bikes>(
           // fix other providers to use token also
-          create: (_) => Bikes(
+          create: (_) => Bikes( //this is the issueeeeee!!
             // auth.accessToken, 
             // auth.userId,
             // prevBikes.items
@@ -128,7 +130,8 @@ class MyApp extends StatelessWidget {
             AlertScreen.routeName: (context) => AlertScreen(),
             // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
             QrScan.routeName: (context) => QrScan(false),
-            // OrderLocksScreen.routeName: (context) => OrderLocksScreen(),
+            // ReviewOrder.routeName: (context) => ReviewOrder(''),
+            OrderLocksScreen.routeName: (context) => OrderLocksScreen(),
             OrderCompleteScreen.routeName: (context) => OrderCompleteScreen()
 
             // CameraScreen.routeName: (context) => CameraScreen(cameras)

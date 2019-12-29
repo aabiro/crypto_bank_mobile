@@ -24,15 +24,10 @@ class EditBike extends StatelessWidget {
     );
   }
 
-  Bike buildBike(String name, String type ) {
-    return Bike(
-      name: name,
-      model: type,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final bikeProv = Provider.of<Bikes>(context);
+    final bike = bikeProv.findById(id);
     final nameField = buildInputField(nameController, "Name");
     final typeField = buildInputField(typeController, "Type");
     final conditionField = buildInputField(conditionController, "Condition");
@@ -68,17 +63,9 @@ class EditBike extends StatelessWidget {
               ),
             ),        
             ),
-            // SizedBox(height: 0),
-            
-            // SizedBox(height: 30),
             Padding(
                 padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
                 child: nameField,),
-            // TextFormField(
-            //   decoration: InputDecoration(
-            //     labelText: 'Enter your username'
-            //   ),
-            // ),
             Padding(
                 padding: EdgeInsets.fromLTRB(30, 0, 30, 10),
                 child: typeField,),
@@ -95,7 +82,9 @@ class EditBike extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                 onPressed: () {
                   print('update/edit bike id: $id');
-                  Provider.of<Bikes>(context).updateBike(id, buildBike(name, type));
+                  bike.name = name;
+                  bike.model = type;
+                  bikeProv.updateBike(id, bike); //update existing bike
                   Navigator.of(context).pop();
                 },
                 child: Text("Save",
@@ -104,11 +93,6 @@ class EditBike extends StatelessWidget {
                         // fontSize: 40,
                         color: Colors.white,
                         fontWeight: FontWeight.w900)),
-                // color: Color(),
-                // style: style.copyWith(
-                // //     color: Colors.white,
-                // fontWeight: FontWeight.bold)
-                // ),
               ),
             ),
             SizedBox(height: 30),
