@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:flutter_app/widgets/detail_fields.dart';
 import 'package:flutter_app/widgets/set_location.dart';
 import 'package:provider/provider.dart';
 import '../providers/bikes.dart';
@@ -14,7 +15,6 @@ class BikeDetailScreen extends StatefulWidget {
   static final routeName = '/bike_detail';
   final Bike bike;
   BikeDetailScreen(this.bike);
-  
 
   @override
   _BikeDetailScreenState createState() => _BikeDetailScreenState();
@@ -22,9 +22,46 @@ class BikeDetailScreen extends StatefulWidget {
 
 class _BikeDetailScreenState extends State<BikeDetailScreen> {
   bool isSwitched = false;
-  
-  buildInputField(TextEditingController controller, String hintText) {
 
+  buildDetailFields(String title, String text) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    return Column(
+        // mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+              child: Container(
+                child: Text(
+                  title,
+                  style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+              child: Container(
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 30, color: Colors.blueGrey),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ),
+          ),
+        ]);
+  }
+
+  buildInputField(TextEditingController controller, String hintText) {
     return Padding(
       padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
       child: TextFormField(
@@ -56,7 +93,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
     // final BikeDetailScreen args = ModalRoute.of(context).settings.arguments;
     // final bike = Provider.of<Bikes>(context).findById(args.bikeId);
 
-      // listen: false, //does not change on changeNotifier, check if does on update and open screen
+    // listen: false, //does not change on changeNotifier, check if does on update and open screen
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -97,57 +134,57 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.all(10),
                           // child: Hero(
                           //   tag: "bike",
-                            child: Card(
-                              child: InkWell(
-                                onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        fullscreenDialog: true,
-                                        builder: (context) => AlertScreen(),
-                                        maintainState: false)),
-                                child: Container(
-                                  padding: EdgeInsets.all(20),
-                                  width: double.infinity,
-                                  height: 85,
-                                  child: Column(
-                                    children: <Widget>[
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  0, 10, 0, 0),
-                                              child: Text(
-                                                '12 Messages',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    color: Colors.blueGrey,
-                                                    fontFamily: 'OpenSans',
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20),
-                                              )),
-                                          Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                0, 10, 0, 0),
-                                            child: Icon(Icons.arrow_forward,
-                                                color: Colors.blueGrey),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                          child: Card(
+                            child: InkWell(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      fullscreenDialog: true,
+                                      builder: (context) => AlertScreen(),
+                                      maintainState: false)),
+                              child: Container(
+                                padding: EdgeInsets.all(20),
+                                width: double.infinity,
+                                height: 85,
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Padding(
+                                            padding:
+                                                EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                            child: Text(
+                                              '12 Messages',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  color: Colors.blueGrey,
+                                                  fontFamily: 'OpenSans',
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            )),
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                          child: Icon(Icons.arrow_forward,
+                                              color: Colors.blueGrey),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
+                          ),
                           // ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 0),
                       ],
                     ),
                   ],
@@ -155,7 +192,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: Text(
                 'Detail',
                 textAlign: TextAlign.left,
@@ -167,14 +204,16 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                 ),
               ),
             ),
-            
-            buildInputField(nameController, 'Name'),
             SizedBox(height: 15.0),
-            buildInputField(modelController, 'Model'),
+            // buildInputField(nameController, 'Name'),
+            DetailField("Name", widget.bike.name),
             SizedBox(height: 15.0),
-            buildInputField(conditionController, 'Condition'),
-            SizedBox(height: 15.0),
-            // SizedBox(height: 20),
+            // buildInputField(modelController, 'Model'),
+            DetailField("Type", widget.bike.model == null ? "None" : widget.bike.model),
+            // SizedBox(height: 15.0),
+            // buildInputField(conditionController, 'Condition'),
+            // SizedBox(height: 0.30),
+            SizedBox(height: 30),
             Material(
               elevation: 5.0,
               borderRadius: BorderRadius.circular(7.0),
@@ -184,11 +223,12 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                 padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                 onPressed: () {
                   Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      fullscreenDialog: true,
-                      builder: (context) => EditBike(widget.bike.id),
-                      maintainState: false),);
+                    context,
+                    MaterialPageRoute(
+                        fullscreenDialog: true,
+                        builder: (context) => EditBike(widget.bike.id),
+                        maintainState: false),
+                  );
                 },
                 child: Text("Edit",
                     textAlign: TextAlign.center,
@@ -231,13 +271,15 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                               ),
                             ),
                             Switch(
-                              value: widget.bike.isActive == null ? widget.bike.isActive : !widget.bike.isActive,
+                              value: widget.bike.isActive == null
+                                  ? widget.bike.isActive
+                                  : !widget.bike.isActive,
                               onChanged: (value) {
                                 setState(() {
                                   print(widget.bike.isActive);
                                   widget.bike.toggleActive();
                                   print(widget.bike.isActive);
-                                  isSwitched = widget.bike.isActive;                        
+                                  isSwitched = widget.bike.isActive;
                                 });
                               },
                               activeTrackColor: Constants.mainColor,
@@ -284,12 +326,11 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
     );
   }
 
-   void _showDialog(String id) {
+  void _showDialog(String id) {
     // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        
         // return object of type Dialog
         return AlertDialog(
           title: new Text(
@@ -308,7 +349,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                   onPressed: () async {
                     try {
                       // print(id);
-                      
+
                       await Provider.of<Bikes>(context).deleteBike(id);
                     } catch (error) {
                       print(error);
@@ -317,7 +358,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                       // Text('Deleteing failed!')));
                     }
                     // Navigator.of(context).pop();
-    
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(

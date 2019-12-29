@@ -4,6 +4,7 @@ import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/screens/bike_list.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/screens/edit_bike.dart';
+import 'package:flutter_app/screens/edit_profile.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/screens/profile.dart';
@@ -123,6 +124,7 @@ class MyApp extends StatelessWidget {
             // BikeDetailScreen.routeName: (context) => BikeDetailScreen(),
             BikeFormScreen.routeName: (context) => BikeFormScreen(''),
             EditBike.routeName: (context) => EditBike(''),
+            EditProfileScreen.routeName: (context) => EditProfileScreen(),
             AlertScreen.routeName: (context) => AlertScreen(),
             // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
             QrScan.routeName: (context) => QrScan(false),

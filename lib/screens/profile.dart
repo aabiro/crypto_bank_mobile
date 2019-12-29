@@ -5,7 +5,10 @@ import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/models/income_chart.dart';
 import 'package:flutter_app/widgets/bar_chart.dart';
+import 'package:flutter_app/widgets/detail_fields.dart';
 import 'package:provider/provider.dart';
+
+import 'edit_profile.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const routeName = '/profile';
@@ -33,12 +36,12 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final auth = Provider.of<Authentication>(context);
-    final usernameField = buildInputField(usernameController, "Username", auth.displayName != null ? auth.displayName : "");
-    final passwordField = buildInputField(passwordController, "Password", '******');
-    final emailField = buildInputField(emailController, "Email", auth.email != null ? auth.email : ""); 
-    String username = usernameController.text;
-    String password = passwordController.text;
-    String email = emailController.text;
+    // final usernameField = buildInputField(usernameController, "Username", auth.displayName != null ? auth.displayName : "");
+    // final passwordField = buildInputField(passwordController, "Password", '******');
+    // final emailField = buildInputField(emailController, "Email", auth.email != null ? auth.email : ""); 
+    // String username = usernameController.text;
+    // String password = passwordController.text;
+    // String email = emailController.text;
 
     @override
     void didChangeDependencies() {
@@ -86,22 +89,34 @@ class ProfileScreen extends StatelessWidget {
               onPressed: () {
 
               }),
-            Padding(
-                padding: EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 15.0),
-                child: usernameField),
-            // TextFormField(
-            //   decoration: InputDecoration(
-            //     labelText: 'Enter your username'
-            //   ),
+              SizedBox(height: 15.0),
+            // buildInputField(nameController, 'Name'),
+            DetailField("Username", auth.displayName == null ? "None" : auth.displayName),
+            SizedBox(height: 15.0),
+            DetailField("Email", auth.email == null ? "None" : auth.email),
+            // buildInputField(modelController, 'Model'),
+            // buildDetailFields("Type", widget.bike.model == null ? "None" : widget.bike.model),
+            SizedBox(height: 15.0),
+            DetailField("Password", '*****'),
+            // buildInputField(conditionController, 'Condition'),
+            // SizedBox(height: 0.30),
+            SizedBox(height: 30),
+            // Padding(
+            //     padding: EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 15.0),
+            //     child: usernameField),
+            // // TextFormField(
+            // //   decoration: InputDecoration(
+            // //     labelText: 'Enter your username'
+            // //   ),
+            // // ),
+            // Padding(
+            //     padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
+            //     child: emailField
             // ),
-            Padding(
-                padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
-                child: emailField
-            ),
-            Padding(
-                padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 30.0),
-                child: passwordField
-            ),
+            // Padding(
+            //     padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 30.0),
+            //     child: passwordField
+            // ),
             Material(
               elevation: 5.0,
               borderRadius: BorderRadius.circular(7.0),
@@ -109,25 +124,26 @@ class ProfileScreen extends StatelessWidget {
               child: MaterialButton(
                 minWidth: mediaQuery.size.width / 3,
                 padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () async {
-                  //might need spinner
-                  if (username != auth.displayName && username != "") {
-                    await auth.updateUser(username, "photUrl");
-                    showError("You have successfully updated your username.", context);
-                  }
+                onPressed: () {
+                  Navigator.of(context).pushNamed(EditProfileScreen.routeName);
+                  // //might need spinner
+                  // if (username != auth.displayName && username != "") {
+                  //   await auth.updateUser(username, "photUrl");
+                  //   showError("You have successfully updated your username.", context);
+                  // }
                   
-                  if(email != auth.email && email != "") { //need validation here too
-                    await auth.updateEmail(email, context);
-                    showError("You will need to login again with your new credentials.", context);
-                    // auth.logout(context);
-                  } 
-                  //  await auth.resetPassword(password); //mask this
+                  // if(email != auth.email && email != "") { //need validation here too
+                  //   await auth.updateEmail(email, context);
+                  //   showError("You will need to login again with your new credentials.", context);
+                  //   // auth.logout(context);
+                  // } 
+                  // //  await auth.resetPassword(password); //mask this
                   
-                  // Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/home');
+                  // // Navigator.of(context).pop();
+                  // Navigator.of(context).pushNamed('/home');
                   
                 },
-                child: Text("Save",
+                child: Text("Edit",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         // fontSize: 40,
