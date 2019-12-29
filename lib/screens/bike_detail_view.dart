@@ -271,9 +271,9 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                               ),
                             ),
                             Switch(
-                              value: widget.bike.isActive == null
-                                  ? widget.bike.isActive
-                                  : !widget.bike.isActive,
+                              value: widget.bike.isActive != null
+                                  ? !widget.bike.isActive
+                                  : true,
                               onChanged: (value) {
                                 setState(() {
                                   print(widget.bike.isActive);

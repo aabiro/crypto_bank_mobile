@@ -4,6 +4,7 @@ import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/bikes.dart';
 import 'package:flutter_app/screens/order_complete.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:flutter_app/widgets/dropdown.dart';
 import 'package:provider/provider.dart';
 import './add_credit_card.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -57,6 +58,9 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
         ModalRoute.of(context).settings.arguments;
     final qrCode = args.qrCode;
 
+    final list = Constants.bikeTypes;
+    var dropdownValue = list.first;
+
     return Scaffold(
       body: SingleChildScrollView(
         //add to Scroll whole screen
@@ -86,6 +90,7 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
           buildInputField(nameController, 'Name of Bike'),
           SizedBox(height: 15.0),
           buildInputField(typeController, 'Type'),
+          // BuildDropdown(dropdownValue, list),
           SizedBox(height: 15.0),
           buildInputField(conditionController, 'Condition'),
           SizedBox(height: 15.0),

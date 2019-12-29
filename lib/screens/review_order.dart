@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/models/order.dart';
+import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/screens/home.dart';
+import 'package:flutter_app/services/mailer.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:provider/provider.dart';
 
 import 'add_credit_card.dart';
 import 'order_locks.dart';
@@ -14,7 +17,6 @@ class ReviewOrder extends StatelessWidget {
 
   Widget buildCard(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    Color greyText = Colors.blueGrey;
     return Container(
       child: Card(
         shape: RoundedRectangleBorder(
@@ -55,19 +57,23 @@ class ReviewOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var auth = Provider.of<Authentication>(context, listen: false);
     final mediaQuery = MediaQuery.of(context);
     var quantity = this.order.quantity; //take from input of dropdown
     var lockPrice = 5.99;
     var _currentValue;
-    this.order.planType == 'Individual Plan' ? _currentValue = 1 : _currentValue = 30;
+    this.order.planType == 'Individual Plan'
+        ? _currentValue = 1
+        : _currentValue = 30;
     print(this.order.planType);
-    this.order.planType == 'Individual Plan' ? lockPrice = 19.99 : lockPrice = 5.99;
+    this.order.planType == 'Individual Plan'
+        ? lockPrice = 19.99
+        : lockPrice = 5.99;
     _currentValue < 30 ? lockPrice = 19.99 : lockPrice = 5.99;
     var locksTotal = (quantity * lockPrice);
     var locksTotalString = locksTotal.toStringAsFixed(2);
     var shipping = 2.33;
     var total = (locksTotal + shipping).toStringAsFixed(2);
-
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -83,65 +89,64 @@ class ReviewOrder extends StatelessWidget {
                 style: TextStyle(),
               ),
             ),
-
-               Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: Text(
-              'Payment Method',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Colors.blueGrey,
-                fontSize: 25,
-                fontWeight: FontWeight.w800,
-                fontFamily: 'Comfortaa',
-              ),
-            ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text(
-                        "Credit Card\n ending in XXXX",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: 'Comfortaa',
-                            // fontWeight: FontWeight.w900,
-                            fontSize: 15),
-                      ),
-               OutlineButton(
-              // minWidth: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      fullscreenDialog: true,
-                      builder: (context) => CreditCardScreen(),
-                      maintainState: false));
-              },
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: Text(
-                "Change",
-                textAlign: TextAlign.center,
+                'Payment Method',
+                textAlign: TextAlign.left,
                 style: TextStyle(
-                    color: Constants.mainColor,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16),
+                  color: Colors.blueGrey,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'Comfortaa',
+                ),
               ),
             ),
-                    ],
-                  )
-                ],
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          "Credit Card\n ending in XXXX",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontFamily: 'Comfortaa',
+                              // fontWeight: FontWeight.w900,
+                              fontSize: 15),
+                        ),
+                        OutlineButton(
+                          // minWidth: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    fullscreenDialog: true,
+                                    builder: (context) => CreditCardScreen(),
+                                    maintainState: false));
+                          },
+                          child: Text(
+                            "Change",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Constants.mainColor,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
             Padding(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: Text(
@@ -203,15 +208,20 @@ class ReviewOrder extends StatelessWidget {
                           borderRadius: BorderRadius.circular(7.0)),
                       textColor: Colors.white,
                       color: Constants.accentColor,
-                      child: const Text('Place your order',
-                          style: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18)),
+                      child: const Text(
+                        'Place your order',
+                        style: TextStyle(
+                            fontFamily: 'OpenSans',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
                       onPressed: () {
+                        this.order.isApproved = true;
+                        //add order to db
                         //send mail and show dialog here
+                        print(auth.email);
+                        Mailer.mailer(auth.email, auth.displayName, '001');
                         _showDialog(context);
-                        
                       },
                     ),
                   ),
@@ -225,7 +235,7 @@ class ReviewOrder extends StatelessWidget {
     );
   }
 
-    void _showDialog(BuildContext context) {
+  void _showDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

@@ -52,6 +52,7 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
   @override
   Widget build(BuildContext context) {
     final list = getPlanArray(widget.planType);
+    var dropdownValue = list.first;
     final mediaQuery = MediaQuery.of(context);
     final nameController = TextEditingController();
     final streetController = TextEditingController();
@@ -60,7 +61,7 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
     final zipController = TextEditingController();
     // var _currentValue;
     // widget.planType == 'Individual Plan' ? _currentValue = 1 : _currentValue = 30;
-    var dropdownValue = list.first;
+    
     // var quantity = 1; //take from input of dropdown
     // var lockPrice = 5.99;
     // // this.planType == 'Individual Plan' ? lockPrice = 19.99 : lockPrice = 5.99;

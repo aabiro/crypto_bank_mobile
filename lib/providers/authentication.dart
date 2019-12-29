@@ -87,6 +87,7 @@ class Authentication with ChangeNotifier {
         _email = data["email"];
         _displayName = data["displayName"];
         _photoUrl = data["photoUrl"];
+        return data;
       });
     } catch (e) {
       print('cannot get userdata: $e');

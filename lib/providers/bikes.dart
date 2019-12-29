@@ -113,7 +113,7 @@ class Bikes with ChangeNotifier {
      
       if (response.statusCode < 200 || response.statusCode >= 400 || json == null) {
           //handle exceptions
-          throw new Exception(response.body);
+          throw ExceptionHandler(response.body);
         } else {
            
           

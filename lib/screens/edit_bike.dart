@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/bikes.dart';
+import 'package:flutter_app/widgets/dropdown.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_app/theme/constants.dart' as Constants;
 
 class EditBike extends StatelessWidget {
   static const routeName = '/edit_bike';
@@ -26,6 +28,8 @@ class EditBike extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final list = Constants.bikeTypes;
+    var dropdownValue = list.first;
     final bikeProv = Provider.of<Bikes>(context);
     final bike = bikeProv.findById(id);
     final nameField = buildInputField(nameController, "Name");
@@ -64,11 +68,14 @@ class EditBike extends StatelessWidget {
             ),        
             ),
             Padding(
-                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
                 child: nameField,),
             Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 30, 10),
-                child: typeField,),
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: 
+                // typeField,
+                BuildDropdown(dropdownValue, list, "Type"),
+                ),
             Padding(
                 padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
                 child: conditionField,
