@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 import '../models/exception_handler.dart';
 import 'bike.dart';
 
@@ -102,7 +103,12 @@ class Bikes with ChangeNotifier {
     //no token or userId here, when coming back to map...
     print('token get user bikes $token');
     final List<Bike> bikesLoaded = [];
-    final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token&orderBy="userId"&equalTo="$userId"';
+    var url;
+    if(token == null) {
+      url = 'https://capstone-addb0.firebaseio.com/bikes.json&orderBy="userId"&equalTo="$userId"';
+    } else {
+      url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token&orderBy="userId"&equalTo="$userId"';
+    } 
     final response = await http.get(url).then((response) {
      
       if (response.statusCode < 200 || response.statusCode >= 400 || json == null) {

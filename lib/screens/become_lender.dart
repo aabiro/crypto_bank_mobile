@@ -38,7 +38,7 @@ class PlansScreen extends StatelessWidget {
                     color: greyText,  
                     fontFamily: 'OpenSans',
                     fontWeight: FontWeight.bold,
-                    fontSize: 20),
+                    fontSize: 15),
               ),
               SizedBox(height: 10),
               Expanded(
@@ -84,7 +84,7 @@ class PlansScreen extends StatelessWidget {
     decoration: new BoxDecoration(boxShadow: [
         new BoxShadow(
           color: Constants.optionalColor,
-          blurRadius: 20.0,
+          blurRadius: 5.0,
         ),
       ]),
     );
@@ -103,7 +103,7 @@ class PlansScreen extends StatelessWidget {
                 centerTitle: true,
                 backgroundColor: Constants.mainColor,
                 title: new Text(
-                  'Become a Lender',
+                  'Plans',
                   style: TextStyle(),
                 ),
               ),
@@ -115,11 +115,11 @@ class PlansScreen extends StatelessWidget {
                       color: Constants.mainColor,
                       fontFamily: 'OpenSans',
                       fontWeight: FontWeight.bold,
-                      fontSize: 15),
+                      fontSize: 20),
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
                   child: buildCard(
                       'Individual Plan',
                       'Single lock delivery\nSet up support\nSet your area and start lending',

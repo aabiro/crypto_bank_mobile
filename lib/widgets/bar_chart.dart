@@ -32,6 +32,7 @@ class IncomeChart extends StatelessWidget {
                     // fontSize: 40,
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.w900),
+                    textAlign: TextAlign.center,
                     ),
                 // style: Theme.of(context).textTheme.body2,
               // ),

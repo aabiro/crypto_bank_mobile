@@ -54,7 +54,7 @@ class EditBike extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(20),
               child: SizedBox(
               width: double.infinity,
               child: new CircleAvatar(
@@ -69,6 +69,23 @@ class EditBike extends StatelessWidget {
             ),        
             ),
             // SizedBox(height: 0),
+            
+            // SizedBox(height: 30),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                child: nameField,),
+            // TextFormField(
+            //   decoration: InputDecoration(
+            //     labelText: 'Enter your username'
+            //   ),
+            // ),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 10),
+                child: typeField,),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
+                child: conditionField,
+            ),
             Material(
               elevation: 5.0,
               borderRadius: BorderRadius.circular(7.0),
@@ -95,21 +112,6 @@ class EditBike extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30),
-            Padding(
-                padding: EdgeInsets.all(30),
-                child: nameField,),
-            // TextFormField(
-            //   decoration: InputDecoration(
-            //     labelText: 'Enter your username'
-            //   ),
-            // ),
-            Padding(
-                padding: EdgeInsets.all(30),
-                child: typeField,),
-            Padding(
-                padding: EdgeInsets.all(30),
-                child: conditionField,
-            ),
           ],
         ),
       ),

@@ -72,14 +72,14 @@ class StatsScreen extends StatelessWidget {
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Colors.blueGrey,
-                fontSize: 30,
+                fontSize: 20,
                 fontWeight: FontWeight.w800,
                 fontFamily: 'Comfortaa',
               ),
             ),
           ),
           SizedBox(
-            height: 200,
+            // height: FlexFit.loose,
             width: double.infinity,
             child: Padding(
             padding: EdgeInsets.all(20),
@@ -89,6 +89,7 @@ class StatsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Column(
                         children: <Widget>[
@@ -139,10 +140,20 @@ class StatsScreen extends StatelessWidget {
                               fontFamily: 'Comfortaa',
                             ),
                           ),
-                          SizedBox(height: 30),
+                          SizedBox(height: 20),
                         ],
                       ),
+                      
+                          
+
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
                       Column(
+                        children: <Widget>[
+                          Column(
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.all(30),
@@ -156,22 +167,26 @@ class StatsScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(
-                            '30',
-                            style: TextStyle(
-                              color: Constants.mainColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0,0,0,30),
+                                                      child: Text(
+                              '30',
+                              style: TextStyle(
+                                color: Constants.mainColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                                fontFamily: 'Comfortaa',
+                              ),
                             ),
                           ),
-                          SizedBox(height: 30),
-                        ],
-                      ),
-                    ],
-                  ),
+                          // SizedBox(height: 30),
+                        ]),]
+                  )
                 ],
               ),
+                    ],
+                  ),
+                  
             ),
           ),
             // child: 
@@ -187,7 +202,7 @@ class StatsScreen extends StatelessWidget {
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: Colors.blueGrey,
-                fontSize: 30,
+                fontSize: 20,
                 fontWeight: FontWeight.w800,
                 fontFamily: 'Comfortaa',
               ),
@@ -233,6 +248,7 @@ class StatsScreen extends StatelessWidget {
                           textColor: Colors.white,
                           color: Constants.accentColor,
                           child: const Text('Claim Credit',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: 'OpenSans',
                                   fontWeight: FontWeight.bold,

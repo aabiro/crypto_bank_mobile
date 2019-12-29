@@ -43,7 +43,7 @@ class OrderCompleteScreen extends StatelessWidget {
                 width: double.infinity,
                 height: mediaQuery.size.height * 0.4,
                 child: Image.asset(
-                    "assets/gnglogo.png",
+                    "assets/gnglogopurple.png",
                     fit: BoxFit.contain,
                   ),
             )
