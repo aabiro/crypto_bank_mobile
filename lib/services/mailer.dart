@@ -9,6 +9,8 @@ static Future<void> mailer(String mailToAddress, String mailToUsername, String q
   String username = Secrets.username;
   String password = Secrets.password;
 
+  //need to allow less secure apps on gmail to receive...
+
   final smtpServer = gmail(username, password);
   // Use the SmtpServer class to configure an SMTP server:
   // final smtpServer = SmtpServer('smtp.domain.com');
@@ -61,16 +63,16 @@ static Future<void> mailer(String mailToAddress, String mailToUsername, String q
   // Sending multiple messages with the same connection
   //
   // Create a smtp client that will persist the connection
-  var connection = PersistentConnection(smtpServer);
+  // var connection = PersistentConnection(smtpServer);
   
-  // Send the first message
-  await connection.send(message);
+  // // Send the first message
+  // await connection.send(message);
   
-  // send the equivalent message
-  // await connection.send(equivalentMessage);
+  // // send the equivalent message
+  // // await connection.send(equivalentMessage);
   
-  // close the connection
-  await connection.close();
+  // // close the connection
+  // await connection.close();
   
 }
 

@@ -23,6 +23,8 @@ class _BikeListItemState extends State<BikeListItem> {
 
   @override
   Widget build(BuildContext context) {
+    Color textColor;
+    (widget.bike.isActive) == true ? textColor = Colors.blueGrey : textColor = Colors.grey[350];
     // final bike = Provider.of<Bike>(context);
     // print(bike);
     print(widget.bike.id); //when poped goes away...
@@ -64,7 +66,7 @@ class _BikeListItemState extends State<BikeListItem> {
                         widget.bike.name.toString(),
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                            color: Colors.blueGrey,
+                            color: textColor,
                             fontFamily: 'OpenSans',
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
@@ -75,7 +77,7 @@ class _BikeListItemState extends State<BikeListItem> {
                       child: Text(
                         (widget.bike.isActive) == true ? 'Active' : 'Deactivated',
                         style: TextStyle(
-                            color: Colors.blueGrey,
+                            color: textColor,
                             fontWeight: FontWeight.w800,
                             fontSize: 20),
                       ),
@@ -86,7 +88,7 @@ class _BikeListItemState extends State<BikeListItem> {
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: Icon(Icons.arrow_forward, color: Colors.blueGrey),
+                      child: Icon(Icons.arrow_forward, color: textColor),
                     ),
                   ],
                 ),

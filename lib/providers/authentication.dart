@@ -87,11 +87,13 @@ class Authentication with ChangeNotifier {
         _email = data["email"];
         _displayName = data["displayName"];
         _photoUrl = data["photoUrl"];
+        notifyListeners();
         return data;
       });
     } catch (e) {
       print('cannot get userdata: $e');
     }
+    
   }
 
   Future<void> updateEmail(String newEmail, BuildContext context) async {
@@ -123,7 +125,7 @@ class Authentication with ChangeNotifier {
 
            _email = data["email"];
           _accessToken = data["idToken"];
-
+          notifyListeners();
           // print(data);
         }
        
@@ -133,7 +135,7 @@ class Authentication with ChangeNotifier {
     } catch (e) {
       print('email not reset: $e');
     }
-
+    
   }
 
   Future<void> resetPassword(String newPassword) async {
@@ -150,9 +152,11 @@ class Authentication with ChangeNotifier {
           },
         ),
       );
+      notifyListeners();
     } catch (e) {
       print('password not reset: $e');
     }
+    
   }
 
   Future<void> updateUser(String displayName, String photUrl) async {
@@ -190,11 +194,13 @@ class Authentication with ChangeNotifier {
           var msg = data['displayName'];
           print('user updated');
            print('new displayName : $msg');
+           notifyListeners();
         }
       });
     } catch (e) {
       print(e);
     }
+    
   }
 
   Future<void> register(
@@ -229,6 +235,7 @@ class Authentication with ChangeNotifier {
           print(json.decode(response.body));
           // final storage = new FlutterSecureStorage();
           var data = json.decode(response.body);
+          notifyListeners();
           // await storage.write(
           //     key: "access_token",
           //     value: data["access_token"]);
@@ -240,6 +247,7 @@ class Authentication with ChangeNotifier {
       print(e);
     }
     // print(json.decode(response.body));
+    
   }
 
   Future<void> login(

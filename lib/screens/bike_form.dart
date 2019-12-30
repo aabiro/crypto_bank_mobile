@@ -5,7 +5,9 @@ import 'package:flutter_app/providers/bikes.dart';
 import 'package:flutter_app/screens/order_complete.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/dropdown.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'dart:math';
 import './add_credit_card.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -21,6 +23,13 @@ class BikeFormScreen extends StatefulWidget {
 }
 
 class _BikeFormScreenState extends State<BikeFormScreen> {
+  // Random rnd;
+  // static int min = 0;
+  // static int max = Constants.torontoLocations.length;
+  // static Random rnd = new Random();
+  // static int randIndex = min + rnd.nextInt(max - min);
+  // LatLng latlng = Constants.torontoLocations[randIndex];
+
   buildInputField(TextEditingController controller, String hintText) {
     return Padding(
       padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
@@ -50,12 +59,18 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
     final conditionController = TextEditingController();
     final typeController = TextEditingController();
     String name = nameController.text;
+
+    int min = 0;
+    int max = Constants.torontoLocations.length;
+    Random rnd = new Random();
+    int randIndex = min + rnd.nextInt(max - min);
+    LatLng latlng = Constants.torontoLocations[randIndex];
+    print(latlng);
     // String password = myPasswordController.text;
     // final countryController = TextEditingController();
     // final zipController = TextEditingController();
 
-    final BikeFormScreen args =
-        ModalRoute.of(context).settings.arguments;
+    final BikeFormScreen args = ModalRoute.of(context).settings.arguments;
     final qrCode = args.qrCode;
 
     final list = Constants.bikeTypes;
@@ -107,23 +122,28 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
                 Provider.of<Bikes>(context).addBike(
-                    Bike(
+                  Bike(
                       userId: Provider.of<Authentication>(context).userId,
                       qrCode: qrCode, //do this check later
                       isActive: true,
                       name: name,
-                    ),);
-                    // Provider.of<Authentication>(context).userId,
-                    // Provider.of<Authentication>(context).accessToken);
-                Navigator.of(context).popAndPushNamed(
-                    ActivationCompleteScreen.routeName);
+                      //rasp pi helper get gps
+                      lat: latlng.latitude,
+                      lng: latlng.longitude),
+                );
+                // Provider.of<Authentication>(context).userId,
+                // Provider.of<Authentication>(context).accessToken);
+                Navigator.of(context)
+                    .popAndPushNamed(ActivationCompleteScreen.routeName);
               },
-              child: Text("Next",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      // fontSize: 40,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900),),
+              child: Text(
+                "Next",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    // fontSize: 40,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900),
+              ),
               // color: Color(),
               // style: style.copyWith(
               // //     color: Colors.white,

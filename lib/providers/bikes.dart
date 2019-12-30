@@ -28,7 +28,8 @@ class Bikes with ChangeNotifier {
   Future<void> updateBike(String id, Bike newBike) async {
     final bikeIndex = userBikes.indexWhere((bike) => bike.id == id);
     if (bikeIndex >= 0) {
-      final url = "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
+      final url =
+          "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
       final response = await http.patch(
         url,
         body: json.encode(
@@ -36,7 +37,8 @@ class Bikes with ChangeNotifier {
             //merges with existing values on server
             'name': newBike.name,
             'model': newBike.model,
-            'isActive': newBike.isActive  //this line causes null error on detail view..!!
+            'isActive': newBike
+                .isActive //this line causes null error on detail view..!!
             // 'imageUrl': newBike.imageUrl,
           },
         ),
@@ -57,7 +59,8 @@ class Bikes with ChangeNotifier {
 
   Future<void> deleteBike(String id) async {
     print('delete id: $id');
-    final url = "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
+    final url =
+        "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
     //has been added to user bikes
     final bikeIndex = userBikes.indexWhere((bike) => bike.id == id);
     var bike = userBikes[bikeIndex];
@@ -69,7 +72,8 @@ class Bikes with ChangeNotifier {
     if (response.statusCode >= 400) {
       print(response.statusCode);
       print("$response");
-      userBikes.insert(bikeIndex, bike); //keep bike if the delete did not work, optimistic updating
+      userBikes.insert(bikeIndex,
+          bike); //keep bike if the delete did not work, optimistic updating
       notifyListeners();
       throw ExceptionHandler('Cannot delete bike.');
     }
@@ -104,56 +108,93 @@ class Bikes with ChangeNotifier {
     print('token get user bikes $token');
     final List<Bike> bikesLoaded = [];
     var url;
-    if(token == null) {
-      url = 'https://capstone-addb0.firebaseio.com/bikes.json&orderBy="userId"&equalTo="$userId"';
+    if (token == null) {
+      url =
+          'https://capstone-addb0.firebaseio.com/bikes.json&orderBy="userId"&equalTo="$userId"';
     } else {
-      url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token&orderBy="userId"&equalTo="$userId"';
-    } 
-    final response = await http.get(url).then((response) {
-     
-      if (response.statusCode < 200 || response.statusCode >= 400 || json == null) {
-          //handle exceptions
-          throw ExceptionHandler(response.body);
-        } else {
-           
-          
-          final data = json.decode(response.body) as Map<String, dynamic>;
-      // print(json.decode(response.body));
-      print('got user bike data: $data');
-      
-      // if (data != null) {
-        print(data);
-        data.forEach((bikeId, bikeData) {
-          //watch out for called on null
-          print(bikeId);
-          bikesLoaded.add(
-            //this is needed for the correct initial list loading... it loads the bikes upon app load
-            Bike(
-                id: bikeId,
-                userId: bikeData["userId"],
-                isActive: bikeData["isActive"],
-                name: bikeData["name"]
-                // lat: 0,     //laod correct lat lng here
-                // lng: 0
-                ),
-          );
-        });
-        _userBikes = bikesLoaded;
-   notifyListeners();
-          // print(data);
-        }
+      url =
+          'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token&orderBy="userId"&equalTo="$userId"';
+      final response = await http.get(url).then(
+        (response) {
+          if (response.statusCode < 200 ||
+              response.statusCode >= 400 ||
+              json == null) {
+            //handle exceptions
+            throw ExceptionHandler(response.body);
+          } else {
+            final data = json.decode(response.body) as Map<String, dynamic>;
+            // print(json.decode(response.body));
+            print('got user bike data: $data');
 
+            // if (data != null) {
+            print(data);
+            data.forEach((bikeId, bikeData) {
+              //watch out for called on null
+              print(bikeId);
+              bikesLoaded.add(
+                //this is needed for the correct initial list loading... it loads the bikes upon app load
+                Bike(
+                    id: bikeId,
+                    userId: bikeData["userId"],
+                    isActive: bikeData["isActive"],
+                    name: bikeData["name"],
+                    lat: bikeData["lat"],     //laod correct lat lng here
+                    lng: bikeData["lng"]
+                    ),
+              );
+            });
+            _userBikes = bikesLoaded;
+            notifyListeners();
+            // print(data);
+          }
+        },
+      );
+    }
+    //   final response = await http.get(url).then((response) {
 
-      
-        
-      // }
-     
-    });
+    //     if (response.statusCode < 200 || response.statusCode >= 400 || json == null) {
+    //         //handle exceptions
+    //         throw ExceptionHandler(response.body);
+    //       } else {
+
+    //         final data = json.decode(response.body) as Map<String, dynamic>;
+    //     // print(json.decode(response.body));
+    //     print('got user bike data: $data');
+
+    //     // if (data != null) {
+    //       print(data);
+    //       data.forEach((bikeId, bikeData) {
+    //         //watch out for called on null
+    //         print(bikeId);
+    //         bikesLoaded.add(
+    //           //this is needed for the correct initial list loading... it loads the bikes upon app load
+    //           Bike(
+    //               id: bikeId,
+    //               userId: bikeData["userId"],
+    //               isActive: bikeData["isActive"],
+    //               name: bikeData["name"]
+    //               // lat: 0,     //laod correct lat lng here
+    //               // lng: 0
+    //               ),
+    //         );
+    //       });
+    //       _userBikes = bikesLoaded;
+    //  notifyListeners();
+    //         // print(data);
+    //       }
+
+    //     // }
+
+    //   });
     //.then?
   }
 
   Bike findById(String id) {
     return userBikes.firstWhere((bike) => bike.id == id);
+  }
+
+  Bike findByName(String name) {
+    return userBikes.firstWhere((bike) => bike.name == name);
   }
 
   //add bike to the users bike list
@@ -167,17 +208,21 @@ class Bikes with ChangeNotifier {
               'isActive': bike.isActive,
               'name': bike.name,
               'userId': bike.userId,
+              'lat': bike.lat,
+              'lng': bike.lng
             }))
         .then(
       (response) {
         var data = json.decode(response.body);
-        print('response $data');
+        print('response $data');  
         final newBike = Bike(
           id: json.decode(response.body)["name"], //'name' is the id of the bike
           qrCode: bike.qrCode,
           isActive: true,
           name: bike.name,
           userId: bike.userId,
+          lat: bike.lat,
+          lng: bike.lng
         );
         print('newbike id: ${newBike.id}');
         print('newbike userId: ${newBike.userId}');

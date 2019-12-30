@@ -27,10 +27,9 @@ class MapScreenState extends State<MapScreen> {
   var _isLoading = false;
   GoogleMapController mc;
   Completer<GoogleMapController> _controller = Completer();
-  LatLng toronto = new LatLng(43.65, -79.38);
+  LatLng toronto = LatLng(43.65, -79.38);
   Future<LocationData> userLocation = _getGPSLocation();
   List<Bikes> userBikes;
-  // var array = userBikes.map( (n) { return n.name;} );
   CameraPosition torontoCP = CameraPosition(
     //make this userlocation
     target: LatLng(43.65, -79.38),
@@ -38,6 +37,8 @@ class MapScreenState extends State<MapScreen> {
     // bearing: 45.0,
     // tilt: 45.0
   );
+  List<Marker> markers = [];
+  List<Marker> userMarker = [];
 
   static Future<LocationData> _getGPSLocation() async {
     final gpsLoc = await Location().getLocation();
@@ -47,8 +48,28 @@ class MapScreenState extends State<MapScreen> {
     return gpsLoc;
   }
 
-  void moveToLocation() {
-    mc.animateCamera(CameraUpdate.newCameraPosition(torontoCP));
+  void moveToUserLocation() async {
+    //will be user location
+    final gpsLoc = await Location().getLocation();
+    CameraPosition userUocation = CameraPosition(
+      // target: LatLng(gpsLoc.latitude, gpsLoc.longitude),  //works
+      target: LatLng(43.65, -79.38),
+      zoom: 13,
+      // bearing: 45.0,
+      // tilt: 45.0
+    );
+    mc.animateCamera(CameraUpdate.newCameraPosition(userUocation));
+  }
+
+  void moveToBikeLocation(double lat, double lng) {
+    mc.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(lat, lng),
+          zoom: 18,
+        ),
+      ),
+    );
   }
 
   void mapCreated(controller) {
@@ -73,50 +94,16 @@ class MapScreenState extends State<MapScreen> {
       Future.delayed(Duration.zero).then((_) {
         Provider.of<Bikes>(context)
             .getUserBikes(
-              // user.accessToken, 
-              // user.userId
-              )
+                // user.accessToken,
+                // user.userId
+                )
             .then((_) {
           setState(() {
             _isLoading = false;
           });
         });
       });
-    }
-    _init = false;
-    super.initState();
-  }
-
-  // @override
-  // void didChangeDependencies() {
-  //   //  if (_init) {
-  //   //   setState(() {
-  //   //     _isLoading = true;
-  //   //   });
-  //   //   Provider.of<Bikes>(context).getBikes();
-  //   //   // var accessToken = Provider.of<Authentication>(context).accessToken;
-  //   //   Provider.of<Bikes>(context).getUserBikes().then((_){
-  //   //     setState((){
-  //   //       _isLoading = false;
-  //   //     });
-  //   //   });
-  //   // }
-  //   // _init = false;
-  // }
-
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    Future<LocationData> userLocation;
-    List<Marker> markers = [];
-    List<Marker> userMarker;
-    String dropdownValue;
-    List<Bike> userBikes = Provider.of<Bikes>(context).userBikes;
-    var array = userBikes.map((ub) => ub.bikeName).toList();
-
-    @override
-    void initState() {
-      userLocation = MapsHelper.getUserLocation();
+      // userLocation = MapsHelper.getUserLocation(); //auto updating?
 
       //
       markers.add(Marker(
@@ -137,8 +124,19 @@ class MapScreenState extends State<MapScreen> {
         // position:
         // position: LatLng(userLocation.latitude, userLocation.longitude)
       ));
-      super.initState();
+      print(markers);
     }
+    _init = false;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    String dropdownValue;
+    var bikesProv = Provider.of<Bikes>(context);
+    List<Bike> userBikes = bikesProv.userBikes;
+    var array = userBikes.map((ub) => ub.bikeName).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -165,6 +163,7 @@ class MapScreenState extends State<MapScreen> {
               markers: Set.from(markers),
               // myLocationEnabled: false,
               myLocationButtonEnabled: false,
+              mapToolbarEnabled: false,
             ),
           ),
           Align(
@@ -195,6 +194,8 @@ class MapScreenState extends State<MapScreen> {
                 setState(() {
                   dropdownValue = newValue;
                 });
+                Bike bike = bikesProv.findByName(newValue);
+                moveToBikeLocation(bike.lat, bike.lng);
               },
 
               // items: <String>['Bike 1', 'Bike 2', 'Bmx', 'Mntn B']
@@ -219,7 +220,7 @@ class MapScreenState extends State<MapScreen> {
                   ),
                   color: Constants.accentColor,
                   // tooltip: 'Increase volume by 10',
-                  onPressed: moveToLocation),
+                  onPressed: moveToUserLocation),
             ),
           ),
           Align(
@@ -236,38 +237,40 @@ class MapScreenState extends State<MapScreen> {
                   color: Constants.accentColor,
                   // tooltip: 'Increase volume by 10',
 
-                  onPressed: moveToLocation),
+                  onPressed: moveToUserLocation),
             ),
           ),
           Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-                child: SizedBox(
-                    width: mediaQuery.size.width * 0.7,
-                    height: mediaQuery.size.height * 0.1,
-                    child: RaisedButton.icon(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)),
-                      icon: Icon(
-                        Icons.center_focus_strong,
-                        size: 25,
-                      ),
-                      textColor: Colors.white,
-                      color: Constants.accentColor,
-                      label: const Text('Scan to Ride',
-                          style: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15)),
-                      onPressed: () {
-                        // Navigator.pushNamed(context, '/camera');
-                        Navigator.of(context).pushNamed(QrScan.routeName,
-                            arguments: QrScan(false));
-                      },
-                    )),
-              )),
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+              child: SizedBox(
+                width: mediaQuery.size.width * 0.7,
+                height: mediaQuery.size.height * 0.1,
+                child: RaisedButton.icon(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40.0)),
+                  icon: Icon(
+                    Icons.center_focus_strong,
+                    size: 25,
+                  ),
+                  textColor: Colors.white,
+                  color: Constants.accentColor,
+                  label: const Text('Scan to Ride',
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15)),
+                  onPressed: () {
+                    // Navigator.pushNamed(context, '/camera');
+                    Navigator.of(context)
+                        .pushNamed(QrScan.routeName, arguments: QrScan(false));
+                  },
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
