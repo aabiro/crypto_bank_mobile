@@ -52,8 +52,9 @@ class MapScreenState extends State<MapScreen> {
     //will be user location
     final gpsLoc = await Location().getLocation();
     CameraPosition userUocation = CameraPosition(
-      // target: LatLng(gpsLoc.latitude, gpsLoc.longitude),  //works
-      target: LatLng(43.65, -79.38),
+      // target: LatLng(gpsLoc.latitude, gpsLoc.longitude),  //works as london
+      target: LatLng(43.65, -79.38), //toronto
+      // target: LatLng(43.0095971,-81.2759223), //london
       zoom: 13,
       // bearing: 45.0,
       // tilt: 45.0
@@ -70,6 +71,12 @@ class MapScreenState extends State<MapScreen> {
         ),
       ),
     );
+  }
+
+  void refreshBikes() {
+    //update widget?
+    //update bikess
+    //both at once or one?
   }
 
   void mapCreated(controller) {
@@ -231,13 +238,14 @@ class MapScreenState extends State<MapScreen> {
               child: IconButton(
                   //my location ocation searching gps fixed gps not fixed error error outline
                   icon: Icon(
-                    Icons.error_outline,
+                    // Icons.error_outline,
+                     Icons.refresh,
                     size: 30,
                   ),
                   color: Constants.accentColor,
                   // tooltip: 'Increase volume by 10',
 
-                  onPressed: moveToUserLocation),
+                  onPressed: refreshBikes),
             ),
           ),
           Align(

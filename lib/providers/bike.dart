@@ -45,7 +45,7 @@ class Bike with ChangeNotifier {
       notifyListeners();
   }
 
-    String get bikeId {
+  String get bikeId {
     return id;
   }
 

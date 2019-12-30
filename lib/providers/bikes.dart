@@ -9,16 +9,16 @@ import 'bike.dart';
 class Bikes with ChangeNotifier {
   String token;
   String userId;
-  List<Bike> _items = [];
+  List<Bike> _allBikes = [];
   List<Bike> _userBikes = [];
 
   // //change urls to final , pass it to objects
   //changenotifierproxy provider instead!!
 
-  Bikes([this.token, this.userId, this._items]);
+  Bikes([this.token, this.userId, this._allBikes]);
 
-  List<Bike> get items {
-    return _items;
+  List<Bike> get allBikes {
+    return _allBikes;
   }
 
   List<Bike> get userBikes {
@@ -99,7 +99,7 @@ class Bikes with ChangeNotifier {
         ),
       );
     });
-    _items = bikesLoaded;
+    _allBikes = bikesLoaded;
     notifyListeners();
   }
 

@@ -22,7 +22,7 @@ class MenuDrawer extends StatelessWidget {
       title: Text(
         title,
         style: TextStyle(
-            fontFamily: 'Comfortaa', fontSize: 14, fontWeight: FontWeight.bold),
+            fontFamily: 'Comfortaa', fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blueGrey,),
       ),
       onTap: navigateTo,
     );
@@ -32,8 +32,8 @@ class MenuDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return new SizedBox(
-       width: mediaQuery.size.width * 0.75,
-       child: Drawer(
+      width: mediaQuery.size.width * 0.75,
+      child: Drawer(
         child: Column(
           children: <Widget>[
             Container(
@@ -44,13 +44,14 @@ class MenuDrawer extends StatelessWidget {
               // color: Color(0xff98c1d9),
               color: Constants.mainColor,
               child: Text('',
-                // 'Menu',
-                style: TextStyle(
+                  // 'Menu',
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white,)
-                    //Theme.of(context).primaryColor),
-              ),
+                    color: Colors.white,
+                  )
+                  //Theme.of(context).primaryColor),
+                  ),
             ),
             SizedBox(
               height: 20,
@@ -75,7 +76,10 @@ class MenuDrawer extends StatelessWidget {
               title: Text(
                 'Sign Out',
                 style: TextStyle(
-                    fontFamily: 'Comfortaa', fontSize: 14, fontWeight: FontWeight.bold),
+                    fontFamily: 'Comfortaa',
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold, 
+                    color: Colors.blueGrey),
               ),
               onTap: () {
                 // UserHelper.logout(context);
@@ -83,9 +87,9 @@ class MenuDrawer extends StatelessWidget {
                 Provider.of<Authentication>(context).logout(context);
               },
             ),
-            buildListTile('Route for Trip', Icons.explore, () {
-              Navigator.of(context).popAndPushNamed(JourneyScreen.routeName);
-            }),
+            // buildListTile('Route for Trip', Icons.explore, () {
+            //   Navigator.of(context).popAndPushNamed(JourneyScreen.routeName);
+            // }),
           ],
         ),
       ),

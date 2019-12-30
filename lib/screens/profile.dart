@@ -83,13 +83,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),        
             ),
-            SizedBox(height: 0),
-            IconButton(
-              icon: Icon(Icons.photo_camera, color: Constants.optionalColor,),
-              onPressed: () {
-
-              }),
-              SizedBox(height: 15.0),
+            SizedBox(height: 15.0),
             // buildInputField(nameController, 'Name'),
             DetailField("Username", auth.displayName == null ? "None" : auth.displayName),
             SizedBox(height: 15.0),

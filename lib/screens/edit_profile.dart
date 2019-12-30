@@ -123,8 +123,8 @@ class EditProfileScreen extends StatelessWidget {
                   } 
                   //  await auth.resetPassword(password); //mask this
                   
-                  // Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed('/home');
+                  Navigator.of(context).pop();
+                  // Navigator.of(context).pushNamed('/home');
                   
                 },
                 child: Text("Save",

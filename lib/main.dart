@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/alert_screen.dart';
 import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/screens/bike_list.dart';
@@ -74,7 +75,17 @@ class MyApp extends StatelessWidget {
           update: (_, auth, prevBikes) => Bikes(
             auth.accessToken, 
             auth.userId,
-            prevBikes.items
+            prevBikes.allBikes
+            ),
+          ),
+          ChangeNotifierProxyProvider<Authentication, UserCards>(
+          create: (_) => UserCards( 
+            //this is the issueeeeee??
+            ),
+          update: (_, auth, prevCards) => UserCards(
+            auth.accessToken, 
+            auth.userId,
+            prevCards.userCards
             ),
           ),
       ],
