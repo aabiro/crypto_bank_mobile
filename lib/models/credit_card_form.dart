@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/providers/authentication.dart';
+import 'package:flutter_app/providers/user_card.dart';
+import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:provider/provider.dart';
 import 'credit_card.dart';
 import './credit_card.dart';
 
@@ -64,8 +68,8 @@ class _CreditCardFormState extends State<CreditCardForm> {
     cardHolderName = widget.cardHolderName ?? '';
     cvvCode = widget.cvvCode ?? '';
 
-    creditCardModel = CreditCardModel(
-        cardNumber, expiryDate, cardHolderName, cvvCode, isCvvFocused);
+    creditCardModel = CreditCardModel(cardNumber, expiryDate, cardHolderName,
+        cvvCode, isCvvFocused, Duration(milliseconds: 1000));
   }
 
   @override
@@ -216,6 +220,16 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       fontSize: 18)),
               onPressed: () {
                 //save flip card and return
+                Provider.of<UserCards>(context).addUserCard(
+                  UserCard(
+                      userId: Provider.of<Authentication>(context).userId,
+                      name: cardHolderName,
+                      number: cardNumber,
+                      expiry: expiryDate,
+                      securityCode: cvvCode,
+                      isDefault: true),
+                      Provider.of<Authentication>(context).accessToken
+                );
                 Navigator.pop(context);
                 // Navigator.pushNamed(context, '/camera');
               },

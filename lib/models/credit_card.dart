@@ -1,5 +1,4 @@
 import 'dart:core';
-
 import 'package:flutter/material.dart';
 
 class CreditCardModel {
@@ -26,7 +25,7 @@ class CreditCardModel {
       // this.height,
       // this.textStyle,
       // this.width,
-      // this.animationDuration
+      this.animationDuration
   );
 }
 

@@ -48,7 +48,8 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
                 cvvCode: cvvCode,
                 showBackView: isCvvFocused,
                 height: 190,
-                cardbgColor: cardbgColor
+                cardbgColor: cardbgColor,
+                animationDuration: Duration(milliseconds: 1000),
               ),
               Expanded(
                 child: SingleChildScrollView(

@@ -4,9 +4,9 @@ class UserCard with ChangeNotifier {
   String id;
   String userId;
   String name;
-  int number;
+  String number;
   String expiry;
-  int securityCode;
+  String securityCode;
   bool isDefault;
 
   UserCard({
@@ -31,7 +31,7 @@ class UserCard with ChangeNotifier {
     return expiry;
   }
 
-  int get _securityCode {
+  String get _securityCode {
     return securityCode;
   }
 

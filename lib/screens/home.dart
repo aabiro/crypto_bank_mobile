@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/helpers/maps_helper.dart';
 import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
+import 'package:flutter_app/providers/map_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/drawer_menu.dart';
@@ -12,6 +15,7 @@ import './camera_screen.dart';
 import '../providers/bikes.dart';
 import './qr_scan.dart';
 import 'package:flutter_app/components/app_bar.dart';
+import 'dart:ui' as ui;
 
 class MapScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -39,6 +43,23 @@ class MapScreenState extends State<MapScreen> {
   );
   List<Marker> markers = [];
   List<Marker> userMarker = [];
+
+  BitmapDescriptor myIcon;
+  BitmapDescriptor customIcon;
+  List<Marker> markersA = [];
+  // Uint8List markerIcon;
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+  }
+
+  Future<Uint8List> getbits() async {
+    return await getBytesFromAsset('assets/my_icon.png', 100);
+  }
+  
 
   static Future<LocationData> _getGPSLocation() async {
     final gpsLoc = await Location().getLocation();
@@ -88,6 +109,7 @@ class MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     var user;
+    var markerIcon;
     if (_init) {
       setState(() {
         _isLoading = true;
@@ -102,7 +124,7 @@ class MapScreenState extends State<MapScreen> {
         Provider.of<Bikes>(context)
             .getUserBikes(
                 // user.accessToken,
-                // user.userId
+                // user.userId,            
                 )
             .then((_) {
           setState(() {
@@ -110,16 +132,44 @@ class MapScreenState extends State<MapScreen> {
           });
         });
       });
+
+      
+      // BitmapDescriptor.fromAssetImage(
+      //   ImageConfiguration(size: Size(48, 48)), 'assets/my_icon.png')
+      //   .then((onValue) {
+      //     myIcon = onValue;
+      //   },);
       // userLocation = MapsHelper.getUserLocation(); //auto updating?
 
+            // Future.delayed(Duration.zero).then((_) {
+      //   Provider.of<MapHelp>(context).getbits().then((response) {
+      //     print(response);
+      //     markerIcon = response;
+      //   });
+        // markerIcon =  Provider.of<MapHelp>(context).getbits();
+        // markerIcon = getbits();
+        // markerIcon = getBytesFromAsset('assets/my_icon.png', 100);
+        // final Marker marker = Marker(icon: BitmapDescriptor.fromBytes(markerIcon), markerId: null);
+        // markerIcon = Provider.of<MapHelp>(context).getMarkerIcon("assets/my_icon.png", Size(150.0, 150.0));
+      // });
+      
+    //  Provider.of<MapHelp>(context).getbits().then((response) {
+    //   print(response);
+    //   markerIcon = response;
+    //  });
+
       //
-      markers.add(Marker(
+      markersA.add(Marker(
           markerId: MarkerId('mymarker'),
           draggable: false,
           onTap: () {
+            print(markerIcon);
             print('clicked marker');
+            print(BitmapDescriptor.fromBytes(markerIcon));
           },
-          position: toronto //LatLng(43.65, -79.38)
+          position: toronto,
+          icon: customIcon
+          // icon: BitmapDescriptor.fromBytes(markerIcon), //LatLng(43.65, -79.38)
           ));
 
       userMarker.add(Marker(
@@ -135,10 +185,24 @@ class MapScreenState extends State<MapScreen> {
     }
     _init = false;
     super.initState();
+    // markersA = Set.from([]);
+  }
+
+  createMarker(context) {
+    if (customIcon == null) {
+      ImageConfiguration configuration = createLocalImageConfiguration(context);
+      BitmapDescriptor.fromAssetImage(configuration, 'assets/my_icon.png')
+          .then((icon) {
+        setState(() {
+          customIcon = icon;
+        });
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    createMarker(context);
     final mediaQuery = MediaQuery.of(context);
     String dropdownValue;
     var bikesProv = Provider.of<Bikes>(context);
@@ -167,10 +231,17 @@ class MapScreenState extends State<MapScreen> {
               },
               initialCameraPosition:
                   CameraPosition(target: LatLng(40.6281, 14.4850), zoom: 5),
-              markers: Set.from(markers),
+              markers: Set.from(markersA),
               // myLocationEnabled: false,
               myLocationButtonEnabled: false,
               mapToolbarEnabled: false,
+              onTap: (pos) {
+          print(pos);
+          Marker m =
+              Marker(markerId: MarkerId('1'), icon: customIcon, position: pos);
+          setState(() {
+            markersA.add(m);
+          });}
             ),
           ),
           Align(

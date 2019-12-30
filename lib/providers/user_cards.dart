@@ -130,13 +130,13 @@ class UserCards with ChangeNotifier {
   }
 
   //add userCard to the users userCard list
-  void addUserCard(UserCard userCard) {
-    print('token add userCard $token');
-    final url = 'https://capstone-addb0.firebaseio.com/cards.json?auth=$token';
+  void addUserCard(UserCard userCard, [String _token]) {
+    print('token add userCard $_token');
+    final url = 'https://capstone-addb0.firebaseio.com/cards.json?auth=$_token';
     http
         .post(url,
             body: json.encode({
-              'userId': userCard.id,
+              'userId': userCard.userId,
               'name': userCard.name,
               'number': userCard.number,
               'expiry': userCard.expiry,
@@ -145,6 +145,12 @@ class UserCards with ChangeNotifier {
             }))
         .then(
       (response) {
+        if (response.statusCode < 200 ||
+              response.statusCode >= 400 ||
+              json == null) {
+            //handle exceptions
+            throw ExceptionHandler(response.body);
+          } else {
         var data = json.decode(response.body);
         print('response $data');  
         final newUserCard = UserCard(
@@ -161,6 +167,7 @@ class UserCards with ChangeNotifier {
         print('token add userCard $token');
         userCards.add(newUserCard);
         notifyListeners();
+      }
       },
     );
   }
