@@ -36,7 +36,7 @@ class DetailField extends StatelessWidget {
               child: Container(
                 child: Text(
                   text,
-                  style: TextStyle(fontSize: 25, color: Colors.blueGrey),
+                  style: TextStyle(fontSize: 20, color: Colors.blueGrey),
                   textAlign: TextAlign.left,
                 ),
               ),

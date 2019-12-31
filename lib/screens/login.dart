@@ -67,13 +67,13 @@ class MyCustomFormState extends State<LoginScreen> {
         child: Container(
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.all(36.0),
+            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 100.0,
+                  height: 150.0,
                   width: double.infinity,
                   child: Image.asset(
                     "assets/gnglogoblue.png",
@@ -84,42 +84,50 @@ class MyCustomFormState extends State<LoginScreen> {
                 emailField,
                 SizedBox(height: 15.0),
                 passwordField,
-                SizedBox(
-                  height: 15.0,
-                ),
-                
-                Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.circular(30.0),
-                  color: Constants.mainColor,
-                  child: MaterialButton(
-                    minWidth: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                    onPressed: () {
-                      Provider.of<Authentication>(context).login(email, password, context);
-                    },
-                    child: Text(
-                      "Login",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
+                Padding(
+                  padding: EdgeInsets.only(top: 30),
+                                  child: SizedBox(
+                    height: 50.0,
+                    child: Material(
+                    elevation: 5.0,
+                    borderRadius: BorderRadius.circular(30.0),
+                    color: Constants.mainColor,
+                    child: MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width/1.6,
+                      padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
+                      onPressed: () {
+                        Provider.of<Authentication>(context).login(email, password, context);
+                      },
+                      child: Text(
+                        "Login",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      ),
                     ),
                   ),
+                  ),
                 ),
-                 SizedBox(
-                  height: 15.0,
+                
+                
+                 Padding(
+                   padding: EdgeInsets.all(10),
+                                    child: SizedBox(
+                    height: 35.0,
+                    child: SignInButton(
+                    Buttons.Facebook,
+                    mini: false,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40.0),),
+                    onPressed: () {
+                      Provider.of<Authentication>(context).initiateFacebookLogin(context);
+                    },
                 ),
-                SignInButton(
-                  Buttons.Facebook,
-                  mini: false,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40.0),),
-                  onPressed: () {
-                    Provider.of<Authentication>(context).initiateFacebookLogin(context);
-                  },
                 ),
+                 ),
+                
 
                 // Material(
                 //   elevation: 5.0,
@@ -144,7 +152,7 @@ class MyCustomFormState extends State<LoginScreen> {
 
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
@@ -155,8 +163,8 @@ class MyCustomFormState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(30.0),
                   color: Constants.accentColor,
                   child: MaterialButton(
-                    minWidth: MediaQuery.of(context).size.width / 2,
-                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    minWidth: MediaQuery.of(context).size.width / 1.6,
+                    padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     onPressed: _localAuth.authenticate,
                     child: Text(
                       "Use Face/Touch ID",

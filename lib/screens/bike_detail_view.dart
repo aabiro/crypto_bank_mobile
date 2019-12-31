@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main.dart';
+import 'package:flutter_app/screens/set_map_area.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/detail_fields.dart';
-import 'package:flutter_app/widgets/set_location.dart';
 import 'package:provider/provider.dart';
 import '../providers/bikes.dart';
 import '../providers/bike.dart';
@@ -10,6 +10,7 @@ import '../providers/bike.dart';
 import 'alert_screen.dart';
 import 'bike_list.dart';
 import 'edit_bike.dart';
+import 'set_map_area.dart';
 
 class BikeDetailScreen extends StatefulWidget {
   static final routeName = '/bike_detail';
@@ -27,34 +28,34 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return Column(
         // mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-              child: Container(
-                child: Text(
-                  title,
-                  style: TextStyle(fontSize: 15, color: Colors.blueGrey),
-                  textAlign: TextAlign.left,
-                ),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              child: Text(
+                title,
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.blueGrey,
+                    fontFamily: 'OpenSans'),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
           SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-              child: Container(
-                child: Text(
-                  text,
-                  style: TextStyle(fontSize: 30, color: Colors.blueGrey),
-                  textAlign: TextAlign.left,
-                ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Container(
+              child: Text(
+                text,
+                style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.blueGrey,
+                    fontFamily: 'OpenSans'),
+                textAlign: TextAlign.left,
               ),
             ),
           ),
@@ -112,142 +113,167 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
             SizedBox(
               // height: 200,
               width: double.infinity,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // crossAxisAlignment: CrossAxisAlignment.center,
 
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'Alerts',
-                            style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 25,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          // child: Hero(
-                          //   tag: "bike",
-                          child: Card(
-                            child: InkWell(
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      fullscreenDialog: true,
-                                      builder: (context) => AlertScreen(),
-                                      maintainState: false)),
-                              child: Container(
-                                padding: EdgeInsets.all(20),
-                                width: double.infinity,
-                                height: 85,
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Padding(
-                                            padding:
-                                                EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                            child: Text(
-                                              '12 Messages',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                  color: Colors.blueGrey,
-                                                  fontFamily: 'OpenSans',
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            )),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                          child: Icon(Icons.arrow_forward,
-                                              color: Colors.blueGrey),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          // ),
-                        ),
-                        SizedBox(height: 0),
-                      ],
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      SizedBox(height: 0),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Card(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                  child: Column(children: <Widget>[
+                    Text(
+                      'Detail',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w800,
+                        fontFamily: 'OpenSans',
+                      ),
                     ),
-                  ],
+                    SizedBox(height: 10.0),
+                    // buildInputField(nameController, 'Name'),
+                    DetailField("Name", widget.bike.name),
+                    SizedBox(height: 15.0),
+                    // buildInputField(modelController, 'Model'),
+                    DetailField("Type",
+                        widget.bike.model == null ? "None" : widget.bike.model),
+                    // SizedBox(height: 15.0),
+                    // buildInputField(conditionController, 'Condition'),
+                    // SizedBox(height: 0.30),
+                    SizedBox(height: 10),
+                    Material(
+                      elevation: 5.0,
+                      borderRadius: BorderRadius.circular(7.0),
+                      color: Color(0xff2196F3),
+                      child: MaterialButton(
+                        minWidth: mediaQuery.size.width / 3,
+                        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                fullscreenDialog: true,
+                                builder: (context) => EditBike(widget.bike.id),
+                                maintainState: false),
+                          );
+                        },
+                        child: Text("Edit",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                // fontSize: 40,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900)),
+                        // color: Color(),
+                        // style: style.copyWith(
+                        // //     color: Colors.white,
+                        // fontWeight: FontWeight.bold)
+                        // ),
+                      ),
+                    ),
+                  ]),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              padding: EdgeInsets.all(10),
+              child: FlatButton.icon(
+                icon: Icon(
+                  Icons.pin_drop,
+                  color: Colors.blueGrey,
+                ),
+                label: Text(
+                  "Set Allowable Riding Area",
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(SetMapAreaScreen.routeName);
+                },
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(0),
               child: Text(
-                'Detail',
-                textAlign: TextAlign.left,
+                'Alerts',
                 style: TextStyle(
                   color: Colors.blueGrey,
                   fontSize: 25,
                   fontWeight: FontWeight.w800,
-                  fontFamily: 'Comfortaa',
+                  fontFamily: 'OpenSans',
                 ),
               ),
             ),
-            SizedBox(height: 15.0),
-            // buildInputField(nameController, 'Name'),
-            DetailField("Name", widget.bike.name),
-            SizedBox(height: 15.0),
-            // buildInputField(modelController, 'Model'),
-            DetailField("Type", widget.bike.model == null ? "None" : widget.bike.model),
-            // SizedBox(height: 15.0),
-            // buildInputField(conditionController, 'Condition'),
-            // SizedBox(height: 0.30),
-            SizedBox(height: 30),
-            Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(7.0),
-              color: Color(0xff2196F3),
-              child: MaterialButton(
-                minWidth: mediaQuery.size.width / 3,
-                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        fullscreenDialog: true,
-                        builder: (context) => EditBike(widget.bike.id),
-                        maintainState: false),
-                  );
-                },
-                child: Text("Edit",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        // fontSize: 40,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900)),
-                // color: Color(),
-                // style: style.copyWith(
-                // //     color: Colors.white,
-                // fontWeight: FontWeight.bold)
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: EdgeInsets.all(10),
+
+                // child: Hero(
+                //   tag: "bike",
+                child: Card(
+                  child: InkWell(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) => AlertScreen(),
+                            maintainState: false)),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+
+                      // height: 85,
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  child: Text(
+                                    '12 Messages',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.blueGrey,
+                                        fontFamily: 'OpenSans',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  )),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Icon(Icons.arrow_forward,
+                                    color: Colors.blueGrey),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
                 // ),
               ),
             ),
             SizedBox(
               // height: 200,
-              width: double.infinity,
+              // width: double.infinity,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   // crossAxisAlignment: CrossAxisAlignment.center,
@@ -255,38 +281,41 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                   children: <Widget>[
                     Column(
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                'Deactivate',
-                                style: TextStyle(
-                                  color: Colors.blueGrey,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w800,
-                                  fontFamily: 'Comfortaa',
+                        Card(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.all(20),
+                                child: Text(
+                                  'Deactivate',
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w800,
+                                    fontFamily: 'OpenSans',
+                                  ),
                                 ),
                               ),
-                            ),
-                            Switch(
-                              value: widget.bike.isActive != null
-                                  ? !widget.bike.isActive
-                                  : true,
-                              onChanged: (value) {
-                                setState(() {
-                                  print(widget.bike.isActive);
-                                  widget.bike.toggleActive();
-                                  print(widget.bike.isActive);
-                                  isSwitched = widget.bike.isActive;
-                                });
-                                Provider.of<Bikes>(context).updateBike(widget.bike.id, widget.bike);
-                              },
-                              activeTrackColor: Constants.mainColor,
-                              activeColor: Constants.optionalColor,
-                            ),
-                          ],
+                              Switch(
+                                value: widget.bike.isActive != null
+                                    ? !widget.bike.isActive
+                                    : true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    print(widget.bike.isActive);
+                                    widget.bike.toggleActive();
+                                    print(widget.bike.isActive);
+                                    isSwitched = widget.bike.isActive;
+                                  });
+                                  Provider.of<Bikes>(context)
+                                      .updateBike(widget.bike.id, widget.bike);
+                                },
+                                activeTrackColor: Constants.mainColor,
+                                activeColor: Constants.optionalColor,
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -294,33 +323,27 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: SetLocation(),
-            ),
             SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: OutlineButton(
-                  // minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  onPressed: () {
-                    // print(bike);
-                    print(widget.bike.id);
-                    _showDialog(widget.bike.id);
-                  },
-                  child: Text(
-                    "Remove from Platform",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Constants.mainColor,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16),
-                  ),
+              // width: double.infinity,
+              child: OutlineButton(
+                // minWidth: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+                onPressed: () {
+                  // print(bike);
+                  print(widget.bike.id);
+                  _showDialog(widget.bike.id);
+                },
+                child: Text(
+                  "Remove from Platform",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Constants.mainColor,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 16),
                 ),
               ),
             ),
+            SizedBox(height: 30),
           ],
         ),
       ),

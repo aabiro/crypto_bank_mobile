@@ -225,10 +225,7 @@ class Authentication with ChangeNotifier {
         break;
       case FacebookLoginStatus.loggedIn:
         print("LoggedIn");
-        print(facebookLoginResult);
-        print(facebookLoginResult.accessToken);
-        var aT = facebookLoginResult.accessToken.toString();
-        // onLoginStatusChanged(true);
+
         final url =
             "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult.accessToken.token}";
         var graphResponse = await http.get(url);
@@ -236,23 +233,16 @@ class Authentication with ChangeNotifier {
         var profileData = json.decode(graphResponse.body);
         print(profileData.toString());
 
-        // onLoginStatusChanged(true, profileData: profile);
         _photoUrl = profileData['picture']['data']['url'];
         _displayName = profileData['name'];
         _email = profileData['email'];
-        // _accessToken = aT;
-
 
         var facebookAccessToken = facebookLoginResult.accessToken.token;
         var providerId = 'facebook.com';
-        var requestUri =
-            'https://capstone-addb0.firebaseapp.com/__/auth/handler';
-        // var providerId = '2509088306026453';
-        // var requestUri =
-        //     'https://capstone-addb0.firebaseapp.com/__/auth/handler';
-
+        var requestUri = Secrets.requestUri;
         final firebaseOAuthUrl =
             "https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=$fireBaseApi";
+        
         try {
           await http
               .post(
@@ -285,7 +275,7 @@ class Authentication with ChangeNotifier {
               } else {
                 var data = json.decode(response.body);
                   _userId = data["localId"];
-                  _photoUrl = data['photoUrl'];
+                  _photoUrl = profileData['picture']['data']['url'];
                   _displayName = data['firstName'];
                   _email = data['email'];
                   _accessToken = data['idToken'];

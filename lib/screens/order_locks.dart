@@ -122,47 +122,47 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
               // height: 200,
               width: double.infinity,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 30),
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   // crossAxisAlignment: CrossAxisAlignment.center,
 
                   children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'Quantity',
-                            style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
+                    Card(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Text(
+                              'Quantity',
+                              style: TextStyle(
+                                color: Colors.blueGrey,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'OpenSans',
+                              ),
+                              textAlign: TextAlign.left,
                             ),
-                            textAlign: TextAlign.left,
                           ),
-                        ),
-                        //       NumberPicker.integer(
-                        // initialValue: _currentValue,
-                        // minValue: 1,
-                        // maxValue: 50,
-                        // onChanged: (newValue) =>
-                        //     setState(() => _currentValue = newValue)),
-                        //     SizedBox(height: 20,),
-                        //     Text("Current number: $_currentValue"),
-                        // Text(
-                        //   'Picker here : 2',
-                        //   style: TextStyle(
-                        //     color: Constants.mainColor,
-                        //     fontSize: 20,
-                        //     fontWeight: FontWeight.w800,
-                        //     fontFamily: 'Comfortaa',
-                        //   ),
-                        // ),
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: DropdownButton<String>(
+                          //       NumberPicker.integer(
+                          // initialValue: _currentValue,
+                          // minValue: 1,
+                          // maxValue: 50,
+                          // onChanged: (newValue) =>
+                          //     setState(() => _currentValue = newValue)),
+                          //     SizedBox(height: 20,),
+                          //     Text("Current number: $_currentValue"),
+                          // Text(
+                          //   'Picker here : 2',
+                          //   style: TextStyle(
+                          //     color: Constants.mainColor,
+                          //     fontSize: 20,
+                          //     fontWeight: FontWeight.w800,
+                          //     fontFamily: 'Comfortaa',
+                          //   ),
+                          // ),
+                          DropdownButton<String>(
                             hint: Text(
                               dropdownValue.toString() == null ? "" : dropdownValue.toString(),
                               style: TextStyle(
@@ -198,9 +198,9 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
                               );
                             }).toList(),
                           ),
-                        ),
-                        SizedBox(height: 0),
-                      ],
+                          SizedBox(height: 0),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -215,7 +215,7 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
                   color: Colors.blueGrey,
                   fontSize: 25,
                   fontWeight: FontWeight.w800,
-                  fontFamily: 'Comfortaa',
+                  fontFamily: 'OpenSans',
                 ),
               ),
             ),
@@ -232,29 +232,35 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
             SizedBox(
                 // width: mediaQuery.size.width * 0.5,
                 // height: mediaQuery.size.height * 0.,
-                child: RaisedButton(
-              elevation: 0.5,
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                                  child: RaisedButton(
+              elevation: 3,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.0)),
+                    borderRadius: BorderRadius.circular(7.0)),
               textColor: Colors.white,
               color: Constants.accentColor,
-              child: const Text('Review your order',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'OpenSans',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18)),
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                              child: Text('Review your order',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18)),
+              ),
               onPressed: () {
               final order = Order(quantity: int.parse(dropdownValue), planType: widget.planType);
-                // Navigator.of(context).pushNamed(ReviewOrder.routeName);
-                          Navigator.push(
+                  // Navigator.of(context).pushNamed(ReviewOrder.routeName);
+                            Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ReviewOrder(order),
+                  builder: (context) => ReviewOrder(order),
               )
           );
               },
-            )),
+            ),
+                )),
             SizedBox(height: 20),
           ],
         ),

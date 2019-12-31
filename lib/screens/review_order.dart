@@ -204,17 +204,20 @@ class ReviewOrder extends StatelessWidget {
                     // width: mediaQuery.size.width * 0.5,
                     // height: mediaQuery.size.height * 0.07,
                     child: RaisedButton(
-                      elevation: 0.5,
+                      elevation: 3,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(7.0)),
                       textColor: Colors.white,
                       color: Constants.accentColor,
-                      child: const Text(
-                        'Place your order',
-                        style: TextStyle(
-                            fontFamily: 'OpenSans',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
+                      child: Padding(
+                        padding: EdgeInsets.all(20),
+                                              child: Text(
+                          'Place your order',
+                          style: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
                       ),
                       onPressed: () {
                         this.order.isApproved = true;
@@ -243,7 +246,7 @@ class ReviewOrder extends StatelessWidget {
         // return object of type Dialog
         return AlertDialog(
           title: new Text(
-            "Thank you for your order. An email with your order receipt and bike activation code has been sent to your email address.",
+            "Thank you for your order! You will receive an email with your receipt and bike activation code shortly.",
             style:
                 TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w800),
             textAlign: TextAlign.center,

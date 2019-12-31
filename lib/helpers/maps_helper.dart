@@ -30,6 +30,31 @@ class MapsHelper {
         target: LatLng(43.65, -79.38), zoom: 3, bearing: 45.0, tilt: 45.0)));
   }
 
+  static void moveToBikeLocation(GoogleMapController mc, double lat, double lng) {
+    mc.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(lat, lng),
+          zoom: 18,
+        ),
+      ),
+    );
+  }
+
+  static void moveToUserLocation(GoogleMapController mc) async {
+    //will be user location
+    final gpsLoc = await Location().getLocation();
+    CameraPosition userUocation = CameraPosition(
+      // target: LatLng(gpsLoc.latitude, gpsLoc.longitude),  //works as london
+      target: LatLng(43.65, -79.38), //toronto
+      // target: LatLng(43.0095971,-81.2759223), //london
+      zoom: 13,
+      // bearing: 45.0,
+      // tilt: 45.0
+    );
+    mc.animateCamera(CameraUpdate.newCameraPosition(userUocation));
+  }
+
   static Future<LocationData> getUserLocation() async {
     LocationData currentLocation;
 
