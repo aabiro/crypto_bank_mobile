@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/services/local_authentication_service.dart';
 import 'package:flutter_app/services/service_locator.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import '../helpers/user_helper.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'dart:convert';
 import '../providers/authentication.dart';
 import 'package:provider/provider.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:path/path.dart';
@@ -29,6 +32,14 @@ class MyCustomFormState extends State<LoginScreen> {
   // final _loginFormKey = GlobalKey<FormState>();
   final myEmailController = TextEditingController();
   final myPasswordController = TextEditingController();
+
+  // bool isLoggedIn = false;
+
+  // void onLoginStatusChanged(bool isLoggedIn) {
+  //   setState(() {
+  //     this.isLoggedIn = isLoggedIn;
+  //   });
+  // }
 
   Widget buildInputField(TextEditingController controller, String hintText) {
     return TextFormField(
@@ -62,7 +73,7 @@ class MyCustomFormState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 150.0,
+                  height: 100.0,
                   width: double.infinity,
                   child: Image.asset(
                     "assets/gnglogoblue.png",
@@ -76,6 +87,7 @@ class MyCustomFormState extends State<LoginScreen> {
                 SizedBox(
                   height: 15.0,
                 ),
+                
                 Material(
                   elevation: 5.0,
                   borderRadius: BorderRadius.circular(30.0),
@@ -96,9 +108,40 @@ class MyCustomFormState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 5.0,
+                 SizedBox(
+                  height: 15.0,
                 ),
+                SignInButton(
+                  Buttons.Facebook,
+                  mini: false,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40.0),),
+                  onPressed: () {
+                    Provider.of<Authentication>(context).initiateFacebookLogin(context);
+                  },
+                ),
+
+                // Material(
+                //   elevation: 5.0,
+                //   borderRadius: BorderRadius.circular(30.0),
+                //   color: Constants.accentColor,
+                //   child: MaterialButton(
+                //     minWidth: MediaQuery.of(context).size.width,
+                //     padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                //     onPressed: () {
+                //       initiateFacebookLogin(context);
+                //     },
+                //     child: Text(
+                //       "Login with Facebook",
+                //       textAlign: TextAlign.center,
+                //       style: TextStyle(
+                //           fontSize: 18,
+                //           fontWeight: FontWeight.w700,
+                //           color: Colors.white),
+                //     ),
+                //   ),
+                // ),
+
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -132,4 +175,26 @@ class MyCustomFormState extends State<LoginScreen> {
       ),
     );
   }
+
+  // void initiateFacebookLogin(BuildContext context) async {
+  //   var facebookLogin = FacebookLogin();
+  //   var facebookLoginResult =
+  //   //  await facebookLogin.logInWithReadPermissions(['email']);
+  //    await facebookLogin.logIn(['email']);
+  //    switch (facebookLoginResult.status) {
+  //     case FacebookLoginStatus.error:
+  //       print("Error");
+  //       onLoginStatusChanged(false);
+  //       break;
+  //     case FacebookLoginStatus.cancelledByUser:
+  //       print("CancelledByUser");
+  //       onLoginStatusChanged(false);
+  //       break;
+  //     case FacebookLoginStatus.loggedIn:
+  //       print("LoggedIn");
+  //       onLoginStatusChanged(true);
+  //       Navigator.pushReplacementNamed(context, '/home');
+  //       break;
+  //   }
+  // }
 }

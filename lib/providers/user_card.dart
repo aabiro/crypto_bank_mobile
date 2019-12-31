@@ -35,6 +35,12 @@ class UserCard with ChangeNotifier {
     return securityCode;
   }
 
+  String get lastFourDigits {
+    return "XXXX";
+    // return number; //needs numberr
+    // return number != null || number != "" ? number.substring(number.length - 4, number.length) : 'XXXX';
+  }
+
   bool get _isDefault {
     return isDefault;
   }

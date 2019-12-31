@@ -71,15 +71,22 @@ class ProfileScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(20),
               child: SizedBox(
-              width: double.infinity,
+              // width: double.infinity,
               child: new CircleAvatar(
                 maxRadius: mediaQuery.size.height * 0.15,
+                backgroundImage: NetworkImage(
+                  auth.photoUrl != null ? auth.photoUrl : ''
+                ),
                 backgroundColor: Color(0xff9575CD),
-                child: Text('AB',
+                child: Text(
+                    (auth.photoUrl == null || auth.photoUrl == "") &&
+                    auth.displayName != null
+                    ? auth.displayName[0] : '',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 40,
-                        fontWeight: FontWeight.w900)),
+                        fontWeight: FontWeight.w900
+                        ),),
               ),
             ),        
             ),

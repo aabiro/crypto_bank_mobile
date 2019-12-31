@@ -16,7 +16,7 @@ const Color mainColor = Color(0xff673AB7);
 const Color optionalColor = Color(0xff9575CD);
 const Color accentColor = Color(0xff2196F3);
 
-final fbAPI = "AIzaSyDACRfW-ng7i51C-La7aQpOJVRsQDm9OeU";
+
 
 const bikeTypes = ["Road bike", "Mountain bike", "BMX", "Commuting"];
 

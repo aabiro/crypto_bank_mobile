@@ -21,9 +21,10 @@ dependencies:
     sdk: flutter
 
   # flutter_map:
-  # firebase_auth: ^0.15.3
+  firebase_auth:
   # google_sign_in: ^4.1.1
   google_maps_flutter:
+ # google_maps_flutter: ^0.5.21+15
   location: ^2.3.5
   flutter_secure_storage: ^3.3.1+1
   charts_flutter: ^0.8.1
@@ -37,6 +38,10 @@ dependencies:
   provider:
   numberpicker: ^1.1.0
   mailer: ^3.0.4
+  flutter_facebook_login: ^3.0.0
+  font_awesome_flutter:
+  flutter_signin_button: ^1.0.0
+  image_picker: ^0.6.2+3
   
 
   # The following adds the Cupertino Icons font to your application.

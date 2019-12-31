@@ -14,6 +14,7 @@ import '../screens/become_lender.dart';
 import '../screens/stats.dart';
 import '../screens/journey.dart';
 import '../helpers/user_helper.dart';
+import 'user_card.dart';
 
 class MenuDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function navigateTo) {
@@ -33,65 +34,71 @@ class MenuDrawer extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     return new SizedBox(
       width: mediaQuery.size.width * 0.75,
-      child: Drawer(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 80,
-              width: double.infinity,
-              padding: EdgeInsets.all(20),
-              alignment: Alignment.centerLeft,
-              // color: Color(0xff98c1d9),
-              color: Constants.mainColor,
-              child: Text('',
-                  // 'Menu',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                  )
-                  //Theme.of(context).primaryColor),
-                  ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            buildListTile('Settings', Icons.settings, () {
-              Navigator.of(context).popAndPushNamed(SettingsScreen.routeName);
-            }),
-            buildListTile('Profile', Icons.account_box, () {
-              Navigator.of(context).popAndPushNamed(ProfileScreen.routeName);
-            }),
-            buildListTile('Wallet', Icons.attach_money, () {
-              Navigator.of(context).popAndPushNamed(WalletScreen.routeName);
-            }),
-            buildListTile('My Stats', Icons.star, () {
-              Navigator.of(context).popAndPushNamed(StatsScreen.routeName);
-            }),
-            buildListTile('Become a Lender', Icons.directions_bike, () {
-              Navigator.of(context).popAndPushNamed(PlansScreen.routeName);
-            }),
-            ListTile(
-              leading: Icon(Icons.exit_to_app, size: 26),
-              title: Text(
-                'Sign Out',
-                style: TextStyle(
-                    fontFamily: 'Comfortaa',
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold, 
-                    color: Colors.blueGrey),
+      child: Stack(
+        children: <Widget>[
+          
+          Drawer(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 80,
+                width: double.infinity,
+                padding: EdgeInsets.all(20),
+                alignment: Alignment.centerLeft,
+                // color: Color(0xff98c1d9),
+                color: Constants.mainColor,
+                child: Text('',
+                    // 'Menu',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    )
+                    //Theme.of(context).primaryColor),
+                    ),
               ),
-              onTap: () {
-                // UserHelper.logout(context);
-                Navigator.of(context).pop();
-                Provider.of<Authentication>(context).logout(context);
-              },
-            ),
-            // buildListTile('Route for Trip', Icons.explore, () {
-            //   Navigator.of(context).popAndPushNamed(JourneyScreen.routeName);
-            // }),
-          ],
+              SizedBox(
+                height: 45,
+              ),
+              buildListTile('Settings', Icons.settings, () {
+                Navigator.of(context).popAndPushNamed(SettingsScreen.routeName);
+              }),
+              buildListTile('Profile', Icons.account_box, () {
+                Navigator.of(context).popAndPushNamed(ProfileScreen.routeName);
+              }),
+              buildListTile('Wallet', Icons.attach_money, () {
+                Navigator.of(context).popAndPushNamed(WalletScreen.routeName);
+              }),
+              buildListTile('My Stats', Icons.star, () {
+                Navigator.of(context).popAndPushNamed(StatsScreen.routeName);
+              }),
+              buildListTile('Become a Lender', Icons.directions_bike, () {
+                Navigator.of(context).popAndPushNamed(PlansScreen.routeName);
+              }),
+              ListTile(
+                leading: Icon(Icons.exit_to_app, size: 26),
+                title: Text(
+                  'Sign Out',
+                  style: TextStyle(
+                      fontFamily: 'Comfortaa',
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold, 
+                      color: Colors.blueGrey),
+                ),
+                onTap: () {
+                  // UserHelper.logout(context);
+                  Navigator.of(context).pop();
+                  Provider.of<Authentication>(context).logout(context);
+                },
+              ),
+              // buildListTile('Route for Trip', Icons.explore, () {
+              //   Navigator.of(context).popAndPushNamed(JourneyScreen.routeName);
+              // }),
+            ],
+          ),
         ),
+        UserCardDrawer(),
+          ],
       ),
     );
   }

@@ -1,16 +1,19 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/screens/login.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import '../theme/secrets.dart' as Secrets;
 import 'dart:async';
 import '../screens/login.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
 class Authentication with ChangeNotifier {
-  static String fireBaseApi = Constants.fbAPI;
+  static String fireBaseApi = Secrets.fbAPI;
   // final GoogleSignIn _googleSignIn = GoogleSignIn();
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   String loginUrl =
@@ -39,6 +42,10 @@ class Authentication with ChangeNotifier {
 
   String get displayName {
     return _displayName;
+  }
+
+  String get photoUrl {
+    return _photoUrl;
   }
 
   String get accessToken {
@@ -72,15 +79,14 @@ class Authentication with ChangeNotifier {
     final url =
         "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=$fireBaseApi";
     try {
-      await http.post(
+      await http
+          .post(
         url,
         body: json.encode(
-          {
-            'idToken': _accessToken,
-            'email': _email
-          },
+          {'idToken': _accessToken, 'email': _email},
         ),
-      ).then((response) {
+      )
+          .then((response) {
         var data = json.decode(response.body);
         // var msg = data['error']['message'];
         print('getting user data...');
@@ -93,14 +99,14 @@ class Authentication with ChangeNotifier {
     } catch (e) {
       print('cannot get userdata: $e');
     }
-    
   }
 
   Future<void> updateEmail(String newEmail, BuildContext context) async {
     final url =
         "https://identitytoolkit.googleapis.com/v1/accounts:update?key=$fireBaseApi";
     try {
-      await http.post(
+      await http
+          .post(
         url,
         body: json.encode(
           {
@@ -109,11 +115,14 @@ class Authentication with ChangeNotifier {
             'returnSecureToken': true
           },
         ),
-      ).then((response) {
+      )
+          .then((response) {
         var data = json.decode(response.body);
         var msg = data['error']['message'];
 
-        if (response.statusCode < 200 || response.statusCode >= 400 || json == null) {
+        if (response.statusCode < 200 ||
+            response.statusCode >= 400 ||
+            json == null) {
           //handle exceptions
           // var data = json.decode(response.body);
           // var msg = data['error']['message'];
@@ -123,19 +132,15 @@ class Authentication with ChangeNotifier {
         } else {
           print('user updated: $data');
 
-           _email = data["email"];
+          _email = data["email"];
           _accessToken = data["idToken"];
           notifyListeners();
           // print(data);
         }
-       
-        
-
       });
     } catch (e) {
       print('email not reset: $e');
     }
-    
   }
 
   Future<void> resetPassword(String newPassword) async {
@@ -156,7 +161,6 @@ class Authentication with ChangeNotifier {
     } catch (e) {
       print('password not reset: $e');
     }
-    
   }
 
   Future<void> updateUser(String displayName, String photUrl) async {
@@ -176,10 +180,10 @@ class Authentication with ChangeNotifier {
                 'returnSecureToken': true
               }))
           .then((http.Response response) async {
-          var data = json.decode(response.body);
-          // var msg = data['error']['message'];
-          print('update all : $data');
-          // _displayName = ;
+        var data = json.decode(response.body);
+        // var msg = data['error']['message'];
+        print('update all : $data');
+        // _displayName = ;
         final int statusCode = response.statusCode;
         print('update status $statusCode');
         if (statusCode < 200 || statusCode >= 400 || json == null) {
@@ -193,14 +197,117 @@ class Authentication with ChangeNotifier {
           var data = json.decode(response.body);
           var msg = data['displayName'];
           print('user updated');
-           print('new displayName : $msg');
-           notifyListeners();
+          print('new displayName : $msg');
+          notifyListeners();
         }
       });
     } catch (e) {
       print(e);
     }
-    
+  }
+
+  void initiateFacebookLogin(BuildContext context) async {
+    var facebookLogin = FacebookLogin();
+    var facebookLoginResult =
+        //  await facebookLogin.logInWithReadPermissions(['email']);
+        await facebookLogin.logIn(['email']);
+        // .then((response) {
+        //   _accessToken = response.accessToken;//facebookLoginResult']['accessToken'].token;
+        // });
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.error:
+        print("Error");
+        // onLoginStatusChanged(false);
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print("CancelledByUser");
+        // onLoginStatusChanged(false);
+        break;
+      case FacebookLoginStatus.loggedIn:
+        print("LoggedIn");
+        print(facebookLoginResult);
+        print(facebookLoginResult.accessToken);
+        var aT = facebookLoginResult.accessToken.toString();
+        // onLoginStatusChanged(true);
+        final url =
+            "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult.accessToken.token}";
+        var graphResponse = await http.get(url);
+
+        var profileData = json.decode(graphResponse.body);
+        print(profileData.toString());
+
+        // onLoginStatusChanged(true, profileData: profile);
+        _photoUrl = profileData['picture']['data']['url'];
+        _displayName = profileData['name'];
+        _email = profileData['email'];
+        // _accessToken = aT;
+
+
+        var facebookAccessToken = facebookLoginResult.accessToken.token;
+        var providerId = 'facebook.com';
+        var requestUri =
+            'https://capstone-addb0.firebaseapp.com/__/auth/handler';
+        // var providerId = '2509088306026453';
+        // var requestUri =
+        //     'https://capstone-addb0.firebaseapp.com/__/auth/handler';
+
+        final firebaseOAuthUrl =
+            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=$fireBaseApi";
+        try {
+          await http
+              .post(
+            firebaseOAuthUrl,
+            body: json.encode(
+              {
+                'requestUri': requestUri,
+                'postBody':
+                 'access_token=$facebookAccessToken&providerId=$providerId',
+                'returnSecureToken': true,
+                'returnIdpCredential': true
+              },
+            ),
+          )
+              .then(
+            (response) async {
+              var data = json.decode(response.body);
+              // var msg = data['error']['message'];
+              print('update all : $data');
+              // _displayName = ;
+              final int statusCode = response.statusCode;
+              print('update status $statusCode');
+              if (statusCode < 200 || statusCode >= 400 || json == null) {
+                //handle exceptions
+                // var data = json.decode(response.body);
+                // var msg = data['error']['message'];
+                // showError(msg, context);
+
+                throw new Exception(response.body);
+              } else {
+                var data = json.decode(response.body);
+                  _userId = data["localId"];
+                  _photoUrl = data['photoUrl'];
+                  _displayName = data['firstName'];
+                  _email = data['email'];
+                  _accessToken = data['idToken'];
+                  _expiry = DateTime.now()
+                    .add(Duration(seconds: int.parse(data['expiresIn'])));
+                   _logoutAuto(context);
+                print('user updated');
+                // print('new displayName : $msg');
+                notifyListeners();
+                Navigator.pushReplacementNamed(
+                    context, '/home'); //should move to home page here
+              }
+            },
+          );
+        } catch (e) {
+          print(e);
+        }
+
+        notifyListeners();
+        Navigator.pushReplacementNamed(context, '/home');
+        break;
+    }
   }
 
   Future<void> register(
@@ -247,7 +354,6 @@ class Authentication with ChangeNotifier {
       print(e);
     }
     // print(json.decode(response.body));
-    
   }
 
   Future<void> login(

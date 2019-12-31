@@ -131,43 +131,40 @@ class WalletScreen extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.all(10),
-                child: Hero(
-                  tag: "deposit",
-                  child: Card(
-                    child: InkWell(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              fullscreenDialog: true,
-                              builder: (context) => CreditCardScreen(),
-                              maintainState: false)),
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        width: double.infinity,
-                        height: 75,
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.account_balance_wallet,
-                                      color: Colors.blueGrey),
-                                  Expanded(
-                                    child: Text(
-                                      ' Enroll in Direct Deposit',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontFamily: 'OpenSans',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
+                child: Card(
+                  child: InkWell(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) => CreditCardScreen(),
+                            maintainState: false)),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      width: double.infinity,
+                      height: 75,
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.account_balance_wallet,
+                                    color: Colors.blueGrey),
+                                Expanded(
+                                  child: Text(
+                                    ' Enroll in Direct Deposit',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.blueGrey,
+                                        fontFamily: 'OpenSans',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
                                   ),
-                                ]),
-                          ],
-                        ),
+                                ),
+                              ]),
+                        ],
                       ),
                     ),
                   ),
@@ -214,7 +211,7 @@ class WalletScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       fullscreenDialog: true,
-                                      builder: (context) => CardScreen(),
+                                      builder: (context) => CardScreen(chooseDefault: true),
                                       maintainState: false));
                             },
                             child: Text(

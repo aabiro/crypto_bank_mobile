@@ -182,6 +182,7 @@ class MapScreenState extends State<MapScreen> {
         // position: LatLng(userLocation.latitude, userLocation.longitude)
       ));
       print(markers);
+      // mc = controller;
     }
     _init = false;
     super.initState();
@@ -198,6 +199,12 @@ class MapScreenState extends State<MapScreen> {
         });
       });
     }
+  }
+
+  void setStyle(GoogleMapController mc, BuildContext context) async {
+    String val = await DefaultAssetBundle.of(context)
+        .loadString('assets/map_style.json');
+        mc.setMapStyle(val);
   }
 
   @override
@@ -224,9 +231,12 @@ class MapScreenState extends State<MapScreen> {
         children: <Widget>[
           SizedBox(
             child: GoogleMap(
-              onMapCreated: (GoogleMapController mc) {
+              onMapCreated: (mc) {  
+                // mc = _mc;         
                 mapCreated(mc);
+                // mc.setMapStyle(mapStyle)
                 MapsHelper.setStyle(mc, context);
+                // setStyle(mc, context);
                 // _controller.complete(mc);
               },
               initialCameraPosition:
@@ -250,13 +260,13 @@ class MapScreenState extends State<MapScreen> {
               hint: Text(
                 'Find My Ride',
                 style: TextStyle(
-                    color: Colors.blueGrey,
+                    color: Colors.grey[410],
                     fontFamily: 'OpenSans',
                     fontWeight: FontWeight.w800,
                     fontSize: 18),
               ),
               value: dropdownValue,
-              icon: Icon(Icons.location_on, color: Constants.mainColor),
+              icon: Icon(Icons.location_on, color: Constants.optionalColor),
               iconSize: 24,
               elevation: 16,
               style: TextStyle(
@@ -266,7 +276,7 @@ class MapScreenState extends State<MapScreen> {
                   fontSize: 18),
               underline: Container(
                 height: 2,
-                color: Constants.mainColor,
+                color: Constants.optionalColor,
               ),
               onChanged: (String newValue) {
                 setState(() {

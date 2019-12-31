@@ -8,6 +8,7 @@ import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:provider/provider.dart';
 
 import 'add_credit_card.dart';
+import 'card_list.dart';
 import 'order_locks.dart';
 
 class ReviewOrder extends StatelessWidget {
@@ -129,7 +130,7 @@ class ReviewOrder extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     fullscreenDialog: true,
-                                    builder: (context) => CreditCardScreen(),
+                                    builder: (context) => CardScreen(chooseDefault: true),
                                     maintainState: false));
                           },
                           child: Text(

@@ -1,3 +1,7 @@
+// import 'dart:html';
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 // import 'package:charts_flutter/flutter.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -6,14 +10,30 @@ import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/models/income_chart.dart';
 import 'package:flutter_app/widgets/bar_chart.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends StatefulWidget {
   static const routeName = '/edit_profile';
+
+  @override
+  _EditProfileScreenState createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
   var _isLoading = false;
   var _init = true;
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
+  File _image;
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      _image = image;
+    });
+  }
 
   Widget buildInputField(TextEditingController controller, String labelText, String hintText ) {
     return TextFormField(
@@ -68,11 +88,17 @@ class EditProfileScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(20),
               child: SizedBox(
-              width: double.infinity,
+              // width: double.infinity,
               child: new CircleAvatar(
                 maxRadius: mediaQuery.size.height * 0.15,
+                backgroundImage: NetworkImage(
+                  auth.photoUrl != null ? auth.photoUrl : ''
+                ),
                 backgroundColor: Color(0xff9575CD),
-                child: Text('AB',
+                child: Text(
+                    (auth.photoUrl == null || auth.photoUrl == "") &&
+                    auth.displayName != null
+                    ? auth.displayName[0] : '',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 40,
@@ -81,11 +107,11 @@ class EditProfileScreen extends StatelessWidget {
             ),        
             ),
             SizedBox(height: 0),
-            IconButton(
-              icon: Icon(Icons.photo_camera, color: Constants.optionalColor,),
-              onPressed: () {
-
-              }),
+            FloatingActionButton(
+              onPressed: getImage,
+              // tooltip: 'Pick Image',
+              child: Icon(Icons.add_a_photo),
+            ),
             Padding(
                 padding: EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 15.0),
                 child: usernameField),
