@@ -127,7 +127,7 @@ class MyApp extends StatelessWidget {
             ProfileScreen.routeName: (context) => ProfileScreen(),
             PlansScreen.routeName: (context) => PlansScreen(),
             StatsScreen.routeName: (context) => StatsScreen(),
-            JourneyScreen.routeName: (context) => JourneyScreen(''),
+            JourneyScreen.routeName: (context) => JourneyScreen(),
             SetMapAreaScreen.routeName: (context) => SetMapAreaScreen(),
             WalletScreen.routeName: (context) => WalletScreen(),
             CreditCardScreen.routeName: (context) => CreditCardScreen(),

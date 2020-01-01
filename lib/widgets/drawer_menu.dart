@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/providers/authentication.dart';
+import 'package:flutter_app/screens/bike_list.dart';
 import 'package:flutter_app/screens/journey.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/settings.dart';
@@ -19,7 +20,7 @@ import 'user_card.dart';
 class MenuDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function navigateTo) {
     return ListTile(
-      leading: Icon(icon, size: 26),
+      leading: Icon(icon, size: 26, color: Colors.blueGrey,),
       title: Text(
         title,
         style: TextStyle(
@@ -60,20 +61,23 @@ class MenuDrawer extends StatelessWidget {
               SizedBox(
                 height: 45,
               ),
-              buildListTile('Settings', Icons.settings, () {
-                Navigator.of(context).popAndPushNamed(SettingsScreen.routeName);
-              }),
               buildListTile('Profile', Icons.account_box, () {
                 Navigator.of(context).popAndPushNamed(ProfileScreen.routeName);
+              }),
+              buildListTile('My Bikes', Icons.directions_bike, () {
+                Navigator.of(context).pushNamed(BikeList.routeName);
               }),
               buildListTile('Wallet', Icons.attach_money, () {
                 Navigator.of(context).popAndPushNamed(WalletScreen.routeName);
               }),
-              buildListTile('My Stats', Icons.star, () {
+              buildListTile('My Stats', Icons.assessment, () {
                 Navigator.of(context).popAndPushNamed(StatsScreen.routeName);
               }),
-              buildListTile('Become a Lender', Icons.directions_bike, () {
+              buildListTile('Become a Lender', Icons.star, () {
                 Navigator.of(context).popAndPushNamed(PlansScreen.routeName);
+              }),
+              buildListTile('Settings', Icons.settings, () {
+                Navigator.of(context).popAndPushNamed(SettingsScreen.routeName);
               }),
               ListTile(
                 leading: Icon(Icons.exit_to_app, size: 26),

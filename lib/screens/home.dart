@@ -17,6 +17,8 @@ import './qr_scan.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'dart:ui' as ui;
 
+import 'journey.dart';
+
 class MapScreen extends StatefulWidget {
   static const routeName = '/home';
 
@@ -29,6 +31,7 @@ class MapScreen extends StatefulWidget {
 class MapScreenState extends State<MapScreen> {
   var _init = true;
   var _isLoading = false;
+  var user;
   GoogleMapController mc;
   Completer<GoogleMapController> _controller = Completer();
   LatLng toronto = LatLng(43.65, -79.38);
@@ -51,15 +54,17 @@ class MapScreenState extends State<MapScreen> {
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+        .buffer
+        .asUint8List();
   }
 
   Future<Uint8List> getbits() async {
     return await getBytesFromAsset('assets/my_icon.png', 100);
   }
-  
 
   static Future<LocationData> _getGPSLocation() async {
     final gpsLoc = await Location().getLocation();
@@ -101,14 +106,15 @@ class MapScreenState extends State<MapScreen> {
   }
 
   void mapCreated(controller) {
-    setState(() {
-      mc = controller;
-    });
+    if (mounted) {
+      setState(() {
+        mc = controller;
+      });
+    }
   }
 
   @override
   void initState() {
-    var user;
     var markerIcon;
     if (_init) {
       setState(() {
@@ -119,12 +125,13 @@ class MapScreenState extends State<MapScreen> {
       });
       Future.delayed(Duration.zero).then((_) {
         user = Provider.of<Authentication>(context);
+        // user.isOnTrip;
       });
       Future.delayed(Duration.zero).then((_) {
         Provider.of<Bikes>(context)
             .getUserBikes(
                 // user.accessToken,
-                // user.userId,            
+                // user.userId,
                 )
             .then((_) {
           setState(() {
@@ -133,7 +140,6 @@ class MapScreenState extends State<MapScreen> {
         });
       });
 
-      
       // BitmapDescriptor.fromAssetImage(
       //   ImageConfiguration(size: Size(48, 48)), 'assets/my_icon.png')
       //   .then((onValue) {
@@ -141,22 +147,22 @@ class MapScreenState extends State<MapScreen> {
       //   },);
       // userLocation = MapsHelper.getUserLocation(); //auto updating?
 
-            // Future.delayed(Duration.zero).then((_) {
+      // Future.delayed(Duration.zero).then((_) {
       //   Provider.of<MapHelp>(context).getbits().then((response) {
       //     print(response);
       //     markerIcon = response;
       //   });
-        // markerIcon =  Provider.of<MapHelp>(context).getbits();
-        // markerIcon = getbits();
-        // markerIcon = getBytesFromAsset('assets/my_icon.png', 100);
-        // final Marker marker = Marker(icon: BitmapDescriptor.fromBytes(markerIcon), markerId: null);
-        // markerIcon = Provider.of<MapHelp>(context).getMarkerIcon("assets/my_icon.png", Size(150.0, 150.0));
+      // markerIcon =  Provider.of<MapHelp>(context).getbits();
+      // markerIcon = getbits();
+      // markerIcon = getBytesFromAsset('assets/my_icon.png', 100);
+      // final Marker marker = Marker(icon: BitmapDescriptor.fromBytes(markerIcon), markerId: null);
+      // markerIcon = Provider.of<MapHelp>(context).getMarkerIcon("assets/my_icon.png", Size(150.0, 150.0));
       // });
-      
-    //  Provider.of<MapHelp>(context).getbits().then((response) {
-    //   print(response);
-    //   markerIcon = response;
-    //  });
+
+      //  Provider.of<MapHelp>(context).getbits().then((response) {
+      //   print(response);
+      //   markerIcon = response;
+      //  });
 
       //
       markersA.add(Marker(
@@ -204,7 +210,7 @@ class MapScreenState extends State<MapScreen> {
   void setStyle(GoogleMapController mc, BuildContext context) async {
     String val = await DefaultAssetBundle.of(context)
         .loadString('assets/map_style.json');
-        mc.setMapStyle(val);
+    mc.setMapStyle(val);
   }
 
   @override
@@ -231,70 +237,73 @@ class MapScreenState extends State<MapScreen> {
         children: <Widget>[
           SizedBox(
             child: GoogleMap(
-              onMapCreated: (mc) {  
-                // mc = _mc;         
-                mapCreated(mc);
-                // mc.setMapStyle(mapStyle)
-                MapsHelper.setStyle(mc, context);
-                // setStyle(mc, context);
-                // _controller.complete(mc);
-              },
-              initialCameraPosition:
-                  CameraPosition(target: LatLng(40.6281, 14.4850), zoom: 5),
-              markers: Set.from(markersA),
-              // myLocationEnabled: false,
-              myLocationButtonEnabled: false,
-              mapToolbarEnabled: false,
-              onTap: (pos) {
-          print(pos);
-          Marker m =
-              Marker(markerId: MarkerId('1'), icon: customIcon, position: pos);
-          setState(() {
-            markersA.add(m);
-          });}
-            ),
+                onMapCreated: (mc) {
+                  // mc = _mc;
+                  mapCreated(mc);
+                  // mc.setMapStyle(mapStyle)
+                  MapsHelper.setStyle(mc, context);
+                  // setStyle(mc, context);
+                  // _controller.complete(mc);
+                },
+                initialCameraPosition:
+                    CameraPosition(target: LatLng(40.6281, 14.4850), zoom: 5),
+                markers: Set.from(markersA),
+                // myLocationEnabled: false,
+                myLocationButtonEnabled: false,
+                mapToolbarEnabled: false,
+                onTap: (pos) {
+                  print(pos);
+                  Marker m = Marker(
+                      markerId: MarkerId('1'), icon: customIcon, position: pos);
+                  setState(() {
+                    markersA.add(m);
+                  });
+                }),
           ),
           Align(
-            alignment: Alignment.topCenter,
-            child: DropdownButton<String>(
-              hint: Text(
-                'Find My Ride',
-                style: TextStyle(
-                    color: Colors.grey[410],
-                    fontFamily: 'OpenSans',
-                    fontWeight: FontWeight.w800,
-                    fontSize: 18),
-              ),
-              value: dropdownValue,
-              icon: Icon(Icons.location_on, color: Constants.optionalColor),
-              iconSize: 24,
-              elevation: 16,
-              style: TextStyle(
-                  color: Colors.blueGrey,
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.w800,
-                  fontSize: 18),
-              underline: Container(
-                height: 2,
-                color: Constants.optionalColor,
-              ),
-              onChanged: (String newValue) {
-                setState(() {
-                  dropdownValue = newValue;
-                });
-                Bike bike = bikesProv.findByName(newValue);
-                moveToBikeLocation(bike.lat, bike.lng);
-              },
+              alignment: Alignment.topCenter,
+              child: userBikes != null && userBikes.length > 0
+                  ? DropdownButton<String>(
+                      hint: Text(
+                        'Find My Ride',
+                        style: TextStyle(
+                            color: Colors.grey[410],
+                            fontFamily: 'OpenSans',
+                            fontWeight: FontWeight.w800,
+                            fontSize: 18),
+                      ),
+                      value: dropdownValue,
+                      icon: Icon(Icons.location_on,
+                          color: Constants.optionalColor),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.w800,
+                          fontSize: 18),
+                      underline: Container(
+                        height: 2,
+                        color: Constants.optionalColor,
+                      ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                        Bike bike = bikesProv.findByName(newValue);
+                        moveToBikeLocation(bike.lat, bike.lng);
+                      },
 
-              // items: <String>['Bike 1', 'Bike 2', 'Bmx', 'Mntn B']
-              items: array.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-          ),
+                      // items: <String>['Bike 1', 'Bike 2', 'Bmx', 'Mntn B']
+                      items:
+                          array.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    )
+                  : null),
           Align(
             alignment: Alignment.bottomRight,
             child: SizedBox(
@@ -320,7 +329,7 @@ class MapScreenState extends State<MapScreen> {
                   //my location ocation searching gps fixed gps not fixed error error outline
                   icon: Icon(
                     // Icons.error_outline,
-                     Icons.refresh,
+                    Icons.cached,
                     size: 30,
                   ),
                   color: Constants.accentColor,
@@ -334,30 +343,55 @@ class MapScreenState extends State<MapScreen> {
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
               child: SizedBox(
-                width: mediaQuery.size.width * 0.7,
-                height: mediaQuery.size.height * 0.1,
-                child: RaisedButton.icon(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40.0)),
-                  icon: Icon(
-                    Icons.center_focus_strong,
-                    size: 25,
-                  ),
-                  textColor: Colors.white,
-                  color: Constants.accentColor,
-                  label: const Text('Scan to Ride',
-                      style: TextStyle(
-                          fontFamily: 'OpenSans',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15)),
-                  onPressed: () {
-                    // Navigator.pushNamed(context, '/camera');
-                    Navigator.of(context)
-                        .pushNamed(QrScan.routeName, arguments: QrScan(false));
-                  },
-                ),
-              ),
+                  width: mediaQuery.size.width * 0.7,
+                  height: mediaQuery.size.height * 0.1,
+                  child: 
+                  user.isOnTrip != null && user.isOnTrip == false
+                      ? RaisedButton.icon(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                          icon: Icon(
+                            Icons.center_focus_strong,
+                            size: 25,
+                          ),
+                          textColor: Colors.white,
+                          color: Constants.accentColor,
+                          label: const Text('Scan to Ride',
+                              style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15)),
+                          onPressed: () {
+                            // Navigator.pushNamed(context, '/camera');
+                            print('user.isOnTrip : ${user.isOnTrip} in the home screen');
+                            Navigator.of(context).pushNamed(QrScan.routeName,
+                                arguments: QrScan(false));
+                          },
+                        )
+                      : RaisedButton(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                          // icon: Icon(
+                          //   Icons.center_focus_strong,
+                          //   size: 25,
+                          // ),
+                          textColor: Colors.white,
+                          color: Constants.accentColor,
+                          child: Text(
+                            'Trip Summary',
+                            style: TextStyle(
+                                fontFamily: 'OpenSans',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                          onPressed: () {
+                            print('user.isOnTrip : ${user.isOnTrip} in the home screen');
+                            Navigator.of(context)
+                                .pushNamed(JourneyScreen.routeName);
+                          },
+                        )),
             ),
           ),
         ],

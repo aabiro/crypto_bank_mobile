@@ -3,6 +3,7 @@ import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/screens/bike_list_item.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:flutter_app/widgets/empty_list.dart';
 import 'package:http/src/response.dart';
 import '../helpers/bike_helper.dart';
 import 'bike_detail_view.dart';
@@ -18,8 +19,8 @@ class BikeList extends StatefulWidget {
 }
 
 class _BikeListState extends State<BikeList> {
-   var _init = true;
-   var _isLoading = false; //for a loader later see transform fetched data
+  var _init = true;
+  var _isLoading = false; //for a loader later see transform fetched data
   //get bikes from the db from the user id
 
   @override
@@ -29,8 +30,8 @@ class _BikeListState extends State<BikeList> {
         _isLoading = true;
       });
       // var accessToken = Provider.of<Authentication>(context).accessToken;
-      Provider.of<Bikes>(context).getUserBikes().then((_){
-        setState((){
+      Provider.of<Bikes>(context).getUserBikes().then((_) {
+        setState(() {
           _isLoading = false;
         });
       });
@@ -44,44 +45,90 @@ class _BikeListState extends State<BikeList> {
     final bikes = bikesData.userBikes;
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
-        appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Constants.mainColor,
-            title: new Text(
-              'My Bikes',
-              style: TextStyle(),
-            ),
-            leading: IconButton(icon: Icon(Icons.arrow_back),
-              onPressed:() => Navigator.popAndPushNamed(context, '/home'),
-            ),
-            actions: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    _showDialog();
-                  }),
-            ]),
-        body: SizedBox(
+      appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Constants.mainColor,
+          title: new Text(
+            'My Bikes',
+            style: TextStyle(),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.popAndPushNamed(context, '/home'),
+          ),
+          // actions: <Widget>[
+          //   IconButton(
+          //       icon: Icon(Icons.add),
+          //       onPressed: () {
+          //         _showDialog();
+          //       }),
+          // ],
+          ),
+      body: Stack(
+        children: <Widget>[
+          SizedBox(
           height: mediaQuery.size.height,
           child: Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             //make this a list view builder!!
             child: ListView(
-              children: 
-                bikes?.map(
-                (bike) {
-                  //use .value because items are lost
-                  return ChangeNotifierProvider.value(  //notify of changes for each individual bike item
-                    value: bike,
-                    child: BikeListItem(bike
-                      // bike.id, bike.name, bike.isActive, bike.imageUrl
-                      ),
-                  );                     
-                },
-              )?.toList() ?? [],
+                children: bikes != null && bikes.length > 0
+                    ? bikes?.map<Widget>(
+                        (bike) {
+                          //use .value because items are lost
+                          return ChangeNotifierProvider.value(
+                            //notify of changes for each individual bike item
+                            value: bike,
+                            child: BikeListItem(bike
+                                // bike.id, bike.name, bike.isActive, bike.imageUrl
+                                ),
+                          );
+                        },
+                      )?.toList()
+                    : [
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: <Widget>[EmptyListItem("bikes")],
+                          ),
+                        ),
+                      ].toList()),
+          ),
+        ),
+
+        Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: SizedBox(
+                width: double.infinity,
+                height: mediaQuery.size.height * 0.1,
+                child: RaisedButton(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0.0)),
+                       onPressed: () {
+                         _showDialog();
+                  },
+                  textColor: Colors.white,
+                  color: Constants.accentColor,
+                  child:Text('Activate Ride',
+                      style: TextStyle(
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15)) ,
+                  // icon: Icon(
+                  //   Icons.center_focus_strong,
+                  //   size: 25,
+ 
+                ),
+              ),
             ),
           ),
-        ));
+        ],
+          
+      ),
+    );
   }
 
   void _showDialog() {
@@ -104,7 +151,8 @@ class _BikeListState extends State<BikeList> {
                 OutlineButton(
                   padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   onPressed: () {
-                    Navigator.popAndPushNamed(context, QrScan.routeName, arguments: QrScan(true));
+                    Navigator.popAndPushNamed(context, QrScan.routeName,
+                        arguments: QrScan(true));
                   },
                   child: Text(
                     "Yes, activate ride",

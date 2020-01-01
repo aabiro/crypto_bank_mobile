@@ -42,47 +42,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
           //     ),
           //   ),
           // ),
-          Padding(
-            padding: EdgeInsets.all(20),
-            child: Hero(
-              tag: "credit",
-              child: Card(
-                child: InkWell(
-                  onTap: () => Navigator.of(context).pushNamed(BikeList.routeName),
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    width: double.infinity,
-                    height: 85,
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                  child: Text(
-                                    'Manage My Rides',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: Colors.blueGrey,
-                                        fontFamily: 'OpenSans',
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  )),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                child: Icon(Icons.arrow_forward,
-                                    color: Colors.blueGrey),
-                              )
-                            ]),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.all(20),
+          //   child: Hero(
+          //     tag: "credit",
+          //     child: Card(
+          //       child: InkWell(
+          //         onTap: () => Navigator.of(context).pushNamed(BikeList.routeName),
+          //         child: Container(
+          //           padding: EdgeInsets.all(20),
+          //           width: double.infinity,
+          //           height: 85,
+          //           child: Column(
+          //             children: <Widget>[
+          //               Row(
+          //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                   crossAxisAlignment: CrossAxisAlignment.center,
+          //                   children: <Widget>[
+          //                     Padding(
+          //                         padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+          //                         child: Text(
+          //                           'Manage My Rides',
+          //                           textAlign: TextAlign.left,
+          //                           style: TextStyle(
+          //                               color: Colors.blueGrey,
+          //                               fontFamily: 'OpenSans',
+          //                               fontWeight: FontWeight.bold,
+          //                               fontSize: 20),
+          //                         )),
+          //                     Padding(
+          //                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+          //                       child: Icon(Icons.arrow_forward,
+          //                           color: Colors.blueGrey),
+          //                     )
+          //                   ]),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           
           Padding(
             padding: EdgeInsets.all(20),

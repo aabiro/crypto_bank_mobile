@@ -86,7 +86,7 @@ class ReviewOrder extends StatelessWidget {
               centerTitle: true,
               backgroundColor: Constants.mainColor,
               title: new Text(
-                'Plans',
+                'Order Locks',
                 style: TextStyle(),
               ),
             ),

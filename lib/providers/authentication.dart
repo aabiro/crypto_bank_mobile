@@ -27,6 +27,15 @@ class Authentication with ChangeNotifier {
   String _displayName;
   Timer _signInTimer;
   String _photoUrl;
+  bool _isOnTrip;
+
+  bool get isOnTrip {
+    return _isOnTrip;
+  }
+
+  set isOnTrip(bool isOnTrip) {
+    this._isOnTrip = isOnTrip;
+  }
 
   bool get isLoggedIn {
     return accessToken != null;
@@ -163,6 +172,14 @@ class Authentication with ChangeNotifier {
     }
   }
 
+  void toggleIsOnTrip() {
+      if(_isOnTrip == null) {
+        //
+      }
+      _isOnTrip = !_isOnTrip;
+      notifyListeners();
+  }
+
   Future<void> updateUser(String displayName, String photUrl) async {
 //     idToken	string	A Firebase Auth ID token for the user.
 //      displayName	string	User's new display name.
@@ -173,10 +190,11 @@ class Authentication with ChangeNotifier {
         "https://identitytoolkit.googleapis.com/v1/accounts:update?key=$fireBaseApi";
     try {
       await http
-          .post(registerUrl,
+          .post(url,
               body: json.encode({
                 'idToken': accessToken,
                 'displayName': displayName,
+                'photoUrl': photoUrl,
                 'returnSecureToken': true
               }))
           .then((http.Response response) async {
@@ -279,6 +297,7 @@ class Authentication with ChangeNotifier {
                   _displayName = data['firstName'];
                   _email = data['email'];
                   _accessToken = data['idToken'];
+                  _isOnTrip = null;
                   _expiry = DateTime.now()
                     .add(Duration(seconds: int.parse(data['expiresIn'])));
                    _logoutAuto(context);
@@ -314,9 +333,15 @@ class Authentication with ChangeNotifier {
       await http
           .post(registerUrl,
               body: json.encode({
-                'email': 'aaryn@gmail.com',
-                'password': 'password22',
+                'email': email,
+                'password': password,
                 'returnSecureToken': true
+                // 'email': 'myem@gmail.com',
+                // 'password': 'test10',
+                // 'returnSecureToken': true
+                // 'email': 'aaryn@gmail.com',
+                // 'password': 'password22',
+                // 'returnSecureToken': true
               }))
           .then((http.Response response) async {
         final int statusCode = response.statusCode;
@@ -332,6 +357,13 @@ class Authentication with ChangeNotifier {
           print(json.decode(response.body));
           // final storage = new FlutterSecureStorage();
           var data = json.decode(response.body);
+          _accessToken = data["idToken"];
+          _userId = data["localId"];
+          _email = data["email"];
+          _isOnTrip = false;
+          _expiry = DateTime.now()
+              .add(Duration(seconds: int.parse(data['expiresIn'])));
+          _logoutAuto(context);
           notifyListeners();
           // await storage.write(
           //     key: "access_token",
@@ -377,6 +409,7 @@ class Authentication with ChangeNotifier {
           _accessToken = data["idToken"];
           _userId = data["localId"];
           _email = data["email"];
+          _isOnTrip = false;
           _expiry = DateTime.now()
               .add(Duration(seconds: int.parse(data['expiresIn'])));
           _logoutAuto(context);
@@ -397,6 +430,8 @@ class Authentication with ChangeNotifier {
     _expiry = null;
     _accessToken = null;
     _userId = null;
+    _isOnTrip = null;
+    _photoUrl = null;
     if (_signInTimer != null) {
       _signInTimer.cancel();
       _signInTimer = null;

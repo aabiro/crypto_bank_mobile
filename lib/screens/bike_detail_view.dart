@@ -133,7 +133,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Column(children: <Widget>[
                     Text(
-                      'Detail',
+                      'Details',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.blueGrey,

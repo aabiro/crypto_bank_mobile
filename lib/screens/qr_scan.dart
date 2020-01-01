@@ -28,7 +28,7 @@ class QrScan extends StatefulWidget {
 
 //courtesy of medium.com
 class QrScanState extends State<QrScan> {
-  // Provider.of<Authentication>(context).userId();
+  
   // bool activation;
   // QrScanState(this.activation);
 
@@ -333,7 +333,7 @@ class QrScanState extends State<QrScan> {
     String barcode = '001';
     if (activation == false) {
       Navigator.of(context).popAndPushNamed(JourneyScreen.routeName,
-          arguments: JourneyScreen('001'));
+          arguments: JourneyScreen());
     } else {
       // Provider.of<Bikes>(context).addBike(
       //     Bike(
@@ -343,6 +343,9 @@ class QrScanState extends State<QrScan> {
       //     ),
       //     Provider.of<Authentication>(context).userId,
       //     Provider.of<Authentication>(context).accessToken);
+      var user = Provider.of<Authentication>(context);
+      user.isOnTrip = true;
+      print('user.isOnTrip : ${user.isOnTrip}');
       Navigator.of(context).popAndPushNamed(BikeFormScreen.routeName,
           arguments: BikeFormScreen('001'));
     }
@@ -352,15 +355,20 @@ class QrScanState extends State<QrScan> {
     print('scan activation');
     print(activation);
     try {
+
       String barcode = await BarcodeScanner.scan();
       setState(() => this._barcode = barcode);
       await new Future.delayed(const Duration(seconds: 5));
-      widget.activation == false
-          ? Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
-              arguments: JourneyScreen(barcode))
-          : Navigator.of(context).pushReplacementNamed(
+      if(widget.activation == false) {
+        Provider.of<Authentication>(context).isOnTrip = true;
+          Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
+              arguments: JourneyScreen());
+      } else {
+        Navigator.of(context).pushReplacementNamed(
               BikeFormScreen.routeName,
               arguments: BikeFormScreen(barcode));
+      }
+           
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
