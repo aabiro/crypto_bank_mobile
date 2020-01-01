@@ -22,6 +22,8 @@ dependencies:
 
   # flutter_map:
   firebase_auth:
+  firebase_core: ^0.4.0+9
+  firebase_analytics:
   # google_sign_in: ^4.1.1
   # google_maps_flutter:
   google_maps_flutter: ^0.5.21+15    

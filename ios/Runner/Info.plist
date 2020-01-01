@@ -8,10 +8,14 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<string>NO</string>
+	<key>FirebaseScreenReportingEnabled</key>
+	<string>NO</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>flutter_app</string>
+	<string>com.example.flutter-app-capstone</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -22,16 +26,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Enable face id?</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Enable camera to scan the QR code</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Enable location to see all the available rides on the map</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enable face id?</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Enable location when not using the app?</string>
-	<key>io.flutter.embedded_views_preview</key>
-	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Enable location to see all the available rides on the map</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -51,5 +53,27 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb2509088306026453</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>2509088306026453</string>
+	<key>FacebookDisplayName</key>
+	<string>GivnGo</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 </dict>
 </plist>

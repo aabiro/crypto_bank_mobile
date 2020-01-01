@@ -134,7 +134,7 @@ class ActivationCompleteScreen extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.w800,
                     color: Colors.blueGrey,
-                    fontSize: 20)),
+                    fontSize: 10)),
           ),
           // Padding(
           // padding: EdgeInsets.all(5),

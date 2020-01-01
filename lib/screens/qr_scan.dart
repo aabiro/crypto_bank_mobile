@@ -133,7 +133,7 @@ class QrScanState extends State<QrScan> {
                       textColor: Colors.white,
                       splashColor: Colors.blueGrey,
                       onPressed: () {
-                        bypass(args.activation);
+                        scan(args.activation);
                         // scan(args.activation);
                       },
                       child: const Text(
