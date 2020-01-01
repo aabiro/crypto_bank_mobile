@@ -5,13 +5,22 @@ import 'package:flutter_app/widgets/dropdown.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 
-class EditBike extends StatelessWidget {
+class EditBike extends StatefulWidget {
   static const routeName = '/edit_bike';
   final String id;
-  final nameController = TextEditingController();
-  final typeController = TextEditingController();
-  final conditionController = TextEditingController();
+
   EditBike([this.id]);
+
+  @override
+  _EditBikeState createState() => _EditBikeState();
+}
+
+class _EditBikeState extends State<EditBike> {
+  final nameController = TextEditingController();
+
+  final typeController = TextEditingController();
+
+  final conditionController = TextEditingController();
 
   Widget buildInputField(TextEditingController controller, String hintText) {
     return TextFormField(
@@ -31,11 +40,12 @@ class EditBike extends StatelessWidget {
     final list = Constants.bikeTypes;
     var dropdownValue = list.first;
     final bikeProv = Provider.of<Bikes>(context);
-    final bike = bikeProv.findById(id);
+    final bike = bikeProv.findById(widget.id);
     final nameField = buildInputField(nameController, "Name");
     final typeField = buildInputField(typeController, "Type");
     final conditionField = buildInputField(conditionController, "Condition");
     String name = nameController.text;
+
     String type = typeController.text;
     // String condition = conditionController.text; //add or image upload instead...
     final mediaQuery = MediaQuery.of(context);
@@ -55,31 +65,100 @@ class EditBike extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(20),
               child: SizedBox(
-              width: double.infinity,
-              child: new CircleAvatar(
-                maxRadius: mediaQuery.size.height * 0.15,
-                backgroundColor: Color(0xff9575CD),
-                child: Text('AB',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40,
-                        fontWeight: FontWeight.w900)),
+                width: double.infinity,
+                child: new CircleAvatar(
+                  maxRadius: mediaQuery.size.height * 0.15,
+                  backgroundColor: Color(0xff9575CD),
+                  child: Text('AB',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w900)),
+                ),
               ),
-            ),        
             ),
             Padding(
-                padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
-                child: nameField,),
+              padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
+              child: nameField,
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  child: Text(
+                    "Type",
+                    style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ),
+            ),
             Padding(
                 padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                child: 
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: DropdownButton<String>(
+                      // isExpanded = true,
+                      isExpanded: true,
+                      hint: Text(
+                        'Type',
+                        style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: 'OpenSans',
+                            fontWeight: FontWeight.w800,
+                            fontSize: 18),
+                      ),
+                      value: dropdownValue,
+                      icon: Icon(Icons.arrow_drop_down,
+                          color: Constants.mainColor),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.w800,
+                          fontSize: 18),
+                      underline: Container(
+                        height: 2,
+                        color: Constants.mainColor,
+                      ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: list.map<DropdownMenuItem<String>>((value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                )
                 // typeField,
-                BuildDropdown(dropdownValue, list, "Type"),
+                //dropdown//BuildDropdown(dropdownValue, list, "Type"),
                 ),
-            Padding(
-                padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
-                child: conditionField,
-            ),
+            //       Padding(
+            //   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            //   child: Align(
+            //     alignment: Alignment.centerLeft,
+            //     child: Container(
+            //       child: Text(
+            //         "Condition",
+            //         style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+            //         textAlign: TextAlign.left,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            //   Padding(
+            //       padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
+            //       child: conditionField,
+            //   ),
             Material(
               elevation: 5.0,
               borderRadius: BorderRadius.circular(7.0),
@@ -88,10 +167,11 @@ class EditBike extends StatelessWidget {
                 minWidth: mediaQuery.size.width / 3,
                 padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                 onPressed: () {
-                  print('update/edit bike id: $id');
+                  print('update/edit bike id: ${widget.id}');
+                  print(dropdownValue);
                   bike.name = name;
-                  bike.model = type;
-                  bikeProv.updateBike(id, bike); //update existing bike
+                  bike.model = dropdownValue;
+                  bikeProv.updateBike(widget.id, bike); //update existing bike
                   Navigator.of(context).pop();
                 },
                 child: Text("Save",

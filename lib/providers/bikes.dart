@@ -37,8 +37,7 @@ class Bikes with ChangeNotifier {
             //merges with existing values on server
             'name': newBike.name,
             'model': newBike.model,
-            'isActive': newBike
-                .isActive //this line causes null error on detail view..!!
+            'isActive': newBike.isActive //this line causes null error on detail view..!!
             // 'imageUrl': newBike.imageUrl,
           },
         ),
@@ -51,6 +50,7 @@ class Bikes with ChangeNotifier {
         throw ExceptionHandler('Cannot update bike.');
       }
       userBikes[bikeIndex] = newBike;
+      print('new bike :${response.toString()}');
       notifyListeners();
     } else {
       print('did not update');

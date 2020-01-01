@@ -100,6 +100,8 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                         MapsHelper.setStyle(mc, context);
                         _controller.complete(mc);
                       },
+                      myLocationButtonEnabled: false,
+                      mapToolbarEnabled: false,
                       // initialCameraPosition: widget.initalLocation,
                       initialCameraPosition: CameraPosition(
                           target: LatLng(widget.initalLocation.lat,
@@ -108,42 +110,36 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                     ),
                   ),
 
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: SizedBox(
-                      // height: 20,
-                      child: Text(
-                        'Center on the map the area \nyou would like to service.\nHighlight with a circle or polygon.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20),
+                  Column(
+                    
+                    children: <Widget>[
+                      
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: SizedBox(
+                              // height: 20,
+                              child: Text(
+                                'Center on the map the area you would like to service.\nHighlight with a circle or polygon.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 12),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
 
-                  Align(
-            alignment: Alignment.bottomRight,
-            child: SizedBox(
-              width: mediaQuery.size.width * 0.2,
-              height: mediaQuery.size.height * 0.12,
-              child: IconButton(
-                  //my location ocation searching gps fixed gps not fixed error error outline
-                  icon: Icon(
-                    Icons.gps_fixed,
-                    size: 30,
-                  ),
-                  color: Constants.accentColor,
-                  // tooltip: 'Increase volume by 10',
-                  onPressed: (){
-                    moveToUserLocation();
-                  }),
-            ),
-          ),
-
+             
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 65, 0, 0),
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: DropdownButton<String>(
@@ -153,7 +149,7 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                               color: Colors.grey[410],
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.w800,
-                              fontSize: 18),
+                              fontSize: 15),
                         ),
                         value: dropdownValue,
                         icon: Icon(Icons.location_on,
@@ -188,6 +184,29 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                       ),
                     ),
                   ),
+                        ],
+                      )
+                    ],
+                  ),
+     Align(
+            alignment: Alignment.bottomRight,
+            child: SizedBox(
+              width: mediaQuery.size.width * 0.2,
+              height: mediaQuery.size.height * 0.12,
+              child: IconButton(
+                  //my location ocation searching gps fixed gps not fixed error error outline
+                  icon: Icon(
+                    Icons.gps_fixed,
+                    size: 30,
+                  ),
+                  color: Constants.accentColor,
+                  // tooltip: 'Increase volume by 10',
+                  onPressed: (){
+                    moveToUserLocation();
+                  }),
+            ),
+          ),
+
 
                   Padding(
                     padding: EdgeInsets.all(10),
@@ -224,53 +243,60 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
               // mainAxisAlignment: MainAxisAlignment.center,
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                      'Area Radius ',
-                      // textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20),
-                    ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                      radius.toString(),
-                      style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20),
-                    ),
-                      ],
-                    ),
-
-                    Padding(
-                      padding: EdgeInsets.only(left: 0),
-                                          child: Column(
+                Padding(
+                  padding: const EdgeInsets.only(left: 65),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      Column(
                         children: <Widget>[
-                      Text(
-                        ' km',
+                          Text(
+                        'Area Radius:',
+                        // textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colors.blueGrey,
                             fontWeight: FontWeight.w800,
                             fontSize: 20),
                       ),
-
-                      
                         ],
                       ),
-                    ), 
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(right: 65),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                          radius.toString(),
+                          style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 20),
+                        ),
+                                            Padding(
+                          padding: EdgeInsets.only(left: 0),
+                                              child: Column(
+                            children: <Widget>[
+                          Text(
+                            ' km',
+                            style: TextStyle(
+                                color: Colors.blueGrey,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 20),
+                          ),
+                          ],
+                        ),
+
+
+
+                          
+                            ),
+                          ]
+                        ),
+                      ), 
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

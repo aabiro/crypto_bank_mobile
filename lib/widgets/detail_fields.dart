@@ -14,7 +14,7 @@ class DetailField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+            padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Container(
@@ -36,7 +36,7 @@ class DetailField extends StatelessWidget {
               child: Container(
                 child: Text(
                   text,
-                  style: TextStyle(fontSize: 20, color: Colors.blueGrey),
+                  style: TextStyle(fontSize: 18, color: Colors.blueGrey),
                   textAlign: TextAlign.left,
                 ),
               ),

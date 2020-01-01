@@ -100,7 +100,7 @@ class WalletScreen extends StatelessWidget {
                                           color: Colors.blueGrey,
                                           fontFamily: 'OpenSans',
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 20),
+                                          fontSize: 15),
                                     ),
                                   ),
                                 ]),
@@ -160,7 +160,7 @@ class WalletScreen extends StatelessWidget {
                                         color: Colors.blueGrey,
                                         fontFamily: 'OpenSans',
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 20),
+                                        fontSize: 15),
                                   ),
                                 ),
                               ]),
@@ -231,6 +231,6 @@ class WalletScreen extends StatelessWidget {
               ),
             ],
           ),
-        ));
+        ),);
   }
 }

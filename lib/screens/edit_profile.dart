@@ -1,6 +1,8 @@
 // import 'dart:html';
 
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 
 import 'package:flutter/material.dart';
 // import 'package:charts_flutter/flutter.dart';
@@ -29,10 +31,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    // var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       _image = image;
     });
+  }
+
+  Future uploadImage(BuildContext context) async {
+    String picFile = basename(_image.path);
+    StorageReference firebaseStorage = FirebaseStorage.instance.ref().child(picFile); 
+    StorageUploadTask sUT = firebaseStorage.putFile(_image); //add file to firestore
+    StorageTaskSnapshot sTS = await sUT.onComplete;
+    print(" image added to firebase");
   }
 
   Widget buildInputField(TextEditingController controller, String labelText, String hintText ) {
@@ -92,7 +103,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: new CircleAvatar(
                 maxRadius: mediaQuery.size.height * 0.15,
                 backgroundImage: NetworkImage(
-                  auth.photoUrl != null ? auth.photoUrl : ''
+                  _image != null ? _image : ''
                 ),
                 backgroundColor: Color(0xff9575CD),
                 child: Text(
@@ -148,7 +159,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     // auth.logout(context);
                   } 
                   //  await auth.resetPassword(password); //mask this
-                  
+                  uploadImage(context);
+                  auth.updateUser(auth.displayName, _image.path);
                   Navigator.of(context).pop();
                   // Navigator.of(context).pushNamed('/home');
                   

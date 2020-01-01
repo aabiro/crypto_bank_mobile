@@ -89,25 +89,86 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
               style: TextStyle(),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: Text(
-              'Bike details',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Colors.blueGrey,
-                fontSize: 15,
-                fontWeight: FontWeight.w800,
-                fontFamily: 'OpenSAns',
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          //   child: Text(
+          //     'Bike details',
+          //     textAlign: TextAlign.left,
+          //     style: TextStyle(
+          //       color: Colors.blueGrey,
+          //       fontSize: 15,
+          //       fontWeight: FontWeight.w800,
+          //       fontFamily: 'OpenSAns',
+          //     ),
+          //   ),
+          // ),
+           SizedBox(height: 15.0),
           buildInputField(nameController, 'Name of Bike'),
           SizedBox(height: 15.0),
-          buildInputField(typeController, 'Type'),
+          // buildInputField(typeController, 'Type'),
+          Padding(
+              padding: EdgeInsets.fromLTRB(30, 10, 0, 0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  child: Text(
+                    "Type",
+                    style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: DropdownButton<String>(
+                      // isExpanded = true,
+                      isExpanded: true,
+                      hint: Text(
+                        'Type',
+                        style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: 'OpenSans',
+                            fontWeight: FontWeight.w800,
+                            fontSize: 18),
+                      ),
+                      value: dropdownValue,
+                      icon: Icon(Icons.arrow_drop_down,
+                          color: Constants.mainColor),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.w800,
+                          fontSize: 18),
+                      underline: Container(
+                        height: 2,
+                        color: Constants.mainColor,
+                      ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: list.map<DropdownMenuItem<String>>((value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+
+                ),
           // BuildDropdown(dropdownValue, list),
           SizedBox(height: 15.0),
-          buildInputField(conditionController, 'Condition'),
+          // buildInputField(conditionController, 'Condition'),
           SizedBox(height: 15.0),
           // buildInputField(countryController, 'Country'),
           // SizedBox(height: 15.0),
@@ -126,8 +187,9 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
                       userId: Provider.of<Authentication>(context).userId,
                       qrCode: qrCode, //do this check later
                       isActive: true,
-                      name: name,
+                      name: name == "" || name == null ? 'New Bike' : name,
                       //rasp pi helper get gps
+                      model: dropdownValue,
                       lat: latlng.latitude,
                       lng: latlng.longitude),
                 );

@@ -31,91 +31,9 @@ class ActivationCompleteScreen extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
-                            child: Text(
-                              'Start',
-                              style: TextStyle(
-                                color: Constants.mainColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Comfortaa',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '0',
-                            style: TextStyle(
-                              color: Constants.mainColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
-                            child: Text(
-                              'Scan',
-                              style: TextStyle(
-                                color: Constants.mainColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Comfortaa',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '0',
-                            style: TextStyle(
-                              color: Constants.mainColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
-                            child: Text(
-                              'Finish',
-                              style: TextStyle(
-                                color: Constants.mainColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Comfortaa',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '0',
-                            style: TextStyle(
-                              color: Constants.mainColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                        ],
-                      ),
-                    ],
-                  ),
+        
           Padding(
-            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+            padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
             child: Text(
               "Done!",
               textAlign: TextAlign.center,
@@ -134,7 +52,7 @@ class ActivationCompleteScreen extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.w800,
                     color: Colors.blueGrey,
-                    fontSize: 10)),
+                    fontSize: 15)),
           ),
           // Padding(
           // padding: EdgeInsets.all(5),

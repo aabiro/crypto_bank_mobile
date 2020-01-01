@@ -3,6 +3,7 @@ import 'package:flutter_app/main.dart';
 import 'package:flutter_app/screens/set_map_area.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/detail_fields.dart';
+import 'package:flutter_app/widgets/pie_chart.dart';
 import 'package:provider/provider.dart';
 import '../providers/bikes.dart';
 import '../providers/bike.dart';
@@ -186,27 +187,132 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: FlatButton.icon(
-                icon: Icon(
-                  Icons.pin_drop,
-                  color: Colors.blueGrey,
-                ),
-                label: Text(
-                  "Set Allowable Riding Area",
-                  style: TextStyle(
-                    color: Colors.blueGrey,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 18,
+            // StandardCard("Set Riding Area", SetMapAreaScreen() ),
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: EdgeInsets.all(10),
+
+                // child: Hero(
+                //   tag: "bike",
+                child: Card(
+                  child: InkWell(
+                    onTap: () => Navigator.of(context).pushNamed(SetMapAreaScreen.routeName),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+
+                      // height: 85,
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  child: Text(
+                                    'Set Riding Area',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.blueGrey,
+                                        fontFamily: 'OpenSans',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  )),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Icon(Icons.arrow_forward,
+                                    color: Colors.blueGrey),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(SetMapAreaScreen.routeName);
-                },
+                // ),
               ),
             ),
-            Padding(
+            
+            // Card(
+            //               child: Padding(
+            //     padding: EdgeInsets.all(10),
+            //     child: FlatButton.icon(
+            //       icon: Icon(
+            //         Icons.pin_drop,
+            //         color: Colors.blueGrey,
+            //       ),
+            //       label: Text(
+            //         "Set Riding Area",
+            //         style: TextStyle(
+            //           color: Colors.blueGrey,
+            //           fontWeight: FontWeight.w800,
+            //           fontSize: 18,
+            //         ),
+            //       ),
+            //       onPressed: () {
+            //         Navigator.of(context).pushNamed(SetMapAreaScreen.routeName);
+            //       },
+            //     ),
+            //   ),
+            // ),
+           
+            SizedBox(
+              // height: 200,
+              // width: double.infinity,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Card(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.all(20),
+                                child: Text(
+                                  'Deactivate',
+                                  style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w800,
+                                    fontFamily: 'OpenSans',
+                                  ),
+                                ),
+                              ),
+                              Switch(
+                                value: widget.bike.isActive != null
+                                    ? !widget.bike.isActive
+                                    : true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    print(widget.bike.isActive);
+                                    widget.bike.toggleActive();
+                                    print(widget.bike.isActive);
+                                    isSwitched = widget.bike.isActive;
+                                  });
+                                  Provider.of<Bikes>(context)
+                                      .updateBike(widget.bike.id, widget.bike);
+                                },
+                                activeTrackColor: Constants.mainColor,
+                                activeColor: Constants.optionalColor,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+             Padding(
               padding: EdgeInsets.all(0),
               child: Text(
                 'Alerts',
@@ -267,60 +373,6 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                   ),
                 ),
                 // ),
-              ),
-            ),
-            SizedBox(
-              // height: 200,
-              // width: double.infinity,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Card(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(20),
-                                child: Text(
-                                  'Deactivate',
-                                  style: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w800,
-                                    fontFamily: 'OpenSans',
-                                  ),
-                                ),
-                              ),
-                              Switch(
-                                value: widget.bike.isActive != null
-                                    ? !widget.bike.isActive
-                                    : true,
-                                onChanged: (value) {
-                                  setState(() {
-                                    print(widget.bike.isActive);
-                                    widget.bike.toggleActive();
-                                    print(widget.bike.isActive);
-                                    isSwitched = widget.bike.isActive;
-                                  });
-                                  Provider.of<Bikes>(context)
-                                      .updateBike(widget.bike.id, widget.bike);
-                                },
-                                activeTrackColor: Constants.mainColor,
-                                activeColor: Constants.optionalColor,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
               ),
             ),
             SizedBox(

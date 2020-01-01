@@ -156,7 +156,12 @@ class MyCustomFormState extends State<LoginScreen> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
-                  child: Text("Or Register", textAlign: TextAlign.center),
+                  child: Text("Or Register", 
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontFamily: 'OpenSans',
+                  ),
+                  textAlign: TextAlign.center),
                 ),
               ],
             ),

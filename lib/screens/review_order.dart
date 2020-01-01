@@ -251,13 +251,15 @@ class ReviewOrder extends StatelessWidget {
                 TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w800),
             textAlign: TextAlign.center,
           ),
+           shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
           content: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.2,
+            // height: MediaQuery.of(context).size.height * 0.2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 OutlineButton(
-                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  padding: EdgeInsets.all(20),
                   onPressed: () {
                     Navigator.of(context).popAndPushNamed(MapScreen.routeName);
                   },

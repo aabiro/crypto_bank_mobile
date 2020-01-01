@@ -8,7 +8,7 @@ class BuildDropdown extends StatefulWidget {
   List array;
   String hintText;
   String dropdownValue;
-  BuildDropdown(this.dropdownValue, this.array, [this.hintText = null]);
+  BuildDropdown(this.dropdownValue, this.array, this.hintText);
 
   @override
   _BuildDropdownState createState() => _BuildDropdownState();
@@ -22,6 +22,8 @@ class _BuildDropdownState extends State<BuildDropdown> {
           child: Align(
         alignment: Alignment.bottomLeft,
         child: DropdownButton<String>(
+          // isExpanded = true,
+          isExpanded: true,
           hint: Text(widget.hintText == null ? widget.dropdownValue.toString() : widget.hintText,
             style: TextStyle(
                 color: Colors.blueGrey,

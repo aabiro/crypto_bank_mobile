@@ -98,7 +98,7 @@ class ProfileScreen extends StatelessWidget {
             // buildInputField(modelController, 'Model'),
             // buildDetailFields("Type", widget.bike.model == null ? "None" : widget.bike.model),
             SizedBox(height: 15.0),
-            DetailField("Password", '*****'),
+            DetailField("Password", '*******'),
             // buildInputField(conditionController, 'Condition'),
             // SizedBox(height: 0.30),
             SizedBox(height: 30),

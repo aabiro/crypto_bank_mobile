@@ -133,7 +133,7 @@ class QrScanState extends State<QrScan> {
                       textColor: Colors.white,
                       splashColor: Colors.blueGrey,
                       onPressed: () {
-                        scan(args.activation);
+                        bypass(args.activation);
                         // scan(args.activation);
                       },
                       child: const Text(
@@ -187,89 +187,7 @@ class QrScanState extends State<QrScan> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
-                            child: Text(
-                              'Start',
-                              style: TextStyle(
-                                color: Constants.mainColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Comfortaa',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '0',
-                            style: TextStyle(
-                              color: Constants.mainColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
-                            child: Text(
-                              'Scan',
-                              style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Comfortaa',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '0',
-                            style: TextStyle(
-                              color: Constants.mainColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
-                            child: Text(
-                              'Finish',
-                              style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Comfortaa',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '0',
-                            style: TextStyle(
-                              color: Constants.mainColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                        ],
-                      ),
-                    ],
-                  ),
+                  
                   // Padding(
                   //   padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
                   //   child: Text(
@@ -285,7 +203,19 @@ class QrScanState extends State<QrScan> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
                     child: Text(
-                      "Follow the directions on the label of the GivnGo lock mechanism to affix the lock to your bicycle.(Done button goes to bike detail and verification code) \n\nNext,",
+                      "Follow the directions on the label of the GivnGo lock mechanism to affix the lock to your bicycle.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: Colors.blueGrey,
+                          fontSize: 15),
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
+                    child: Text(
+                      "Input the activation code:",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w800,
@@ -294,25 +224,70 @@ class QrScanState extends State<QrScan> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    width: MediaQuery.of(context).size.width/2,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                                        child: TextFormField(
+                        decoration: new InputDecoration(
+                          labelText: "Code",
+                          fillColor: Colors.white,
+                          border: new OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(15.0),
+                            borderSide: new BorderSide(
+                            ),
+                          ),
+                          //fillColor: Colors.green
+                        ),
+                        validator: (val) {
+                          if(val.length==0) {
+                            return "Email cannot be empty";
+                          }else{
+                            return null;
+                          }
+                        },
+                        keyboardType: TextInputType.emailAddress,
+                        style: new TextStyle(
+                          // fontFamily: "Poppins",
+                        ),
+                      ),
+                                      ),
                   ),
+                  // SizedBox(height: 10,),
+                  MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
+                  child: Text("Resend code", 
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontFamily: 'OpenSans',
+                  ),
+                  textAlign: TextAlign.center),
+                ),
+                    // height: 20,
+                    // width: MediaQuery.of(context).size.width/2,
+                  // child:
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 80, vertical: 10.0),
+                        EdgeInsets.fromLTRB(70, 50, 70, 20),
                     child: RaisedButton(
-                      elevation: 0.5,
+                      elevation: 3,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(7.0)),
-                      color: Constants.mainColor,
+                      color: Constants.accentColor,
                       textColor: Colors.white,
-                      splashColor: Colors.blueGrey,
+                      // splashColor: Colors.blueGrey,
                       onPressed: () {
                         bypass(args.activation);
                         // scan(args.activation);
                       },
-                      child: const Text(
+                      child: Text(
                         'Scan the QR code',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
+                            
                             // fontWeight: FontWeight.w800,
                             fontSize: 15),
                       ),
@@ -385,3 +360,95 @@ class QrScanState extends State<QrScan> {
     }
   }
 }
+
+
+
+
+
+
+
+
+
+// Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                     children: <Widget>[
+//                       Column(
+//                         children: <Widget>[
+//                           Padding(
+//                             padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
+//                             child: Text(
+//                               'Start',
+//                               style: TextStyle(
+//                                 color: Constants.mainColor,
+//                                 fontSize: 15,
+//                                 fontWeight: FontWeight.w800,
+//                                 fontFamily: 'Comfortaa',
+//                               ),
+//                             ),
+//                           ),
+//                           Text(
+//                             '0',
+//                             style: TextStyle(
+//                               color: Constants.mainColor,
+//                               fontSize: 20,
+//                               fontWeight: FontWeight.w800,
+//                               fontFamily: 'Comfortaa',
+//                             ),
+//                           ),
+//                           SizedBox(height: 30),
+//                         ],
+//                       ),
+//                       Column(
+//                         children: <Widget>[
+//                           Padding(
+//                             padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
+//                             child: Text(
+//                               'Scan',
+//                               style: TextStyle(
+//                                 color: Colors.blueGrey,
+//                                 fontSize: 15,
+//                                 fontWeight: FontWeight.w800,
+//                                 fontFamily: 'Comfortaa',
+//                               ),
+//                             ),
+//                           ),
+//                           Text(
+//                             '0',
+//                             style: TextStyle(
+//                               color: Constants.mainColor,
+//                               fontSize: 20,
+//                               fontWeight: FontWeight.w800,
+//                               fontFamily: 'Comfortaa',
+//                             ),
+//                           ),
+//                           SizedBox(height: 30),
+//                         ],
+//                       ),
+//                       Column(
+//                         children: <Widget>[
+//                           Padding(
+//                             padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
+//                             child: Text(
+//                               'Finish',
+//                               style: TextStyle(
+//                                 color: Colors.blueGrey,
+//                                 fontSize: 15,
+//                                 fontWeight: FontWeight.w800,
+//                                 fontFamily: 'Comfortaa',
+//                               ),
+//                             ),
+//                           ),
+//                           Text(
+//                             '0',
+//                             style: TextStyle(
+//                               color: Constants.mainColor,
+//                               fontSize: 20,
+//                               fontWeight: FontWeight.w800,
+//                               fontFamily: 'Comfortaa',
+//                             ),
+//                           ),
+//                           SizedBox(height: 30),
+//                         ],
+//                       ),
+//                     ],
+//                   ),
