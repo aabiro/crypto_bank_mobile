@@ -88,6 +88,7 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
         children: <Widget>[
           SizedBox(
             height: mediaQuery.size.height / 1.7,
+            // width: mediaQuery.size.width,
             child: Padding(
               padding: EdgeInsets.all(0),
               child: Stack(
@@ -110,83 +111,89 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                     ),
                   ),
 
-                  Column(
-                    
-                    children: <Widget>[
-                      
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    child: SizedBox(
+                      // width: mediaQuery.size.width * 0.8,
+                                        child: Column(
+                        // crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: SizedBox(
-                              // height: 20,
-                              child: Text(
-                                'Center on the map the area you would like to service.\nHighlight with a circle or polygon.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 12),
+                          
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: SizedBox(
+                                  // height: 20,
+                                  child: Text(
+                                    'Center on the map the area you would like to service.\nHighlight with a circle or polygon.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.blueGrey,
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 12),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
 
              
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: DropdownButton<String>(
-                        hint: Text(
-                          'Find My Ride',
-                          style: TextStyle(
-                              color: Colors.grey[410],
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.w800,
-                              fontSize: 15),
-                        ),
-                        value: dropdownValue,
-                        icon: Icon(Icons.location_on,
-                            color: Constants.optionalColor),
-                        iconSize: 24,
-                        elevation: 16,
-                        style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: 'OpenSans',
-                            fontWeight: FontWeight.w800,
-                            fontSize: 18),
-                        underline: Container(
-                          height: 2,
-                          color: Constants.optionalColor,
-                        ),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            dropdownValue = newValue;
-                          });
-                          Bike bike = bikesProv.findByName(newValue);
-                          MapsHelper.moveToBikeLocation(mc, bike.lat, bike.lng);
-                        },
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: DropdownButton<String>(
+                            hint: Text(
+                              'Find My Ride',
+                              style: TextStyle(
+                                  color: Colors.grey[410],
+                                  fontFamily: 'OpenSans',
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 15),
+                            ),
+                            value: dropdownValue,
+                            icon: Icon(Icons.location_on,
+                                color: Constants.optionalColor),
+                            iconSize: 24,
+                            elevation: 16,
+                            style: TextStyle(
+                                color: Colors.blueGrey,
+                                fontFamily: 'OpenSans',
+                                fontWeight: FontWeight.w800,
+                                fontSize: 18),
+                            underline: Container(
+                              height: 2,
+                              color: Constants.optionalColor,
+                            ),
+                            onChanged: (String newValue) {
+                              setState(() {
+                                dropdownValue = newValue;
+                              });
+                              Bike bike = bikesProv.findByName(newValue);
+                              MapsHelper.moveToBikeLocation(mc, bike.lat, bike.lng);
+                            },
 
-                        // items: <String>['Bike 1', 'Bike 2', 'Bmx', 'Mntn B']
-                        items:
-                            array.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                            // items: <String>['Bike 1', 'Bike 2', 'Bmx', 'Mntn B']
+                            items:
+                                array.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                            ],
+                          )
+                        ],
                       ),
                     ),
-                  ),
-                        ],
-                      )
-                    ],
                   ),
      Align(
             alignment: Alignment.bottomRight,
@@ -238,65 +245,52 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 65),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      // SizedBox(
-                      //   height: 10,
-                      // ),
-                      Column(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    // SizedBox(
+                    //   height: 10,
+                    // ),
+                    Column(
+                      children: <Widget>[
+                        Text(
+                      'Area Radius:',
+                      // textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 18),
+                    ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                      radius.toString(),
+                      style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 18),
+                    ),
+                                        Column(
                         children: <Widget>[
-                          Text(
-                        'Area Radius:',
-                        // textAlign: TextAlign.left,
+                      Text(
+                        ' km',
                         style: TextStyle(
                             color: Colors.blueGrey,
                             fontWeight: FontWeight.w800,
-                            fontSize: 20),
+                            fontSize: 18),
                       ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 65),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                          radius.toString(),
-                          style: TextStyle(
-                              color: Colors.blueGrey,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 20),
-                        ),
-                                            Padding(
-                          padding: EdgeInsets.only(left: 0),
-                                              child: Column(
-                            children: <Widget>[
-                          Text(
-                            ' km',
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 20),
-                          ),
-                          ],
-                        ),
-
-
-
-                          
-                            ),
-                          ]
-                        ),
-                      ), 
-                    ],
-                  ),
+                      ],
+                    ),
+                      ]
+                    ), 
+                  ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

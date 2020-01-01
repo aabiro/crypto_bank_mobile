@@ -61,60 +61,6 @@ class QrScanState extends State<QrScan> {
                             color: Colors.blueGrey,
                             fontSize: 20)),
                   ),
-                  //           Padding(
-                  //   padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                  //   child: Text("Payment method:",
-                  //       textAlign: TextAlign.center,
-                  //       style: TextStyle(
-                  //           fontWeight: FontWeight.w800,
-                  //           color: Colors.blueGrey,
-                  //           fontSize: 15)),
-                  // ),
-                  // SizedBox(
-                  //   width: double.infinity,
-                  //   child: Padding(
-                  //     padding: EdgeInsets.all(20),
-                  //     child: Column(
-                  //       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //       children: <Widget>[
-                  //         Row(
-                  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //           children: <Widget>[
-                  //             Text(
-                  //               "Credit Card\n ending in XXXX",
-                  //               textAlign: TextAlign.center,
-                  //               style: TextStyle(
-                  //                   color: Colors.blueGrey,
-                  //                   fontFamily: 'Comfortaa',
-                  //                   // fontWeight: FontWeight.w900,
-                  //                   fontSize: 15),
-                  //             ),
-                  //      OutlineButton(
-                  //     // minWidth: MediaQuery.of(context).size.width,
-                  //     padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  //     onPressed: () {
-                  //       Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             fullscreenDialog: true,
-                  //             builder: (context) => CreditCardScreen(),
-                  //             maintainState: false));
-                  //     },
-                  //     child: Text(
-                  //       "Change",
-                  //       textAlign: TextAlign.center,
-                  //       style: TextStyle(
-                  //           color: Constants.mainColor,
-                  //           fontWeight: FontWeight.w800,
-                  //           fontSize: 16),
-                  //     ),
-                  //   ),
-                  //           ],
-                  //         )
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                   Image.asset(
                     'assets/qr_bike.png',
                     height: 150,
@@ -280,8 +226,8 @@ class QrScanState extends State<QrScan> {
                       textColor: Colors.white,
                       // splashColor: Colors.blueGrey,
                       onPressed: () {
-                        bypass(args.activation);
-                        // scan(args.activation);
+                        // bypass(args.activation);
+                        scan(args.activation);
                       },
                       child: Text(
                         'Scan the QR code',
@@ -326,6 +272,23 @@ class QrScanState extends State<QrScan> {
     }
   }
 
+     void showError(String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text('Error'),
+              content: Text(message),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
+  }
+
   Future scan(bool activation) async {
     print('scan activation');
     print(activation);
@@ -333,7 +296,7 @@ class QrScanState extends State<QrScan> {
 
       String barcode = await BarcodeScanner.scan();
       setState(() => this._barcode = barcode);
-      await new Future.delayed(const Duration(seconds: 5));
+      // await new Future.delayed(const Duration(seconds: 5));
       if(widget.activation == false) {
         Provider.of<Authentication>(context).isOnTrip = true;
           Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
@@ -348,15 +311,19 @@ class QrScanState extends State<QrScan> {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
           this._barcode = 'The user did not give permission to use the camera!';
+          showError(this._barcode, context);
         });
       } else {
         setState(() => this._barcode = 'Unknown error $e');
+        showError(this._barcode, context);
       }
     } on FormatException {
       setState(() => this._barcode =
           'null, the user pressed the return button before scanning something)');
+      // showError(this._barcode, context);
     } catch (e) {
       setState(() => this._barcode = 'Unknown error: $e');
+      showError(this._barcode, context);
     }
   }
 }

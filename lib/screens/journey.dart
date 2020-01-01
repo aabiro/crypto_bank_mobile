@@ -109,7 +109,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
             //make this a list view builder!!
             child: Column(
               children: <Widget>[
-                  buildCard("Time of Journey", _timeString),
+                  buildCard("Time of Journey", _timeString), //causing text error
                   buildCard("Total Price of Journey", _getCost),
                   SizedBox(
                     child: Padding(

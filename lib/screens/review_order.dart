@@ -244,37 +244,37 @@ class ReviewOrder extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
-        return AlertDialog(
-          title: new Text(
-            "Thank you for your order! You will receive an email with your receipt and bike activation code shortly.",
-            style:
-                TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w800),
+        return Padding(
+          padding: EdgeInsets.fromLTRB(20, 100, 20, 60),
+          child: AlertDialog(
+              title: new Text(
+                "Thank you for your order! You will receive an email with your receipt and bike activation code shortly.",
+                style:
+          TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w800),
+                textAlign: TextAlign.center,
+              ),
+               shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0)),
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  OutlineButton(
+          padding: EdgeInsets.all(0),
+          onPressed: () {
+            Navigator.of(context).popAndPushNamed(MapScreen.routeName);
+          },
+          child: Text(
+            "Ok",
             textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Constants.mainColor,
+                fontWeight: FontWeight.w800,
+                fontSize: 16),
           ),
-           shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
-          content: SizedBox(
-            // height: MediaQuery.of(context).size.height * 0.2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                OutlineButton(
-                  padding: EdgeInsets.all(20),
-                  onPressed: () {
-                    Navigator.of(context).popAndPushNamed(MapScreen.routeName);
-                  },
-                  child: Text(
-                    "Ok",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Constants.mainColor,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
         );
       },
     );

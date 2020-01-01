@@ -11,6 +11,7 @@ class PlansScreen extends StatelessWidget {
     Color greyText = Colors.blueGrey;
     return Container(
       child: Card(
+        elevation: 5,
         shape: RoundedRectangleBorder(
           side: BorderSide(color: Colors.white70, width: 1),
           borderRadius: BorderRadius.circular(10),
@@ -78,12 +79,12 @@ class PlansScreen extends StatelessWidget {
           // textAlign: Alignment.center
         ),
       ),
-      decoration: new BoxDecoration(boxShadow: [
-        new BoxShadow(
-          color: Constants.optionalColor,
-          blurRadius: 5.0,
-        ),
-      ]),
+      // decoration: new BoxDecoration(boxShadow: [
+      //   new BoxShadow(
+      //     color: Constants.optionalColor,
+      //     blurRadius: 5.0,
+      //   ),
+      // ]),
     );
   }
 
@@ -125,6 +126,7 @@ class PlansScreen extends StatelessWidget {
                     //     context),
                     Container(
                   child: Card(
+                    elevation: 5,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.white70, width: 1),
                       borderRadius: BorderRadius.circular(10),
@@ -196,12 +198,12 @@ class PlansScreen extends StatelessWidget {
                       // textAlign: Alignment.center
                     ),
                   ),
-                  decoration: new BoxDecoration(boxShadow: [
-                    new BoxShadow(
-                      color: Constants.optionalColor,
-                      blurRadius: 5.0,
-                    ),
-                  ]),
+                  // decoration: new BoxDecoration(boxShadow: [
+                  //   new BoxShadow(
+                  //     color: Constants.optionalColor,
+                  //     blurRadius: 5.0,
+                  //   ),
+                  // ]),
                 ),
               ),
               Padding(
@@ -214,6 +216,7 @@ class PlansScreen extends StatelessWidget {
                       //     context),
                       Container(
                     child: Card(
+                      elevation: 5,
                       shape: RoundedRectangleBorder(
                         side: BorderSide(color: Colors.white70, width: 1),
                         borderRadius: BorderRadius.circular(10),
@@ -285,12 +288,14 @@ class PlansScreen extends StatelessWidget {
                         // textAlign: Alignment.center
                       ),
                     ),
-                    decoration: new BoxDecoration(boxShadow: [
-                      new BoxShadow(
-                        color: Constants.optionalColor,
-                        blurRadius: 5.0,
-                      ),
-                    ]),
+                    // decoration: new BoxDecoration(boxShadow: [
+                      
+                    //   new BoxShadow(
+                    
+                    //     color: Colors.blueGrey,
+                    //     blurRadius: 2.0,
+                    //   ),
+                    // ]),
                   )),
             ],
           ),

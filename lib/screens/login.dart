@@ -86,58 +86,77 @@ class MyCustomFormState extends State<LoginScreen> {
                 SizedBox(height: 10.0),
                 passwordField,
                 Padding(
-                  padding: EdgeInsets.only(top: 30),
-                  child: SizedBox(
-                    height: 38.0,
+                  padding: const EdgeInsets.fromLTRB(0,30, 0, 0),
+                  child: Container(
+                    width: 220,
+                    height: 150,
+                    child: SizedBox(
+                      width: double.infinity,
+                        child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            
+                            children: <Widget>[
+                              SizedBox(
+                                height: 35.0,
+                                width: 220,
+                                child: Material(
+                                  elevation: 2.0,
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  color: Constants.mainColor,
+                                  child: MaterialButton(
+                                    minWidth: MediaQuery.of(context).size.width / 1.6,
+                                    // padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
+                                    onPressed: () {
+                                      Provider.of<Authentication>(context)
+                                          .login(email, password, context);
+                                    },
+                                    child: Text(
+                                      "Login",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+
+                              SizedBox(
+                                height: 35.0,
+                                child: SignInButton(
+                                  Buttons.Facebook,
+                                  mini: false,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40.0),
+                                  ),
+                                  onPressed: () {
+                                    Provider.of<Authentication>(context)
+                                        .initiateFacebookLogin(context);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+
+                              SizedBox(
+                  height: 35,
+                  width: 220,
                     child: Material(
-                      elevation: 5.0,
-                      borderRadius: BorderRadius.circular(30.0),
-                      color: Constants.mainColor,
-                      child: MaterialButton(
-                        minWidth: MediaQuery.of(context).size.width / 1.6,
-                        padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
-                        onPressed: () {
-                          Provider.of<Authentication>(context)
-                              .login(email, password, context);
-                        },
-                        child: Text(
-                          "Login",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
-                  child: SizedBox(
-                    height: 35.0,
-                    child: SignInButton(
-                      Buttons.Facebook,
-                      mini: false,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40.0),
-                      ),
-                      onPressed: () {
-                        Provider.of<Authentication>(context)
-                            .initiateFacebookLogin(context);
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 38,
-                                  child: Material(
-                    elevation: 5.0,
+                    elevation: 2.0,
                     borderRadius: BorderRadius.circular(30.0),
                     color: Constants.accentColor,
                     child: MaterialButton(
-                      minWidth: MediaQuery.of(context).size.width / 1.6,
-                      padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
+                      // minWidth: MediaQuery.of(context).size.width / 1.6,
+                      // padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
                       onPressed: _localAuth.authenticate,
                       child: Text(
                         "Use Face/Touch ID",
@@ -149,7 +168,17 @@ class MyCustomFormState extends State<LoginScreen> {
                       ),
                     ),
                   ),
+                  ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
+                
+                
+                
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),

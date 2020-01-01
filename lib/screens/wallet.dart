@@ -68,44 +68,41 @@ class WalletScreen extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.all(10),
-                child: Hero(
-                  tag: "credit",
-                  child: Card(
-                    child: InkWell(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              fullscreenDialog: true,
-                              builder: (context) => CreditCardScreen(),
-                              maintainState: false)),
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        width: double.infinity,
-                        height: 75,
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.credit_card,
-                                      color: Colors.blueGrey),
-                                  // Icon(Icons.attach_money),
-                                  Expanded(
-                                    child: Text(
-                                      'Add Payment Method',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontFamily: 'OpenSans',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
+                child: Card(
+                  child: InkWell(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) => CreditCardScreen(),
+                            maintainState: false)),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      width: double.infinity,
+                      height: 75,
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.credit_card,
+                                    color: Colors.blueGrey),
+                                // Icon(Icons.attach_money),
+                                Expanded(
+                                  child: Text(
+                                    'Add Payment Method',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.blueGrey,
+                                        fontFamily: 'OpenSans',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
                                   ),
-                                ]),
-                          ],
-                        ),
+                                ),
+                              ]),
+                        ],
                       ),
                     ),
                   ),

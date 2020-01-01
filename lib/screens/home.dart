@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/helpers/maps_helper.dart';
@@ -17,6 +18,7 @@ import './qr_scan.dart';
 import 'package:flutter_app/components/app_bar.dart';
 import 'dart:ui' as ui;
 
+import 'bike_form.dart';
 import 'journey.dart';
 
 class MapScreen extends StatefulWidget {
@@ -50,6 +52,9 @@ class MapScreenState extends State<MapScreen> {
   BitmapDescriptor myIcon;
   BitmapDescriptor customIcon;
   List<Marker> markersA = [];
+
+  String _barcode = "";
+  
   // Uint8List markerIcon;
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -125,7 +130,7 @@ class MapScreenState extends State<MapScreen> {
       });
       Future.delayed(Duration.zero).then((_) {
         user = Provider.of<Authentication>(context);
-        // user.isOnTrip;
+        // user.isOnTrip = false
       });
       Future.delayed(Duration.zero).then((_) {
         Provider.of<Bikes>(context)
@@ -213,8 +218,10 @@ class MapScreenState extends State<MapScreen> {
     mc.setMapStyle(val);
   }
 
+ 
   @override
   Widget build(BuildContext context) {
+    
     createMarker(context);
     final mediaQuery = MediaQuery.of(context);
     String dropdownValue;
@@ -365,8 +372,9 @@ class MapScreenState extends State<MapScreen> {
                           onPressed: () {
                             // Navigator.pushNamed(context, '/camera');
                             print('user.isOnTrip : ${user.isOnTrip} in the home screen');
-                            Navigator.of(context).pushNamed(QrScan.routeName,
-                                arguments: QrScan(false));
+                            // Navigator.of(context).pushNamed(QrScan.routeName,
+                            //     arguments: QrScan(false));
+                            scan();
                           },
                         )
                       : RaisedButton(
@@ -397,5 +405,60 @@ class MapScreenState extends State<MapScreen> {
         ],
       ),
     );
+  }
+
+    void showError(String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text('Error'),
+              content: Text(message),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
+  }
+
+  Future scan() async {
+    // print('scan activation');
+    // print(activation);
+    try {
+
+      String barcode = await BarcodeScanner.scan();
+      setState(() => this._barcode = barcode);
+      // await new Future.delayed(const Duration(seconds: 5));
+      // if(widget.activation == false) {
+        Provider.of<Authentication>(context).isOnTrip = true;
+          Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
+              arguments: JourneyScreen());
+      // } else {
+      //   Navigator.of(context).pushReplacementNamed(
+      //         BikeFormScreen.routeName,
+      //         arguments: BikeFormScreen(barcode));
+      // }
+           
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        setState(() {
+          this._barcode = 'The user did not give permission to use the camera!';
+          showError(this._barcode, context);
+        });
+      } else {
+        setState(() => this._barcode = 'Unknown error $e');
+        showError(this._barcode, context);
+      }
+    } on FormatException {
+      setState(() => this._barcode =
+          'null, the user pressed the return button before scanning something)');
+      // showError(this._barcode, context);
+    } catch (e) {
+      setState(() => this._barcode = 'Unknown error: $e');
+      showError(this._barcode, context);
+    }
   }
 }

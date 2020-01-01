@@ -37,30 +37,27 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
         ),
         resizeToAvoidBottomInset: true,
         body: SafeArea(
-          child: Hero(
-            tag: 'credit',
-            child: Column(
-            children: <Widget>[
-              CreditCardWidget(
-                cardNumber: cardNumber,
-                expiryDate: expiryDate,
-                cardHolderName: cardHolderName,
-                cvvCode: cvvCode,
-                showBackView: isCvvFocused,
-                height: 190,
-                cardbgColor: cardbgColor,
-                animationDuration: Duration(milliseconds: 1000),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: CreditCardForm(
-                    onCreditCardModelChange: onCreditCardModelChange,
-                  ),
+          child: Column(
+          children: <Widget>[
+            CreditCardWidget(
+              cardNumber: cardNumber,
+              expiryDate: expiryDate,
+              cardHolderName: cardHolderName,
+              cvvCode: cvvCode,
+              showBackView: isCvvFocused,
+              height: 170,
+              cardbgColor: cardbgColor,
+              animationDuration: Duration(milliseconds: 1000),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: CreditCardForm(
+                  onCreditCardModelChange: onCreditCardModelChange,
                 ),
-              ),    
-            ],
+              ),
+            ),    
+          ],
           ),
-        ),
       ),
     );
   }
