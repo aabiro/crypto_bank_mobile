@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class MapScreenState extends State<MapScreen> {
   var _init = true;
   var _isLoading = false;
   var user;
-  // var allBikes;
+  var allBikes;
   GoogleMapController mc;
   Completer<GoogleMapController> _controller = Completer();
   LatLng toronto = LatLng(43.65, -79.38);
@@ -56,7 +57,7 @@ class MapScreenState extends State<MapScreen> {
   List<Marker> markersA = [];
 
   String _barcode = "";
-  
+
   // Uint8List markerIcon;
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -127,10 +128,14 @@ class MapScreenState extends State<MapScreen> {
       setState(() {
         _isLoading = true;
       });
-      Future.delayed(Duration.zero).then((_) {
-        Provider.of<Bikes>(context).getUserBikes(allBikes: true);
-        // print(allBikes);
-      });
+      // Future.delayed(Duration.zero).then((_) {
+      //   Provider.of<Bikes>(context).getUserBikes(allBikes: true);
+      //   // .then((_) {
+      //   //   print(allBikes);
+
+      //   // });
+      //   // print(allBikes);
+      // });
       Future.delayed(Duration.zero).then((_) {
         user = Provider.of<Authentication>(context);
         // user.isOnTrip = false
@@ -173,7 +178,9 @@ class MapScreenState extends State<MapScreen> {
       //  });
 
       //
-      markersA.add(Marker(
+      // allBikes.forEach((bikeId, bikeData) {
+      markersA.add( //change to current position
+        Marker(
           markerId: MarkerId('mymarker'),
           draggable: false,
           onTap: () {
@@ -181,26 +188,45 @@ class MapScreenState extends State<MapScreen> {
             print('clicked marker');
             print(BitmapDescriptor.fromBytes(markerIcon));
           },
+          // position: LatLng(bikeData.lat, bikeData.lng),
           position: toronto,
-          icon: customIcon
+          // icon: customIcon //icon loads
           // icon: BitmapDescriptor.fromBytes(markerIcon), //LatLng(43.65, -79.38)
-          ));
+        ),
+      );
 
-      userMarker.add(Marker(
-        markerId: MarkerId('userMarker'),
-        draggable: true,
-        onTap: () {
-          print('clicked user marker');
+      Future.delayed(Duration.zero).then(
+        (_) {
+          Provider.of<Bikes>(context).getAllUserBikes().then(
+            (response) {
+              response.forEach(
+                (bike) {
+                  // print('bike lat : ${bike.lat} and bike lng ${bike.lng}');
+                  markersA.add(
+                    Marker(
+                      markerId: MarkerId(bike.id.toString()),
+                      draggable: false,
+                      onTap: () {
+                        // print(markerIcon);
+                        // print('clicked marker');
+                        // print(BitmapDescriptor.fromBytes(markerIcon));
+                      },
+
+                      position: LatLng(bike.lat, bike.lng),
+                      // position: toronto,
+                      // icon: customIcon
+                      // icon: BitmapDescriptor.fromBytes(markerIcon), //LatLng(43.65, -79.38)
+                    ),
+                  );
+                },
+              );
+            },
+          );
         },
-        // position:
-        // position: LatLng(userLocation.latitude, userLocation.longitude)
-      ));
-      print(markers);
-      // mc = controller;
+      );
     }
     _init = false;
     super.initState();
-    // markersA = Set.from([]);
   }
 
   createMarker(context) {
@@ -221,18 +247,14 @@ class MapScreenState extends State<MapScreen> {
     mc.setMapStyle(val);
   }
 
- 
   @override
   Widget build(BuildContext context) {
-    
     createMarker(context);
-    // print(allBikes);
     final mediaQuery = MediaQuery.of(context);
     String dropdownValue;
     var bikesProv = Provider.of<Bikes>(context);
     List<Bike> userBikes = bikesProv.userBikes;
-    List<Bike> allBikes = bikesProv.allBikes;
-    print(allBikes);
+    // List<Bike> allBikes = bikesProv.allBikes;
     var array = userBikes.map((ub) => ub.bikeName).toList();
 
     return Scaffold(
@@ -251,7 +273,6 @@ class MapScreenState extends State<MapScreen> {
           SizedBox(
             child: GoogleMap(
                 onMapCreated: (mc) {
-                  // mc = _mc;
                   mapCreated(mc);
                   // mc.setMapStyle(mapStyle)
                   MapsHelper.setStyle(mc, context);
@@ -260,7 +281,8 @@ class MapScreenState extends State<MapScreen> {
                 },
                 initialCameraPosition:
                     CameraPosition(target: LatLng(40.6281, 14.4850), zoom: 5),
-                markers: Set.from(markersA),
+                markers: Set.from(markersA), //works
+                // markers: Set.from(addBikeMarkers()),
                 // myLocationEnabled: false,
                 myLocationButtonEnabled: false,
                 mapToolbarEnabled: false,
@@ -358,8 +380,7 @@ class MapScreenState extends State<MapScreen> {
               child: SizedBox(
                   width: mediaQuery.size.width * 0.7,
                   height: mediaQuery.size.height * 0.1,
-                  child: 
-                  user.isOnTrip != null && user.isOnTrip == false
+                  child: user.isOnTrip != null && user.isOnTrip == false
                       ? RaisedButton.icon(
                           elevation: 5,
                           shape: RoundedRectangleBorder(
@@ -377,7 +398,8 @@ class MapScreenState extends State<MapScreen> {
                                   fontSize: 15)),
                           onPressed: () {
                             // Navigator.pushNamed(context, '/camera');
-                            print('user.isOnTrip : ${user.isOnTrip} in the home screen');
+                            print(
+                                'user.isOnTrip : ${user.isOnTrip} in the home screen');
                             // Navigator.of(context).pushNamed(QrScan.routeName,
                             //     arguments: QrScan(false));
                             scan();
@@ -401,7 +423,8 @@ class MapScreenState extends State<MapScreen> {
                                 fontSize: 15),
                           ),
                           onPressed: () {
-                            print('user.isOnTrip : ${user.isOnTrip} in the home screen');
+                            print(
+                                'user.isOnTrip : ${user.isOnTrip} in the home screen');
                             Navigator.of(context)
                                 .pushNamed(JourneyScreen.routeName);
                           },
@@ -413,12 +436,12 @@ class MapScreenState extends State<MapScreen> {
     );
   }
 
-    void showError(String message, BuildContext context) {
+  void showError(String message, BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
               title: Text('Error'),
               content: Text(message),
               actions: <Widget>[
@@ -436,20 +459,19 @@ class MapScreenState extends State<MapScreen> {
     // print('scan activation');
     // print(activation);
     try {
-
       String barcode = await BarcodeScanner.scan();
       setState(() => this._barcode = barcode);
       // await new Future.delayed(const Duration(seconds: 5));
       // if(widget.activation == false) {
-        Provider.of<Authentication>(context).isOnTrip = true;
-          Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
-              arguments: JourneyScreen());
+      Provider.of<Authentication>(context).isOnTrip = true;
+      Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
+          arguments: JourneyScreen());
       // } else {
       //   Navigator.of(context).pushReplacementNamed(
       //         BikeFormScreen.routeName,
       //         arguments: BikeFormScreen(barcode));
       // }
-           
+
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
