@@ -409,6 +409,8 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
           title: new Text(
             "Are you sure you want to remove this ride?",
             style:

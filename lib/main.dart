@@ -4,8 +4,11 @@ import 'package:flutter_app/screens/alert_screen.dart';
 import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/screens/bike_list.dart';
 import 'package:flutter_app/providers/bike.dart';
+import 'package:flutter_app/screens/direct_deposit.dart';
 import 'package:flutter_app/screens/edit_bike.dart';
-import 'package:flutter_app/screens/edit_profile.dart';
+import 'package:flutter_app/screens/edit_profile/edit_username.dart';
+import 'package:flutter_app/screens/edit_profile/reset_email.dart';
+import 'package:flutter_app/screens/edit_profile/reset_password.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/screens/profile.dart';
@@ -137,7 +140,10 @@ class MyApp extends StatelessWidget {
             // BikeDetailScreen.routeName: (context) => BikeDetailScreen(),
             BikeFormScreen.routeName: (context) => BikeFormScreen(''),
             EditBike.routeName: (context) => EditBike(''),
-            EditProfileScreen.routeName: (context) => EditProfileScreen(),
+            EditUserName.routeName: (context) => EditUserName(),
+            EditPassword.routeName: (context) => EditPassword(),
+            EditEmail.routeName: (context) => EditEmail(),
+            DirectDeposit.routeName: (context) => DirectDeposit(),
             AlertScreen.routeName: (context) => AlertScreen(),
             // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
             QrScan.routeName: (context) => QrScan(false),

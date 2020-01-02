@@ -34,11 +34,13 @@ class MapScreenState extends State<MapScreen> {
   var _init = true;
   var _isLoading = false;
   var user;
+  // var allBikes;
   GoogleMapController mc;
   Completer<GoogleMapController> _controller = Completer();
   LatLng toronto = LatLng(43.65, -79.38);
   Future<LocationData> userLocation = _getGPSLocation();
-  List<Bikes> userBikes;
+  // List<Bikes> userBikes;
+  // List<Bikes> allBikes;
   CameraPosition torontoCP = CameraPosition(
     //make this userlocation
     target: LatLng(43.65, -79.38),
@@ -126,7 +128,8 @@ class MapScreenState extends State<MapScreen> {
         _isLoading = true;
       });
       Future.delayed(Duration.zero).then((_) {
-        Provider.of<Bikes>(context).getBikes();
+        Provider.of<Bikes>(context).getUserBikes(allBikes: true);
+        // print(allBikes);
       });
       Future.delayed(Duration.zero).then((_) {
         user = Provider.of<Authentication>(context);
@@ -223,10 +226,13 @@ class MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     
     createMarker(context);
+    // print(allBikes);
     final mediaQuery = MediaQuery.of(context);
     String dropdownValue;
     var bikesProv = Provider.of<Bikes>(context);
     List<Bike> userBikes = bikesProv.userBikes;
+    List<Bike> allBikes = bikesProv.allBikes;
+    print(allBikes);
     var array = userBikes.map((ub) => ub.bikeName).toList();
 
     return Scaffold(
@@ -411,6 +417,8 @@ class MapScreenState extends State<MapScreen> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
               title: Text('Error'),
               content: Text(message),
               actions: <Widget>[

@@ -26,8 +26,7 @@ class UserCards with ChangeNotifier {
         url,
         body: json.encode(
           {
-            //merges with existing values on server
-            'userId': newUserCard.id,
+            'userId': newUserCard.userId,
             'name': newUserCard.name,
             'number': newUserCard.number,
             'expiry': newUserCard.expiry,
@@ -38,7 +37,8 @@ class UserCards with ChangeNotifier {
       );
       if (response.statusCode >= 400) {
         print(response.statusCode);
-        print("$response");
+        print("${response.toString()}");
+        // print('response $data');  
         // userCards.insert(userCardIndex, userCard); //keep userCard if the delete did not work, optimistic updating
         // notifyListeners();
         throw ExceptionHandler('Cannot update userCard.');
@@ -104,7 +104,8 @@ class UserCards with ChangeNotifier {
               userCardsLoaded.add(
                 //loads the userCards when called
                 UserCard(
-                    userId: userCardData['id'],
+                    id: userCardId,
+                    userId: userCardData['userId'],
                     name: userCardData['name'],
                     number: userCardData['number'],
                     expiry: userCardData['expiry'],

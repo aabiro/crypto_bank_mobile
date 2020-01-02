@@ -3,6 +3,8 @@ import 'package:flutter_app/screens/add_credit_card.dart';
 import 'package:flutter_app/screens/card_list.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 
+import 'direct_deposit.dart';
+
 class WalletScreen extends StatelessWidget {
   static final routeName = 'wallet';
 
@@ -130,12 +132,7 @@ class WalletScreen extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 child: Card(
                   child: InkWell(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (context) => CreditCardScreen(),
-                            maintainState: false)),
+                    onTap: () => Navigator.of(context).pushNamed(DirectDeposit.routeName),
                     child: Container(
                       padding: EdgeInsets.all(20),
                       width: double.infinity,
@@ -147,7 +144,9 @@ class WalletScreen extends StatelessWidget {
                                   MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Icon(Icons.account_balance_wallet,
+                                Icon(
+                                  Icons.account_balance,
+                                  // Icons.account_balance_wallet,
                                     color: Colors.blueGrey),
                                 Expanded(
                                   child: Text(

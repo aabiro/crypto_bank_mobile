@@ -69,7 +69,7 @@ class _CreditCardFormState extends State<CreditCardForm> {
     cvvCode = widget.cvvCode ?? '';
 
     creditCardModel = CreditCardModel(cardNumber, expiryDate, cardHolderName,
-        cvvCode, isCvvFocused, Duration(milliseconds: 1000));
+        cvvCode, isCvvFocused, Duration(milliseconds: 800));
   }
 
   @override

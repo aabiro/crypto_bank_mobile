@@ -10,6 +10,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import '../helpers/maps_helper.dart';
 import '../models/place.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 
 class SetMapAreaScreen extends StatefulWidget {
@@ -126,7 +127,7 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                                 alignment: Alignment.topCenter,
                                 child: SizedBox(
                                   // height: 20,
-                                  child: Text(
+                                  child: AutoSizeText(
                                     'Center on the map the area you would like to service.\nHighlight with a circle or polygon.',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(

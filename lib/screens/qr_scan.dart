@@ -276,6 +276,8 @@ class QrScanState extends State<QrScan> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
               title: Text('Error'),
               content: Text(message),
               actions: <Widget>[
@@ -297,15 +299,15 @@ class QrScanState extends State<QrScan> {
       String barcode = await BarcodeScanner.scan();
       setState(() => this._barcode = barcode);
       // await new Future.delayed(const Duration(seconds: 5));
-      if(widget.activation == false) {
-        Provider.of<Authentication>(context).isOnTrip = true;
-          Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
-              arguments: JourneyScreen());
-      } else {
+      // if(widget.activation == false) {
+      //   Provider.of<Authentication>(context).isOnTrip = true;
+      //     Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
+      //         arguments: JourneyScreen());
+      // } else {
         Navigator.of(context).pushReplacementNamed(
               BikeFormScreen.routeName,
               arguments: BikeFormScreen(barcode));
-      }
+      // }
            
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {

@@ -80,7 +80,7 @@ class MenuDrawer extends StatelessWidget {
                 Navigator.of(context).popAndPushNamed(SettingsScreen.routeName);
               }),
               ListTile(
-                leading: Icon(Icons.exit_to_app, size: 26),
+                leading: Icon(Icons.exit_to_app, size: 26,color: Colors.blueGrey),
                 title: Text(
                   'Sign Out',
                   style: TextStyle(

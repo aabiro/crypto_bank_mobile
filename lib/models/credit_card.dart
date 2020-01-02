@@ -2,7 +2,6 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 
 class CreditCardModel {
-  
   String cardNumber;
   String expiryDate;
   String cardHolderName;
@@ -14,18 +13,18 @@ class CreditCardModel {
   int width;
   Duration animationDuration;
 
-  CreditCardModel(
+  CreditCardModel(     
       this.cardNumber,
       this.expiryDate,
       this.cardHolderName,
       this.cvvCode,
-      this.isCvvFocused,
+      this.isCvvFocused,    
       // this.height
       // this.cardbgColor,
       // this.height,
       // this.textStyle,
       // this.width,
-      this.animationDuration
+      this.animationDuration,
   );
 }
 

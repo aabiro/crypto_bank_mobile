@@ -5,6 +5,7 @@ import 'package:flutter_app/providers/user_card.dart';
 import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/empty_list.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 
 import 'add_credit_card.dart';
@@ -23,6 +24,7 @@ class _CardScreenState extends State<CardScreen> {
   var _init = true;
   var _isLoading = false;
   List<UserCard> cards = [];
+  
 
   @override
   void didChangeDependencies() {
@@ -41,7 +43,8 @@ class _CardScreenState extends State<CardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    cards = Provider.of<UserCards>(context).userCards;
+    final cardProv = Provider.of<UserCards>(context);
+    cards = cardProv.userCards;
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -89,44 +92,76 @@ class _CardScreenState extends State<CardScreen> {
                       children: cards != null && cards.length > 0
                           ? cards?.map(
                               (c) {
-                                return Card(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.symmetric(
-                                          vertical: 10,
-                                          horizontal: 15,
-                                        ),
-                                        decoration: BoxDecoration(
-                                            // border: Border.all(
-                                            //   color: Constants.accentColor,
-                                            //   width: 2,
-                                            // ),
-                                            ),
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(
-                                          "Credit Card\n ending in ${c.lastFourDigits}",
-                                          textAlign: TextAlign.center,
-                                          // "Credit Card\n ending in XXXX",
-                                          style: TextStyle(
-                                              color: Colors.blueGrey,
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 20),
+                                return Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                      child: SizedBox(
+                                        
+                                              child: Dismissible(
+                                              key: ValueKey(c.id),  
+                                              direction: DismissDirection.endToStart,
+                                              onDismissed: (direction) {
+                                                cardProv.deleteUserCard(c.id);
+                                              },
+                                              background: Container(
+                                                // decoration: ShapeDecoration(
+                                                //   shape: RoundedRectangleBorder(
+                                                //     borderRadius: BorderRadius.circular(10),
+                                                //   ),
+                                                // ),
+                                                color: Colors.red,
+                                                child: 
+                                                  Icon(Icons.delete,
+                                                    color:  Colors.white,
+                                                    size: 40,
+                                                  ),
+                                                  alignment: Alignment.centerRight,
+                                                  padding: EdgeInsets.only(right: 20),
+                                                  margin: EdgeInsets.all(4),
+                                              ),
+                                          child: Card(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                  vertical: 10,
+                                                  horizontal: 15,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    // border: Border.all(
+                                                    //   color: Constants.accentColor,
+                                                    //   width: 2,
+                                                    // ),
+                                                    ),
+                                                padding: EdgeInsets.all(10),
+                                                child: AutoSizeText(
+                                                  "Credit Card\n ending in ${c.lastFourDigits}",
+                                                  textAlign: TextAlign.center,
+                                                  // "Credit Card\n ending in XXXX",
+                                                  style: TextStyle(
+                                                      color: Colors.blueGrey,
+                                                      fontWeight: FontWeight.w800,
+                                                      fontSize: 20),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.all(30),
+                                                child: Text(
+                                                    c.isDefault ? "Default" : "",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        // fontSize: 40,
+                                                        color: Constants.optionalColor,
+                                                        fontWeight: FontWeight.w900)),
+                                              ),
+                                            ],
+                                          ),
+                                    ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.all(30),
-                                        child: Text(
-                                            c.isDefault ? "Default" : "",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                // fontSize: 40,
-                                                color: Constants.optionalColor,
-                                                fontWeight: FontWeight.w900)),
-                                      ),
-                                    ],
                                   ),
                                 );
                               },
@@ -158,14 +193,19 @@ class _CardScreenState extends State<CardScreen> {
                           minWidth: mediaQuery.size.width / 3,
                           // padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                           Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      fullscreenDialog: true,
+                                      builder: (context) => CreditCardScreen(),
+                                      maintainState: false));
                             // print('update/edit bike id: $id');
                             // bike.name = name;
                             // bike.model = type;
                             // bikeProv.updateBike(id, bike); //update existing bike
                             // Navigator.of(context).popAndPushNamed(CreditCardScreen.routeName);
                           },
-                          child: Text("Cancel",
+                          child: Text("Add Card",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   // fontSize: 40,

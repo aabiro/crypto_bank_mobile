@@ -181,11 +181,24 @@ class MyCustomFormState extends State<LoginScreen> {
                 
                 MaterialButton(
                   minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                  padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                   onPressed: () {
                     Navigator.pushNamed(context, '/register');
                   },
                   child: Text("Or Register", 
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontFamily: 'OpenSans',
+                  ),
+                  textAlign: TextAlign.center),
+                ),
+                MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
+                  child: Text("Forgot password?", 
                   style: TextStyle(
                     color: Colors.blueGrey,
                     fontFamily: 'OpenSans',

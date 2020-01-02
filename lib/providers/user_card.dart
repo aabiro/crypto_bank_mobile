@@ -36,9 +36,9 @@ class UserCard with ChangeNotifier {
   }
 
   String get lastFourDigits {
-    return "XXXX";
+    // return "XXXX";
     // return number; //needs numberr
-    // return number != null || number != "" ? number.substring(number.length - 4, number.length) : 'XXXX';
+    return number == null || number == "" || number.length < 4 ? 'XXXX' : number.substring(number.length - 4, number.length);
   }
 
   bool get _isDefault {

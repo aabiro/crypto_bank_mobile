@@ -71,6 +71,8 @@ class Authentication with ChangeNotifier {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
               title: Text('Error'),
               content: Text(message),
               actions: <Widget>[

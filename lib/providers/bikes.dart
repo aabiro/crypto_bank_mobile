@@ -103,14 +103,14 @@ class Bikes with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUserBikes() async {
+Future<void> getUserBikes({bool allBikes = false}) async {
     //no token or userId here, when coming back to map...
     print('token get user bikes $token');
+    // print('token get user bikes $token');
     final List<Bike> bikesLoaded = [];
     var url;
-    if (token == null) {
-      url =
-          'https://capstone-addb0.firebaseio.com/bikes.json&orderBy="userId"&equalTo="$userId"';
+    if (allBikes == true) {
+      url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
     } else {
       url =
           'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token&orderBy="userId"&equalTo="$userId"';
@@ -143,7 +143,12 @@ class Bikes with ChangeNotifier {
                     ),
               );
             });
-            _userBikes = bikesLoaded;
+             if (allBikes == true) {
+               _allBikes = bikesLoaded;
+             } else {
+               _userBikes = bikesLoaded;
+             }
+                  
             notifyListeners();
             // print(data);
           }
