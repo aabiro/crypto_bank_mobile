@@ -128,7 +128,7 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                                 child: SizedBox(
                                   // height: 20,
                                   child: AutoSizeText(
-                                    'Center on the map the area you would like to service.\nHighlight with a circle or polygon.',
+                                    'Center on the map the area you \nwould like to service.\nHighlight with a circle or polygon.',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.blueGrey,

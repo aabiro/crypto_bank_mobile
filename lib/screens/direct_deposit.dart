@@ -64,7 +64,7 @@ class _DirectDepositState extends State<DirectDeposit> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final auth = Provider.of<Authentication>(context);
-    final bankField = buildInputField(bankController, "Bank Number", "");
+    final bankField = buildInputField(bankController, "Institution Number", "");
     final transitField = buildInputField(transitController, "Transit Number", "");
     final accountField = buildInputField(accountController, "Account Number", ""); 
     String bank = bankController.text;
@@ -113,8 +113,9 @@ class _DirectDepositState extends State<DirectDeposit> {
               //   ),
               // ),        
               // ),
+              SizedBox(height: 10,),
             Padding(
-                padding: EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 15.0),
+                padding: EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 15.0),
                 child: bankField),
             // TextFormField(
             //   decoration: InputDecoration(

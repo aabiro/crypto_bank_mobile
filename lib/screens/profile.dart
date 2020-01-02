@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 // import 'package:charts_flutter/flutter.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -8,17 +11,48 @@ import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/models/income_chart.dart';
 import 'package:flutter_app/widgets/bar_chart.dart';
 import 'package:flutter_app/widgets/detail_fields.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 import 'edit_profile/edit_username.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   var _isLoading = false;
+
   var _init = true;
+
   final usernameController = TextEditingController();
+
   final passwordController = TextEditingController();
+
   final emailController = TextEditingController();
+
+    File _image;
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    // var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
+  Future uploadImage(BuildContext context) async {
+    String picFile = basename(_image.path);
+    StorageReference firebaseStorage = FirebaseStorage.instance.ref().child(picFile); 
+    StorageUploadTask sUT = firebaseStorage.putFile(_image); //add file to firestore
+    StorageTaskSnapshot sTS = await sUT.onComplete;
+    print(" image added to firebase");
+  }
 
   Widget buildInputField(String title, String value, BuildContext context) {
     return Padding(
@@ -157,8 +191,8 @@ class ProfileScreen extends StatelessWidget {
             ),
             SizedBox(height: 30),
             FloatingActionButton(
-              onPressed: () {},
-              //getImage,
+              onPressed:
+              getImage,
               // tooltip: 'Pick Image',
               child: Icon(Icons.add_a_photo),
             ),

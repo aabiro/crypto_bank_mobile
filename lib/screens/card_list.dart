@@ -144,11 +144,11 @@ class _CardScreenState extends State<CardScreen> {
                                                   style: TextStyle(
                                                       color: Colors.blueGrey,
                                                       fontWeight: FontWeight.w800,
-                                                      fontSize: 20),
+                                                      fontSize: 15),
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.all(30),
+                                                padding: EdgeInsets.only(left: 10),
                                                 child: Text(
                                                     c.isDefault ? "Default" : "",
                                                     textAlign: TextAlign.center,

@@ -1,35 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/bikes.dart';
-import 'package:flutter_app/widgets/dropdown.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_app/screens/order_complete.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:flutter_app/widgets/dropdown.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class EditBike extends StatefulWidget {
   static const routeName = '/edit_bike';
   final String id;
 
   EditBike([this.id]);
-
   @override
   _EditBikeState createState() => _EditBikeState();
 }
 
 class _EditBikeState extends State<EditBike> {
   final nameController = TextEditingController();
-
   final typeController = TextEditingController();
-
   final conditionController = TextEditingController();
 
-  Widget buildInputField(TextEditingController controller, String hintText) {
-    return TextFormField(
-      obscureText: false,
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: hintText,
-        hintStyle: TextStyle(
-          color: Color(0xff2196F3),
+
+  buildInputField(TextEditingController controller, String hintText) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+      child: TextFormField(
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+        obscureText: false,
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: hintText,
+          hintStyle: TextStyle(
+            color: Color(0xff2196F3),
+          ),
         ),
       ),
     );
@@ -49,20 +59,21 @@ class _EditBikeState extends State<EditBike> {
     String type = typeController.text;
     // String condition = conditionController.text; //add or image upload instead...
     final mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         //add to Scroll whole screen
-        child: Column(
-          children: <Widget>[
-            new AppBar(
-              centerTitle: true,
-              backgroundColor: Color(0xff673AB7),
-              title: new Text(
-                'Edit Bike',
-                style: TextStyle(),
-              ),
+        child: Column(children: <Widget>[
+          new AppBar(
+            centerTitle: true,
+            backgroundColor: Color(0xff673AB7),
+            title: new Text(
+              'Edit Bike',
+              // planType,
+              style: TextStyle(),
             ),
-            Padding(
+          ),
+          Padding(
               padding: EdgeInsets.all(20),
               child: SizedBox(
                 width: double.infinity,
@@ -77,12 +88,26 @@ class _EditBikeState extends State<EditBike> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
-              child: nameField,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+
+          // Padding(
+          //   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          //   child: Text(
+          //     'Bike details',
+          //     textAlign: TextAlign.left,
+          //     style: TextStyle(
+          //       color: Colors.blueGrey,
+          //       fontSize: 15,
+          //       fontWeight: FontWeight.w800,
+          //       fontFamily: 'OpenSAns',
+          //     ),
+          //   ),
+          // ),
+           SizedBox(height: 15.0),
+          buildInputField(nameController, 'Name of Bike'),
+          SizedBox(height: 15.0),
+          // buildInputField(typeController, 'Type'),
+          Padding(
+              padding: EdgeInsets.fromLTRB(30, 10, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
@@ -138,53 +163,48 @@ class _EditBikeState extends State<EditBike> {
                       }).toList(),
                     ),
                   ),
-                )
-                // typeField,
-                //dropdown//BuildDropdown(dropdownValue, list, "Type"),
                 ),
-            //       Padding(
-            //   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-            //   child: Align(
-            //     alignment: Alignment.centerLeft,
-            //     child: Container(
-            //       child: Text(
-            //         "Condition",
-            //         style: TextStyle(fontSize: 15, color: Colors.blueGrey),
-            //         textAlign: TextAlign.left,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            //   Padding(
-            //       padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
-            //       child: conditionField,
-            //   ),
-            Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(7.0),
-              color: Color(0xff2196F3),
-              child: MaterialButton(
-                minWidth: mediaQuery.size.width / 3,
-                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () {
-                  print('update/edit bike id: ${widget.id}');
+
+                ),
+          // BuildDropdown(dropdownValue, list),
+          SizedBox(height: 15.0),
+          // buildInputField(conditionController, 'Condition'),
+          SizedBox(height: 15.0),
+          // buildInputField(countryController, 'Country'),
+          // SizedBox(height: 15.0),
+          // buildInputField(zipController, 'Zip Code'),
+          // SizedBox(height: 15.0),
+          Material(
+            elevation: 5.0,
+            borderRadius: BorderRadius.circular(7.0),
+            color: Color(0xff2196F3),
+            child: MaterialButton(
+              minWidth: mediaQuery.size.width / 3,
+              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              onPressed: () {
+                print('update/edit bike id: ${widget.id}');
                   print(dropdownValue);
                   bike.name = name;
                   bike.model = dropdownValue;
                   bikeProv.updateBike(widget.id, bike); //update existing bike
                   Navigator.of(context).pop();
-                },
-                child: Text("Save",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        // fontSize: 40,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900)),
+              },
+              child: Text(
+                "Save",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    // fontSize: 40,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900),
               ),
+              // color: Color(),
+              // style: style.copyWith(
+              // //     color: Colors.white,
+              // fontWeight: FontWeight.bold)
+              // ),
             ),
-            SizedBox(height: 30),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
