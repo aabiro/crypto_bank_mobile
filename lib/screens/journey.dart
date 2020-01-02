@@ -8,8 +8,9 @@ import 'package:provider/provider.dart';
 
 class JourneyScreen extends StatefulWidget {
   static const routeName = '/journey';
-  // String bikeId;
-  JourneyScreen();
+  String bikeId;
+  String userId;
+  JourneyScreen({this.userId, this.bikeId}); //need these to query JourneyId for updates
   Timer _tripTimer;
 
   @override

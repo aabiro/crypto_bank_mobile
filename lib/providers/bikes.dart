@@ -189,6 +189,10 @@ Future<void> getUserBikes({bool allBikes = false}) async {
     return userBikes.firstWhere((bike) => bike.id == id);
   }
 
+  Bike findByQrCode(String qrCode) {
+    return userBikes.firstWhere((bike) => bike.qrCode == qrCode);
+  }
+
   Bike findByName(String name) {
     return userBikes.firstWhere((bike) => bike.name == name);
   }
