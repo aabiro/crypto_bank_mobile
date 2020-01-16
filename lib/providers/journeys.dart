@@ -18,7 +18,7 @@ class Journeys with ChangeNotifier {
 
   void addJourney(Journey journey) {
     print('token add journey $token');
-    final url = 'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token';
+    final url = 'https://flutter-database-78c33.firebaseio.com/journeys.json?auth=$token';
     http
         .post(url,
             body: json.encode({
@@ -46,7 +46,7 @@ class Journeys with ChangeNotifier {
         );
         print('newJourney id: ${newJourney.id}');
         print('newJourney userId: ${newJourney.userId}');
-        _journeys.add(newJourney); //called on null ??
+        // _journeys.add(newJourney); //called on null ??
         notifyListeners();
       },
     );
@@ -59,10 +59,10 @@ class Journeys with ChangeNotifier {
     var url;
     var result;
     // if (allBikes == true) {
-    //   url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
+    //   url = 'https://flutter-database-78c33.firebaseio.com/bikes.json?auth=$token';
     // } else {
       url =
-          'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded=false';
+          'https://flutter-database-78c33.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded=false';
       final response = await http.get(url).then(
         (response) {
           if (response.statusCode < 200 ||
@@ -92,10 +92,10 @@ class Journeys with ChangeNotifier {
   //   var url;
   //   var result;
   //   // if (allBikes == true) {
-  //   //   url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
+  //   //   url = 'https://flutter-database-78c33.firebaseio.com/bikes.json?auth=$token';
   //   // } else {
   //     url =
-  //         'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded=false';
+  //         'https://flutter-database-78c33.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded=false';
   //     final response = await http.get(url).then(
   //       (response) {
   //         if (response.statusCode < 200 ||
@@ -122,7 +122,7 @@ class Journeys with ChangeNotifier {
     final journeyIndex = _journeys.indexWhere((Journey) => Journey.id == id);
     if (journeyIndex >= 0) {
       final url =
-          "https://capstone-addb0.firebaseio.com/journeys/$id.json?auth=$token";
+          "https://flutter-database-78c33.firebaseio.com/journeys/$id.json?auth=$token";
       final response = await http.patch(
         url,
         body: json.encode(
