@@ -5,12 +5,14 @@ import 'dart:convert';
 import 'dart:async';
 import '../models/exception_handler.dart';
 import 'bike.dart';
+import '../theme/secrets.dart' as Secrets;
 
 class Bikes with ChangeNotifier {
   String token;
   String userId;
   List<Bike> _allBikes = [];
   List<Bike> _userBikes = [];
+  String firebaseUrl=Secrets.firebaseUrl;
 
   // //change urls to final , pass it to objects
   //changenotifierproxy provider instead!!
@@ -29,7 +31,7 @@ class Bikes with ChangeNotifier {
     final bikeIndex = userBikes.indexWhere((bike) => bike.id == id);
     if (bikeIndex >= 0) {
       final url =
-          "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
+          "https://flutter-database-78c33.firebaseio.com/bikes/$id.json?auth=$token";
       final response = await http.patch(
         url,
         body: json.encode(
@@ -60,7 +62,7 @@ class Bikes with ChangeNotifier {
   Future<void> deleteBike(String id) async {
     // print('delete id: $id');
     final url =
-        "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
+        "https://flutter-database-78c33.firebaseio.com/bikes/$id.json?auth=$token";
     //has been added to user bikes
     final bikeIndex = userBikes.indexWhere((bike) => bike.id == id);
     var bike = userBikes[bikeIndex];
@@ -82,7 +84,7 @@ class Bikes with ChangeNotifier {
 
   //the bikes shown on map
   Future<void> getBikes() async {
-    final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
+    final url = 'https://flutter-database-78c33.firebaseio.com/bikes.json?auth=$token';
     final response = await http.get(url);
 
     final data = json.decode(response.body) as Map<String, dynamic>;
@@ -105,7 +107,7 @@ class Bikes with ChangeNotifier {
 
   Future<List<Bike>> getAllUserBikes() async {
     final List<Bike> bikesLoaded = [];
-    final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
+    final url = 'https://flutter-database-78c33.firebaseio.com/bikes.json?auth=$token';
     final response = await http.get(url).then(
         (response) {
           if (response.statusCode < 200 ||
@@ -115,19 +117,21 @@ class Bikes with ChangeNotifier {
             throw ExceptionHandler(response.body);
           } else {
             final data = json.decode(response.body) as Map<String, dynamic>;
-            data.forEach((bikeId, bikeData) {
-              bikesLoaded.add(
-                //this is needed for the correct initial list loading... it loads the bikes upon app load
-                Bike(
-                    id: bikeId,
-                    userId: bikeData["userId"],
-                    isActive: bikeData["isActive"],
-                    name: bikeData["name"],
-                    lat: bikeData["lat"],     //laod correct lat lng here
-                    lng: bikeData["lng"]
-                    ),
-              );
-            });
+            if(data!=null){
+               data.forEach((bikeId, bikeData) {
+                bikesLoaded.add(
+                  //this is needed for the correct initial list loading... it loads the bikes upon app load
+                  Bike(
+                      id: bikeId,
+                      userId: bikeData["userId"],
+                      isActive: bikeData["isActive"],
+                      name: bikeData["name"],
+                      lat: bikeData["lat"],     //laod correct lat lng here
+                      lng: bikeData["lng"]
+                      ),
+                );
+              });
+            }
             _allBikes = bikesLoaded;           
             notifyListeners();
           }
@@ -143,10 +147,10 @@ Future<void> getUserBikes({bool allBikes = false}) async {
     final List<Bike> bikesLoaded = [];
     var url;
     if (allBikes == true) {
-      url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
+      url = '$firebaseUrl&bikes.json?auth=$token';
     } else {
       url =
-          'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token&orderBy="userId"&equalTo="$userId"';
+          'https://flutter-database-78c33.firebaseio.com/bikes.json?auth=$token&orderBy="userId"&equalTo="$userId"';
       final response = await http.get(url).then(
         (response) {
           if (response.statusCode < 200 ||
@@ -200,7 +204,7 @@ Future<void> getUserBikes({bool allBikes = false}) async {
   //add bike to the users bike list
   void addBike(Bike bike) {
     print('token add bike $token');
-    final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
+    final url = 'https://flutter-database-78c33.firebaseio.com/bikes.json?auth=$token';
     http
         .post(url,
             body: json.encode({

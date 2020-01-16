@@ -21,7 +21,7 @@ class UserCards with ChangeNotifier {
     final userCardIndex = userCards.indexWhere((userCard) => userCard.id == id);
     if (userCardIndex >= 0) {
       final url =
-          "https://capstone-addb0.firebaseio.com/cards/$id.json?auth=$token";
+          "https://flutter-database-78c33.firebaseio.com/cards/$id.json?auth=$token";
       final response = await http.patch(
         url,
         body: json.encode(
@@ -53,7 +53,7 @@ class UserCards with ChangeNotifier {
   Future<void> deleteUserCard(String id) async {
     print('delete id: $id');
     final url =
-        "https://capstone-addb0.firebaseio.com/cards/$id.json?auth=$token";
+        "https://flutter-database-78c33.firebaseio.com/cards/$id.json?auth=$token";
     //has been added to user userCards
     final userCardIndex = userCards.indexWhere((userCard) => userCard.id == id);
     var userCard = userCards[userCardIndex];
@@ -80,10 +80,10 @@ class UserCards with ChangeNotifier {
     var url;
     // if (token == null) {
     //   url =
-    //       'https://capstone-addb0.firebaseio.com/userCards.json&orderBy="userId"&equalTo="$userId"';
+    //       'https://flutter-database-78c33.firebaseio.com/userCards.json&orderBy="userId"&equalTo="$userId"';
     // } else {
       url =
-          'https://capstone-addb0.firebaseio.com/cards.json?auth=$token&orderBy="userId"&equalTo="$userId"';
+          'https://flutter-database-78c33.firebaseio.com/cards.json?auth=$token&orderBy="userId"&equalTo="$userId"';
       final response = await http.get(url).then(
         (response) {
           if (response.statusCode < 200 ||
@@ -133,7 +133,7 @@ class UserCards with ChangeNotifier {
   //add userCard to the users userCard list
   void addUserCard(UserCard userCard, [String _token]) {
     print('token add userCard $_token');
-    final url = 'https://capstone-addb0.firebaseio.com/cards.json?auth=$_token';
+    final url = 'https://flutter-database-78c33.firebaseio.com/cards.json?auth=$_token';
     http
         .post(url,
             body: json.encode({

@@ -390,8 +390,8 @@ class Authentication with ChangeNotifier {
       await http
           .post(loginUrl,
               body: json.encode({
-                'email': 'neww@gmail.com',
-                'password': 'test10',
+                'email': 'ashley@gmail.com',
+                'password': 'login7',
                 'returnSecureToken': true,
                 // 'email': 'aaryn@gmail.com',
                 // 'password': 'password22',

@@ -377,6 +377,7 @@ class MapScreenState extends State<MapScreen> {
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
               child: SizedBox(
+<<<<<<< HEAD
                 width: mediaQuery.size.width * 0.7,
                 height: mediaQuery.size.height * 0.1,
                 child: 
@@ -458,6 +459,64 @@ class MapScreenState extends State<MapScreen> {
                         },
                       ),
               ),
+=======
+                  width: mediaQuery.size.width * 0.7,
+                  height: mediaQuery.size.height * 0.1,
+                  child: 
+                  // user.isOnTrip != null && user.isOnTrip == false
+                  //     ? 
+                      RaisedButton.icon(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                          icon: Icon(
+                            Icons.center_focus_strong,
+                            size: 25,
+                          ),
+                          textColor: Colors.white,
+                          color: Constants.accentColor,
+                          label: const Text('Scan to Ride',
+                              style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15)),
+                          onPressed: () {
+                            // Navigator.pushNamed(context, '/camera');
+                            print(
+                                'user.isOnTrip : ${user.isOnTrip} in the home screen');
+                            Navigator.of(context).pushNamed(QrScan.routeName,
+                                arguments: QrScan(false));
+                            // scan();
+                          },
+                        )
+                      // :
+                      //  RaisedButton(
+                      //     elevation: 5,
+                      //     shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(40.0)),
+                      //     // icon: Icon(
+                      //     //   Icons.center_focus_strong,
+                      //     //   size: 25,
+                      //     // ),
+                      //     textColor: Colors.white,
+                      //     color: Constants.accentColor,
+                      //     child: Text(
+                      //       'Trip Summary',
+                      //       style: TextStyle(
+                      //           fontFamily: 'OpenSans',
+                      //           fontWeight: FontWeight.bold,
+                      //           fontSize: 15),
+                      //     ),
+                      //     onPressed: () {
+                      //       print(
+                      //           'user.isOnTrip : ${user.isOnTrip} in the home screen');
+                      //       Navigator.of(context)
+                      //           .pushNamed(JourneyScreen.routeName);
+                      //     },
+                      //   )
+                        
+                        ),
+>>>>>>> adding setup code
             ),
           ),
         ],
