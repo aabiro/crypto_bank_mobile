@@ -27,9 +27,11 @@ class UserCardDrawer extends StatelessWidget {
                     CircleAvatar(
                       maxRadius: mediaQuery.size.height * 0.07,
                       backgroundColor: Constants.optionalColor,
-                      backgroundImage: NetworkImage(auth.photoUrl != null
-                          ? auth.photoUrl
-                          : ''), //user photoUrl
+                      
+                      backgroundImage: null,
+                      // NetworkImage(auth.photoUrl != null
+                      //     ? auth.photoUrl
+                      //     : null), //user photoUrl
                       child: Text(
                         (auth.photoUrl == null || auth.photoUrl == "") && auth.displayName != null
                             ? auth.displayName[0]

@@ -7,7 +7,6 @@ import 'journey.dart';
 class Journeys with ChangeNotifier {
   String token;
   String userId;
-
   List<Journey> _journeys = [];
 
   Journeys([this.token, this.userId, this._journeys]);
@@ -46,7 +45,7 @@ class Journeys with ChangeNotifier {
         );
         print('newJourney id: ${newJourney.id}');
         print('newJourney userId: ${newJourney.userId}');
-        journeys.add(newJourney);
+        _journeys.add(newJourney); //called on null ??
         notifyListeners();
       },
     );

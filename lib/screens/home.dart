@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
@@ -9,19 +8,14 @@ import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/journey.dart';
 import 'package:flutter_app/providers/journeys.dart';
-import 'package:flutter_app/providers/map_provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/drawer_menu.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-import './camera_screen.dart';
 import '../providers/bikes.dart';
-import './qr_scan.dart';
-import 'package:flutter_app/components/app_bar.dart';
 import 'dart:ui' as ui;
 
-import 'bike_form.dart';
 import 'journey.dart';
 
 class MapScreen extends StatefulWidget {
@@ -78,7 +72,7 @@ class MapScreenState extends State<MapScreen> {
 
   static Future<LocationData> _getGPSLocation() async {
     final gpsLoc = await Location().getLocation();
-    print('user///////////////////////////////////////////////////////');
+    print('user gps location :');
     print(gpsLoc.latitude);
     print(gpsLoc.longitude);
     return gpsLoc;
@@ -376,51 +370,62 @@ class MapScreenState extends State<MapScreen> {
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
               child: SizedBox(
-                  width: mediaQuery.size.width * 0.7,
-                  height: mediaQuery.size.height * 0.1,
-                  child: user.isOnTrip != null && user.isOnTrip == false
-                      ? RaisedButton.icon(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40.0)),
-                          icon: Icon(
-                            Icons.center_focus_strong,
-                            size: 25,
-                          ),
-                          textColor: Colors.white,
-                          color: Constants.accentColor,
-                          label: const Text('Scan to Ride',
-                              style: TextStyle(
-                                  fontFamily: 'OpenSans',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15)),
-                          onPressed: () {
-                            print(
-                                'user.isOnTrip : ${user.isOnTrip} in the home screen');
-                            scan();
-                            // Navigator.of(context).pushNamed(QrScan.routeName);
-                          },
-                        )
-                      : RaisedButton(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40.0)),
-                          textColor: Colors.white,
-                          color: Constants.accentColor,
-                          child: Text(
-                            'Trip Summary',
-                            style: TextStyle(
-                                fontFamily: 'OpenSans',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                          onPressed: () {
-                            print(
-                                'user.isOnTrip : ${user.isOnTrip} in the home screen');
-                            Navigator.of(context)
-                                .pushNamed(JourneyScreen.routeName);
-                          },
-                        )),
+                width: mediaQuery.size.width * 0.7,
+                height: mediaQuery.size.height * 0.1,
+                child: 
+                // user.isOnTrip != null && user.isOnTrip == false
+                //     ? 
+                    // RaisedButton.icon(
+                    //     elevation: 5,
+                    //     shape: RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.circular(40.0)),
+                    //     icon: Icon(
+                    //       Icons.center_focus_strong,
+                    //       size: 25,
+                    //     ),
+                    //     textColor: Colors.white,
+                    //     color: Constants.accentColor,
+                    //     label: const Text('Scan to Ride',
+                    //         style: TextStyle(
+                    //             fontFamily: 'OpenSans',
+                    //             fontWeight: FontWeight.bold,
+                    //             fontSize: 15)),
+                    //     onPressed: () {
+                    //       print(
+                    //           'user.isOnTrip : ${user.isOnTrip} in the home screen');
+                    //       // scan();
+                    //       // Navigator.of(context).pushNamed(QrScan.routeName);
+                    //       Provider.of<Journeys>(context).addJourney(
+                    //       Journey(
+                    //         startTime: DateTime.now(),
+                    //         dayOfTheWeek: DateTime.now().weekday,
+                    //         // userId: _userId,
+                    //         // bikeId: _bikeId,
+                    //       ));
+                    //     },
+                    //   )
+                    // : 
+                    RaisedButton(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0)),
+                        textColor: Colors.white,
+                        color: Constants.accentColor,
+                        child: Text(
+                          'Trip Summary',
+                          style: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
+                        ),
+                        onPressed: () {
+                          print(
+                              'user.isOnTrip : ${user.isOnTrip} in the home screen');
+                          Navigator.of(context)
+                              .pushNamed(JourneyScreen.routeName);
+                        },
+                      ),
+              ),
             ),
           ),
         ],
@@ -463,16 +468,15 @@ class MapScreenState extends State<MapScreen> {
       ),
     );
 
-    Provider.of<Authentication>(context).isOnTrip =
-        true; //not needed with Journeys now,?
+    // Provider.of<Authentication>(context).isOnTrip = true; //not needed with Journeys now,?
     // query if user is on journey or not on init => if so get journey id to pass in below instead ...
-    Navigator.of(context).pushReplacementNamed(
-      JourneyScreen.routeName,
-      arguments: JourneyScreen(
-        // userId: _userId,
-        // bikeId: _bikeId,
-      ),
-    );
+    // Navigator.of(context).pushReplacementNamed(  //gives error on func call
+    //   JourneyScreen.routeName,
+    //   arguments: JourneyScreen(
+    //     // userId: _userId,
+    //     // bikeId: _bikeId,
+    //   ),
+    // );
     try {
       // String barcode = 'QR001'; //have a few diff to show
       // // String barcode = await BarcodeScanner.scan();

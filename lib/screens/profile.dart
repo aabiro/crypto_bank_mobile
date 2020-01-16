@@ -173,8 +173,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: SizedBox(
                 child: CircleAvatar(
                   maxRadius: mediaQuery.size.height * 0.15,
-                  backgroundImage:
-                      NetworkImage(auth.photoUrl != null ? auth.photoUrl : ''),
+                  backgroundImage: auth.photoUrl != null && auth.photoUrl.isNotEmpty
+                  ? NetworkImage(auth.photoUrl)
+                  : null,
+                  // backgroundImage:
+                  //     NetworkImage(auth.photoUrl != null ? auth.photoUrl : ''), //wont work with no photo
                   backgroundColor: Color(0xff9575CD),
                   child: Text(
                     (auth.photoUrl == null || auth.photoUrl == "") &&
@@ -191,8 +194,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             SizedBox(height: 30),
             FloatingActionButton(
-              onPressed:
-              getImage,
+              onPressed: () {},
+              // getImage,
               // tooltip: 'Pick Image',
               child: Icon(Icons.add_a_photo),
             ),
