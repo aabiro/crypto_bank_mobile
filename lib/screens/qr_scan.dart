@@ -76,8 +76,8 @@ class QrScanState extends State<QrScan> {
                       textColor: Colors.white,
                       splashColor: Colors.blueGrey,
                       onPressed: () {
-                        bypass();
-                        // scan();
+                        // bypass();
+                        scan();
                       },
                       child: const Text(
                         'Scan the QR code',
@@ -145,7 +145,7 @@ class QrScanState extends State<QrScan> {
             ));
   }
 
-  Future scan(bool activation) async {
+  Future scan() async {
     try {
 
       String barcode = await BarcodeScanner.scan();
