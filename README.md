@@ -24,3 +24,6 @@ in ios
 In the crypto_bank_mobile folder
 ```flutter build ios```
 ```flutter run```
+
+In Xcode 
+Product >> Run
