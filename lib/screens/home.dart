@@ -510,41 +510,34 @@ class MapScreenState extends State<MapScreen> {
     //   ),
     // );
     try {
-      String barcode = 'QR001'; //have a few diff to show
-      // String barcode = await BarcodeScanner.scan();
+      // String barcode = 'QR001'; //have a few diff to show
+      String barcode = await BarcodeScanner.scan();
       setState(() => this._barcode = barcode);
-      String userId = Provider.of<Authentication>(context).userId;
-      String bikeId = Provider.of<Bikes>(context).findByQrCode(barcode).id;
-
-      Provider.of<Journeys>(context).addJourney(
-        Journey(
-          // userId: userId,
-          // bikeId: bikeId,
-        ),
-      );
+      // String userId = Provider.of<Authentication>(context).userId;
+      // String bikeId = Provider.of<Bikes>(context).findByQrCode(barcode).id;
 
       // Provider.of<Authentication>(context).isOnTrip =
       //     true; //not needed with Journeys now,?
       // query if user is on journey or not on init => if so get journey id to pass in below instead ...
-      Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
-          arguments: JourneyScreen(userId: userId, bikeId: bikeId));
+      // Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
+      //     arguments: JourneyScreen(userId: userId, bikeId: bikeId));
 
 
       // String barcode = '001';
       // // String userId = Provider.of<Authentication>(context).userId;
       // // String bikeId = Provider.of<Bikes>(context).findByQrCode(barcode).id;
 
-      // Provider.of<Journeys>(context).addJourney(
-      //   Journey(
-      //     startTime: DateTime.now(),
-      //     dayOfTheWeek: DateTime.now().weekday,
-      //     // userId: userId,
-      //     // bikeId: bikeId,
-      //   ),
-      // );
+      Provider.of<Journeys>(context).addJourney(
+        Journey(
+          startTime: DateTime.now(),
+          dayOfTheWeek: DateTime.now().weekday,
+          // userId: userId,
+          // bikeId: bikeId,
+        ),
+      );
 
-      // Navigator.of(context)
-      //     .pushNamed(JourneyScreen.routeName);
+      Navigator.of(context)
+          .pushNamed(JourneyScreen.routeName);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
