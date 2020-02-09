@@ -31,7 +31,6 @@
 /build/
 
 # Android related
-**/android/**/AndroidManifest.xml
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
 **/android/captures/
