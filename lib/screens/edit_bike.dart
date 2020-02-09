@@ -23,7 +23,7 @@ class _EditBikeState extends State<EditBike> {
   final conditionController = TextEditingController();
 
 
-  buildInputField(TextEditingController controller, String hintText) {
+  buildInputField(TextEditingController controller, String hintText, String initialValue) {
     return Padding(
       padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
       child: TextFormField(
@@ -35,6 +35,7 @@ class _EditBikeState extends State<EditBike> {
         },
         obscureText: false,
         controller: controller,
+        // initialValue: initialValue,
         decoration: InputDecoration(
           labelText: hintText,
           hintStyle: TextStyle(
@@ -51,9 +52,9 @@ class _EditBikeState extends State<EditBike> {
     var dropdownValue = list.first;
     final bikeProv = Provider.of<Bikes>(context);
     final bike = bikeProv.findById(widget.id);
-    final nameField = buildInputField(nameController, "Name");
-    final typeField = buildInputField(typeController, "Type");
-    final conditionField = buildInputField(conditionController, "Condition");
+    final nameField = buildInputField(nameController, "Name of Bike", bike.name != null ? bike.name : "");
+    // final typeField = buildInputField(typeController, "Type");
+    // final conditionField = buildInputField(conditionController, "Condition");
     String name = nameController.text;
 
     String type = typeController.text;
@@ -88,22 +89,9 @@ class _EditBikeState extends State<EditBike> {
                 ),
               ),
             ),
-
-          // Padding(
-          //   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-          //   child: Text(
-          //     'Bike details',
-          //     textAlign: TextAlign.left,
-          //     style: TextStyle(
-          //       color: Colors.blueGrey,
-          //       fontSize: 15,
-          //       fontWeight: FontWeight.w800,
-          //       fontFamily: 'OpenSAns',
-          //     ),
-          //   ),
-          // ),
-           SizedBox(height: 15.0),
-          buildInputField(nameController, 'Name of Bike'),
+          SizedBox(height: 15.0),
+          // buildInputField(nameController, 'Name of Bike'),
+          nameField,
           SizedBox(height: 15.0),
           // buildInputField(typeController, 'Type'),
           Padding(

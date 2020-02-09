@@ -14,30 +14,31 @@ class EditUserName extends StatefulWidget {
 class _EditUserNameState extends State<EditUserName> {
   var _isLoading = false;
   var _init = true;
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-  final emailController = TextEditingController();
+  
 
-  Widget buildInputField(TextEditingController controller, String labelText, String hintText ) {
-    return TextFormField(
-      obscureText: hintText == 'Password' ? true : false,
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: hintText,
-        labelText: labelText,
-        hintStyle: TextStyle(
-          color: Color(0xff2196F3),
-        ),
-      ),
-    );
-  }
+  // Widget buildInputField(TextEditingController controller, String labelText, String hintText, String initialValue) {
+  //   controller.text = initialValue;
+  //   return TextFormField(
+  //     obscureText: hintText == 'Password' ? true : false,
+  //     controller: controller,
+  //     // initialValue: initialValue,
+  //     decoration: InputDecoration(
+  //       hintText: hintText,
+  //       labelText: labelText,
+  //       hintStyle: TextStyle(
+  //         color: Color(0xff2196F3),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final auth = Provider.of<Authentication>(context);
-    final emailField = buildInputField(emailController, "Username", auth.email != null ? auth.email : ""); 
-    String email = emailController.text;
+    final usernameController = TextEditingController();
+    // final usernameField = buildInputField(usernameController, "Username", auth.displayName != null ? auth.displayName : "", auth.displayName != null ? auth.displayName : "");  
+    String username = usernameController.text;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -54,7 +55,20 @@ class _EditUserNameState extends State<EditUserName> {
 
             Padding(
                 padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 15.0),
-                child: emailField
+                child: 
+                // usernameField
+                TextFormField(
+      // obscureText: hintText == 'Password' ? true : false,
+      controller: usernameController,
+      // initialValue: initialValue,
+      decoration: InputDecoration(
+        hintText: auth.displayName != null ? auth.displayName : "",
+        labelText: "Username",
+        hintStyle: TextStyle(
+          color: Color(0xff2196F3),
+        ),
+      ),
+    ),
             ),
             Material(
               elevation: 5.0,
@@ -70,8 +84,8 @@ class _EditUserNameState extends State<EditUserName> {
                   //   showError("You have successfully updated your username.", context);
                   // }
                   
-                  if(email != auth.email && email != "") { //need validation here too
-                    await auth.updateEmail(email, context);
+                  if(username != auth.displayName && username != "") { //need validation here too
+                    await auth.updateUser(username, '');
                     showError("You will need to login again with your new credentials.", context);
                     auth.logout(context);
                   } 

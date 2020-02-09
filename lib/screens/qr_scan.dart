@@ -14,8 +14,8 @@ import 'journey.dart';
 import 'bike_form.dart';
 
 class QrScan extends StatefulWidget {
-  bool activation;
-  QrScan(this.activation);
+  //scan for bike activation
+  QrScan();
 
   static final routeName = 'qr_code';
   @override
@@ -35,10 +35,7 @@ class QrScanState extends State<QrScan> {
   String _barcode = "";
   @override
   Widget build(BuildContext context) {
-    final QrScan args = ModalRoute.of(context).settings.arguments;
-    print(args.activation);
-    return args.activation == false
-        ? Scaffold(
+        return Scaffold(
             appBar: AppBar(
               centerTitle: true,
               backgroundColor: Constants.mainColor,
@@ -79,8 +76,8 @@ class QrScanState extends State<QrScan> {
                       textColor: Colors.white,
                       splashColor: Colors.blueGrey,
                       onPressed: () {
-                        bypass(args.activation);
-                        // scan(args.activation);
+                        // bypass();
+                        scan();
                       },
                       child: const Text(
                         'Scan the QR code',
@@ -95,8 +92,7 @@ class QrScanState extends State<QrScan> {
                     height: 15,
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     // EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: Text(
                         "Just \$1.00 to unlock\nOnly 20 cents/min after",
@@ -106,156 +102,15 @@ class QrScanState extends State<QrScan> {
                             color: Colors.blueGrey,
                             fontSize: 15)),
                   ),
-                  // Padding (
-                  //     padding :
-                  //         EdgeInsets.symmetric (horizontal :  16.0 , vertical :  8.0 ),
-                  //     child : Text (
-                  //       _barcode,
-                  //       textAlign : TextAlign.center,
-                  //       style :  TextStyle (color :  Colors.red),
-                  //     ),
-                  //   ),
-                ],
-              ),
-            ),
-          )
-        : Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Constants.mainColor,
-              title: new Text(
-                'Activate Ride',
-                style: TextStyle(),
-              ),
-            ),
-            body: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  
-                  // Padding(
-                  //   padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
-                  //   child: Text(
-                  //     "Step 1",
-                  //     textAlign: TextAlign.center,
-                  //     style: TextStyle(
-                  //         fontWeight: FontWeight.w800,
-                  //         color: Colors.blueGrey,
-                  //         decoration: TextDecoration.underline,
-                  //         fontSize: 25),
-                  //   ),
-                  // ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
-                    child: Text(
-                      "Follow the directions on the label of the GivnGo lock mechanism to affix the lock to your bicycle.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.blueGrey,
-                          fontSize: 15),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
-                    child: Text(
-                      "Input the activation code:",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.blueGrey,
-                          fontSize: 15),
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width/2,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                                        child: TextFormField(
-                        decoration: new InputDecoration(
-                          labelText: "Code",
-                          fillColor: Colors.white,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(15.0),
-                            borderSide: new BorderSide(
-                            ),
-                          ),
-                          //fillColor: Colors.green
-                        ),
-                        validator: (val) {
-                          if(val.length==0) {
-                            return "Email cannot be empty";
-                          }else{
-                            return null;
-                          }
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                        style: new TextStyle(
-                          // fontFamily: "Poppins",
-                        ),
-                      ),
-                                      ),
-                  ),
-                  // SizedBox(height: 10,),
-                  MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/register');
-                  },
-                  child: Text("Resend code", 
-                  style: TextStyle(
-                    color: Colors.blueGrey,
-                    fontFamily: 'OpenSans',
-                  ),
-                  textAlign: TextAlign.center),
-                ),
-                    // height: 20,
-                    // width: MediaQuery.of(context).size.width/2,
-                  // child:
-                  Padding(
-                    padding:
-                        EdgeInsets.fromLTRB(70, 50, 70, 20),
-                    child: RaisedButton(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0)),
-                      color: Constants.accentColor,
-                      textColor: Colors.white,
-                      // splashColor: Colors.blueGrey,
-                      onPressed: () {
-                        // bypass(args.activation);
-                        scan(args.activation);
-                      },
-                      child: Text(
-                        'Scan the QR code',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            
-                            // fontWeight: FontWeight.w800,
-                            fontSize: 15),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
                 ],
               ),
             ),
           );
   }
 
-  void bypass(bool activation) {
-    print('activation');
-    print(activation);
+  void bypass() {
     String barcode = '001';
-    if (activation == false) {
-      Navigator.of(context).popAndPushNamed(JourneyScreen.routeName,
-          arguments: JourneyScreen());
-    } else {
+
       // Provider.of<Bikes>(context).addBike(
       //     Bike(
       //       qrCode: barcode,
@@ -265,14 +120,13 @@ class QrScanState extends State<QrScan> {
       //     Provider.of<Authentication>(context).userId,
       //     Provider.of<Authentication>(context).accessToken);
       var user = Provider.of<Authentication>(context);
-      user.isOnTrip = true;
+      user.isOnTrip = true; //cange to check query of journeys with this user id hasEnded == false > 0
       print('user.isOnTrip : ${user.isOnTrip}');
       Navigator.of(context).popAndPushNamed(BikeFormScreen.routeName,
           arguments: BikeFormScreen('001'));
     }
-  }
 
-     void showError(String message, BuildContext context) {
+  void showError(String message, BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -291,9 +145,7 @@ class QrScanState extends State<QrScan> {
             ));
   }
 
-  Future scan(bool activation) async {
-    print('scan activation');
-    print(activation);
+  Future scan() async {
     try {
 
       String barcode = await BarcodeScanner.scan();

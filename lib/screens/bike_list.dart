@@ -154,7 +154,7 @@ class _BikeListState extends State<BikeList> {
                   padding: EdgeInsets.all(20),
                   onPressed: () {
                     Navigator.popAndPushNamed(context, QrScan.routeName,
-                        arguments: QrScan(true));
+                        arguments: QrScan());
                   },
                   child: Text(
                     "Yes, activate ride",

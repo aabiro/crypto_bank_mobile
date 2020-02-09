@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/authentication.dart';
+import 'package:flutter_app/providers/journeys.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'dart:async';
 import 'package:flutter_app/theme/constants.dart' as Constants;
@@ -8,8 +9,9 @@ import 'package:provider/provider.dart';
 
 class JourneyScreen extends StatefulWidget {
   static const routeName = '/journey';
-  // String bikeId;
-  JourneyScreen();
+  String bikeId;
+  String userId;
+  JourneyScreen({this.userId, this.bikeId}); //need these to query JourneyId for updates
   Timer _tripTimer;
 
   @override
@@ -20,12 +22,16 @@ class _JourneyScreenState extends State<JourneyScreen> {
   String _timeString = "2 min 5 sec";
   String _getCost = "\$ 4.99";
   var user;
+  var journey;
 
   @override
   void initState() {
     Future.delayed(Duration.zero).then((_) {
         user = Provider.of<Authentication>(context);
       });
+    // Future.delayed(Duration.zero).then((_) {
+    //     journey = Provider.of<Journeys>(context);
+    //   });
     _timeString =
         "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
     // Timer _t;
@@ -136,12 +142,15 @@ class _JourneyScreenState extends State<JourneyScreen> {
                               fontSize: 18)),
                       onPressed: () {                    
                         setState(() {
-                          user.isOnTrip = false;
-                          _timeString = null;
+                          // user.isOnTrip = false;
+                          // _timeString = null;
                           // print('use : $user in the journey screen');
                           // print('user.isOnTrip : ${user.isOnTrip} in the journey screen');
                         }
+                        
                         );
+                        // journey = Provider.of<Journeys>(context).getJourney(userId, bikeId).id;
+                        // Provider.of<Journeys>(context).endJourney(id, updatedJourney) //todo fix journey
                         //run disposing of timer here
                         Navigator.push(
                           context,

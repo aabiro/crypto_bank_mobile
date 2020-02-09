@@ -94,7 +94,9 @@ class Authentication with ChangeNotifier {
           .post(
         url,
         body: json.encode(
-          {'idToken': _accessToken, 'email': _email},
+          {'idToken': _accessToken, 
+          'email': _email,
+          },
         ),
       )
           .then((response) {
@@ -194,9 +196,10 @@ class Authentication with ChangeNotifier {
       await http
           .post(url,
               body: json.encode({
-                'idToken': accessToken,
+                'idToken': _accessToken,
                 'displayName': displayName,
-                'photoUrl': photoUrl,
+                // 'photoUrl': _photoUrl,
+                'deleteAttribute': "PHOTO_URL",
                 'returnSecureToken': true
               }))
           .then((http.Response response) async {
@@ -205,7 +208,7 @@ class Authentication with ChangeNotifier {
         print('update all : $data');
         // _displayName = ;
         final int statusCode = response.statusCode;
-        print('update status $statusCode');
+        print('update user email status  $statusCode');
         if (statusCode < 200 || statusCode >= 400 || json == null) {
           //handle exceptions
           // var data = json.decode(response.body);
@@ -215,9 +218,10 @@ class Authentication with ChangeNotifier {
           throw new Exception(response.body);
         } else {
           var data = json.decode(response.body);
-          var msg = data['displayName'];
+          // var msg = data['displayName'];
+          _displayName = data['displayName'];
           print('user updated');
-          print('new displayName : $msg');
+          print('new displayName : $_displayName');
           notifyListeners();
         }
       });

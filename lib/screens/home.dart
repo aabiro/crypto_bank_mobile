@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
@@ -7,19 +6,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/helpers/maps_helper.dart';
 import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
-import 'package:flutter_app/providers/map_provider.dart';
+import 'package:flutter_app/providers/journey.dart';
+import 'package:flutter_app/providers/journeys.dart';
+import 'package:flutter_app/screens/qr_scan.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/drawer_menu.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-import './camera_screen.dart';
 import '../providers/bikes.dart';
-import './qr_scan.dart';
-import 'package:flutter_app/components/app_bar.dart';
 import 'dart:ui' as ui;
 
-import 'bike_form.dart';
 import 'journey.dart';
 
 class MapScreen extends StatefulWidget {
@@ -35,6 +32,8 @@ class MapScreenState extends State<MapScreen> {
   var _init = true;
   var _isLoading = false;
   var user;
+  bool userIsOnTrip = false;
+  // Future<bool> userIsOnTrip;
   var allBikes;
   GoogleMapController mc;
   Completer<GoogleMapController> _controller = Completer();
@@ -76,7 +75,7 @@ class MapScreenState extends State<MapScreen> {
 
   static Future<LocationData> _getGPSLocation() async {
     final gpsLoc = await Location().getLocation();
-    print('user///////////////////////////////////////////////////////');
+    print('user gps location :');
     print(gpsLoc.latitude);
     print(gpsLoc.longitude);
     return gpsLoc;
@@ -138,8 +137,12 @@ class MapScreenState extends State<MapScreen> {
       // });
       Future.delayed(Duration.zero).then((_) {
         user = Provider.of<Authentication>(context);
-        // user.isOnTrip = false
+        userIsOnTrip = false;
       });
+      // Future.delayed(Duration.zero).then((_) {
+      //   userIsOnTrip = Provider.of<Journeys>(context).userIsOnTrip();
+      //   // user.isOnTrip = Provider.of<Journeys>(context).userIsOnTrip();
+      // });
       Future.delayed(Duration.zero).then((_) {
         Provider.of<Bikes>(context)
             .getUserBikes(
@@ -179,7 +182,8 @@ class MapScreenState extends State<MapScreen> {
 
       //
       // allBikes.forEach((bikeId, bikeData) {
-      markersA.add( //change to current position
+      markersA.add(
+        //change to current position
         Marker(
           markerId: MarkerId('mymarker'),
           draggable: false,
@@ -254,7 +258,7 @@ class MapScreenState extends State<MapScreen> {
     String dropdownValue;
     var bikesProv = Provider.of<Bikes>(context);
     List<Bike> userBikes = bikesProv.userBikes;
-    // List<Bike> allBikes = bikesProv.allBikes;
+    List<Bike> allBikes = bikesProv.allBikes;
     var array = userBikes.map((ub) => ub.bikeName).toList();
 
     return Scaffold(
@@ -287,12 +291,12 @@ class MapScreenState extends State<MapScreen> {
                 myLocationButtonEnabled: false,
                 mapToolbarEnabled: false,
                 onTap: (pos) {
-                  print(pos);
-                  Marker m = Marker(
-                      markerId: MarkerId('1'), icon: customIcon, position: pos);
-                  setState(() {
-                    markersA.add(m);
-                  });
+                  // print(pos);
+                  // Marker m = Marker(
+                  //     markerId: MarkerId('1'), icon: customIcon, position: pos);
+                  // setState(() {
+                  //   markersA.add(m);
+                  // });
                 }),
           ),
           Align(
@@ -328,8 +332,6 @@ class MapScreenState extends State<MapScreen> {
                         Bike bike = bikesProv.findByName(newValue);
                         moveToBikeLocation(bike.lat, bike.lng);
                       },
-
-                      // items: <String>['Bike 1', 'Bike 2', 'Bmx', 'Mntn B']
                       items:
                           array.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
@@ -351,7 +353,6 @@ class MapScreenState extends State<MapScreen> {
                     size: 30,
                   ),
                   color: Constants.accentColor,
-                  // tooltip: 'Increase volume by 10',
                   onPressed: moveToUserLocation),
             ),
           ),
@@ -368,8 +369,6 @@ class MapScreenState extends State<MapScreen> {
                     size: 30,
                   ),
                   color: Constants.accentColor,
-                  // tooltip: 'Increase volume by 10',
-
                   onPressed: refreshBikes),
             ),
           ),
@@ -378,57 +377,87 @@ class MapScreenState extends State<MapScreen> {
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
               child: SizedBox(
-                  width: mediaQuery.size.width * 0.7,
-                  height: mediaQuery.size.height * 0.1,
-                  child: user.isOnTrip != null && user.isOnTrip == false
-                      ? RaisedButton.icon(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40.0)),
-                          icon: Icon(
-                            Icons.center_focus_strong,
-                            size: 25,
-                          ),
-                          textColor: Colors.white,
-                          color: Constants.accentColor,
-                          label: const Text('Scan to Ride',
-                              style: TextStyle(
-                                  fontFamily: 'OpenSans',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15)),
-                          onPressed: () {
-                            // Navigator.pushNamed(context, '/camera');
-                            print(
-                                'user.isOnTrip : ${user.isOnTrip} in the home screen');
-                            // Navigator.of(context).pushNamed(QrScan.routeName,
-                            //     arguments: QrScan(false));
-                            scan();
-                          },
-                        )
-                      : RaisedButton(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40.0)),
-                          // icon: Icon(
-                          //   Icons.center_focus_strong,
-                          //   size: 25,
-                          // ),
-                          textColor: Colors.white,
-                          color: Constants.accentColor,
-                          child: Text(
-                            'Trip Summary',
+                width: mediaQuery.size.width * 0.7,
+                height: mediaQuery.size.height * 0.1,
+                child: 
+                userIsOnTrip != null && userIsOnTrip == false
+                    ? 
+                    RaisedButton.icon(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0)),
+                        icon: Icon(
+                          Icons.center_focus_strong,
+                          size: 25,
+                        ),
+                        textColor: Colors.white,
+                        color: Constants.accentColor,
+                        label: const Text('Scan to Ride',
                             style: TextStyle(
                                 fontFamily: 'OpenSans',
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                          onPressed: () {
-                            print(
-                                'user.isOnTrip : ${user.isOnTrip} in the home screen');
-                            Navigator.of(context)
-                                .pushNamed(JourneyScreen.routeName);
-                          },
-                        )),
+                                fontSize: 15)),
+                        onPressed: () {
+                          // print(
+                              // 'user.isOnTrip : ${user.isOnTrip} in the home screen');
+                          scan();
+                          //works for now >>>>>>>>>
+                          // String barcode = '001';
+                          // String userId = Provider.of<Authentication>(context).userId;
+                          // // String bikeId = Provider.of<Bikes>(context).findByQrCode(barcode).id;
+
+                          // Provider.of<Journeys>(context).addJourney(
+                          //   Journey(
+                          //     startTime: DateTime.now(),
+                          //     dayOfTheWeek: DateTime.now().weekday,
+                          //     // userId: userId,
+                          //     // bikeId: bikeId,
+                          //   ),
+                          // );
+
+                          // Navigator.of(context)
+                          //     .pushNamed(JourneyScreen.routeName);
+
+                          //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+                          // Provider.of<Authentication>(context).isOnTrip =
+                          //     true; //not needed with Journeys now,?
+                          // // query if user is on journey or not on init => if so get journey id to pass in below instead ...
+                          // Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
+                          //     arguments: JourneyScreen(userId: userId, bikeId: bikeId));
+
+
+                          // Navigator.of(context).pushNamed(QrScan.routeName);
+                          // Provider.of<Journeys>(context).addJourney(
+                          // Journey(
+                          //   startTime: DateTime.now(),
+                          //   dayOfTheWeek: DateTime.now().weekday,
+                          //   // userId: _userId,
+                          //   // bikeId: _bikeId,
+                          // ));
+                          // Navigator.of(context).pushNamed(QrScan.routeName);
+                        },
+                      )
+                    : 
+                    RaisedButton(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0)),
+                        textColor: Colors.white,
+                        color: Constants.accentColor,
+                        child: Text(
+                          'Trip Summary',
+                          style: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(JourneyScreen.routeName);
+                        },
+                      ),
+              ),
             ),
           ),
         ],
@@ -456,22 +485,59 @@ class MapScreenState extends State<MapScreen> {
   }
 
   Future scan() async {
-    // print('scan activation');
-    // print(activation);
+    // String barcode = '001'; //have a few diff to show
+    // String barcode = await BarcodeScanner.scan();
+    // setState(() => this._barcode = barcode);
+    // String _userId = Provider.of<Authentication>(context).userId;
+    // String _bikeId = Provider.of<Bikes>(context).findByQrCode(barcode).id;
+
+    // Provider.of<Journeys>(context).addJourney(
+    //   Journey(
+    //     startTime: DateTime.now(),
+    //     dayOfTheWeek: DateTime.now().weekday,
+    //     // userId: _userId,
+    //     // bikeId: _bikeId,
+    //   ),
+    // );
+
+    // Provider.of<Authentication>(context).isOnTrip = true; //not needed with Journeys now,?
+    // query if user is on journey or not on init => if so get journey id to pass in below instead ...
+    // Navigator.of(context).pushReplacementNamed(  //gives error on func call
+    //   JourneyScreen.routeName,
+    //   arguments: JourneyScreen(
+    //     // userId: _userId,
+    //     // bikeId: _bikeId,
+    //   ),
+    // );
     try {
+      // String barcode = 'QR001'; //have a few diff to show
       String barcode = await BarcodeScanner.scan();
       setState(() => this._barcode = barcode);
-      // await new Future.delayed(const Duration(seconds: 5));
-      // if(widget.activation == false) {
-      Provider.of<Authentication>(context).isOnTrip = true;
-      Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
-          arguments: JourneyScreen());
-      // } else {
-      //   Navigator.of(context).pushReplacementNamed(
-      //         BikeFormScreen.routeName,
-      //         arguments: BikeFormScreen(barcode));
-      // }
+      // String userId = Provider.of<Authentication>(context).userId;
+      // String bikeId = Provider.of<Bikes>(context).findByQrCode(barcode).id;
 
+      // Provider.of<Authentication>(context).isOnTrip =
+      //     true; //not needed with Journeys now,?
+      // query if user is on journey or not on init => if so get journey id to pass in below instead ...
+      // Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
+      //     arguments: JourneyScreen(userId: userId, bikeId: bikeId));
+
+
+      // String barcode = '001';
+      // // String userId = Provider.of<Authentication>(context).userId;
+      // // String bikeId = Provider.of<Bikes>(context).findByQrCode(barcode).id;
+
+      Provider.of<Journeys>(context).addJourney(
+        Journey(
+          startTime: DateTime.now(),
+          dayOfTheWeek: DateTime.now().weekday,
+          // userId: userId,
+          // bikeId: bikeId,
+        ),
+      );
+
+      Navigator.of(context)
+          .pushNamed(JourneyScreen.routeName);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
@@ -485,7 +551,6 @@ class MapScreenState extends State<MapScreen> {
     } on FormatException {
       setState(() => this._barcode =
           'null, the user pressed the return button before scanning something)');
-      // showError(this._barcode, context);
     } catch (e) {
       setState(() => this._barcode = 'Unknown error: $e');
       showError(this._barcode, context);

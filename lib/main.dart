@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/providers/journeys.dart';
 import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/alert_screen.dart';
 import 'package:flutter_app/screens/bike_form.dart';
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
             prevBikes.allBikes
             ),
           ),
+          //send in user information for endpoints access
           ChangeNotifierProxyProvider<Authentication, UserCards>(
           create: (_) => UserCards( 
             //this is the issueeeeee??
@@ -89,6 +91,16 @@ class MyApp extends StatelessWidget {
             auth.accessToken, 
             auth.userId,
             prevCards.userCards
+            ),
+          ),
+          ChangeNotifierProxyProvider<Authentication, Journeys>(
+          create: (_) => Journeys( 
+            //this is the issueeeeee??
+            ),
+          update: (_, auth, prevJourneys) => Journeys(
+            auth.accessToken, 
+            auth.userId,
+            prevJourneys.journeys
             ),
           ),
       ],
@@ -146,7 +158,7 @@ class MyApp extends StatelessWidget {
             DirectDeposit.routeName: (context) => DirectDeposit(),
             AlertScreen.routeName: (context) => AlertScreen(),
             // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
-            QrScan.routeName: (context) => QrScan(false),
+            QrScan.routeName: (context) => QrScan(),
             // ReviewOrder.routeName: (context) => ReviewOrder(''),
             OrderLocksScreen.routeName: (context) => OrderLocksScreen(),
             OrderCompleteScreen.routeName: (context) => OrderCompleteScreen()
