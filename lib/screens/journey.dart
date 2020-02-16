@@ -12,11 +12,8 @@ class JourneyScreen extends StatefulWidget {
   static const routeName = '/journey';
   String bikeId;
   String userId;
-  String journeyId;
   Journey journey;
-  // Journey j = 
-  JourneyScreen({this.journeyId, this.journey});
-  // JourneyScreen({this.userId, this.bikeId}); //need these to query JourneyId for updates
+  JourneyScreen({this.journey});
   Timer _tripTimer;
 
   @override
@@ -26,7 +23,6 @@ class JourneyScreen extends StatefulWidget {
 class _JourneyScreenState extends State<JourneyScreen> {
   String _timeString = "2 min 5 sec";
   String _getCost = "\$ 4.99";
-  Journey journeyJ;
   var user;
   
 
@@ -35,38 +31,6 @@ class _JourneyScreenState extends State<JourneyScreen> {
     Future.delayed(Duration.zero).then((_) {
       user = Provider.of<Authentication>(context);
     });
-    Future.delayed(Duration.zero).then((_) {
-        Provider.of<Journeys>(context).getUserJourney()
-            // if(journey != null) {
-            //   userIsOnTrip = true;
-            // } else {
-            //   userIsOnTrip = false;
-            // }
-            .then(
-          (response) {
-            print('response in home journey ${response.toString()}');
-            journeyJ = response;
-            print('jour j ${response.myId}' );
-            // if (response != null) {
-            //   journey = response;
-            // } else {
-            //   journey = response;
-            // }
-          },
-        );
-        // user.isOnTrip = Provider.of<Journeys>(context).userIsOnTrip();
-      });
-
-    // Future.delayed(Duration.zero).then((_) {
-    //     Provider.of<Journeys>(context).getUserJourney()
-    //         .then(
-    //       (response) {
-    //         print('response in home journey ${response.toString()}');
-    //         journey = response;
-    //       },
-    //     );
-    //     // user.isOnTrip = Provider.of<Journeys>(context).userIsOnTrip();
-    //   });
     _timeString =
         "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
     // Timer _t;
@@ -77,11 +41,9 @@ class _JourneyScreenState extends State<JourneyScreen> {
   @override
   void dispose() {
     //and on stop button
-    // setState(() {
-    //   _timeString = null;
-    // });
-    // _tripTimer.cancel(); need to cancel this memory leak
-    //??
+    setState(() {
+      _timeString = null;
+    });
     super.dispose();
   }
 
@@ -129,16 +91,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final JourneyScreen args = ModalRoute.of(context).settings.arguments;
-    final id = args.journey;
-    print('yessss $journeyJ'); //not working
-    print('id ${id}');
-    final journeyTry = Provider.of<Journeys>(context).getUserJourney();
-    
-    print(journeyTry);
-                                
-    // Journey journey = args.journey;
-    // print('widget ${widget.journey}'); //not working
-    // final bId = args.bikeId;
+    final journey = args.journey;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -155,11 +108,11 @@ class _JourneyScreenState extends State<JourneyScreen> {
             height: mediaQuery.size.height,
             child: Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                //make this a list view builder!!
+                //make this a list view builder
                 child: Column(
                   children: <Widget>[
                     buildCard(
-                        "Time of Journey", _timeString), //causing text error
+                        "Time of Journey", _timeString),
                     buildCard("Total Price of Journey", _getCost),
                     SizedBox(
                       child: Padding(
@@ -188,28 +141,19 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                 fontWeight: FontWeight.w800,
                                 fontSize: 18)),
                         onPressed: () {
-                          print('stop trip');
-                          Future.delayed(Duration.zero).then((_) {
                             Provider.of<Journeys>(context)
-                                .updateJourney(journeyJ.myId, Journey(
-                                // id: journey.id,
-                                startTime: journeyJ.mystartTime,
+                                .updateJourney(journey.id, Journey(
+                                startTime: journey.startTime,
                                 endTime: DateTime.now(),
-                                dayOfTheWeek: journeyJ.dayOfTheWeek,
+                                dayOfTheWeek: DateTime.now().weekday,
                                 bikeId: null,
-                                userId: journeyJ.myUserId,
-                                distance: journeyJ.myDistance,
+                                userId: journey.userId,
+                                distance: journey.distance,
                                 hasEnded: true
                             ));
-                          });
                           setState(() {
-                            // user.isOnTrip = false;
                             _timeString = null;
-                            // print('use : $user in the journey screen');
-                            // print('user.isOnTrip : ${user.isOnTrip} in the journey screen');
                           });
-                          // journey = Provider.of<Journeys>(context).getJourney(userId, bikeId).id;
-                          // Provider.of<Journeys>(context).endJourney(id, updatedJourney) //todo fix journey
                           //run disposing of timer here
                           Navigator.push(
                             context,
@@ -240,8 +184,6 @@ class _JourneyScreenState extends State<JourneyScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0.0)),
                   onPressed: () {
-                    //  print('use : $user in the journey screen');
-                    //  print('user.isOnTrip : ${user.isOnTrip} in the journey screen');
                     Navigator.of(context).pushNamed(MapScreen.routeName);
                   },
                   textColor: Colors.white,

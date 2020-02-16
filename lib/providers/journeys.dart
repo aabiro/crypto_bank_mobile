@@ -10,6 +10,7 @@ class Journeys with ChangeNotifier {
   String userId;
   List<Journey> _journeys = [];
   List<Journey> _allJourneys = [];
+  Journey _userJourney;
 
   Journeys([this.token, this.userId, this._journeys]);
 
@@ -21,8 +22,15 @@ class Journeys with ChangeNotifier {
     return _allJourneys;
   }
 
+  Journey get userJourney {
+    return _userJourney;
+  }
+
+  set userJourney(userJourney) {
+    this._userJourney = userJourney;
+  }
+
   void addJourney(Journey journey) {
-    // print('token add journey $token');
     final url = 'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token';
     http
         .post(url,
@@ -41,28 +49,27 @@ class Journeys with ChangeNotifier {
         var data = json.decode(response.body);
         print('response $data');  
         final newJourney = Journey(
-          id: json.decode(response.body)["name"], //'name' is the id of the Journey
+          id: json.decode(response.body)["name"],
           startTime: data['startTime'],
           endTime: data['endTime'],
-          dayOfTheWeek: data['dayOfTheWeek'],//update on trip end
+          dayOfTheWeek: data['dayOfTheWeek'],
           userId: userId,
-          bikeId: data['bikeId'], //passed in by journey
+          bikeId: data['bikeId'],
           distance: data['distance'],
           hasEnded: data['hasEnded']
         );
-        print('newJourney : ${newJourney}');
-        // print('newJourney userId: ${newJourney.userId}');
-        allJourneys.add(newJourney); //journeys would be called on null ??
+        print('newJourney : $newJourney');
+        allJourneys.add(newJourney); //journeys would be called on null if using constuctor initialized list
         notifyListeners();
       },
     );
   }
 
   Future<Journey> getUserJourney() async {
-    Journey journey;
+    // Journey journey;
     var url;
       url =
-          'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded=false';
+          'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded="false"';
       final response = await http.get(url).then(
         (response) {
           if (response.statusCode < 200 ||
@@ -71,31 +78,32 @@ class Journeys with ChangeNotifier {
             throw ExceptionHandler(response.body);
           } else {
             final data = json.decode(response.body) as Map<String, dynamic>;
-            if (data.length > 0) {
-              print('get user journey: $data');
-              journey = Journey(
-                    id: json.decode(response.body)["name"], //'name' is the id of the Journey
-                    startTime: data['startTime'],
-                    endTime: data['endTime'],
-                    dayOfTheWeek: data['dayOfTheWeek'],//update on trip end
-                    userId: userId,
-                    bikeId: data['bikeId'], //passed in by journey
-                    distance: data['distance'],
-                    hasEnded: data['hasEnded']
+            if (data.length > 0 && data != null) {
+              for (var key in data.keys) print(key);
+                for (var value in data.values) print(value); 
+                for (var entry in data.entries) {
+                  userJourney = Journey(
+                    id: entry.key,
+                    startTime:  DateTime.parse(entry.value['startTime']),
+                    // endTime:  DateTime.parse(entry.value['endTime']), //no endTime yet
+                    // dayOfTheWeek: int.parse(data['dayOfTheWeek'].toString()),//update on trip end
+                    userId: entry.value['userId'],
+                    // // bikeId: data['bikeId'], //passed in by journey
+                    distance: entry.value['distance'].toString(),
+                    hasEnded: entry.value['hasEnded']
               );
+              _allJourneys.add(userJourney);
+                }
             } else {
-              journey = null;
+              userJourney = null;
             }
           }
         },
       );
-      print('returning journey ${journey.toString()}');
-      return journey;
+      return userJourney;
   }
 
   Future<void> updateJourney(String id, Journey updatedJourney) async {
-    //no id !!
-    // final id = '-M0ApdmGVDnVFIJy8F6i';
     //endJourney
     final journeyIndex = _allJourneys.indexWhere((journey) => journey.id == id);
     if (journeyIndex >= 0) {
@@ -107,23 +115,18 @@ class Journeys with ChangeNotifier {
           {
             'hasEnded': updatedJourney.hasEnded,
             'endTime': updatedJourney.endTime.toString(),
-            //merges with existing values on server
-            // 'name': newBike.name,
-            // 'model': newBike.model,
-            // 'isActive': newBike.isActive //this line causes null error on detail view..!!
-            // 'imageUrl': newBike.imageUrl,
+            'dayOfTheWeek': updatedJourney.dayOfTheWeek
           },
         ),
       );
       if (response.statusCode >= 400) {
         print(response.statusCode);
-        print("$response");
         // userBikes.insert(bikeIndex, Journey); //keep Journey if the delete did not work, optimistic updating
         // notifyListeners();
         throw ExceptionHandler('Cannot update Journey.');
       }
       allJourneys[journeyIndex] = updatedJourney;
-      print('updatedJourney :${response.toString()}');
+      print('updated Journey :${response.toString()}');
       notifyListeners();
     } else {
       print('did not update');
