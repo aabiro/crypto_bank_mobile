@@ -23,8 +23,23 @@ class Journey with ChangeNotifier {
     this.hasEnded
   });
 
-  String get _id {
+  String get myId {
     return id;
   }
 
+  String get myUserId {
+    return userId;
+  }
+
+  String get myDistance {
+    return distance;
+  }
+
+  DateTime get mystartTime {
+    return startTime;
+  }
+
+  DateTime get myendTime {
+    return endTime;
+  }
 }

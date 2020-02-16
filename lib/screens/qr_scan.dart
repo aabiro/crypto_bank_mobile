@@ -76,8 +76,8 @@ class QrScanState extends State<QrScan> {
                       textColor: Colors.white,
                       splashColor: Colors.blueGrey,
                       onPressed: () {
-                        // bypass();
-                        scan();
+                        bypass();
+                        // scan();
                       },
                       child: const Text(
                         'Scan the QR code',
@@ -119,9 +119,9 @@ class QrScanState extends State<QrScan> {
       //     ),
       //     Provider.of<Authentication>(context).userId,
       //     Provider.of<Authentication>(context).accessToken);
-      var user = Provider.of<Authentication>(context);
-      user.isOnTrip = true; //cange to check query of journeys with this user id hasEnded == false > 0
-      print('user.isOnTrip : ${user.isOnTrip}');
+      // var user = Provider.of<Authentication>(context);
+      // user.isOnTrip = true; //cange to check query of journeys with this user id hasEnded == false > 0
+      // print('user.isOnTrip : ${user.isOnTrip}');
       Navigator.of(context).popAndPushNamed(BikeFormScreen.routeName,
           arguments: BikeFormScreen('001'));
     }

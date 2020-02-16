@@ -9,6 +9,7 @@ class Journeys with ChangeNotifier {
   String token;
   String userId;
   List<Journey> _journeys = [];
+  List<Journey> _allJourneys = [];
 
   Journeys([this.token, this.userId, this._journeys]);
 
@@ -16,8 +17,12 @@ class Journeys with ChangeNotifier {
     return _journeys;
   }
 
+  List<Journey> get allJourneys {
+    return _allJourneys;
+  }
+
   void addJourney(Journey journey) {
-    print('token add journey $token');
+    // print('token add journey $token');
     final url = 'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token';
     http
         .post(url,
@@ -26,9 +31,10 @@ class Journeys with ChangeNotifier {
               'endTime': null,
               'dayOfTheWeek': journey.dayOfTheWeek.toString(),//update on trip end
               'userId': userId,
-              'bikeId': journey.bikeId, //passed in by journey
+              // 'bikeId': journey.bikeId, //passed in by journey
+              'bikeId': null,
               'distance': 0,
-              'hasEnded':false
+              'hasEnded': false
             }))
         .then(
       (response) {
@@ -39,28 +45,22 @@ class Journeys with ChangeNotifier {
           startTime: data['startTime'],
           endTime: data['endTime'],
           dayOfTheWeek: data['dayOfTheWeek'],//update on trip end
-          userId: data['userId'],
+          userId: userId,
           bikeId: data['bikeId'], //passed in by journey
           distance: data['distance'],
-          hasEnded: false
+          hasEnded: data['hasEnded']
         );
-        print('newJourney id: ${newJourney.id}');
-        print('newJourney userId: ${newJourney.userId}');
-        _journeys.add(newJourney); //called on null ??
+        print('newJourney : ${newJourney}');
+        // print('newJourney userId: ${newJourney.userId}');
+        allJourneys.add(newJourney); //journeys would be called on null ??
         notifyListeners();
       },
     );
   }
 
-  Future<bool> userIsOnTrip() async {
-    //no token or userId here, when coming back to map...
-    // print('token get user bikes $token');
-    // final List<Journey> bikesLoaded = [];
+  Future<Journey> getUserJourney() async {
+    Journey journey;
     var url;
-    var result;
-    // if (allBikes == true) {
-    //   url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
-    // } else {
       url =
           'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded=false';
       final response = await http.get(url).then(
@@ -68,58 +68,36 @@ class Journeys with ChangeNotifier {
           if (response.statusCode < 200 ||
               response.statusCode >= 400 ||
               json == null) {
-            //handle exceptions
             throw ExceptionHandler(response.body);
           } else {
             final data = json.decode(response.body) as Map<String, dynamic>;
             if (data.length > 0) {
-              result = true;
+              print('get user journey: $data');
+              journey = Journey(
+                    id: json.decode(response.body)["name"], //'name' is the id of the Journey
+                    startTime: data['startTime'],
+                    endTime: data['endTime'],
+                    dayOfTheWeek: data['dayOfTheWeek'],//update on trip end
+                    userId: userId,
+                    bikeId: data['bikeId'], //passed in by journey
+                    distance: data['distance'],
+                    hasEnded: data['hasEnded']
+              );
             } else {
-              result = false;
+              journey = null;
             }
-           
           }
         },
       );
-      return result;
-    // }
+      print('returning journey ${journey.toString()}');
+      return journey;
   }
 
-  // Future<bool> getJourney({bool allBikes = false}) async {
-  //   //no token or userId here, when coming back to map...
-  //   // print('token get user bikes $token');
-  //   // final List<Journey> bikesLoaded = [];
-  //   var url;
-  //   var result;
-  //   // if (allBikes == true) {
-  //   //   url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
-  //   // } else {
-  //     url =
-  //         'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded=false';
-  //     final response = await http.get(url).then(
-  //       (response) {
-  //         if (response.statusCode < 200 ||
-  //             response.statusCode >= 400 ||
-  //             json == null) {
-  //           //handle exceptions
-  //           throw ExceptionHandler(response.body);
-  //         } else {
-  //           final data = json.decode(response.body) as Map<String, dynamic>;
-  //           if (data.length > 0) {
-  //             result = true;
-  //           } else {
-  //             result = false;
-  //           }
-           
-  //         }
-  //       },
-  //     );
-  //     return result;
-  //   // }
-  // }
-
-  Future<void> endJourney(String id, Journey updatedJourney) async {
-    final journeyIndex = _journeys.indexWhere((Journey) => Journey.id == id);
+  Future<void> updateJourney(String id, Journey updatedJourney) async {
+    //no id !!
+    // final id = '-M0ApdmGVDnVFIJy8F6i';
+    //endJourney
+    final journeyIndex = _allJourneys.indexWhere((journey) => journey.id == id);
     if (journeyIndex >= 0) {
       final url =
           "https://capstone-addb0.firebaseio.com/journeys/$id.json?auth=$token";
@@ -127,7 +105,8 @@ class Journeys with ChangeNotifier {
         url,
         body: json.encode(
           {
-            'hesEnded': true
+            'hasEnded': updatedJourney.hasEnded,
+            'endTime': updatedJourney.endTime.toString(),
             //merges with existing values on server
             // 'name': newBike.name,
             // 'model': newBike.model,
@@ -143,7 +122,7 @@ class Journeys with ChangeNotifier {
         // notifyListeners();
         throw ExceptionHandler('Cannot update Journey.');
       }
-      _journeys[journeyIndex] = updatedJourney;
+      allJourneys[journeyIndex] = updatedJourney;
       print('updatedJourney :${response.toString()}');
       notifyListeners();
     } else {

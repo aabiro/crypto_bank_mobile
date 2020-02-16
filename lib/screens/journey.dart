@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/authentication.dart';
+import 'package:flutter_app/providers/journey.dart';
 import 'package:flutter_app/providers/journeys.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'dart:async';
@@ -11,7 +12,11 @@ class JourneyScreen extends StatefulWidget {
   static const routeName = '/journey';
   String bikeId;
   String userId;
-  JourneyScreen({this.userId, this.bikeId}); //need these to query JourneyId for updates
+  String journeyId;
+  Journey journey;
+  // Journey j = 
+  JourneyScreen({this.journeyId, this.journey});
+  // JourneyScreen({this.userId, this.bikeId}); //need these to query JourneyId for updates
   Timer _tripTimer;
 
   @override
@@ -21,30 +26,60 @@ class JourneyScreen extends StatefulWidget {
 class _JourneyScreenState extends State<JourneyScreen> {
   String _timeString = "2 min 5 sec";
   String _getCost = "\$ 4.99";
+  Journey journeyJ;
   var user;
-  var journey;
+  
 
   @override
   void initState() {
     Future.delayed(Duration.zero).then((_) {
-        user = Provider.of<Authentication>(context);
+      user = Provider.of<Authentication>(context);
+    });
+    Future.delayed(Duration.zero).then((_) {
+        Provider.of<Journeys>(context).getUserJourney()
+            // if(journey != null) {
+            //   userIsOnTrip = true;
+            // } else {
+            //   userIsOnTrip = false;
+            // }
+            .then(
+          (response) {
+            print('response in home journey ${response.toString()}');
+            journeyJ = response;
+            print('jour j ${response.myId}' );
+            // if (response != null) {
+            //   journey = response;
+            // } else {
+            //   journey = response;
+            // }
+          },
+        );
+        // user.isOnTrip = Provider.of<Journeys>(context).userIsOnTrip();
       });
+
     // Future.delayed(Duration.zero).then((_) {
-    //     journey = Provider.of<Journeys>(context);
+    //     Provider.of<Journeys>(context).getUserJourney()
+    //         .then(
+    //       (response) {
+    //         print('response in home journey ${response.toString()}');
+    //         journey = response;
+    //       },
+    //     );
+    //     // user.isOnTrip = Provider.of<Journeys>(context).userIsOnTrip();
     //   });
     _timeString =
         "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
     // Timer _t;
-    Timer.periodic(Duration(seconds: 1), (_tripTimer) => _getCurrentTime());
+    // Timer.periodic(Duration(seconds: 1), (_tripTimer) => _getCurrentTime());
     super.initState();
   }
 
   @override
   void dispose() {
     //and on stop button
-    setState(() {
-      _timeString = null;
-    });
+    // setState(() {
+    //   _timeString = null;
+    // });
     // _tripTimer.cancel(); need to cancel this memory leak
     //??
     super.dispose();
@@ -76,7 +111,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
           Padding(
             padding: EdgeInsets.all(20),
             child: Text(
-              cardInfo,
+              cardInfo != null ? cardInfo : '',
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Constants.optionalColor,
@@ -94,6 +129,15 @@ class _JourneyScreenState extends State<JourneyScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final JourneyScreen args = ModalRoute.of(context).settings.arguments;
+    final id = args.journey;
+    print('yessss $journeyJ'); //not working
+    print('id ${id}');
+    final journeyTry = Provider.of<Journeys>(context).getUserJourney();
+    
+    print(journeyTry);
+                                
+    // Journey journey = args.journey;
+    // print('widget ${widget.journey}'); //not working
     // final bId = args.bikeId;
     return Scaffold(
       appBar: AppBar(
@@ -105,74 +149,86 @@ class _JourneyScreenState extends State<JourneyScreen> {
           style: TextStyle(),
         ),
       ),
-      body: 
-      Stack(
+      body: Stack(
         children: <Widget>[
           SizedBox(
-          height: mediaQuery.size.height,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            //make this a list view builder!!
-            child: Column(
-              children: <Widget>[
-                  buildCard("Time of Journey", _timeString), //causing text error
-                  buildCard("Total Price of Journey", _getCost),
-                  SizedBox(
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text('Lock your bike to end the trip!', textAlign: TextAlign.center, style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontFamily: 'Comfortaa',
-                        fontWeight: FontWeight.w800),),
-                    ),
-
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: RaisedButton(
-                      elevation: 0.5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      textColor: Colors.white,
-                      color: Constants.optionalColor,
-                      child: const Text('Stop Trip',
+            height: mediaQuery.size.height,
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                //make this a list view builder!!
+                child: Column(
+                  children: <Widget>[
+                    buildCard(
+                        "Time of Journey", _timeString), //causing text error
+                    buildCard("Total Price of Journey", _getCost),
+                    SizedBox(
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Lock your bike to end the trip!',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.w800,
-                              fontSize: 18)),
-                      onPressed: () {                    
-                        setState(() {
-                          // user.isOnTrip = false;
-                          // _timeString = null;
-                          // print('use : $user in the journey screen');
-                          // print('user.isOnTrip : ${user.isOnTrip} in the journey screen');
-                        }
-                        
-                        );
-                        // journey = Provider.of<Journeys>(context).getJourney(userId, bikeId).id;
-                        // Provider.of<Journeys>(context).endJourney(id, updatedJourney) //todo fix journey
-                        //run disposing of timer here
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => GenericScreen(
-                                'regular',
-                                'Trip Summary',
-                                'Ok',
-                                'assets/gnglogo.png',
-                                '/home'),
-                          ),
-                        );
-                      },
+                              color: Colors.blueGrey,
+                              fontFamily: 'Comfortaa',
+                              fontWeight: FontWeight.w800),
+                        ),
+                      ),
                     ),
-                  ),
-              ],
-            )
-      
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: RaisedButton(
+                        elevation: 0.5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0)),
+                        textColor: Colors.white,
+                        color: Constants.optionalColor,
+                        child: const Text('Stop Trip',
+                            style: TextStyle(
+                                fontFamily: 'OpenSans',
+                                fontWeight: FontWeight.w800,
+                                fontSize: 18)),
+                        onPressed: () {
+                          print('stop trip');
+                          Future.delayed(Duration.zero).then((_) {
+                            Provider.of<Journeys>(context)
+                                .updateJourney(journeyJ.myId, Journey(
+                                // id: journey.id,
+                                startTime: journeyJ.mystartTime,
+                                endTime: DateTime.now(),
+                                dayOfTheWeek: journeyJ.dayOfTheWeek,
+                                bikeId: null,
+                                userId: journeyJ.myUserId,
+                                distance: journeyJ.myDistance,
+                                hasEnded: true
+                            ));
+                          });
+                          setState(() {
+                            // user.isOnTrip = false;
+                            _timeString = null;
+                            // print('use : $user in the journey screen');
+                            // print('user.isOnTrip : ${user.isOnTrip} in the journey screen');
+                          });
+                          // journey = Provider.of<Journeys>(context).getJourney(userId, bikeId).id;
+                          // Provider.of<Journeys>(context).endJourney(id, updatedJourney) //todo fix journey
+                          //run disposing of timer here
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GenericScreen(
+                                  'regular',
+                                  'Trip Summary',
+                                  'Ok',
+                                  'assets/gnglogo.png',
+                                  '/home'),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                )),
           ),
-        ),
-
-        Align(
+          Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -183,24 +239,23 @@ class _JourneyScreenState extends State<JourneyScreen> {
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0.0)),
-                       onPressed: () {
-                         print('use : $user in the journey screen');
-                       print('user.isOnTrip : ${user.isOnTrip} in the journey screen');
-                       Navigator.of(context).pushNamed(MapScreen.routeName);
+                  onPressed: () {
+                    //  print('use : $user in the journey screen');
+                    //  print('user.isOnTrip : ${user.isOnTrip} in the journey screen');
+                    Navigator.of(context).pushNamed(MapScreen.routeName);
                   },
                   textColor: Colors.white,
                   color: Constants.accentColor,
-                  child:Text('Go to Map',
+                  child: Text('Go to Map',
                       style: TextStyle(
                           fontFamily: 'OpenSans',
                           fontWeight: FontWeight.bold,
-                          fontSize: 15)) ,
+                          fontSize: 15)),
                 ),
               ),
             ),
           ),
         ],
-          
       ),
     );
   }
