@@ -428,10 +428,10 @@ class MapScreenState extends State<MapScreen> {
                                         startTime: DateTime.now(),
                                         userId: user.userId,
                                         bikeId: 'QR001',
-                                        bikeOwnerId:
-                                            user.userId), //riding my own bike
                                         // bikeOwnerId:
-                                        //     'S31KUoJRB0dOt0Gu3bbLCuvBASJ2'),
+                                        //     user.userId), //riding my own bike testing
+                                        bikeOwnerId:
+                                            'S31KUoJRB0dOt0Gu3bbLCuvBASJ2'),
                                   );
 
                                   //get the new journey

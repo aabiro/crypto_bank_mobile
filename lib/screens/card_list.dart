@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/helpers/cards_helper.dart';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/providers/bikes.dart';
 import 'package:flutter_app/providers/user_card.dart';
@@ -91,47 +92,50 @@ class _CardScreenState extends State<CardScreen> {
                       children: cards != null && cards.length > 0
                           ? cards?.map(
                               (c) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: SizedBox(
-                                      child: Dismissible(
-                                        // crossAxisEndOffset: 180.0,
-                                        dismissThresholds: {DismissDirection.endToStart: 5.5},
-                                        movementDuration: Duration(milliseconds: 1500),
-                                        confirmDismiss: (DismissDirection direction) async {
-                                          return await _showDialog();
-                                        },
-                                        key: ValueKey(c.id),
-                                        direction: DismissDirection.endToStart,
-                                        onDismissed: (direction) {
-                                          cardProv.deleteUserCard(c.id);
-                                        },
-                                        background: Container(
-                                          // decoration: ShapeDecoration(
-                                          //   shape: RoundedRectangleBorder(
-                                          //     borderRadius: BorderRadius.circular(10),
-                                          //   ),
-                                          // ),
-                                          color: Colors.red,
-                                          child: Icon(
-                                            Icons.delete,
-                                            color: Colors.white,
-                                            size: 40,
-                                          ),
-                                          alignment: Alignment.centerRight,
-                                          padding: EdgeInsets.only(right: 20),
-                                          margin: EdgeInsets.all(4),
-                                        ),
-                                        child: GestureDetector(
-                                            onTap: () {
-                                              cardProv.updateDefault(c.id, c);
+                                return GestureDetector(
+                                  onTap: () {
+                                    print(c.id);
+                                    print(c);
+                                    cardProv.updateDefault(c.id, c);
                                             },
-                                            child: Card(
+                                    child: Padding(
+                                    padding: const EdgeInsets.all(0.0),
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: SizedBox(
+                                        child: Dismissible(
+                                          // crossAxisEndOffset: 180.0,
+                                          dismissThresholds: {
+                                            DismissDirection.endToStart: 5.5
+                                          },
+                                          movementDuration:
+                                              Duration(milliseconds: 1500),
+                                          confirmDismiss:
+                                              (DismissDirection direction) async {
+                                            print('confirming dismiss ..');
+                                            return await _showDialog();
+                                          },
+                                          key: ValueKey(c.id),
+                                          direction: DismissDirection.endToStart,
+                                          onDismissed: (direction) {
+                                            cardProv.deleteUserCard(c.id);
+                                          },
+                                          background: Container(
+                                            color: Colors.red,
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: Colors.white,
+                                              size: 40,
+                                            ),
+                                            alignment: Alignment.centerRight,
+                                            padding: EdgeInsets.only(right: 20),
+                                            margin: EdgeInsets.all(4),
+                                          ),
+                                          child: Card(
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: <Widget>[
                                                 Container(
                                                   margin: EdgeInsets.symmetric(
@@ -139,16 +143,12 @@ class _CardScreenState extends State<CardScreen> {
                                                     horizontal: 15,
                                                   ),
                                                   decoration: BoxDecoration(
-                                                      // border: Border.all(
-                                                      //   color: Constants.accentColor,
-                                                      //   width: 2,
-                                                      // ),
                                                       ),
                                                   padding: EdgeInsets.all(10),
                                                   child: AutoSizeText(
                                                     "Credit Card\n ending in ${c.lastFourDigits}",
                                                     textAlign: TextAlign.center,
-                                                    // "Credit Card\n ending in XXXX",
+                                                    // ,
                                                     style: TextStyle(
                                                         color: Colors.blueGrey,
                                                         fontWeight:
@@ -160,16 +160,18 @@ class _CardScreenState extends State<CardScreen> {
                                                   padding: EdgeInsets.fromLTRB(
                                                       10, 0, 30, 0),
                                                   child: Text(
-                                                      c.isDefault
-                                                          ? "Default"
-                                                          : "",
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          // fontSize: 40,
-                                                          color: Constants
-                                                              .optionalColor,
-                                                          fontWeight:
-                                                              FontWeight.w900)),
+                                                    c.isDefault != null &&
+                                                            c.isDefault == true
+                                                        ? "Default"
+                                                        : "",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        // fontSize: 40,
+                                                        color: Constants
+                                                            .optionalColor,
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -274,8 +276,8 @@ class _CardScreenState extends State<CardScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           title: Text(
             "Are you sure you want to remove this card?",
             style:

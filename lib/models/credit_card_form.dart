@@ -219,19 +219,17 @@ class _CreditCardFormState extends State<CreditCardForm> {
                       fontWeight: FontWeight.w800,
                       fontSize: 18)),
               onPressed: () {
-                //save flip card and return
-                Provider.of<UserCards>(context).addUserCard(
+                  Provider.of<UserCards>(context).addUserCard(
                   UserCard(
                       userId: Provider.of<Authentication>(context).userId,
                       name: cardHolderName,
                       number: cardNumber,
                       expiry: expiryDate,
+                      lastFourDigits: cardNumber.substring(cardNumber.length - 4),
                       securityCode: cvvCode,
-                      isDefault: true),
-                      Provider.of<Authentication>(context).accessToken
+                      isDefault: false),
                 );
                 Navigator.pop(context);
-                // Navigator.pushNamed(context, '/camera');
               },
             ),
             SizedBox(
@@ -240,6 +238,62 @@ class _CreditCardFormState extends State<CreditCardForm> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<bool> _showDialog() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(
+            "Do you want to make this your default payment method?",
+            style:
+                TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w800),
+            textAlign: TextAlign.center,
+          ),
+          shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                OutlineButton(
+                  padding: EdgeInsets.all(20),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text(
+                    "Yes",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Constants.mainColor,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16),
+                  ),
+                ),
+                // SizedBox(height: 10,),
+                OutlineButton(
+                  padding: EdgeInsets.all(20),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text(
+                    "No",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Constants.mainColor,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
