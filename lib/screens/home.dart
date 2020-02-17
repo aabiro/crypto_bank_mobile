@@ -429,7 +429,9 @@ class MapScreenState extends State<MapScreen> {
                                         userId: user.userId,
                                         bikeId: 'QR001',
                                         bikeOwnerId:
-                                            'S31KUoJRB0dOt0Gu3bbLCuvBASJ2'),
+                                            user.userId), //riding my own bike
+                                        // bikeOwnerId:
+                                        //     'S31KUoJRB0dOt0Gu3bbLCuvBASJ2'),
                                   );
 
                                   //get the new journey
@@ -440,6 +442,7 @@ class MapScreenState extends State<MapScreen> {
                                       JourneyScreen.routeName,
                                       arguments: JourneyScreen(
                                         journey: response,
+                                        isUserBike: (journey.bikeOwnerId == journey.userId)
                                       ),
                                     );
                                     // Navigator.of(context).pushNamed(QrScan.routeName);
@@ -463,6 +466,7 @@ class MapScreenState extends State<MapScreen> {
                                     JourneyScreen.routeName,
                                     arguments: JourneyScreen(
                                       journey: journey,
+                                      isUserBike: (journey.bikeOwnerId == journey.userId)
                                     ),
                                   );
                                 },
@@ -526,6 +530,7 @@ class MapScreenState extends State<MapScreen> {
           JourneyScreen.routeName,
           arguments: JourneyScreen(
             journey: response,
+            isUserBike: (journey.bikeOwnerId == journey.userId)
           ),
         );
         // Navigator.of(context).pushNamed(QrScan.routeName);

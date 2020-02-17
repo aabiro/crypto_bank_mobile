@@ -48,17 +48,20 @@ class _StatsScreenState extends State<StatsScreen> {
     return result;
   }
 
-  int getTotalTime(List<Journey> list) {
-    var totalTime = 0;
+  List<double> getTotalTimeAndEarned(List<Journey> list) {
+    double totalTime = 0.0;
+    double totalEarned = 0.0;
     if (list != null) {
       list.forEach((journey) {
         print('id : ${journey.id} , starttime : ${journey.startTime}');
         if (journey.hasEnded == true && journey.startTime != null && journey.endTime != null) {
-          totalTime += journey.startTime.difference(journey.endTime).inMinutes;
+          print(journey.startTime.difference(journey.endTime).inMinutes);
+          // totalTime += journey.startTime.difference(journey.endTime).inMinutes.toDouble();
+          // totalEarned += journey.tripTotal;
         }
       });
     }
-    return totalTime;
+    return [1.0, 100.0];
   }
 
   @override
@@ -68,20 +71,22 @@ class _StatsScreenState extends State<StatsScreen> {
     final journeysAsUser = journeysProv.userJourneys;
     final journeysAsOwner = journeysProv.ownerJourneys;
     String totalTrips = journeysAsUser.length.toString();
-    String totalTime = getTotalTime(journeysAsUser).toString();
-    int totalTimeAsLender = getTotalTime(journeysAsUser);
+    List<double> totalTimeAndEarnedAsLender = getTotalTimeAndEarned(journeysAsOwner);
+    String totalTimeAsUser = getTotalTimeAndEarned(journeysAsUser)[0].toString();
+    
+    // int totalTimeAsLender = totalTimeAndEarnedAsLender[0];
     String calories =
-        (int.parse(totalTime) * 12).toStringAsFixed(0); //12 caories per minute
+        (int.parse(totalTimeAsUser) * 12).toStringAsFixed(0); //12 caories per minute
     String kilometers =
-        (int.parse(totalTime) * 0.35).toStringAsFixed(1); //12 caories per minute
+        (int.parse(totalTimeAsUser) * 0.35).toStringAsFixed(1); //0.35 km per minute
     String earned =
-        (totalTimeAsLender * 0.2 + journeysAsOwner.length).toStringAsFixed(2);
+        (totalTimeAndEarnedAsLender[1]).toStringAsFixed(2);
     String totalEarned = "\$$earned";
 
     print('user journeys : $journeysAsUser');
     print('owner journeys : $journeysAsOwner');
     print(totalTrips);
-    print(totalTime);
+    print('total time as user : $totalTimeAsUser');
 
     final List<SubscriberSeries> data = [
       SubscriberSeries(

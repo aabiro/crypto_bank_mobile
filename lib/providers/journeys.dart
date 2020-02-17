@@ -53,22 +53,27 @@ class Journeys with ChangeNotifier {
               'bikeId': journey.bikeId, //passed in by journey
               'bikeOwnerId': journey.bikeOwnerId,
               'distance': 0,
-              'hasEnded': false
+              'hasEnded': false,
+              'tripTotal': null,
+              'tripLength': null
             }))
         .then(
       (response) {
         var data = json.decode(response.body);
         // print('response $data');
         final newJourney = Journey(
-            id: json.decode(response.body)["name"],
-            startTime: data['startTime'],
-            endTime: data['endTime'],
-            dayOfTheWeek: data['dayOfTheWeek'],
-            userId: userId,
-            bikeId: data['bikeId'],
-            bikeOwnerId: data['bikeOwnerId'],
-            distance: data['distance'],
-            hasEnded: data['hasEnded']);
+          id: json.decode(response.body)["name"],
+          startTime: data['startTime'],
+          endTime: data['endTime'],
+          dayOfTheWeek: data['dayOfTheWeek'],
+          userId: userId,
+          bikeId: data['bikeId'],
+          bikeOwnerId: data['bikeOwnerId'],
+          distance: data['distance'],
+          hasEnded: data['hasEnded'],
+          tripTotal: data['tripTotal'],
+          tripLength: data['tripLength'],
+        );
         // print('newJourney : $newJourney');
         allJourneys.add(
             newJourney); //journeys would be called on null if using constuctor initialized list
@@ -102,7 +107,10 @@ class Journeys with ChangeNotifier {
                   bikeId: entry.value['bikeId'],
                   bikeOwnerId: entry.value['bikeOwnerId'],
                   distance: entry.value['distance'].toString(),
-                  hasEnded: entry.value['hasEnded']);
+                  tripTotal: entry.value['tripTotal'],
+                  tripLength: entry.value['tripLength'],
+                  hasEnded: entry.value['hasEnded'],
+                  );
               _allJourneys.add(userJourney);
             }
           } else {
@@ -148,6 +156,8 @@ class Journeys with ChangeNotifier {
                     bikeId: entry.value['bikeId'],
                     bikeOwnerId: entry.value['bikeOwnerId'],
                     distance: entry.value['distance'].toString(),
+                    tripTotal: entry.value['tripTotal'],
+                    tripLength: entry.value['tripLength'],
                     hasEnded: entry.value['hasEnded'],
                   ),
                 );
@@ -176,7 +186,9 @@ class Journeys with ChangeNotifier {
           {
             'hasEnded': updatedJourney.hasEnded,
             'endTime': updatedJourney.endTime.toString(),
-            'dayOfTheWeek': updatedJourney.dayOfTheWeek
+            'dayOfTheWeek': updatedJourney.dayOfTheWeek,
+            'tripTotal': updatedJourney.tripTotal,
+            'tripLength': updatedJourney.tripLength,
           },
         ),
       );

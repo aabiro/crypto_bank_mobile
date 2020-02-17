@@ -13,8 +13,9 @@ class JourneyScreen extends StatefulWidget {
   static const routeName = '/journey';
   String bikeId;
   String userId;
+  bool isUserBike;
   Journey journey;
-  JourneyScreen({this.journey});
+  JourneyScreen({this.journey, this.isUserBike});
 
   @override
   _JourneyScreenState createState() => _JourneyScreenState();
@@ -23,6 +24,7 @@ class JourneyScreen extends StatefulWidget {
 class _JourneyScreenState extends State<JourneyScreen> {
   String _timeString;
   String _costString;
+  String cost;
   final String $cent = String.fromCharCode(0x00A2);
   Future<bool> screenReady;
   Timer _t;
@@ -41,21 +43,38 @@ class _JourneyScreenState extends State<JourneyScreen> {
   void didChangeDependencies() {
     DateTime journeyStartTime;
     final JourneyScreen args = ModalRoute.of(context).settings.arguments;
+    final isUserBike = args.isUserBike;
     Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
       journeyStartTime = response.startTime;
       Duration timePassed = DateTime.now().difference(journeyStartTime);
-      print(timePassed.inSeconds);
-      _costString = "${(timePassed.inMinutes * .20) + 1}";
-      if (timePassed.inSeconds.remainder(60) < 10) {
+      // print(timePassed.inSeconds);
+      _costString = isUserBike ? "Free!" : "${(timePassed.inMinutes * .20) + 1}";
+      if (timePassed.inMinutes < 1 && timePassed.inSeconds.remainder(60) < 10) {
+        _timeString =
+            "0${(timePassed.inSeconds.remainder(60))} sec";
+      } else if (timePassed.inMinutes >= 1 && timePassed.inSeconds.remainder(60) < 10) {
         _timeString =
             "${timePassed.inMinutes.remainder(60)} : 0${(timePassed.inSeconds.remainder(60))} sec";
+      } else if (timePassed.inHours >= 1) {
+        _timeString =
+            "${timePassed.inHours.remainder(60)} :${timePassed.inMinutes.remainder(60)} : ${(timePassed.inSeconds.remainder(60))} sec";
       } else {
         _timeString =
             "${timePassed.inMinutes.remainder(60)} : ${(timePassed.inSeconds.remainder(60))} sec";
       }
+
+
+
+      // if (timePassed.inSeconds.remainder(60) < 10) {
+      //   _timeString =
+      //       "${timePassed.inMinutes.remainder(60)} : 0${(timePassed.inSeconds.remainder(60))} sec";
+      // } else {
+      //   _timeString =
+      //       "${timePassed.inMinutes.remainder(60)} : ${(timePassed.inSeconds.remainder(60))} sec";
+      // }
     });
     _t = Timer.periodic(
-        Duration(seconds: 1), (_t) => _getCurrentTimeAndCost(journeyStartTime));
+        Duration(seconds: 1), (_t) => _getCurrentTimeAndCost(journeyStartTime, isUserBike));
   }
 
   @override
@@ -72,23 +91,33 @@ class _JourneyScreenState extends State<JourneyScreen> {
     return true;
   }
 
-  void _getCurrentTimeAndCost(DateTime journeyStartTime) {
+  void _getCurrentTimeAndCost(DateTime journeyStartTime, bool isUserBike) {
     Duration timePassed = DateTime.now().difference(journeyStartTime);
     print(timePassed.inSeconds);
     setState(() {
       //assume < 1 hour for now
-      if (timePassed.inMinutes.remainder(60) < 1 && timePassed.inSeconds.remainder(60) < 10) {
+      if (timePassed.inMinutes < 1 && timePassed.inSeconds.remainder(60) < 10) {
         _timeString =
             "0${(timePassed.inSeconds.remainder(60))} sec";
-      } else if (timePassed.inSeconds.remainder(60) < 10) {
+      } else if (timePassed.inMinutes >= 1 && timePassed.inSeconds.remainder(60) < 10) {
         _timeString =
             "${timePassed.inMinutes.remainder(60)} : 0${(timePassed.inSeconds.remainder(60))} sec";
       } else {
         _timeString =
             "${timePassed.inMinutes.remainder(60)} : ${(timePassed.inSeconds.remainder(60))} sec";
       }
-      String cost = ((timePassed.inMinutes * .20) + 1).toStringAsFixed(2);
-      _costString = "\$$cost";
+      // if (timePassed.inMinutes.remainder(60) < 1 && timePassed.inSeconds.remainder(60) < 10) {
+      //   _timeString =
+      //       "0${(timePassed.inSeconds.remainder(60))} sec";
+      // } else if (timePassed.inSeconds.remainder(60) < 10) {
+      //   _timeString =
+      //       "${timePassed.inMinutes.remainder(60)} : 0${(timePassed.inSeconds.remainder(60))} sec";
+      // } else {
+      //   _timeString =
+      //       "${timePassed.inMinutes.remainder(60)} : ${(timePassed.inSeconds.remainder(60))} sec";
+      // }
+      cost = ((timePassed.inMinutes * .20) + 1).toStringAsFixed(2);
+      _costString = isUserBike ? "Free!" : "\$$cost";
       // "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
       // "${timePassed.inHours}:${timePassed.inMinutes.remainder(60)}:${(timePassed.inSeconds.remainder(60))}";
     });
@@ -139,6 +168,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
     final mediaQuery = MediaQuery.of(context);
     final JourneyScreen args = ModalRoute.of(context).settings.arguments;
     final journey = args.journey;
+    final isUserBike = args.isUserBike;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -202,7 +232,10 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                           bikeOwnerId: journey.bikeOwnerId,
                                           userId: journey.userId,
                                           distance: journey.distance,
-                                          hasEnded: true));
+                                          hasEnded: true,
+                                          tripTotal: isUserBike ? 0 : double.parse(cost),
+                                          tripLength: journey.startTime.difference(DateTime.now()).inMinutes.toDouble()
+                                          ),);
                                   setState(() {
                                     _t.cancel();
                                     _timeString = null;

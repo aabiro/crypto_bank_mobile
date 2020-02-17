@@ -12,6 +12,8 @@ class Journey with ChangeNotifier {
   // or just use time avg dist?
   String distance;
   bool hasEnded;
+  double tripTotal;
+  double tripLength;
 
   Journey({
     this.id,
@@ -22,7 +24,9 @@ class Journey with ChangeNotifier {
     this.userId,
     this.bikeOwnerId,
     this.distance,
-    this.hasEnded
+    this.hasEnded,
+    this.tripTotal,
+    this.tripLength
   });
 
   String get myId {

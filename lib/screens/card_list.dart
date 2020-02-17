@@ -24,7 +24,6 @@ class _CardScreenState extends State<CardScreen> {
   var _init = true;
   var _isLoading = false;
   List<UserCard> cards = [];
-  
 
   @override
   void didChangeDependencies() {
@@ -96,72 +95,88 @@ class _CardScreenState extends State<CardScreen> {
                                   padding: const EdgeInsets.all(0.0),
                                   child: SizedBox(
                                     width: MediaQuery.of(context).size.width,
-                                      child: SizedBox(
-                                        
-                                              child: Dismissible(
-                                              key: ValueKey(c.id),  
-                                              direction: DismissDirection.endToStart,
-                                              onDismissed: (direction) {
-                                                cardProv.deleteUserCard(c.id);
-                                              },
-                                              background: Container(
-                                                // decoration: ShapeDecoration(
-                                                //   shape: RoundedRectangleBorder(
-                                                //     borderRadius: BorderRadius.circular(10),
-                                                //   ),
-                                                // ),
-                                                color: Colors.red,
-                                                child: 
-                                                  Icon(Icons.delete,
-                                                    color:  Colors.white,
-                                                    size: 40,
-                                                  ),
-                                                  alignment: Alignment.centerRight,
-                                                  padding: EdgeInsets.only(right: 20),
-                                                  margin: EdgeInsets.all(4),
-                                              ),
-                                          child: Card(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Container(
-                                                margin: EdgeInsets.symmetric(
-                                                  vertical: 10,
-                                                  horizontal: 15,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                    // border: Border.all(
-                                                    //   color: Constants.accentColor,
-                                                    //   width: 2,
-                                                    // ),
-                                                    ),
-                                                padding: EdgeInsets.all(10),
-                                                child: AutoSizeText(
-                                                  "Credit Card\n ending in ${c.lastFourDigits}",
-                                                  textAlign: TextAlign.center,
-                                                  // "Credit Card\n ending in XXXX",
-                                                  style: TextStyle(
-                                                      color: Colors.blueGrey,
-                                                      fontWeight: FontWeight.w800,
-                                                      fontSize: 15),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.fromLTRB(10, 0, 30, 0),
-                                                child: Text(
-                                                    c.isDefault ? "Default" : "",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        // fontSize: 40,
-                                                        color: Constants.optionalColor,
-                                                        fontWeight: FontWeight.w900)),
-                                              ),
-                                            ],
+                                    child: SizedBox(
+                                      child: Dismissible(
+                                        // crossAxisEndOffset: 180.0,
+                                        dismissThresholds: {DismissDirection.endToStart: 5.5},
+                                        movementDuration: Duration(milliseconds: 1500),
+                                        confirmDismiss: (DismissDirection direction) async {
+                                          return await _showDialog();
+                                        },
+                                        key: ValueKey(c.id),
+                                        direction: DismissDirection.endToStart,
+                                        onDismissed: (direction) {
+                                          cardProv.deleteUserCard(c.id);
+                                        },
+                                        background: Container(
+                                          // decoration: ShapeDecoration(
+                                          //   shape: RoundedRectangleBorder(
+                                          //     borderRadius: BorderRadius.circular(10),
+                                          //   ),
+                                          // ),
+                                          color: Colors.red,
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.white,
+                                            size: 40,
                                           ),
-                                    ),
+                                          alignment: Alignment.centerRight,
+                                          padding: EdgeInsets.only(right: 20),
+                                          margin: EdgeInsets.all(4),
+                                        ),
+                                        child: GestureDetector(
+                                            onTap: () {
+                                              cardProv.updateDefault(c.id, c);
+                                            },
+                                            child: Card(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                    vertical: 10,
+                                                    horizontal: 15,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                      // border: Border.all(
+                                                      //   color: Constants.accentColor,
+                                                      //   width: 2,
+                                                      // ),
+                                                      ),
+                                                  padding: EdgeInsets.all(10),
+                                                  child: AutoSizeText(
+                                                    "Credit Card\n ending in ${c.lastFourDigits}",
+                                                    textAlign: TextAlign.center,
+                                                    // "Credit Card\n ending in XXXX",
+                                                    style: TextStyle(
+                                                        color: Colors.blueGrey,
+                                                        fontWeight:
+                                                            FontWeight.w800,
+                                                        fontSize: 15),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      10, 0, 30, 0),
+                                                  child: Text(
+                                                      c.isDefault
+                                                          ? "Default"
+                                                          : "",
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          // fontSize: 40,
+                                                          color: Constants
+                                                              .optionalColor,
+                                                          fontWeight:
+                                                              FontWeight.w900)),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ),
+                                    ),
                                   ),
                                 );
                               },
@@ -193,12 +208,12 @@ class _CardScreenState extends State<CardScreen> {
                           minWidth: mediaQuery.size.width / 3,
                           // padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: () {
-                           Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      fullscreenDialog: true,
-                                      builder: (context) => CreditCardScreen(),
-                                      maintainState: false));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    fullscreenDialog: true,
+                                    builder: (context) => CreditCardScreen(),
+                                    maintainState: false));
                             // print('update/edit bike id: $id');
                             // bike.name = name;
                             // bike.model = type;
@@ -251,6 +266,60 @@ class _CardScreenState extends State<CardScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<bool> _showDialog() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+          title: Text(
+            "Are you sure you want to remove this card?",
+            style:
+                TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w800),
+            textAlign: TextAlign.center,
+          ),
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                OutlineButton(
+                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text(
+                    "Yes",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Constants.mainColor,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16),
+                  ),
+                ),
+                OutlineButton(
+                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text(
+                    "Cancel",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Constants.mainColor,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

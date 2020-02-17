@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import '../models/exception_handler.dart';
+import '../helpers/cards_helper.dart';
 import 'user_card.dart';
 
 class UserCards with ChangeNotifier {
@@ -28,7 +29,7 @@ class UserCards with ChangeNotifier {
           {
             'userId': newUserCard.userId,
             'name': newUserCard.name,
-            'number': newUserCard.number,
+            'number': CardsHelper.encryptCard(newUserCard.number),
             'expiry': newUserCard.expiry,
             'securityCode': newUserCard.securityCode,
             'isDefault': newUserCard.isDefault
@@ -107,7 +108,7 @@ class UserCards with ChangeNotifier {
                     id: userCardId,
                     userId: userCardData['userId'],
                     name: userCardData['name'],
-                    number: userCardData['number'],
+                    number: CardsHelper.decryptCard(userCardData['number']),
                     expiry: userCardData['expiry'],
                     securityCode: userCardData['securityCode'],
                     isDefault: userCardData['isDefault']
@@ -130,6 +131,75 @@ class UserCards with ChangeNotifier {
     return userCards.firstWhere((userCard) => userCard.userId == userId);
   }
 
+  void updateDefault(String id, UserCard newUserCard) async {
+    final oldDefaultIndex = userCards.indexWhere((userCard) => userCard.userId == userId && userCard.isDefault == true);
+    final userCardIndex = userCards.indexWhere((userCard) => userCard.id == newUserCard.id);
+    final oldDefaultCard = userCards[oldDefaultIndex];
+    oldDefaultCard.toggleDefault();
+    
+    if (oldDefaultIndex > 0) {
+      final url =
+          "https://capstone-addb0.firebaseio.com/cards/${oldDefaultCard.id}.json?auth=$token";
+      final response = await http.patch(
+        url,
+        body: json.encode(
+          {
+            'userId': oldDefaultCard.userId,
+            'name': oldDefaultCard.name,
+            'number': CardsHelper.encryptCard(oldDefaultCard.number),
+            'expiry': oldDefaultCard.expiry,
+            'securityCode': oldDefaultCard.securityCode,
+            'isDefault': false
+          },
+        ),
+      );
+      if (response.statusCode >= 400) {
+        print(response.statusCode);
+        print("${response.toString()}");
+        // print('response $data');  
+        // userCards.insert(userCardIndex, userCard); //keep userCard if the delete did not work, optimistic updating
+        // notifyListeners();
+        throw ExceptionHandler('Cannot update  old default userCard.');
+      }
+      userCards[oldDefaultIndex] = oldDefaultCard;
+      notifyListeners();
+    } else {
+      print(' old default card did not update');
+    }
+    
+    // update new default
+    if (userCardIndex >= 0) {
+      final url =
+          "https://capstone-addb0.firebaseio.com/cards/$id.json?auth=$token";
+      final response = await http.patch(
+        url,
+        body: json.encode(
+          {
+            'userId': newUserCard.userId,
+            'name': newUserCard.name,
+            'number': CardsHelper.encryptCard(newUserCard.number),
+            'expiry': newUserCard.expiry,
+            'securityCode': newUserCard.securityCode,
+            'isDefault': newUserCard.isDefault
+          },
+        ),
+      );
+      if (response.statusCode >= 400) {
+        print(response.statusCode);
+        print("${response.toString()}");
+        // print('response $data');  
+        // userCards.insert(userCardIndex, userCard); //keep userCard if the delete did not work, optimistic updating
+        // notifyListeners();
+        throw ExceptionHandler('Cannot update userCard.');
+      }
+      userCards[userCardIndex] = newUserCard;  
+      notifyListeners();
+    } else {
+      print('did not update');
+    }
+    // notifyListeners();
+  }
+
   //add userCard to the users userCard list
   void addUserCard(UserCard userCard, [String _token]) {
     print('token add userCard $_token');
@@ -139,7 +209,7 @@ class UserCards with ChangeNotifier {
             body: json.encode({
               'userId': userCard.userId,
               'name': userCard.name,
-              'number': userCard.number,
+              'number': CardsHelper.encryptCard(userCard.number),
               'expiry': userCard.expiry,
               'securityCode': userCard.securityCode,
               'isDefault': userCard.isDefault
@@ -158,7 +228,7 @@ class UserCards with ChangeNotifier {
           id: json.decode(response.body)["name"], //'name' is the id of the userCard
           userId: userCard.userId,
           name: userCard.name,
-          number: userCard.number,
+          number: CardsHelper.decryptCard(userCard.number),
           expiry: userCard.expiry,
           securityCode: userCard.securityCode,
           isDefault: userCard.isDefault
@@ -167,9 +237,10 @@ class UserCards with ChangeNotifier {
         print('newuserCard userId: ${newUserCard.userId}');
         print('token add userCard $token');
         userCards.add(newUserCard);
-        notifyListeners();
+        
       }
       },
     );
+    notifyListeners();
   }
 }
