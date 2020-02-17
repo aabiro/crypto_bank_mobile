@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/providers/journeys.dart';
 import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/alert_screen.dart';
@@ -53,6 +54,8 @@ import './providers/authentication.dart';
 List<CameraDescription> cameras;
 
 Future<Null> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();

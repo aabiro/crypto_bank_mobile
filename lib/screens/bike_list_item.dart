@@ -69,7 +69,7 @@ class _BikeListItemState extends State<BikeListItem> {
                             color: textColor,
                             fontFamily: 'OpenSans',
                             fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                            fontSize: 15),
                       ),
                     ),
                     Padding(
@@ -79,7 +79,7 @@ class _BikeListItemState extends State<BikeListItem> {
                         style: TextStyle(
                             color: textColor,
                             fontWeight: FontWeight.w800,
-                            fontSize: 20),
+                            fontSize: 15),
                       ),
                     ),
                     Padding(

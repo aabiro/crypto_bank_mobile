@@ -28,10 +28,11 @@ class UserCardDrawer extends StatelessWidget {
                       maxRadius: mediaQuery.size.height * 0.07,
                       backgroundColor: Constants.optionalColor,
                       
-                      backgroundImage: null,
+                      // backgroundImage: NetworkImage(auth.photoUrl) != null ? NetworkImage(auth.photoUrl) : null,
                       // backgroundImage: NetworkImage(auth.photoUrl != null
                       //     ? auth.photoUrl
                       //     : null), //user photoUrl
+                      backgroundImage: null,
                       child: Text(
                         (auth.photoUrl == null || auth.photoUrl == "") && auth.displayName != null
                             ? auth.displayName[0]

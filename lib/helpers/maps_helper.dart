@@ -20,9 +20,9 @@ class MapsHelper {
   }
 
   static void setStyle(GoogleMapController mc, BuildContext context) async {
-    // String val = await DefaultAssetBundle.of(context)
-    //     .loadString('assets/map_style.json');
-    //     mc.setMapStyle(val);
+    String val = await DefaultAssetBundle.of(context)
+        .loadString('assets/map_style.json');
+        mc.setMapStyle(val);
   }
 
   static moveToLocation(GoogleMapController mc, LatLng target, double zoom) {

@@ -7,6 +7,7 @@ class Journey with ChangeNotifier {
   int dayOfTheWeek; //?
   String bikeId;
   String userId;
+  String bikeOwnerId;
   //gps stuff ie start location/end location for the distance? should the owner see the bike in use,
   // or just use time avg dist?
   String distance;
@@ -19,6 +20,7 @@ class Journey with ChangeNotifier {
     this.dayOfTheWeek,
     this.bikeId,
     this.userId,
+    this.bikeOwnerId,
     this.distance,
     this.hasEnded
   });

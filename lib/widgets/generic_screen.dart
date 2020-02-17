@@ -38,7 +38,7 @@ class GenericScreen extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(30, 60, 30, 20),
+            padding: EdgeInsets.fromLTRB(30, 30, 30, 20),
             child: Text(mainText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -50,7 +50,7 @@ class GenericScreen extends StatelessWidget {
               padding: EdgeInsets.all(5),
               child: SizedBox(
                 width: double.infinity,
-                height: mediaQuery.size.height * 0.4,
+                height: mediaQuery.size.height * 0.3,
                 child: Image.asset(
                   picPath,
                   fit: BoxFit.contain,
