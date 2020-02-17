@@ -14,17 +14,35 @@ import 'package:path/path.dart';
 
 // Create a Form widget.
 class RegisterScreen extends StatefulWidget {
-  
   @override
   MyCustomFormState createState() {
     return MyCustomFormState();
   }
 }
 
-
 class MyCustomFormState extends State<RegisterScreen> {
   final myEmailController = TextEditingController();
   final myPasswordController = TextEditingController();
+  final myConfirmPasswordController = TextEditingController();
+
+  void showError(String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              title: Text('Error'),
+              content: Text(message),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
+  }
 
   Widget buildInputField(TextEditingController controller, String hintText) {
     return TextFormField(
@@ -55,73 +73,103 @@ class MyCustomFormState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     final emailField = buildInputField(myEmailController, "Email");
     final passwordField = buildInputField(myPasswordController, "Password");
+    final confirmPasswordField =
+        buildInputField(myConfirmPasswordController, "Confirm Password");
     String email = myEmailController.text;
     String password = myPasswordController.text;
+    String confirmPassword = myConfirmPasswordController.text;
 
     return Scaffold(
-      body: Center(
-        child: Container(
-          color: Colors.white,
-          // color: Color(0xff2196F3),
-          child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 150.0,
-                  width: double.infinity,
-                  child: Image.asset(
-                    "assets/gnglogoblue.png",
-                    fit: BoxFit.contain,
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: Constants.mainColor,
+              automaticallyImplyLeading: false,
+              expandedHeight: 120.0,
+              elevation: 5,
+              floating: true,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text(
+                  "Givngo",
+                  style: TextStyle(),
+                ),
+                background: Image.asset(
+                  "assets/coolbike.jpg",
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ];
+        },
+        body: Center(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  emailField,
+                  SizedBox(height: 15.0),
+                  passwordField,
+                  SizedBox(height: 15.0),
+                  confirmPasswordField,
+                  SizedBox(
+                    height: 20.0,
                   ),
-                ),
-                SizedBox(height: 15.0),
-                emailField,
-                SizedBox(height: 15.0),
-                passwordField,
-                SizedBox(
-                  height: 15.0,
-                ),
-                Material(
-                  elevation: 5.0,
-                  borderRadius: BorderRadius.circular(30.0),
-                  color: Constants.mainColor,
-                  child: MaterialButton(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 35.0,
+                        width: 220,
+                        child: Material(
+                          elevation: 2.0,
+                          borderRadius: BorderRadius.circular(30.0),
+                          color: Constants.mainColor,
+                          child: MaterialButton(
+                            minWidth: MediaQuery.of(context).size.width / 1.6,
+                            onPressed: () {
+                              if (password == confirmPassword) {
+                                Provider.of<Authentication>(context,
+                                        listen: false)
+                                    .register(email, password, context);
+                              } else {
+                                showError("Passwords do not match!", context);
+                              }
+                            },
+                            child: Text(
+                              "Register",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     onPressed: () {
-                      Provider.of<Authentication>(context, listen: false).register(email, password, context);
-                      // UserHelper.Email(body, context);
+                      Navigator.pushNamed(context, '/login');
                     },
-                    child: Text(
-                      "Register",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    ),
+                    child: Text("Or Login",
+                        style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontFamily: 'OpenSans',
+                        ),
+                        textAlign: TextAlign.center),
                   ),
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
-                  child: Text("Or Login", 
-                  style: TextStyle(
-                    color: Colors.blueGrey,
-                    fontFamily: 'OpenSans',
-                  ),
-                  textAlign: TextAlign.center),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

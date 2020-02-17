@@ -1,15 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/income_chart.dart';
+import 'package:flutter_app/providers/journey.dart';
+import 'package:flutter_app/providers/journeys.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_app/widgets/bar_chart.dart';
+import 'package:provider/provider.dart';
+import "package:collection/collection.dart";
 
-class StatsScreen extends StatelessWidget {
+class StatsScreen extends StatefulWidget {
   static const routeName = '/stats';
 
   @override
+  _StatsScreenState createState() => _StatsScreenState();
+}
+
+class _StatsScreenState extends State<StatsScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero).then(
+      (_) {
+        Provider.of<Journeys>(context).getJourneys();
+      },
+    );
+    Future.delayed(Duration.zero).then(
+      (_) {
+        Provider.of<Journeys>(context).getJourneys(asLender: true);
+      },
+    );
+    super.initState();
+  }
+
+  List<Journey> groupedStats({bool weeklyGrouped = false}) {
+    List<Journey> result = [];
+    if (weeklyGrouped == true) {
+      result = Provider.of<Journeys>(context).ownerJourneys;
+    } else {
+      //grouped daily in last week
+      result = Provider.of<Journeys>(context).ownerJourneys.where((journey) =>
+          (journey.startTime
+              .isAfter(journey.startTime.subtract(Duration(days: 7)))) &&
+          (journey.endTime.isBefore(DateTime.now())));
+      var newResult = groupBy(result, (obj) => obj['dayOfTheWeek']);
+      print('weekly grouped results : $result');
+      print('weekly grouped results grouped : $newResult');
+    }
+    return result;
+  }
+
+  int getTotalTime(List<Journey> list) {
+    var totalTime = 0;
+    if (list != null) {
+      list.forEach((journey) {
+        print('id : ${journey.id} , starttime : ${journey.startTime}');
+        if (journey.hasEnded == true && journey.startTime != null && journey.endTime != null) {
+          totalTime += journey.startTime.difference(journey.endTime).inMinutes;
+        }
+      });
+    }
+    return totalTime;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final journeysProv = Provider.of<Journeys>(context);
     final mediaQuery = MediaQuery.of(context);
+    final journeysAsUser = journeysProv.userJourneys;
+    final journeysAsOwner = journeysProv.ownerJourneys;
+    String totalTrips = journeysAsUser.length.toString();
+    String totalTime = getTotalTime(journeysAsUser).toString();
+    int totalTimeAsLender = getTotalTime(journeysAsUser);
+    String calories =
+        (int.parse(totalTime) * 12).toStringAsFixed(0); //12 caories per minute
+    String kilometers =
+        (int.parse(totalTime) * 0.35).toStringAsFixed(1); //12 caories per minute
+    String earned =
+        (totalTimeAsLender * 0.2 + journeysAsOwner.length).toStringAsFixed(2);
+    String totalEarned = "\$$earned";
+
+    print('user journeys : $journeysAsUser');
+    print('owner journeys : $journeysAsOwner');
+    print(totalTrips);
+    print(totalTime);
+
     final List<SubscriberSeries> data = [
       SubscriberSeries(
         day: "1",
@@ -59,7 +132,7 @@ class StatsScreen extends StatelessWidget {
         child: Column(children: <Widget>[
           new AppBar(
             centerTitle: true,
-            backgroundColor: Color(0xff673AB7),
+            backgroundColor: Constants.mainColor,
             title: new Text(
               'My Stats',
               style: TextStyle(),
@@ -82,95 +155,31 @@ class StatsScreen extends StatelessWidget {
             // height: FlexFit.loose,
             width: double.infinity,
             child: Padding(
-            padding: EdgeInsets.all(20),
-            child: Card(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(30),
-                            child: Text(
-                              'Calories',
-                              style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Comfortaa',
+              padding: EdgeInsets.all(20),
+              child: Card(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(30),
+                              child: Text(
+                                'Calories',
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                  fontFamily: 'Comfortaa',
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            '880',
-                            style: TextStyle(
-                              color: Constants.mainColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
-                            ),
-                          ),
-                          SizedBox(height: 30),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(30),
-                            child: Text(
-                              'Trips',
-                              style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Comfortaa',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '50',
-                            style: TextStyle(
-                              color: Constants.mainColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Comfortaa',
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                        ],
-                      ),
-                      
-                          
-
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(30),
-                            child: Text(
-                              'Kilometers',
-                              style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Comfortaa',
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0,0,0,30),
-                                                      child: Text(
-                              '30',
+                            Text(
+                              calories != null ? calories : '',
                               style: TextStyle(
                                 color: Constants.mainColor,
                                 fontSize: 20,
@@ -178,20 +187,77 @@ class StatsScreen extends StatelessWidget {
                                 fontFamily: 'Comfortaa',
                               ),
                             ),
-                          ),
-                          // SizedBox(height: 30),
-                        ]),]
-                  )
-                ],
+                            SizedBox(height: 30),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(30),
+                              child: Text(
+                                'Trips',
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                  fontFamily: 'Comfortaa',
+                                ),
+                              ),
+                            ),
+                            Text(
+                              totalTrips != null ? totalTrips : '',
+                              style: TextStyle(
+                                color: Constants.mainColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                                fontFamily: 'Comfortaa',
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Column(children: <Widget>[
+                          Column(children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(30),
+                              child: Text(
+                                'Kilometers',
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                  fontFamily: 'Comfortaa',
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                              child: Text(
+                                kilometers != null ? kilometers : '',
+                                style: TextStyle(
+                                  color: Constants.mainColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                  fontFamily: 'Comfortaa',
+                                ),
+                              ),
+                            ),
+                            // SizedBox(height: 30),
+                          ]),
+                        ])
+                      ],
+                    ),
+                  ],
+                ),
               ),
-                    ],
-                  ),
-                  
             ),
+            // child:
           ),
-            // child: 
-          ),
-
           SizedBox(
             height: 20,
           ),
@@ -229,7 +295,7 @@ class StatsScreen extends StatelessWidget {
                     ),
                     // SizedBox(height: 10),
                     Text(
-                      "\$ 7.87",
+                      totalEarned != null ? totalEarned : '',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Constants.mainColor,

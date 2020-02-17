@@ -24,7 +24,6 @@ class _JourneyScreenState extends State<JourneyScreen> {
   String _timeString;
   String _costString;
   final String $cent = String.fromCharCode(0x00A2);
-  //= 0x9b;
   Future<bool> screenReady;
   Timer _t;
   var user;
@@ -88,7 +87,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
         _timeString =
             "${timePassed.inMinutes.remainder(60)} : ${(timePassed.inSeconds.remainder(60))} sec";
       }
-      _costString = "\$ ${(timePassed.inMinutes * .20) + 1}0";
+      String cost = ((timePassed.inMinutes * .20) + 1).toStringAsFixed(2);
+      _costString = "\$$cost";
       // "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
       // "${timePassed.inHours}:${timePassed.inMinutes.remainder(60)}:${(timePassed.inSeconds.remainder(60))}";
     });
@@ -97,14 +97,14 @@ class _JourneyScreenState extends State<JourneyScreen> {
 
   Widget buildCard(String text, String cardInfo) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
             padding: EdgeInsets.all(20),
             width: double.infinity,
-            height: 110,
+            height: 120,
             child: Column(children: <Widget>[
               Text(
                 text,
@@ -199,6 +199,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                           endTime: DateTime.now(),
                                           dayOfTheWeek: DateTime.now().weekday,
                                           bikeId: null,
+                                          bikeOwnerId: journey.bikeOwnerId,
                                           userId: journey.userId,
                                           distance: journey.distance,
                                           hasEnded: true));

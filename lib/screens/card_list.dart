@@ -148,7 +148,7 @@ class _CardScreenState extends State<CardScreen> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(left: 10),
+                                                padding: EdgeInsets.fromLTRB(10, 0, 30, 0),
                                                 child: Text(
                                                     c.isDefault ? "Default" : "",
                                                     textAlign: TextAlign.center,
