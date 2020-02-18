@@ -102,15 +102,36 @@ class _CardScreenState extends State<CardScreen> {
                                     child: Dismissible(
                                       // crossAxisEndOffset: 180.0,
                                       dismissThresholds: {
-                                        DismissDirection.endToStart: 5.5
+                                        DismissDirection.endToStart: 0.1
                                       },
                                       movementDuration:
-                                          Duration(milliseconds: 1500),
-                                      confirmDismiss:
-                                          (DismissDirection direction) async {
-                                        print('confirming dismiss ..');
-                                        return await _showDialog();
-                                      },
+                                          Duration(milliseconds: 1000),
+                                      confirmDismiss: (DismissDirection direction) async {
+                                      return await showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text("Confirm"),
+                                            content: const Text("Are you sure you wish to delete this item?"),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                onPressed: () => Navigator.of(context).pop(true),
+                                                child: const Text("DELETE")
+                                              ),
+                                              FlatButton(
+                                                onPressed: () => Navigator.of(context).pop(false),
+                                                child: const Text("CANCEL"),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                      // confirmDismiss:
+                                      //     (DismissDirection direction) async {
+                                      //   // print('confirming dismiss ..');
+                                      //   return await _showDialog();
+                                      // },
                                       key: ValueKey(c.id),
                                       direction: DismissDirection.endToStart,
                                       onDismissed: (direction) {
@@ -340,6 +361,7 @@ class _CardScreenState extends State<CardScreen> {
   }
 
   Future<bool> _showDialog() async {
+    bool result;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -360,7 +382,9 @@ class _CardScreenState extends State<CardScreen> {
                 OutlineButton(
                   padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   onPressed: () {
-                    Navigator.of(context).pop(true);
+                    result = true;
+                    Navigator.of(context).pop();
+                    result = true;
                   },
                   child: Text(
                     "Yes",
@@ -374,7 +398,9 @@ class _CardScreenState extends State<CardScreen> {
                 OutlineButton(
                   padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   onPressed: () {
-                    Navigator.of(context).pop(false);
+                    result = false;
+                    Navigator.of(context).pop();
+                    result = false;
                   },
                   child: Text(
                     "Cancel",
@@ -391,5 +417,6 @@ class _CardScreenState extends State<CardScreen> {
         );
       },
     );
+    return result;
   }
 }

@@ -442,7 +442,7 @@ class MapScreenState extends State<MapScreen> {
                                       JourneyScreen.routeName,
                                       arguments: JourneyScreen(
                                         journey: response,
-                                        isUserBike: (journey.bikeOwnerId == journey.userId)
+                                        isUserBike: (journey.bikeOwnerId == journey.userId) //fails if journey = null?
                                       ),
                                     );
                                     // Navigator.of(context).pushNamed(QrScan.routeName);

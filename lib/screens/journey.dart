@@ -233,8 +233,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                           userId: journey.userId,
                                           distance: journey.distance,
                                           hasEnded: true,
-                                          tripTotal: isUserBike ? 0 : double.parse(cost),
-                                          tripLength: journey.startTime.difference(DateTime.now()).inMinutes.toDouble()
+                                          tripTotal: isUserBike ? 0.0 : double.parse(cost).round(),
+                                          tripLength: journey.startTime.difference(DateTime.now()).inMinutes.toDouble().abs()
                                           ),);
                                   setState(() {
                                     _t.cancel();

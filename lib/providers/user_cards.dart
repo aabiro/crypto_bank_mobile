@@ -118,6 +118,14 @@ class UserCards with ChangeNotifier {
     return userCards.firstWhere((userCard) => userCard.userId == userId);
   }
 
+  void getDefaultPayment(){
+    //after scan go to payment --create default
+    //call for users cards as default 
+    //if 1 then continue
+    //if none check if square //if square enter card
+    //if none ask go to pick default screen 
+  }
+
   void updateDefault(String id, UserCard newDefaultUserCard) async {
     final oldDefaultIndex = userCards.indexWhere(
         (userCard) => userCard.userId == userId && userCard.isDefault == true);

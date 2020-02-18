@@ -53,15 +53,14 @@ class _StatsScreenState extends State<StatsScreen> {
     double totalEarned = 0.0;
     if (list != null) {
       list.forEach((journey) {
-        print('id : ${journey.id} , starttime : ${journey.startTime}');
-        if (journey.hasEnded == true && journey.startTime != null && journey.endTime != null) {
-          print(journey.startTime.difference(journey.endTime).inMinutes);
-          // totalTime += journey.startTime.difference(journey.endTime).inMinutes.toDouble();
-          // totalEarned += journey.tripTotal;
+        print('id : ${journey.id} , totalTime : ${journey.tripLength} , tripTotal : ${journey.tripTotal}');
+        if (journey.hasEnded == true && journey.tripLength != null && journey.tripTotal != null) {
+          totalTime += journey.tripLength;
+          totalEarned += journey.tripTotal;
         }
       });
     }
-    return [1.0, 100.0];
+    return [totalTime, totalEarned];
   }
 
   @override
@@ -76,9 +75,9 @@ class _StatsScreenState extends State<StatsScreen> {
     
     // int totalTimeAsLender = totalTimeAndEarnedAsLender[0];
     String calories =
-        (int.parse(totalTimeAsUser) * 12).toStringAsFixed(0); //12 caories per minute
+        (double.parse(totalTimeAsUser) * 12.0).toStringAsFixed(0); //12 caories per minute
     String kilometers =
-        (int.parse(totalTimeAsUser) * 0.35).toStringAsFixed(1); //0.35 km per minute
+        (double.parse(totalTimeAsUser) * 0.35).toStringAsFixed(1); //0.35 km per minute
     String earned =
         (totalTimeAndEarnedAsLender[1]).toStringAsFixed(2);
     String totalEarned = "\$$earned";
