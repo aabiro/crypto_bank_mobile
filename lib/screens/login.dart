@@ -58,6 +58,7 @@ class MyCustomFormState extends State<LoginScreen> {
               automaticallyImplyLeading: false,
               expandedHeight: 120.0,
               elevation: 5,
+              snap: true,
               // stretch: true,
               floating: true,
               pinned: true,

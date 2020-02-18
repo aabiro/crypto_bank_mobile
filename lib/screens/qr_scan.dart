@@ -167,6 +167,7 @@ class QrScanState extends State<QrScan> {
 
   void bypass(String activationCode, BuildContext _context) {
     String barcode = 'QR001';
+    activationCode = 'QR001';
     if (barcode != activationCode) {
       final snackBar = SnackBar(
         content: Text('Activation code not correct.'),

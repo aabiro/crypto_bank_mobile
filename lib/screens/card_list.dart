@@ -9,6 +9,8 @@ import 'package:flutter_app/widgets/empty_list.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 
+
+
 import 'add_credit_card.dart';
 
 class CardScreen extends StatefulWidget {
@@ -81,7 +83,7 @@ class _CardScreenState extends State<CardScreen> {
           Column(
             children: <Widget>[
               SizedBox(
-                height: mediaQuery.size.height * 0.6,
+                height: mediaQuery.size.height * 0.45,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: Container(
@@ -192,11 +194,77 @@ class _CardScreenState extends State<CardScreen> {
                               ),
                             ].toList(),
                     ),
+
                   ),
                 ),
               ),
+              Padding(
+      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+      // child: Hero(
+      //   tag: "bike3",
+      child: Card(
+        child: InkWell(
+          // onTap: () => 
+          // //  Navigator.push(
+          // //         context,
+          // //         MaterialPageRoute(
+          // //             fullscreenDialog: true,
+          // //             builder: (context) => BikeDetailScreen(widget.bike),
+          // //             maintainState: false),),
+
+
+          // // Navigator.of(context).pushNamed(
+          // //   BikeDetailScreen.routeName,
+          // //   arguments: BikeDetailScreen(bike.bikeId),
+          // ),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+            width: double.infinity,
+            height: 85,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Image.asset(
+                        'assets/squareinappblue.png',
+                        height: 50,
+                    ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Text(
+                        'In-App Payments\nwith Square',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 15),
+                      ),
+                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    //   child: Icon(Icons.error_outline, color: Colors.red),
+                    // ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Icon(Icons.arrow_forward, color: Constants.optionalColor),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
               SizedBox(
-                // height: mediaQuery.size.height * 0.2,
+                height: mediaQuery.size.height * 0.15,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                   child: Row(
