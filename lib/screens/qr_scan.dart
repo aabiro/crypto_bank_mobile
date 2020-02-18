@@ -206,7 +206,7 @@ class QrScanState extends State<QrScan> {
             ));
   }
 
-  //bike activation
+  //bike activation works
   Future scan(String activationCode, BuildContext _context) async {
     try {
       // String barcode = 'QR001'; //have a few diff to show

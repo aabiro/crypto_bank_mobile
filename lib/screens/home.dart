@@ -490,26 +490,6 @@ class MapScreenState extends State<MapScreen> {
     );
   }
 
-  void showError(String message, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-        title: Text('Error'),
-        content: Text(message),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Okay'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ],
-      ),
-    );
-  }
-
   //ride not activate
   Future scan() async {
     try {
@@ -556,5 +536,25 @@ class MapScreenState extends State<MapScreen> {
       setState(() => this._barcode = 'Unknown error: $e');
       showError(this._barcode, context);
     }
+  }
+
+    void showError(String message, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        title: Text('Error'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
   }
 }
