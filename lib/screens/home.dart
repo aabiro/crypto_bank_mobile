@@ -421,32 +421,35 @@ class MapScreenState extends State<MapScreen> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15)),
                                 onPressed: () {
-                                  // scan();
+                                  scan();
                                   //add a new journey if there is none, add to scan() with bikeId
-                                  Provider.of<Journeys>(context).addJourney(
-                                    Journey(
-                                        startTime: DateTime.now(),
-                                        userId: user.userId,
-                                        bikeId: 'QR001',
-                                        // bikeOwnerId:
-                                        //     user.userId), //riding my own bike testing
-                                        bikeOwnerId:
-                                            'S31KUoJRB0dOt0Gu3bbLCuvBASJ2'),
-                                  );
+                                  //////////////bypass below
+                                  // Provider.of<Journeys>(context).addJourney(
+                                  //   Journey(
+                                  //       startTime: DateTime.now(),
+                                  //       userId: user.userId,
+                                  //       bikeId: 'QR001',
+                                  //       // bikeOwnerId:
+                                  //       //     user.userId), //riding my own bike testing
+                                  //       bikeOwnerId:
+                                  //           'S31KUoJRB0dOt0Gu3bbLCuvBASJ2'),
+                                  // );
 
-                                  //get the new journey
-                                  Provider.of<Journeys>(context)
-                                      .getCurrentUserJourney()
-                                      .then((response) {
-                                    Navigator.of(context).pushReplacementNamed(
-                                      JourneyScreen.routeName,
-                                      arguments: JourneyScreen(
-                                        journey: response,
-                                        isUserBike: (journey.bikeOwnerId == journey.userId) //fails if journey = null?
-                                      ),
-                                    );
-                                    // Navigator.of(context).pushNamed(QrScan.routeName);
-                                  });
+                                  // //get the new journey
+                                  // Provider.of<Journeys>(context)
+                                  //     .getCurrentUserJourney()
+                                  //     .then((response) {
+                                  //   Navigator.of(context).pushReplacementNamed(
+                                  //     JourneyScreen.routeName,
+                                  //     arguments: JourneyScreen(
+                                  //       journey: response,
+                                  //       isUserBike: (journey.bikeOwnerId == journey.userId) //fails if journey = null?
+                                  //     ),
+                                  //   );
+                                  //   // Navigator.of(context).pushNamed(QrScan.routeName);
+                                  // });
+                                  /////////////////////////////
+
                                 })
                             : RaisedButton(
                                 elevation: 5,
@@ -507,6 +510,7 @@ class MapScreenState extends State<MapScreen> {
     );
   }
 
+  //ride not activate
   Future scan() async {
     try {
       final bikesProv = Provider.of<Bikes>(context);
@@ -516,6 +520,7 @@ class MapScreenState extends State<MapScreen> {
       final bikeId = bikesProv.findByQrCode(barcode).id;
       final bikeOwnerId = bikesProv.findByQrCode(barcode).userId;
 
+      //create the new journey
       Provider.of<Journeys>(context).addJourney(
         Journey(
             startTime: DateTime.now(),
@@ -524,7 +529,7 @@ class MapScreenState extends State<MapScreen> {
             bikeOwnerId: bikeOwnerId),
       );
 
-      //get the new journey
+      //goto journey screen
       Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
         Navigator.of(context).pushReplacementNamed(
           JourneyScreen.routeName,
@@ -533,7 +538,6 @@ class MapScreenState extends State<MapScreen> {
             isUserBike: (journey.bikeOwnerId == journey.userId)
           ),
         );
-        // Navigator.of(context).pushNamed(QrScan.routeName);
       });
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {

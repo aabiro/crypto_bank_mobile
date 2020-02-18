@@ -37,7 +37,8 @@ class QrScanState extends State<QrScan> {
   Widget build(BuildContext context) {
     final auth = Provider.of<Authentication>(context);
     final activationCodeController = TextEditingController();
-    String activationCode = activationCodeController.text;
+    // String activationCode = activationCodeController.text; //fix inputs
+    String activationCode = "QR001";
 
     return Scaffold(
       appBar: AppBar(
@@ -131,8 +132,8 @@ class QrScanState extends State<QrScan> {
                     textColor: Colors.white,
                     splashColor: Colors.blueGrey,
                     onPressed: () {
-                      bypass(activationCode, context);
-                      // scan(activationCode);
+                      // bypass(activationCode, context);
+                      scan(activationCode, context);
                     },
                     child: const Text(
                       'Scan the QR code',
