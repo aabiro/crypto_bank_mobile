@@ -8,7 +8,9 @@ import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/journey.dart';
 import 'package:flutter_app/providers/journeys.dart';
+import 'package:flutter_app/screens/card_list.dart';
 import 'package:flutter_app/screens/qr_scan.dart';
+import 'package:flutter_app/screens/wallet.dart';
 import 'package:flutter_app/widgets/generic_screen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -37,13 +39,12 @@ class MapScreenState extends State<MapScreen> {
   var user;
   Journey journey;
   bool userIsOnTrip;
-  var allBikes;
   GoogleMapController mc;
   Completer<GoogleMapController> _controller = Completer();
   LatLng toronto = LatLng(43.65, -79.38);
   Future<LocationData> userLocation = _getGPSLocation();
-  // List<Bikes> userBikes;
-  // List<Bikes> allBikes;
+  // List<Bike> userBikes;
+  // List<Bike> allBikes;
   CameraPosition torontoCP = CameraPosition(
     //make this userlocation
     target: LatLng(43.65, -79.38),
@@ -135,14 +136,16 @@ class MapScreenState extends State<MapScreen> {
       setState(() {
         _isLoading = true;
       });
-      // Future.delayed(Duration.zero).then((_) {
-      //   Provider.of<Bikes>(context).getUserBikes(allBikes: true);
-      //   // .then((_) {
-      //   //   print(allBikes);
+      Future.delayed(Duration.zero).then((_) {
+        Provider.of<Bikes>(context).getUserBikes(allBikes: true);
+        // .then((_) {
+          
+        //   allBikes = Provider.of<Bikes>(context).allBikes;
+        //   print(allBikes);
 
-      //   // });
-      //   // print(allBikes);
-      // });
+        // });
+        // print(allBikes);
+      });
       Future.delayed(Duration.zero).then((_) {
         user = Provider.of<Authentication>(context);
       });
@@ -278,6 +281,7 @@ class MapScreenState extends State<MapScreen> {
     var bikesProv = Provider.of<Bikes>(context);
     List<Bike> userBikes = bikesProv.userBikes;
     List<Bike> allBikes = bikesProv.allBikes;
+    print(allBikes);
     var array = userBikes.map((ub) => ub.bikeName).toList();
 
     return Scaffold(
@@ -424,6 +428,23 @@ class MapScreenState extends State<MapScreen> {
                                   scan();
                                   //add a new journey if there is none, add to scan() with bikeId
                                   //////////////bypass below
+                                  ///
+                                  ///String barcode = await BarcodeScanner.scan();
+                                  // setState(() => this._barcode = barcode);
+                                  //   Navigator.of(context).pushReplacementNamed(
+                                  //     CardScreen.routeName,
+                                  //     arguments: CardScreen(
+                                  //       chooseDefault: false,
+                                  //       chooseForJourney: true,
+                                  //       barcode: barcode
+                                  //     ),
+                                  //   );
+                                  ///
+                                  ///
+                                  ///
+                                  ///
+                                  ///
+                                  ///
                                   // Provider.of<Journeys>(context).addJourney(
                                   //   Journey(
                                   //       startTime: DateTime.now(),
@@ -493,32 +514,17 @@ class MapScreenState extends State<MapScreen> {
   //ride not activate
   Future scan() async {
     try {
-      final bikesProv = Provider.of<Bikes>(context);
       // String barcode = 'QR001'; //have a few diff to show
       String barcode = await BarcodeScanner.scan();
       setState(() => this._barcode = barcode);
-      final bikeId = bikesProv.findByQrCode(barcode).id;
-      final bikeOwnerId = bikesProv.findByQrCode(barcode).userId;
-
-      //create the new journey
-      Provider.of<Journeys>(context).addJourney(
-        Journey(
-            startTime: DateTime.now(),
-            userId: user.userId,
-            bikeId: bikeId,
-            bikeOwnerId: bikeOwnerId),
-      );
-
-      //goto journey screen
-      Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
         Navigator.of(context).pushReplacementNamed(
-          JourneyScreen.routeName,
-          arguments: JourneyScreen(
-            journey: response,
-            isUserBike: (journey.bikeOwnerId == journey.userId)
+          CardScreen.routeName,
+          arguments: CardScreen(
+            chooseDefault: false,
+            chooseForJourney: true,
+            barcode: barcode
           ),
         );
-      });
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
@@ -536,6 +542,34 @@ class MapScreenState extends State<MapScreen> {
       setState(() => this._barcode = 'Unknown error: $e');
       showError(this._barcode, context);
     }
+
+      // final bikesProv = Provider.of<Bikes>(context);
+      // final bikeId = bikesProv.findByQrCode(this._barcode).id;
+      // final bikeOwnerId = bikesProv.findByQrCode(this._barcode).userId;
+      // print('bikeOwnerId : $bikeOwnerId, bikeId : $bikeId');
+
+      // create the new journey
+      // Provider.of<Journeys>(context).addJourney(
+      //   Journey(
+      //       startTime: DateTime.now(),
+      //       userId: user.userId,
+      //       bikeId: 'bikeId',
+      //       bikeOwnerId: 'bikeOwnerId'),
+      // );
+
+      print('gets here');
+
+      // goto journey screen
+      // Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
+      //   print('response of get current journey: $response');
+      //   Navigator.of(context).pushReplacementNamed(
+      //     JourneyScreen.routeName,
+      //     arguments: JourneyScreen(
+      //       journey: response,
+      //       isUserBike: (journey.bikeOwnerId == journey.userId)
+      //     ),
+      //   );
+      // });
   }
 
     void showError(String message, BuildContext context) {

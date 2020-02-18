@@ -53,7 +53,11 @@ class Bike with ChangeNotifier {
     return name;
   }
 
-    String get _userId {
+  String get bikeQRCode {
+    return qrCode;
+  }
+
+  String get bikeuserId {
     return userId;
   }
 }

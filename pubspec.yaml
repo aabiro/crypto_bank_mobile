@@ -48,7 +48,7 @@ dependencies:
   auto_size_text: ^2.1.0
   flutter_spinkit: "^4.1.1"
   encrypt: ^4.0.0
-  square_in_app_payments: ^1.1.1
+  # square_in_app_payments: ^1.1.1
   
 
   # The following adds the Cupertino Icons font to your application.

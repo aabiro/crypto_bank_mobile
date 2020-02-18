@@ -6,6 +6,7 @@ import 'package:flutter_app/screens/alert_screen.dart';
 import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/screens/bike_list.dart';
 import 'package:flutter_app/providers/bike.dart';
+import 'package:flutter_app/screens/card_list.dart';
 import 'package:flutter_app/screens/direct_deposit.dart';
 import 'package:flutter_app/screens/edit_bike.dart';
 import 'package:flutter_app/screens/edit_profile/edit_username.dart';
@@ -152,6 +153,7 @@ class MyApp extends StatelessWidget {
             BikeList.routeName: (context) => BikeList(),
             ActivationCompleteScreen.routeName: (context) =>
                 ActivationCompleteScreen(),
+            CardScreen.routeName: (context) => CardScreen(),
             // BikeDetailScreen.routeName: (context) => BikeDetailScreen(),
             BikeFormScreen.routeName: (context) => BikeFormScreen(''),
             EditBike.routeName: (context) => EditBike(''),

@@ -123,6 +123,7 @@ class Bikes with ChangeNotifier {
                     userId: bikeData["userId"],
                     isActive: bikeData["isActive"],
                     name: bikeData["name"],
+                    qrCode: bikeData["qrCode"],
                     lat: bikeData["lat"],     //laod correct lat lng here
                     lng: bikeData["lng"]
                     ),
@@ -166,6 +167,7 @@ Future<void> getUserBikes({bool allBikes = false}) async {
                     id: bikeId,
                     userId: bikeData["userId"],
                     isActive: bikeData["isActive"],
+                    qrCode: bikeData["qrCode"],
                     name: bikeData["name"],
                     lat: bikeData["lat"],     //laod correct lat lng here
                     lng: bikeData["lng"]
@@ -186,15 +188,23 @@ Future<void> getUserBikes({bool allBikes = false}) async {
   }
 
   Bike findById(String id) {
-    return userBikes.firstWhere((bike) => bike.id == id);
+    return allBikes.firstWhere((bike) => bike.id == id);
+  }
+
+  Bike findByUserId(String userId) {
+    return allBikes.firstWhere((bike) => bike.userId == userId);
   }
 
   Bike findByQrCode(String qrCode) {
-    return userBikes.firstWhere((bike) => bike.qrCode == qrCode);
+    print('find by qr code : $qrCode');
+    print('allbikes: $allBikes, __ $_allBikes');
+    // final result = allBikes.firstWhere((bike) => bike.bikeQRCode == qrCode);
+    // print(result);
+    return allBikes.firstWhere((bike) => bike.bikeQRCode == qrCode);
   }
 
   Bike findByName(String name) {
-    return userBikes.firstWhere((bike) => bike.name == name);
+    return allBikes.firstWhere((bike) => bike.name == name);
   }
 
   //add bike to the users bike list
@@ -228,6 +238,7 @@ Future<void> getUserBikes({bool allBikes = false}) async {
         // print('newbike userId: ${newBike.userId}');
         // print('token add bike $token');
         userBikes.add(newBike);
+        allBikes.add(newBike);    //need to separate this logic
         // print(userBikes);
         notifyListeners();
       },

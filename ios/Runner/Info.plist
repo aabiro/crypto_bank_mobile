@@ -68,6 +68,8 @@
 	<string>2509088306026453</string>
 	<key>FacebookDisplayName</key>
 	<string>GivnGo</string>
+	<key>CFBundleDisplayName</key>
+	<string>Givngo</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

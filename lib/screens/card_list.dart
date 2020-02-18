@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/helpers/cards_helper.dart';
 import 'package:flutter_app/main.dart';
+import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bikes.dart';
+import 'package:flutter_app/providers/journey.dart';
+import 'package:flutter_app/providers/journeys.dart';
 import 'package:flutter_app/providers/user_card.dart';
 import 'package:flutter_app/providers/user_cards.dart';
+import 'package:flutter_app/screens/journey.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/empty_list.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -14,10 +18,11 @@ import 'package:provider/provider.dart';
 import 'add_credit_card.dart';
 
 class CardScreen extends StatefulWidget {
-  static final routeName = 'cards';
+  static final routeName = '/cards';
   bool chooseDefault;
-
-  CardScreen({this.chooseDefault});
+  bool chooseForJourney;
+  String barcode;
+  CardScreen({this.chooseDefault, this.chooseForJourney, this.barcode});
 
   @override
   _CardScreenState createState() => _CardScreenState();
@@ -47,6 +52,14 @@ class _CardScreenState extends State<CardScreen> {
   Widget build(BuildContext context) {
     final cardProv = Provider.of<UserCards>(context);
     cards = cardProv.userCards;
+    final CardScreen args = ModalRoute.of(context).settings.arguments;
+    String barcode;
+    bool chooseForJourney;
+    if (args?.chooseDefault != null && args?.chooseDefault != true) {
+      chooseForJourney = args.chooseForJourney;
+      barcode = args.barcode;    
+    }
+    
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
@@ -334,14 +347,49 @@ class _CardScreenState extends State<CardScreen> {
                           minWidth: mediaQuery.size.width / 3,
                           // padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: () {
+                            if (chooseForJourney != null && chooseForJourney != false) {
+                              print('gets herereererer');
+                              print(barcode);
+                              
+                              final bikesProv = Provider.of<Bikes>(context);
+                              print(bikesProv.allBikes);
+                              final user = Provider.of<Authentication>(context);
+                              final bike = bikesProv.findByQrCode(barcode);
+                              // print('bike : ${bike.toString()}, bikeId : ${bike.id}');
+                              final bikeId = bike.id;
+                              final bikeOwnerId = bike.userId;
+                              // print('bikeOwnerId : $bikeOwnerId, bikeId : $bikeId');
+
+                              Provider.of<Journeys>(context).addJourney(
+                                Journey(
+                                    startTime: DateTime.now(),
+                                    userId: user.userId,
+                                    bikeId: bikeId,
+                                    bikeOwnerId: bikeOwnerId),
+                              );
+
+                                  //goto journey screen
+                            Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
+                              print('response of get current journey: $response');
+                              Navigator.of(context).pushReplacementNamed(
+                                JourneyScreen.routeName,
+                                arguments: JourneyScreen(
+                                  journey: response,
+                                  isUserBike: (response.bikeOwnerId == response.userId)
+                                ),
+                              );
+                            });
+                            } else {
+                              Navigator.of(context).pop();
+                            }
                             //save default card
                             // print('update/edit bike id: $id');
                             // bike.name = name;
                             // bike.model = type;
                             // bikeProv.updateBike(id, bike); //update existing bike
-                            Navigator.of(context).pop();
+
                           },
-                          child: Text("Save",
+                          child: Text(chooseForJourney != null && chooseForJourney != false ? "Ok" : "Save",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   // fontSize: 40,
