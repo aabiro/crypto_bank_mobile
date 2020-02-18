@@ -92,95 +92,95 @@ class _CardScreenState extends State<CardScreen> {
                       children: cards != null && cards.length > 0
                           ? cards?.map(
                               (c) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    print(c.id);
-                                    print(c);
-                                    cardProv.updateDefault(c.id, c);
-                                            },
-                                    child: Padding(
-                                    padding: const EdgeInsets.all(0.0),
-                                    child: SizedBox(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: SizedBox(
-                                        child: Dismissible(
-                                          // crossAxisEndOffset: 180.0,
-                                          dismissThresholds: {
-                                            DismissDirection.endToStart: 5.5
-                                          },
-                                          movementDuration:
-                                              Duration(milliseconds: 1500),
-                                          confirmDismiss:
-                                              (DismissDirection direction) async {
-                                            print('confirming dismiss ..');
-                                            return await _showDialog();
-                                          },
-                                          key: ValueKey(c.id),
-                                          direction: DismissDirection.endToStart,
-                                          onDismissed: (direction) {
-                                            cardProv.deleteUserCard(c.id);
-                                          },
-                                          background: Container(
-                                            color: Colors.red,
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.white,
-                                              size: 40,
-                                            ),
-                                            alignment: Alignment.centerRight,
-                                            padding: EdgeInsets.only(right: 20),
-                                            margin: EdgeInsets.all(4),
-                                          ),
+                                return Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: SizedBox(
+                                    child: Dismissible(
+                                      // crossAxisEndOffset: 180.0,
+                                      dismissThresholds: {
+                                        DismissDirection.endToStart: 5.5
+                                      },
+                                      movementDuration:
+                                          Duration(milliseconds: 1500),
+                                      confirmDismiss:
+                                          (DismissDirection direction) async {
+                                        print('confirming dismiss ..');
+                                        return await _showDialog();
+                                      },
+                                      key: ValueKey(c.id),
+                                      direction: DismissDirection.endToStart,
+                                      onDismissed: (direction) {
+                                        cardProv.deleteUserCard(c.id);
+                                      },
+                                      background: Container(
+                                        color: Colors.red,
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                          size: 40,
+                                        ),
+                                        alignment: Alignment.centerRight,
+                                        padding: EdgeInsets.only(right: 20),
+                                        margin: EdgeInsets.all(4),
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                        print(c.id);
+                                        print(c);
+                                        cardProv.updateDefault(c.id, c);
+                                                },
                                           child: Card(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                    vertical: 10,
-                                                    horizontal: 15,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                      ),
-                                                  padding: EdgeInsets.all(10),
-                                                  child: AutoSizeText(
-                                                    "Credit Card\n ending in ${c.lastFourDigits}",
-                                                    textAlign: TextAlign.center,
-                                                    // ,
-                                                    style: TextStyle(
-                                                        color: Colors.blueGrey,
-                                                        fontWeight:
-                                                            FontWeight.w800,
-                                                        fontSize: 15),
-                                                  ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            children: <Widget>[
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                  vertical: 10,
+                                                  horizontal: 15,
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      10, 0, 30, 0),
-                                                  child: Text(
-                                                    c.isDefault != null &&
-                                                            c.isDefault == true
-                                                        ? "Default"
-                                                        : "",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        // fontSize: 40,
-                                                        color: Constants
-                                                            .optionalColor,
-                                                        fontWeight:
-                                                            FontWeight.w900),
-                                                  ),
+                                                decoration: BoxDecoration(
+                                                    ),
+                                                padding: EdgeInsets.all(10),
+                                                child: AutoSizeText(
+                                                  "Credit Card\n ending in ${c.lastFourDigits}",
+                                                  textAlign: TextAlign.center,
+                                                  // ,
+                                                  style: TextStyle(
+                                                      color: Colors.blueGrey,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      fontSize: 15),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    10, 0, 30, 0),
+                                                child: Text(
+                                                  c.isDefault != null &&
+                                                          c.isDefault == true
+                                                      ? "Default"
+                                                      : "",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      // fontSize: 40,
+                                                      color: Constants
+                                                          .optionalColor,
+                                                      fontWeight:
+                                                          FontWeight.w900),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                );
+                                ),
+                                  );
                               },
                             )?.toList()
                           : [
