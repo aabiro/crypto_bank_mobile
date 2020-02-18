@@ -2,6 +2,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/screens/bike_form.dart';
+import 'package:flutter_app/services/mailer.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -28,110 +29,170 @@ class QrScan extends StatefulWidget {
 
 //courtesy of medium.com
 class QrScanState extends State<QrScan> {
-  
   // bool activation;
   // QrScanState(this.activation);
 
   String _barcode = "";
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Constants.mainColor,
-              title: new Text(
-                'GivnGo',
-                style: TextStyle(),
-              ),
-            ),
-            body: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
-                    child: Text("Find the QR code on the GivnGo bicycle lock.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            color: Colors.blueGrey,
-                            fontSize: 20)),
-                  ),
-                  Image.asset(
-                    'assets/qr_bike.png',
-                    height: 150,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 80, vertical: 10.0),
-                    child: RaisedButton(
-                      elevation: 0.5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.0)),
-                      color: Constants.mainColor,
-                      textColor: Colors.white,
-                      splashColor: Colors.blueGrey,
-                      onPressed: () {
-                        // bypass();
-                        scan();
-                      },
-                      child: const Text(
-                        'Scan the QR code',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            // fontWeight: FontWeight.w800,
-                            fontSize: 15),
+    final auth = Provider.of<Authentication>(context);
+    final activationCodeController = TextEditingController();
+    // String activationCode = activationCodeController.text; //fix inputs
+    String activationCode = "QR001";
+
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Constants.mainColor,
+        title: new Text(
+          'GivnGo',
+          style: TextStyle(),
+        ),
+      ),
+      body: Builder(
+        builder: (BuildContext context) {
+          return Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 20, 30, 30),
+                  child: Text(
+                      "Enter the activation code sent in your email confirmation.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: Colors.blueGrey,
+                          fontSize: 20)),
+                ),
+                SizedBox(
+                  // height: 90,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    child: TextFormField(
+                      controller: activationCodeController,
+                      decoration: new InputDecoration(
+                        labelText: "Enter Activation Code",
+                        fillColor: Colors.white,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(30.0),
+                          borderSide: new BorderSide(),
+                        ),
+                        //fillColor: Colors.green
                       ),
+                      // validator: (val) {
+                      //   if(val.length==0) {
+                      //     return "Email cannot be empty";
+                      //   }else{
+                      //     return null;
+                      //   }
+                      // },
+                      // keyboardType: TextInputType.emailAddress,
+                      // style: new TextStyle(
+                      //   fontFamily: "Poppins",
+                      // ),
                     ),
                   ),
-                  SizedBox(
-                    height: 15,
+                ),
+                MaterialButton(
+                  minWidth: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.all(0),
+                  onPressed: () {
+                    Mailer.mailer(auth.email, auth.displayName, 'QR001');
+                  },
+                  child: Text("Resend code",
+                      style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontFamily: 'OpenSans',
+                      ),
+                      textAlign: TextAlign.center),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: Text(
+                      "Next scan the QR code on the GivnGo bicycle lock.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: Colors.blueGrey,
+                          fontSize: 20)),
+                ),
+                Image.asset(
+                  'assets/qr_bike.png',
+                  height: 130,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 80, vertical: 10.0),
+                  child: RaisedButton(
+                    elevation: 0.5,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.0)),
+                    color: Constants.mainColor,
+                    textColor: Colors.white,
+                    splashColor: Colors.blueGrey,
+                    onPressed: () {
+                      // bypass(activationCode, context);
+                      scan(activationCode, context);
+                    },
+                    child: const Text(
+                      'Scan the QR code',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          // fontWeight: FontWeight.w800,
+                          fontSize: 15),
+                    ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                    // EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: Text(
-                        "Just \$1.00 to unlock\nOnly 20 cents/min after",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            color: Colors.blueGrey,
-                            fontSize: 15)),
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                //   // EdgeInsets.fromLTRB(30, 0, 30, 0),
+                //   child: Text(
+                //       "Just \$1.00 to unlock\nOnly 20 cents/min after",
+                //       textAlign: TextAlign.center,
+                //       style: TextStyle(
+                //           fontWeight: FontWeight.w800,
+                //           color: Colors.blueGrey,
+                //           fontSize: 15)),
+                // ),
+              ],
             ),
           );
+        },
+      ),
+    );
   }
 
-  void bypass() {
-    String barcode = '001';
-
-      // Provider.of<Bikes>(context).addBike(
-      //     Bike(
-      //       qrCode: barcode,
-      //       isActive: true,
-      //       name: 'New Bike',
-      //     ),
-      //     Provider.of<Authentication>(context).userId,
-      //     Provider.of<Authentication>(context).accessToken);
-      var user = Provider.of<Authentication>(context);
-      user.isOnTrip = true; //cange to check query of journeys with this user id hasEnded == false > 0
-      print('user.isOnTrip : ${user.isOnTrip}');
+  void bypass(String activationCode, BuildContext _context) {
+    String barcode = 'QR001';
+    activationCode = 'QR001';
+    if (barcode != activationCode) {
+      final snackBar = SnackBar(
+        content: Text('Activation code not correct.'),
+        action: SnackBarAction(
+          label: 'Ok',
+          onPressed: () {},
+        ),
+      );
+      Scaffold.of(_context).showSnackBar(snackBar);
+    } else {
       Navigator.of(context).popAndPushNamed(BikeFormScreen.routeName,
-          arguments: BikeFormScreen('001'));
+          arguments: BikeFormScreen(barcode));
     }
+
+    // Navigator.of(context).popAndPushNamed(BikeFormScreen.routeName,
+    //     arguments: BikeFormScreen(barcode));
+  }
 
   void showError(String message, BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
               title: Text('Error'),
               content: Text(message),
               actions: <Widget>[
@@ -145,22 +206,32 @@ class QrScanState extends State<QrScan> {
             ));
   }
 
-  Future scan() async {
+  //bike activation works
+  Future scan(String activationCode, BuildContext _context) async {
     try {
-
+      // String barcode = 'QR001'; //have a few diff to show
       String barcode = await BarcodeScanner.scan();
-      setState(() => this._barcode = barcode);
-      // await new Future.delayed(const Duration(seconds: 5));
-      // if(widget.activation == false) {
-      //   Provider.of<Authentication>(context).isOnTrip = true;
-      //     Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
-      //         arguments: JourneyScreen());
-      // } else {
-        Navigator.of(context).pushReplacementNamed(
-              BikeFormScreen.routeName,
-              arguments: BikeFormScreen(barcode));
-      // }
-           
+      if (barcode == activationCode) {
+        setState(() => this._barcode = barcode);
+        // final bikeId = Provider.of<Bikes>(context).findByQrCode(barcode).id;
+        // await new Future.delayed(const Duration(seconds: 5));
+        // if(widget.activation == false) {
+        //   Provider.of<Authentication>(context).isOnTrip = true;
+        //     Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
+        //         arguments: JourneyScreen());
+        // } else {
+        Navigator.of(context).pushReplacementNamed(BikeFormScreen.routeName,
+            arguments: BikeFormScreen(barcode));
+      } else {
+        final snackBar = SnackBar(
+          content: Text('Activation code not correct.'),
+          action: SnackBarAction(
+            label: 'Ok',
+            onPressed: () {},
+          ),
+        );
+        Scaffold.of(_context).showSnackBar(snackBar);
+      }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
@@ -181,14 +252,6 @@ class QrScanState extends State<QrScan> {
     }
   }
 }
-
-
-
-
-
-
-
-
 
 // Row(
 //                     mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -22,7 +22,8 @@ class GenericScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Color(0xff673AB7),
+        automaticallyImplyLeading: false,
+        backgroundColor: Constants.mainColor,
         title: new Text(
           'GivnGo',
           style: TextStyle(),
@@ -31,14 +32,14 @@ class GenericScreen extends StatelessWidget {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/home');
+                Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
               })
         ],
       ),
       body: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(30, 60, 30, 20),
+            padding: EdgeInsets.fromLTRB(30, 30, 30, 20),
             child: Text(mainText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -50,7 +51,7 @@ class GenericScreen extends StatelessWidget {
               padding: EdgeInsets.all(5),
               child: SizedBox(
                 width: double.infinity,
-                height: mediaQuery.size.height * 0.4,
+                height: mediaQuery.size.height * 0.3,
                 child: Image.asset(
                   picPath,
                   fit: BoxFit.contain,

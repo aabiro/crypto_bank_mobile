@@ -43,14 +43,14 @@ class Bikes with ChangeNotifier {
         ),
       );
       if (response.statusCode >= 400) {
-        print(response.statusCode);
-        print("$response");
+        // print(response.statusCode);
+        // print("$response");
         // userBikes.insert(bikeIndex, bike); //keep bike if the delete did not work, optimistic updating
         // notifyListeners();
         throw ExceptionHandler('Cannot update bike.');
       }
       userBikes[bikeIndex] = newBike;
-      print('new bike :${response.toString()}');
+      // print('new bike :${response.toString()}')
       notifyListeners();
     } else {
       print('did not update');
@@ -123,6 +123,7 @@ class Bikes with ChangeNotifier {
                     userId: bikeData["userId"],
                     isActive: bikeData["isActive"],
                     name: bikeData["name"],
+                    qrCode: bikeData["qrCode"],
                     lat: bikeData["lat"],     //laod correct lat lng here
                     lng: bikeData["lng"]
                     ),
@@ -156,7 +157,7 @@ Future<void> getUserBikes({bool allBikes = false}) async {
             throw ExceptionHandler(response.body);
           } else {
             final data = json.decode(response.body) as Map<String, dynamic>;
-            print(data);
+            // print(data);
             data.forEach((bikeId, bikeData) {
               //watch out for called on null
               // print(bikeId);
@@ -166,6 +167,7 @@ Future<void> getUserBikes({bool allBikes = false}) async {
                     id: bikeId,
                     userId: bikeData["userId"],
                     isActive: bikeData["isActive"],
+                    qrCode: bikeData["qrCode"],
                     name: bikeData["name"],
                     lat: bikeData["lat"],     //laod correct lat lng here
                     lng: bikeData["lng"]
@@ -186,20 +188,28 @@ Future<void> getUserBikes({bool allBikes = false}) async {
   }
 
   Bike findById(String id) {
-    return userBikes.firstWhere((bike) => bike.id == id);
+    return allBikes.firstWhere((bike) => bike.id == id);
+  }
+
+  Bike findByUserId(String userId) {
+    return allBikes.firstWhere((bike) => bike.userId == userId);
   }
 
   Bike findByQrCode(String qrCode) {
-    return userBikes.firstWhere((bike) => bike.qrCode == qrCode);
+    print('find by qr code : $qrCode');
+    print('allbikes: $allBikes, __ $_allBikes');
+    // final result = allBikes.firstWhere((bike) => bike.bikeQRCode == qrCode);
+    // print(result);
+    return allBikes.firstWhere((bike) => bike.bikeQRCode == qrCode);
   }
 
   Bike findByName(String name) {
-    return userBikes.firstWhere((bike) => bike.name == name);
+    return allBikes.firstWhere((bike) => bike.name == name);
   }
 
   //add bike to the users bike list
   void addBike(Bike bike) {
-    print('token add bike $token');
+    // print('token add bike $token');
     final url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
     http
         .post(url,
@@ -214,7 +224,7 @@ Future<void> getUserBikes({bool allBikes = false}) async {
         .then(
       (response) {
         var data = json.decode(response.body);
-        print('response $data');  
+        // print('response $data');  
         final newBike = Bike(
           id: json.decode(response.body)["name"], //'name' is the id of the bike
           qrCode: bike.qrCode,
@@ -224,10 +234,11 @@ Future<void> getUserBikes({bool allBikes = false}) async {
           lat: bike.lat,
           lng: bike.lng
         );
-        print('newbike id: ${newBike.id}');
-        print('newbike userId: ${newBike.userId}');
-        print('token add bike $token');
+        // print('newbike id: ${newBike.id}');
+        // print('newbike userId: ${newBike.userId}');
+        // print('token add bike $token');
         userBikes.add(newBike);
+        allBikes.add(newBike);    //need to separate this logic
         // print(userBikes);
         notifyListeners();
       },

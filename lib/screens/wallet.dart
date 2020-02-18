@@ -203,11 +203,18 @@ class WalletScreen extends StatelessWidget {
                             // minWidth: MediaQuery.of(context).size.width,
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             onPressed: () {
+                            //   Navigator.of(context).push(
+                            //     CardScreen.routeName,
+                            //     arguments: CardScreen(
+                            //       chooseDefault: false,
+                            //     ),
+                            //   );
+                            // },
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       fullscreenDialog: true,
-                                      builder: (context) => CardScreen(chooseDefault: true),
+                                      builder: (context) => CardScreen(chooseDefault: true, chooseForJourney: false),
                                       maintainState: false));
                             },
                             child: Text(

@@ -91,7 +91,6 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
     final nameController = TextEditingController();
     final modelController = TextEditingController();
     final conditionController = TextEditingController();
-    print('yesss ${widget.bike.id}');
     // final BikeDetailScreen args = ModalRoute.of(context).settings.arguments;
     // final bike = Provider.of<Bikes>(context).findById(args.bikeId);
 

@@ -375,7 +375,8 @@ class Authentication with ChangeNotifier {
           //     key: "access_token",
           //     value: data["access_token"]);
           // await storage.write(key: "id", value: data["id"].toString());
-          Navigator.pushReplacementNamed(context, '/home');
+          // Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
         }
       });
     } catch (e) {
@@ -424,7 +425,8 @@ class Authentication with ChangeNotifier {
           //     key: "access_token",
           //     value: data["access_token"]);
           // await storage.write(key: "id", value: data["id"].toString());
-          Navigator.pushReplacementNamed(context, '/home');
+          // Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
         }
       });
     } catch (e) {

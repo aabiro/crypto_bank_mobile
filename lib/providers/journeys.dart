@@ -2,13 +2,16 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../models/exception_handler.dart';
-
 import 'journey.dart';
 
 class Journeys with ChangeNotifier {
   String token;
   String userId;
   List<Journey> _journeys = [];
+  List<Journey> _allJourneys = [];
+  List<Journey> _userJourneys = [];
+  List<Journey> _ownerJourneys = [];
+  Journey _userJourney;
 
   Journeys([this.token, this.userId, this._journeys]);
 
@@ -16,110 +19,164 @@ class Journeys with ChangeNotifier {
     return _journeys;
   }
 
+  List<Journey> get allJourneys {
+    return _allJourneys;
+  }
+
+  List<Journey> get userJourneys {
+    return _userJourneys;
+  }
+
+  List<Journey> get ownerJourneys {
+    return _ownerJourneys;
+  }
+
+  Journey get userJourney {
+    return _userJourney;
+  }
+
+  set userJourney(userJourney) {
+    this._userJourney = userJourney;
+  }
+
   void addJourney(Journey journey) {
-    print('token add journey $token');
-    final url = 'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token';
+    final url =
+        'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token';
     http
         .post(url,
             body: json.encode({
               'startTime': journey.startTime.toString(),
               'endTime': null,
-              'dayOfTheWeek': journey.dayOfTheWeek.toString(),//update on trip end
+              'dayOfTheWeek':
+                  journey.dayOfTheWeek.toString(), //update on trip end
               'userId': userId,
               'bikeId': journey.bikeId, //passed in by journey
+              'bikeOwnerId': journey.bikeOwnerId,
               'distance': 0,
-              'hasEnded':false
+              'hasEnded': false,
+              'tripTotal': null,
+              'tripLength': null
             }))
         .then(
       (response) {
         var data = json.decode(response.body);
-        print('response $data');  
+        // print('response $data');
         final newJourney = Journey(
-          id: json.decode(response.body)["name"], //'name' is the id of the Journey
+          id: json.decode(response.body)["name"],
           startTime: data['startTime'],
           endTime: data['endTime'],
-          dayOfTheWeek: data['dayOfTheWeek'],//update on trip end
-          userId: data['userId'],
-          bikeId: data['bikeId'], //passed in by journey
+          dayOfTheWeek: data['dayOfTheWeek'],
+          userId: userId,
+          bikeId: data['bikeId'],
+          bikeOwnerId: data['bikeOwnerId'],
           distance: data['distance'],
-          hasEnded: false
+          hasEnded: data['hasEnded'],
+          tripTotal: data['tripTotal'],
+          tripLength: data['tripLength'],
         );
-        print('newJourney id: ${newJourney.id}');
-        print('newJourney userId: ${newJourney.userId}');
-        _journeys.add(newJourney); //called on null ??
+        // print('newJourney : $newJourney');
+        allJourneys.add(
+            newJourney); //journeys would be called on null if using constuctor initialized list
         notifyListeners();
       },
     );
   }
 
-  Future<bool> userIsOnTrip() async {
-    //no token or userId here, when coming back to map...
-    // print('token get user bikes $token');
-    // final List<Journey> bikesLoaded = [];
+  Future<Journey> getCurrentUserJourney() async {
     var url;
-    var result;
-    // if (allBikes == true) {
-    //   url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
-    // } else {
-      url =
-          'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded=false';
-      final response = await http.get(url).then(
-        (response) {
-          if (response.statusCode < 200 ||
-              response.statusCode >= 400 ||
-              json == null) {
-            //handle exceptions
-            throw ExceptionHandler(response.body);
-          } else {
-            final data = json.decode(response.body) as Map<String, dynamic>;
-            if (data.length > 0) {
-              result = true;
-            } else {
-              result = false;
+    url =
+        'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded="false"';
+    final response = await http.get(url).then(
+      (response) {
+        if (response.statusCode < 200 ||
+            response.statusCode >= 400 ||
+            json == null) {
+          throw ExceptionHandler(response.body);
+        } else {
+          final data = json.decode(response.body) as Map<String, dynamic>;
+          if (data.length > 0 && data != null) {
+            // for (var key in data.keys) print(key);
+            // for (var value in data.values) print(value);
+            for (var entry in data.entries) {
+              userJourney = Journey(
+                  id: entry.key,
+                  startTime: DateTime.parse(entry.value['startTime']),
+                  endTime: null, //no endTime yet
+                  dayOfTheWeek: null, //update on trip end
+                  userId: entry.value['userId'],
+                  bikeId: entry.value['bikeId'],
+                  bikeOwnerId: entry.value['bikeOwnerId'],
+                  distance: entry.value['distance'].toString(),
+                  tripTotal: entry.value['tripTotal'],
+                  tripLength: entry.value['tripLength'],
+                  hasEnded: entry.value['hasEnded'],
+                  );
+              _allJourneys.add(userJourney);
             }
-           
+          } else {
+            userJourney = null;
           }
-        },
-      );
-      return result;
-    // }
+        }
+      },
+    );
+    return userJourney;
   }
 
-  // Future<bool> getJourney({bool allBikes = false}) async {
-  //   //no token or userId here, when coming back to map...
-  //   // print('token get user bikes $token');
-  //   // final List<Journey> bikesLoaded = [];
-  //   var url;
-  //   var result;
-  //   // if (allBikes == true) {
-  //   //   url = 'https://capstone-addb0.firebaseio.com/bikes.json?auth=$token';
-  //   // } else {
-  //     url =
-  //         'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded=false';
-  //     final response = await http.get(url).then(
-  //       (response) {
-  //         if (response.statusCode < 200 ||
-  //             response.statusCode >= 400 ||
-  //             json == null) {
-  //           //handle exceptions
-  //           throw ExceptionHandler(response.body);
-  //         } else {
-  //           final data = json.decode(response.body) as Map<String, dynamic>;
-  //           if (data.length > 0) {
-  //             result = true;
-  //           } else {
-  //             result = false;
-  //           }
-           
-  //         }
-  //       },
-  //     );
-  //     return result;
-  //   // }
-  // }
+  Future<void> getJourneys({bool asLender = false}) async {
+    //all ended journeys
+    final List<Journey> journeysLoaded = [];
+    var url;
+    if (asLender == true) {
+      url =
+          'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="bikeOwnerId"&equalTo="$userId"';
+    } else {
+      url =
+          'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"';
+      final response = await http.get(url).then((response) {
+        if (response.statusCode < 200 ||
+            response.statusCode >= 400 ||
+            json == null) {
+          throw ExceptionHandler(response.body);
+        } else {
+          final data = json.decode(response.body) as Map<String, dynamic>;
+          print(data);
+          if (data.length > 0 && data != null) {
+            for (var key in data.keys) print(key);
+            for (var value in data.values) print(value);
+            for (var entry in data.entries) {
+              if (entry.value['hasEnded'] == true) {
+                //make sure it has endTime
+                journeysLoaded.add(
+                  Journey(
+                    id: entry.key,
+                    startTime: DateTime.parse(entry.value['startTime']),
+                    endTime: DateTime.parse(entry.value['endTime']),
+                    dayOfTheWeek: entry.value['dayOfTheWeek'],
+                    userId: entry.value['userId'],
+                    bikeId: entry.value['bikeId'],
+                    bikeOwnerId: entry.value['bikeOwnerId'],
+                    distance: entry.value['distance'].toString(),
+                    tripTotal: entry.value['tripTotal'],
+                    tripLength: entry.value['tripLength'],
+                    hasEnded: entry.value['hasEnded'],
+                  ),
+                );
+              }
+              if (asLender == true) {
+                _ownerJourneys = journeysLoaded;
+              } else {
+                _userJourneys = journeysLoaded;
+              }
+              notifyListeners();
+            }
+          }
+        }
+      });
+    }
+  }
 
-  Future<void> endJourney(String id, Journey updatedJourney) async {
-    final journeyIndex = _journeys.indexWhere((Journey) => Journey.id == id);
+  Future<void> updateJourney(String id, Journey updatedJourney) async {
+    final journeyIndex = _allJourneys.indexWhere((journey) => journey.id == id);
     if (journeyIndex >= 0) {
       final url =
           "https://capstone-addb0.firebaseio.com/journeys/$id.json?auth=$token";
@@ -127,28 +184,25 @@ class Journeys with ChangeNotifier {
         url,
         body: json.encode(
           {
-            'hesEnded': true
-            //merges with existing values on server
-            // 'name': newBike.name,
-            // 'model': newBike.model,
-            // 'isActive': newBike.isActive //this line causes null error on detail view..!!
-            // 'imageUrl': newBike.imageUrl,
+            'hasEnded': updatedJourney.hasEnded,
+            'endTime': updatedJourney.endTime.toString(),
+            'dayOfTheWeek': updatedJourney.dayOfTheWeek,
+            'tripTotal': updatedJourney.tripTotal,
+            'tripLength': updatedJourney.tripLength,
           },
         ),
       );
       if (response.statusCode >= 400) {
         print(response.statusCode);
-        print("$response");
-        // userBikes.insert(bikeIndex, Journey); //keep Journey if the delete did not work, optimistic updating
+        // userJourneys.insert(journeyIndex, Journey); //keep Journey if the delete did not work, optimistic updating
         // notifyListeners();
         throw ExceptionHandler('Cannot update Journey.');
       }
-      _journeys[journeyIndex] = updatedJourney;
-      print('updatedJourney :${response.toString()}');
+      allJourneys[journeyIndex] = updatedJourney;
+      print('updated Journey :${response.toString()}');
       notifyListeners();
     } else {
       print('did not update');
     }
   }
-
 }

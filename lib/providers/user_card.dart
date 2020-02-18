@@ -7,6 +7,7 @@ class UserCard with ChangeNotifier {
   String number;
   String expiry;
   String securityCode;
+  String lastFourDigits;
   bool isDefault;
 
   UserCard({
@@ -15,6 +16,7 @@ class UserCard with ChangeNotifier {
     this.number,
     this.expiry,
     this.securityCode,
+    this.lastFourDigits,
     this.isDefault, 
     this.id,
   });
@@ -35,10 +37,8 @@ class UserCard with ChangeNotifier {
     return securityCode;
   }
 
-  String get lastFourDigits {
-    // return "XXXX";
-    // return number; //needs numberr
-    return number == null || number == "" || number.length < 4 ? 'XXXX' : number.substring(number.length - 4, number.length);
+  String get _lastFourDigits {
+    return number == null || number == "" || number.length < 4 ? 'XXXX' : number.substring(number.length - 4);
   }
 
   bool get _isDefault {

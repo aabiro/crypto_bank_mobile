@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/providers/journeys.dart';
 import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/alert_screen.dart';
 import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/screens/bike_list.dart';
 import 'package:flutter_app/providers/bike.dart';
+import 'package:flutter_app/screens/card_list.dart';
 import 'package:flutter_app/screens/direct_deposit.dart';
 import 'package:flutter_app/screens/edit_bike.dart';
 import 'package:flutter_app/screens/edit_profile/edit_username.dart';
@@ -53,6 +55,8 @@ import './providers/authentication.dart';
 List<CameraDescription> cameras;
 
 Future<Null> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
@@ -149,6 +153,7 @@ class MyApp extends StatelessWidget {
             BikeList.routeName: (context) => BikeList(),
             ActivationCompleteScreen.routeName: (context) =>
                 ActivationCompleteScreen(),
+            CardScreen.routeName: (context) => CardScreen(),
             // BikeDetailScreen.routeName: (context) => BikeDetailScreen(),
             BikeFormScreen.routeName: (context) => BikeFormScreen(''),
             EditBike.routeName: (context) => EditBike(''),
