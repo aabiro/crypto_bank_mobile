@@ -13,7 +13,7 @@ class OrderCompleteScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Color(0xff673AB7),
         title: new Text(
-          'GivnGo',
+          'Givngo',
           style: TextStyle(),
         ),
         actions: <Widget>[

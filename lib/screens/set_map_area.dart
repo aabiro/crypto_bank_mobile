@@ -81,7 +81,7 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
         centerTitle: true,
         backgroundColor: Constants.mainColor,
         title: Text(
-          'GivnGo',
+          'Givngo',
           style: TextStyle(),
         ),
       ),

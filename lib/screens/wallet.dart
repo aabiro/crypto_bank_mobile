@@ -232,6 +232,29 @@ class WalletScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: SizedBox(
+                          width: mediaQuery.size.width * 0.5,
+                          height: mediaQuery.size.height * 0.07,
+                          child: RaisedButton(
+                            elevation: 0.5,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7.0)),
+                            textColor: Colors.white,
+                            color: Constants.accentColor,
+                            child: const Text('Claim Credit',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'OpenSans',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18)),
+                            onPressed: () {
+                              // Navigator.pushNamed(context, '/camera');
+                            },
+                          )),
+              ),
             ],
           ),
         ),);

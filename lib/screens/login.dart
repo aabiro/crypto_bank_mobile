@@ -56,7 +56,7 @@ class MyCustomFormState extends State<LoginScreen> {
             SliverAppBar(
               backgroundColor: Constants.mainColor,
               automaticallyImplyLeading: false,
-              expandedHeight: 120.0,
+              expandedHeight: 140.0,
               elevation: 5,
               snap: true,
               // stretch: true,
@@ -194,7 +194,7 @@ class MyCustomFormState extends State<LoginScreen> {
                     ),
                     MaterialButton(
                       minWidth: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.10),
+                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                       onPressed: () {
                         Navigator.pushNamed(context, '/register');
                       },

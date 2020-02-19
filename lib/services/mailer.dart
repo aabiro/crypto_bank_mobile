@@ -26,7 +26,7 @@ static Future<void> mailer(String mailToAddress, String mailToUsername, String q
     // ..bccRecipients.add(Address('bccAddress@example.com'))
     ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
     ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-    ..html = "<h1>Hi $mailToUsername,</h1>\n<p>Your lock will be coming shortly, attached is your receipt and your activation code for the lock mechanism is $qrCode.\n\nThank you for your support,\n\nThe GivnGo Team</p>";
+    ..html = "<h1>Hi $mailToUsername,</h1>\n<p>Your lock will be coming shortly, attached is your receipt and your activation code for the lock mechanism is $qrCode.\n\nThank you for your support,\n\nThe Givngo Team</p>";
 
   try {
     final sendReport = await send(message, smtpServer);

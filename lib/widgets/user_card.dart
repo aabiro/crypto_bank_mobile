@@ -19,7 +19,6 @@ class UserCardDrawer extends StatelessWidget {
             width: mediaQuery.size.width * 0.5,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // crossAxisAlignment: CrossAxisAlignment,
               children: <Widget>[
                 Row(
                   // mainAxisAlignment: MainAxisAlignment.center,
@@ -27,12 +26,7 @@ class UserCardDrawer extends StatelessWidget {
                     CircleAvatar(
                       maxRadius: mediaQuery.size.height * 0.07,
                       backgroundColor: Constants.optionalColor,
-                      
-                      // backgroundImage: NetworkImage(auth.photoUrl) != null ? NetworkImage(auth.photoUrl) : null,
-                      // backgroundImage: NetworkImage(auth.photoUrl != null
-                      //     ? auth.photoUrl
-                      //     : null), //user photoUrl
-                      backgroundImage: null,
+                      backgroundImage: auth.photoUrl != null || auth.photoUrl == "" ? NetworkImage(auth.photoUrl) : null,
                       child: Text(
                         (auth.photoUrl == null || auth.photoUrl == "") && auth.displayName != null
                             ? auth.displayName[0]
@@ -45,18 +39,6 @@ class UserCardDrawer extends StatelessWidget {
                     ),
                   ],
                 ),
-                // Row(
-                //    mainAxisAlignment: MainAxisAlignment.center,
-                //   children: <Widget>[
-                //   Text('Hi User',
-                //       style: TextStyle(
-                //           color: Colors.blueGrey,
-                //           fontSize: 20,
-                //           fontFamily: 'Comfortaa',
-                //           fontWeight: FontWeight.w900)),
-
-                // ],
-                // )
               ],
             ),
           ),
