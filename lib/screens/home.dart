@@ -291,7 +291,7 @@ class MapScreenState extends State<MapScreen> {
         elevation: 5,
         backgroundColor: Constants.mainColor,
         title: Text(
-          'GivnGo',
+          'Givngo',
           style: TextStyle(),
         ),
       ),

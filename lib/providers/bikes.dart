@@ -198,9 +198,7 @@ Future<void> getUserBikes({bool allBikes = false}) async {
   Bike findByQrCode(String qrCode) {
     print('find by qr code : $qrCode');
     print('allbikes: $allBikes, __ $_allBikes');
-    // final result = allBikes.firstWhere((bike) => bike.bikeQRCode == qrCode);
-    // print(result);
-    return allBikes.firstWhere((bike) => bike.bikeQRCode == qrCode);
+    return allBikes.firstWhere((bike) => bike.qrCode == qrCode);
   }
 
   Bike findByName(String name) {

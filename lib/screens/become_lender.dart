@@ -17,13 +17,13 @@ class PlansScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: InkWell(
-          // splashColor: Constants.accentColor,
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => OrderLocksScreen(
-                        title))); // Navigator.of(context).pushNamed(OrderLocksScreen.routeName);
+              context,
+              MaterialPageRoute(
+                builder: (context) => OrderLocksScreen(title),
+              ),
+            );
           },
           child: Container(
             padding: EdgeInsets.all(20),
@@ -75,16 +75,8 @@ class PlansScreen extends StatelessWidget {
               ],
             ),
           ),
-
-          // textAlign: Alignment.center
         ),
       ),
-      // decoration: new BoxDecoration(boxShadow: [
-      //   new BoxShadow(
-      //     color: Constants.optionalColor,
-      //     blurRadius: 5.0,
-      //   ),
-      // ]),
     );
   }
 
@@ -118,13 +110,7 @@ class PlansScreen extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                child:
-                    //  buildCard(
-                    //     'Individual Plan',
-                    //     'Single lock delivery\nSet up support\nSet your area and start lending',
-                    //     "\$ 19.99 per lock",
-                    //     context),
-                    Container(
+                child: Container(
                   child: Card(
                     elevation: 5,
                     shape: RoundedRectangleBorder(
@@ -132,20 +118,19 @@ class PlansScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: InkWell(
-                      // splashColor: Constants.accentColor,
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                OrderLocksScreen('Individual Plan'),
-                          ),
-                        ); // Navigator.of(context).pushNamed(OrderLocksScreen.routeName);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) =>
+                        //         OrderLocksScreen('Individual Plan'),
+                        //   ),
+                        // ); // Navigator.of(context).pushNamed(OrderLocksScreen.routeName);
                       },
                       child: Container(
                         padding: EdgeInsets.all(20),
                         width: double.infinity,
-                        height: 200,
+                        height: 280,
                         child: Column(
                           children: <Widget>[
                             Text(
@@ -169,52 +154,71 @@ class PlansScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 20),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    "From  ",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.blueGrey,
-                                        fontFamily: 'Comfortaa',
-                                        fontSize: 18),
-                                  ),
-                                  Text(
-                                    "\$ 19.99 per lock",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Constants.optionalColor,
-                                        fontWeight: FontWeight.w800,
-                                        fontFamily: 'Comfortaa',
-                                        fontSize: 25),
-                                  ),
-                                ]),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      "From  ",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontFamily: 'Comfortaa',
+                                          fontSize: 18),
+                                    ),
+                                    Text(
+                                      "\$ 19.99 per lock",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Constants.optionalColor,
+                                          fontWeight: FontWeight.w800,
+                                          fontFamily: 'Comfortaa',
+                                          fontSize: 25),
+                                    ),
+                                  ]),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                  width: mediaQuery.size.width * 0.5,
+                                  height: mediaQuery.size.height * 0.07,
+                                  child: RaisedButton(
+                                    elevation: 0.5,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(7.0)),
+                                    textColor: Colors.white,
+                                    color: Constants.accentColor,
+                                    child: const Text('Order Now',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontFamily: 'OpenSans',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18)),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              OrderLocksScreen(
+                                                  'Individual Plan'),
+                                        ),
+                                      );
+                                    },
+                                  )),
+                            ),
                           ],
                         ),
                       ),
-
-                      // textAlign: Alignment.center
                     ),
                   ),
-                  // decoration: new BoxDecoration(boxShadow: [
-                  //   new BoxShadow(
-                  //     color: Constants.optionalColor,
-                  //     blurRadius: 5.0,
-                  //   ),
-                  // ]),
                 ),
               ),
               Padding(
                   padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                  child:
-                      // buildCard(
-                      //     'Company Plan',
-                      //     'For larger orders (30+)\nControl your own fleet of bikes\nCustomize your locks\nDiscounted price per lock',
-                      //     "\$ 5.99 per lock",
-                      //     context),
-                      Container(
+                  child: Container(
                     child: Card(
                       elevation: 5,
                       shape: RoundedRectangleBorder(
@@ -222,20 +226,19 @@ class PlansScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: InkWell(
-                        // splashColor: Constants.accentColor,
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  OrderLocksScreen('Company Plan'),
-                            ),
-                          ); // Navigator.of(context).pushNamed(OrderLocksScreen.routeName);
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) =>
+                          //         OrderLocksScreen('Company Plan'),
+                          //   ),
+                          // ); // Navigator.of(context).pushNamed(OrderLocksScreen.routeName);
                         },
                         child: Container(
                           padding: EdgeInsets.all(20),
                           width: double.infinity,
-                          height: 200,
+                          height: 280,
                           child: Column(
                             children: <Widget>[
                               Text(
@@ -259,43 +262,67 @@ class PlansScreen extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(height: 20),
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      "From  ",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.blueGrey,
-                                          fontFamily: 'Comfortaa',
-                                          fontSize: 18),
-                                    ),
-                                    Text(
-                                      "\$ 5.99 per lock",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Constants.optionalColor,
-                                          fontWeight: FontWeight.w800,
-                                          fontFamily: 'Comfortaa',
-                                          fontSize: 25),
-                                    ),
-                                  ]),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        "From  ",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.blueGrey,
+                                            fontFamily: 'Comfortaa',
+                                            fontSize: 18),
+                                      ),
+                                      Text(
+                                        "\$ 5.99 per lock",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Constants.optionalColor,
+                                            fontWeight: FontWeight.w800,
+                                            fontFamily: 'Comfortaa',
+                                            fontSize: 25),
+                                      ),
+                                    ]),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                    width: mediaQuery.size.width * 0.5,
+                                    height: mediaQuery.size.height * 0.07,
+                                    child: RaisedButton(
+                                      elevation: 0.5,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(7.0)),
+                                      textColor: Colors.white,
+                                      color: Constants.accentColor,
+                                      child: const Text('Order Now',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'OpenSans',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18)),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                OrderLocksScreen(
+                                                    'Company Plan'),
+                                          ),
+                                        );
+                                      },
+                                    )),
+                              ),
                             ],
                           ),
                         ),
-
-                        // textAlign: Alignment.center
                       ),
                     ),
-                    // decoration: new BoxDecoration(boxShadow: [
-                      
-                    //   new BoxShadow(
-                    
-                    //     color: Colors.blueGrey,
-                    //     blurRadius: 2.0,
-                    //   ),
-                    // ]),
                   )),
             ],
           ),

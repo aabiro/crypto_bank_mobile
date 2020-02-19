@@ -31,7 +31,7 @@ class _CreditCardScreenState extends State<CreditCardScreen> {
         centerTitle: true,
         backgroundColor: Constants.mainColor,
         title: new Text(
-            'GivnGo',
+            'Givngo',
             style: TextStyle(),
           ),
         ),

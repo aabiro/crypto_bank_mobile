@@ -86,7 +86,7 @@ class MyCustomFormState extends State<RegisterScreen> {
             SliverAppBar(
               backgroundColor: Constants.mainColor,
               automaticallyImplyLeading: false,
-              expandedHeight: 120.0,
+              expandedHeight: 140.0,
               elevation: 5,
               floating: true,
               pinned: true,

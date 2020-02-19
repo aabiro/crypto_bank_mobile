@@ -25,7 +25,7 @@ class GenericScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: Constants.mainColor,
         title: new Text(
-          'GivnGo',
+          'Givngo',
           style: TextStyle(),
         ),
         actions: <Widget>[

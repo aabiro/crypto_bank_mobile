@@ -39,6 +39,15 @@ class _BikeListState extends State<BikeList> {
     _init = false;
   }
 
+  BoxDecoration myDecoration() {
+    return BoxDecoration(
+      border: Border.all(
+        color: Colors.white,
+      ),
+      borderRadius: BorderRadius.all(Radius.circular(5.0)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bikesData = Provider.of<Bikes>(context);
@@ -113,11 +122,15 @@ class _BikeListState extends State<BikeList> {
                       },
                       textColor: Colors.white,
                       color: Constants.accentColor,
-                      child: Text('Activate Ride',
-                          style: TextStyle(
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15)),
+                      child: Container(
+                        padding: EdgeInsets.all(9),
+                        decoration: myDecoration(),
+                        child: Text('Activate Ride',
+                            style: TextStyle(
+                                fontFamily: 'OpenSans',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15)),
+                      ),
                       // icon: Icon(
                       //   Icons.center_focus_strong,
                       //   size: 25,

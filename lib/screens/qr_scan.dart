@@ -45,7 +45,7 @@ class QrScanState extends State<QrScan> {
         centerTitle: true,
         backgroundColor: Constants.mainColor,
         title: new Text(
-          'GivnGo',
+          'Givngo',
           style: TextStyle(),
         ),
       ),
@@ -111,7 +111,7 @@ class QrScanState extends State<QrScan> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                   child: Text(
-                      "Next scan the QR code on the GivnGo bicycle lock.",
+                      "Next scan the QR code on the Givngo bicycle lock.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w800,
