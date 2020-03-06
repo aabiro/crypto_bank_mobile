@@ -251,7 +251,6 @@ class MapScreenState extends State<MapScreen> {
       );
     }
     _init = false;
-
     super.initState();
   }
 
@@ -333,7 +332,7 @@ class MapScreenState extends State<MapScreen> {
                       child: userBikes != null && userBikes.length > 0
                           ? DropdownButton<String>(
                               hint: Text(
-                                'Find My Ride',
+                                'Find My Bike',
                                 style: TextStyle(
                                     color: Colors.grey[410],
                                     fontFamily: 'OpenSans',
@@ -504,7 +503,7 @@ class MapScreenState extends State<MapScreen> {
               return GenericScreen('regular', 'There was an error!', 'Ok',
                   'assets/gnglogo.png', '/login');
             }
-            return SpinKitCircle(color: Constants.mainColor);
+            return SpinKitPulse(color: Constants.mainColor);
           },
         ),
       ),

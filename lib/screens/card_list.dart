@@ -359,26 +359,34 @@ class _CardScreenState extends State<CardScreen> {
                               final bikeId = bike.id;
                               final bikeOwnerId = bike.userId;
                               // print('bikeOwnerId : $bikeOwnerId, bikeId : $bikeId');
-
+                              var newJourney = Journey(
+                                      startTime: DateTime.now(),
+                                      userId: user.userId,
+                                      bikeId: bikeId,
+                                      bikeOwnerId: bikeOwnerId);
                               Provider.of<Journeys>(context).addJourney(
-                                Journey(
-                                    startTime: DateTime.now(),
-                                    userId: user.userId,
-                                    bikeId: bikeId,
-                                    bikeOwnerId: bikeOwnerId),
+                                newJourney
                               );
 
-                                  //goto journey screen
-                            Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
-                              print('response of get current journey: $response');
                               Navigator.of(context).pushReplacementNamed(
                                 JourneyScreen.routeName,
                                 arguments: JourneyScreen(
-                                  journey: response,
-                                  isUserBike: (response.bikeOwnerId == response.userId)
+                                  journey: newJourney,
+                                  isUserBike: (newJourney.bikeOwnerId == newJourney.userId)
                                 ),
                               );
-                            });
+
+                                  //goto journey screen
+                            // Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
+                            //   print('response of get current journey: $response');
+                            //   Navigator.of(context).pushReplacementNamed(
+                            //     JourneyScreen.routeName,
+                            //     arguments: JourneyScreen(
+                            //       journey: response,
+                            //       isUserBike: (response.bikeOwnerId == response.userId)
+                            //     ),
+                            //   );
+                            // });
                             } else {
                               Navigator.of(context).pop();
                             }

@@ -125,7 +125,7 @@ class _BikeListState extends State<BikeList> {
                       child: Container(
                         padding: EdgeInsets.all(9),
                         decoration: myDecoration(),
-                        child: Text('Activate Ride',
+                        child: Text('Activate Bike',
                             style: TextStyle(
                                 fontFamily: 'OpenSans',
                                 fontWeight: FontWeight.bold,
@@ -171,7 +171,7 @@ class _BikeListState extends State<BikeList> {
                         arguments: QrScan());
                   },
                   child: Text(
-                    "Yes, activate ride",
+                    "Yes, activate bike",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Constants.mainColor,

@@ -327,7 +327,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
               return GenericScreen('regular', 'There was an error!', 'Ok',
                   'assets/gnglogo.png', '/home');
             }
-            return SpinKitCircle(color: Constants.mainColor);
+            return SpinKitPulse(color: Constants.mainColor);
           },
         ),
       ),

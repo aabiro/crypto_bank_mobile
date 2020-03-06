@@ -11,11 +11,16 @@ class UserCards with ChangeNotifier {
   String token;
   String userId;
   List<UserCard> _userCards = [];
+  String _defaultDigits;
 
   UserCards([this.token, this.userId, this._userCards]);
 
   List<UserCard> get userCards {
     return _userCards;
+  }
+
+  String get defaultDigits {
+    return _defaultDigits;
   }
 
   Future<void> updateUserCard(String id, UserCard newUserCard) async {
@@ -118,20 +123,11 @@ class UserCards with ChangeNotifier {
     return userCards.firstWhere((userCard) => userCard.userId == userId);
   }
 
-  void getDefaultPayment(){
-    //after scan go to payment --create default
-    //call for users cards as default 
-    //if 1 then continue
-    //if none check if square //if square enter card
-    //if none ask go to pick default screen 
-  }
-
   void updateDefault(String id, UserCard newDefaultUserCard) async {
     final oldDefaultIndex = userCards.indexWhere(
         (userCard) => userCard.userId == userId && userCard.isDefault == true);
     final userCardIndex =
         userCards.indexWhere((userCard) => userCard.id == newDefaultUserCard.id);
-
     if (oldDefaultIndex >= 0) {
       final oldDefaultCard = userCards[oldDefaultIndex];
       oldDefaultCard.toggleDefault();
@@ -195,6 +191,7 @@ class UserCards with ChangeNotifier {
       }
       newDefaultUserCard.toggleDefault();
       userCards[userCardIndex] = newDefaultUserCard;
+      _defaultDigits = newDefaultUserCard.lastFourDigits;
       notifyListeners();
     } else {
       print('did not update');

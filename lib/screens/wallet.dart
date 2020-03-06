@@ -1,59 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/add_credit_card.dart';
 import 'package:flutter_app/screens/card_list.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
+import 'package:provider/provider.dart';
 
 import 'direct_deposit.dart';
 
-class WalletScreen extends StatelessWidget {
+class WalletScreen extends StatefulWidget {
   static final routeName = 'wallet';
 
-  // Widget buildCard(String title, Icon icon, String tag, String route, BuildContext context) {
-  //   Color greyText = Colors.blueGrey;
-  //   return Hero(
-  //       tag: tag,
-  //       child: Card(
-  //           child: InkWell(
-  //           onTap: () => Navigator.push(
-  //              MaterialPageRoute(
-  //               fullscreenDialog: true,
-  //               builder: (context) => CreditCardScreen(),
-  //               maintainState: false
-  //               )
-  //           ),
-  //           child: Container(
-  //             padding: EdgeInsets.all(20),
-  //             width: double.infinity,
-  //             height: 200,
-  //             child: Column(
-  //               children: <Widget>[
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.center,
-  //                   crossAxisAlignment: CrossAxisAlignment.center,
-  //                   children: <Widget>[
-  //                     icon,
-  //                     // Icon(Icons.attach_money),
-  //                     Text(
-  //                       title,
-  //                       textAlign: TextAlign.center,
-  //                       style: TextStyle(
-  //                           color: greyText,
-  //                           fontFamily: 'OpenSans',
-  //                           fontWeight: FontWeight.bold,
-  //                           fontSize: 20),
-  //                     ),
-  //                 ]),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //   );
-  // }
+  @override
+  _WalletScreenState createState() => _WalletScreenState();
+
+  
+}
+
+class _WalletScreenState extends State<WalletScreen> {
+  var cards;
+  var lastDefaultDigits;
+  @override
+  void initState() {
+      Future.delayed(Duration.zero).then(
+        (_) {
+          lastDefaultDigits = Provider.of<UserCards>(context).defaultDigits;
+        },
+      );
+      super.initState();
+    }
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+    print(lastDefaultDigits);
+    // var cards = Provider.of<UserCards>(context);
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -191,7 +171,7 @@ class WalletScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Text(
-                            "Credit Card\n ending in XXXX",
+                            "Credit Card\n ending in ${lastDefaultDigits}",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.blueGrey,
