@@ -175,7 +175,11 @@ class PlansScreen extends StatelessWidget {
                                           color: Constants.optionalColor,
                                           fontWeight: FontWeight.w800,
                                           fontFamily: 'Comfortaa',
+<<<<<<< HEAD
+                                          fontSize: 25),
+=======
                                           fontSize: 20),
+>>>>>>> 849062b8de57ec11fef3c5e4015294d672e50fbe
                                     ),
                                   ]),
                             ),
@@ -238,7 +242,11 @@ class PlansScreen extends StatelessWidget {
                         child: Container(
                           padding: EdgeInsets.all(20),
                           width: double.infinity,
+<<<<<<< HEAD
+                          height: 280,
+=======
                           height: 300,
+>>>>>>> 849062b8de57ec11fef3c5e4015294d672e50fbe
                           child: Column(
                             children: <Widget>[
                               Text(
@@ -284,7 +292,11 @@ class PlansScreen extends StatelessWidget {
                                             color: Constants.optionalColor,
                                             fontWeight: FontWeight.w800,
                                             fontFamily: 'Comfortaa',
+<<<<<<< HEAD
+                                            fontSize: 25),
+=======
                                             fontSize: 20),
+>>>>>>> 849062b8de57ec11fef3c5e4015294d672e50fbe
                                       ),
                                     ]),
                               ),
