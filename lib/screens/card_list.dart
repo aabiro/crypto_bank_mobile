@@ -348,11 +348,11 @@ class _CardScreenState extends State<CardScreen> {
                           // padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: () {
                             if (chooseForJourney != null && chooseForJourney != false) {
-                              print('gets herereererer');
+                              // print('gets herereererer');
                               print(barcode);
                               
                               final bikesProv = Provider.of<Bikes>(context);
-                              print(bikesProv.allBikes);
+                              // print(bikesProv.allBikes);
                               final user = Provider.of<Authentication>(context);
                               final bike = bikesProv.findByQrCode(barcode);
                               // print('bike : ${bike.toString()}, bikeId : ${bike.id}');
@@ -364,29 +364,34 @@ class _CardScreenState extends State<CardScreen> {
                                       userId: user.userId,
                                       bikeId: bikeId,
                                       bikeOwnerId: bikeOwnerId);
-                              Provider.of<Journeys>(context).addJourney(
-                                newJourney
-                              );
 
+                              Provider.of<Journeys>(context).addJourney(
+                                newJourney);
+                              // Provider.of<Journeys>(context).addJourney(
+                              //   newJourney
+                              // ).then((response) {
+                              //   print('new Journey: $newJourney');
+                              //   Navigator.of(context).pushReplacementNamed(
+                              //     JourneyScreen.routeName,
+                              //     arguments: JourneyScreen(
+                              //       journey: response,
+                              //       isUserBike: (response.bikeOwnerId == response.userId)
+                              //     ),
+                              //   );
+                              // });
+
+
+                            // goto journey screen
+                            Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
+                              print('response of get current journey: $response');
                               Navigator.of(context).pushReplacementNamed(
                                 JourneyScreen.routeName,
                                 arguments: JourneyScreen(
-                                  journey: newJourney,
-                                  isUserBike: (newJourney.bikeOwnerId == newJourney.userId)
+                                  journey: response,
+                                  isUserBike: (response.bikeOwnerId == response.userId)
                                 ),
                               );
-
-                                  //goto journey screen
-                            // Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
-                            //   print('response of get current journey: $response');
-                            //   Navigator.of(context).pushReplacementNamed(
-                            //     JourneyScreen.routeName,
-                            //     arguments: JourneyScreen(
-                            //       journey: response,
-                            //       isUserBike: (response.bikeOwnerId == response.userId)
-                            //     ),
-                            //   );
-                            // });
+                            });
                             } else {
                               Navigator.of(context).pop();
                             }

@@ -39,7 +39,8 @@ class Journeys with ChangeNotifier {
     this._userJourney = userJourney;
   }
 
-  void addJourney(Journey journey) {
+  Future<Journey> addJourney(Journey journey) {
+    var newJourney;
     final url =
         'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token';
     http
@@ -61,7 +62,7 @@ class Journeys with ChangeNotifier {
       (response) {
         var data = json.decode(response.body);
         // print('response $data');
-        final newJourney = Journey(
+        newJourney = Journey(
           id: json.decode(response.body)["name"],
           startTime: data['startTime'],
           endTime: data['endTime'],
@@ -78,11 +79,15 @@ class Journeys with ChangeNotifier {
         allJourneys.add(
             newJourney); //journeys would be called on null if using constuctor initialized list
         notifyListeners();
+        
       },
     );
+    return newJourney;
   }
 
+  //fix this
   Future<Journey> getCurrentUserJourney() async {
+    var userJourney;
     var url;
     url =
         'https://capstone-addb0.firebaseio.com/journeys.json?auth=$token&orderBy="userId"&equalTo="$userId"&hasEnded="false"';
@@ -98,6 +103,8 @@ class Journeys with ChangeNotifier {
             // for (var key in data.keys) print(key);
             // for (var value in data.values) print(value);
             for (var entry in data.entries) {
+              // final userJourneyIndex = _allJourneys.indexWhere((journey) => journey.id == entry.key);
+              // userJourney = _allJourneys[userJourneyIndex];
               userJourney = Journey(
                   id: entry.key,
                   startTime: DateTime.parse(entry.value['startTime']),
