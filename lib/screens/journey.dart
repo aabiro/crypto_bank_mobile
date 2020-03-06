@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/authentication.dart';
+import 'package:flutter_app/providers/bike.dart';
+import 'package:flutter_app/providers/bikes.dart';
 import 'package:flutter_app/providers/journey.dart';
 import 'package:flutter_app/providers/journeys.dart';
 import 'package:flutter_app/screens/home.dart';
@@ -15,7 +17,7 @@ class JourneyScreen extends StatefulWidget {
   String userId;
   bool isUserBike;
   Journey journey;
-  JourneyScreen({this.journey, this.isUserBike});
+  JourneyScreen({this.journey, this.isUserBike, this.bikeId});
 
   @override
   _JourneyScreenState createState() => _JourneyScreenState();
@@ -24,6 +26,7 @@ class JourneyScreen extends StatefulWidget {
 class _JourneyScreenState extends State<JourneyScreen> {
   String _timeString;
   String _costString;
+  bool isStopped = false;
   String cost;
   final String $cent = String.fromCharCode(0x00A2);
   Future<bool> screenReady;
@@ -47,9 +50,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
     Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
       journeyStartTime = response.startTime;
       Duration timePassed = DateTime.now().difference(journeyStartTime);
-      // print(timePassed.inSeconds);
       _costString =
-          isUserBike ? "Free!" : "${(timePassed.inMinutes * .20) + 1}";
+          isUserBike ? "Free!" : "${((timePassed.inMinutes * .20) + 1).toStringAsFixed(2)}";
       if (timePassed.inSeconds < 60) {
         _timeString = "${(timePassed.inSeconds.remainder(60))} sec";
       } else if (timePassed.inSeconds.remainder(60) < 10) {
@@ -59,26 +61,24 @@ class _JourneyScreenState extends State<JourneyScreen> {
         _timeString =
             "${timePassed.inMinutes.remainder(60)} : ${(timePassed.inSeconds.remainder(60))} sec";
       }
-
-      // if (timePassed.inSeconds.remainder(60) < 10) {
-      //   _timeString =
-      //       "${timePassed.inMinutes.remainder(60)} : 0${(timePassed.inSeconds.remainder(60))} sec";
-      // } else {
-      //   _timeString =
-      //       "${timePassed.inMinutes.remainder(60)} : ${(timePassed.inSeconds.remainder(60))} sec";
-      // }
     });
     _t = Timer.periodic(Duration(seconds: 1),
-        (_t) => _getCurrentTimeAndCost(journeyStartTime, isUserBike));
+        (_t) {
+          _getCurrentTimeAndCost(journeyStartTime, isUserBike);
+          if (isStopped) {
+            _t.cancel();
+          }
+        } );
   }
 
   @override
   void dispose() {
     setState(() {
-      _timeString = null;
-      _costString = null;
-      _t?.cancel();
+      // _timeString = null;
+      // _costString = null;
+      // _t?.cancel();
     });
+    _t.cancel();
     super.dispose();
   }
 
@@ -100,20 +100,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
         _timeString =
             "${timePassed.inMinutes.remainder(60)} : ${(timePassed.inSeconds.remainder(60))} sec";
       }
-      // if (timePassed.inMinutes.remainder(60) < 1 && timePassed.inSeconds.remainder(60) < 10) {
-      //   _timeString =
-      //       "0${(timePassed.inSeconds.remainder(60))} sec";
-      // } else if (timePassed.inSeconds.remainder(60) < 10) {
-      //   _timeString =
-      //       "${timePassed.inMinutes.remainder(60)} : 0${(timePassed.inSeconds.remainder(60))} sec";
-      // } else {
-      //   _timeString =
-      //       "${timePassed.inMinutes.remainder(60)} : ${(timePassed.inSeconds.remainder(60))} sec";
-      // }
       cost = ((timePassed.inMinutes * .20) + 1).toStringAsFixed(2);
       _costString = isUserBike ? "Free!" : "\$$cost";
-      // "${DateTime.now().hour} : ${DateTime.now().minute} :${DateTime.now().second}";
-      // "${timePassed.inHours}:${timePassed.inMinutes.remainder(60)}:${(timePassed.inSeconds.remainder(60))}";
     });
     screenReady = finishLoading();
   }
@@ -172,6 +160,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
     final JourneyScreen args = ModalRoute.of(context).settings.arguments;
     final journey = args.journey;
     final isUserBike = args.isUserBike;
+    final bikeId = args.bikeId;
 
     return Scaffold(
       appBar: AppBar(
@@ -188,7 +177,6 @@ class _JourneyScreenState extends State<JourneyScreen> {
               icon: Icon(Icons.close),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/home');
-                // Navigator.of(context).pushReplacement(MapScreen.routeName);
               })
         ],
       ),
@@ -235,13 +223,26 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                         fontWeight: FontWeight.w800,
                                         fontSize: 18)),
                                 onPressed: () {
+                                  print('bike id in journey $bikeId');
+                                  Bike bike = Provider.of<Bikes>(context).findById(journey.bikeId);
+                                  print('bike in journey $bike');
+                                  Provider.of<Bikes>(context).updateBike(bikeId, 
+                                    Bike(
+                                      qrCode: bike.qrCode,
+                                      lat: bike.lat,
+                                      lng: bike.lng,
+                                      name: bike.name,
+                                      model: bike.model,
+                                      isActive: false
+                                    )
+                                  );
                                   Provider.of<Journeys>(context).updateJourney(
                                     journey.id,
                                     Journey(
                                         startTime: journey.startTime,
                                         endTime: DateTime.now(),
                                         dayOfTheWeek: DateTime.now().weekday,
-                                        bikeId: null,
+                                        bikeId: journey.bikeId,
                                         bikeOwnerId: journey.bikeOwnerId,
                                         userId: journey.userId,
                                         distance: journey.distance,
@@ -257,11 +258,10 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                         ),
                                   );
                                   setState(() {
-                                    _t.cancel();
                                     _timeString = null;
-                                    // _costString = null;
+                                    isStopped = true;
+                                    _costString = null;
                                   });
-                                  //run disposing of timer here
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

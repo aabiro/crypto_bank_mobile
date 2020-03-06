@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/helpers/cards_helper.dart';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/providers/authentication.dart';
+import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/bikes.dart';
 import 'package:flutter_app/providers/journey.dart';
 import 'package:flutter_app/providers/journeys.dart';
@@ -364,7 +365,16 @@ class _CardScreenState extends State<CardScreen> {
                                       userId: user.userId,
                                       bikeId: bikeId,
                                       bikeOwnerId: bikeOwnerId);
-
+                               Provider.of<Bikes>(context).updateBike(bikeId, 
+                                    Bike(
+                                      qrCode: bike.qrCode,
+                                      lat: bike.lat,
+                                      lng: bike.lng,
+                                      name: bike.name,
+                                      model: bike.model,
+                                      isActive: true
+                                    )
+                                  );
                               Provider.of<Journeys>(context).addJourney(
                                 newJourney);
                               // Provider.of<Journeys>(context).addJourney(
@@ -388,7 +398,8 @@ class _CardScreenState extends State<CardScreen> {
                                 JourneyScreen.routeName,
                                 arguments: JourneyScreen(
                                   journey: response,
-                                  isUserBike: (response.bikeOwnerId == response.userId)
+                                  isUserBike: (response.bikeOwnerId == response.userId),
+                                  bikeId: response.bikeId,
                                 ),
                               );
                             });

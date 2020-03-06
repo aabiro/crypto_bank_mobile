@@ -99,6 +99,8 @@ class Journeys with ChangeNotifier {
           throw ExceptionHandler(response.body);
         } else {
           final data = json.decode(response.body) as Map<String, dynamic>;
+          print('data length: ${data.length}');
+          print('get current journey data: $data');
           if (data.length > 0 && data != null) {
             // for (var key in data.keys) print(key);
             // for (var value in data.values) print(value);

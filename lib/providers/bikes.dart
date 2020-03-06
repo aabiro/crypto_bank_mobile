@@ -26,7 +26,7 @@ class Bikes with ChangeNotifier {
   }
 
   Future<void> updateBike(String id, Bike newBike) async {
-    final bikeIndex = userBikes.indexWhere((bike) => bike.id == id);
+    final bikeIndex = allBikes.indexWhere((bike) => bike.id == id);
     if (bikeIndex >= 0) {
       final url =
           "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
@@ -34,11 +34,12 @@ class Bikes with ChangeNotifier {
         url,
         body: json.encode(
           {
-            //merges with existing values on server
+            'qrCode': newBike.qrCode,
+            'isActive': newBike.isActive,
             'name': newBike.name,
-            'model': newBike.model,
-            'isActive': newBike.isActive //this line causes null error on detail view..!!
-            // 'imageUrl': newBike.imageUrl,
+            'userId': newBike.userId,
+            'lat': newBike.lat,
+            'lng': newBike.lng
           },
         ),
       );
@@ -50,10 +51,10 @@ class Bikes with ChangeNotifier {
         throw ExceptionHandler('Cannot update bike.');
       }
       userBikes[bikeIndex] = newBike;
-      // print('new bike :${response.toString()}')
+      print('updated bike :${response.toString()}');
       notifyListeners();
     } else {
-      print('did not update');
+      print('did not update bike');
     }
   }
 
