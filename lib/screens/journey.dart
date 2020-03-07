@@ -257,22 +257,12 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                             .abs() //< 0 ? journey.startTime.difference(DateTime.now()).inMinutes.toDouble() * (-1.0) : journey.startTime.difference(DateTime.now()).inMinutes.toDouble()
                                         ),
                                   );
-                                  setState(() {
-                                    _timeString = null;
-                                    isStopped = true;
-                                    _costString = null;
-                                  });
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => GenericScreen(
-                                          'regular',
-                                          'Thank you for riding\nwith GivnGo! \n\n Your trip total:\n\n $_costString',
-                                          'Ok',
-                                          'assets/gnglogo.png',
-                                          '/home'),
-                                    ),
-                                  );
+                                  // setState(() {
+                                  //   _timeString = null;
+                                  //   isStopped = true;
+                                  //   _costString = null;
+                                  // });
+                                  _showDialog();
                                 },
                               ),
                             ),
@@ -331,6 +321,47 @@ class _JourneyScreenState extends State<JourneyScreen> {
           },
         ),
       ),
+    );
+  }
+
+    void _showDialog() async {
+    // bool result;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+          title: Text(
+            'Thank you for riding\nwith GivnGo! \n\n Your trip total:\n\n $_costString',
+            style:
+                TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w800),
+            textAlign: TextAlign.center,
+          ),
+          content: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                OutlineButton(
+                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
+                  },
+                  child: Text(
+                    "Ok",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Constants.mainColor,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

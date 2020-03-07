@@ -74,19 +74,11 @@ class _DirectDepositState extends State<DirectDeposit> {
           children: <Widget>[
             new AppBar(
               centerTitle: true,
-              automaticallyImplyLeading: true,
               backgroundColor: Color(0xff673AB7),
               title: new Text(
                 'Direct Deposit',
                 style: TextStyle(),
               ),
-              actions: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    })
-              ],
             ),
             SizedBox(
               height: 10,
