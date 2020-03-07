@@ -231,7 +231,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18)),
                             onPressed: () {
-                              // Navigator.pushNamed(context, '/camera');
+                              Navigator.of(context).pushNamed(DirectDeposit.routeName);
                             },
                           )),
               ),

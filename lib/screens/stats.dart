@@ -10,6 +10,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import "package:collection/collection.dart";
 
+import 'direct_deposit.dart';
+
 class StatsScreen extends StatefulWidget {
   static const routeName = '/stats';
 
@@ -364,7 +366,7 @@ class _StatsScreenState extends State<StatsScreen> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18)),
                                     onPressed: () {
-                                      // Navigator.pushNamed(context, '/camera');
+                                      Navigator.of(context).pushNamed(DirectDeposit.routeName);
                                     },
                                   )),
                             ],

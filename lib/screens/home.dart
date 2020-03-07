@@ -424,72 +424,50 @@ class MapScreenState extends State<MapScreen> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15)),
                                 onPressed: () {
-                                  // scan();
+                                  scan();
 
                                   //add a new journey if there is none, add to scan() with bikeId
                                   //////////////bypass below
-                                  ///
-                                  //String barcode = await BarcodeScanner.scan();
-                                  // setState(() => this._barcode = barcode);
+
+                                  // Bike bike = Provider.of<Bikes>(context).findById("-M0O9yUJW7WUxmcE3_MJ");
+                                  // print('bike in journey $bike');
+                                  // Provider.of<Bikes>(context).updateBike(bike.id, 
+                                  //   Bike(
+                                  //     qrCode: bike.qrCode,
+                                  //     lat: bike.lat,
+                                  //     lng: bike.lng,
+                                  //     name: bike.name,
+                                  //     model: bike.model,
+                                  //     isActive: true
+                                  //   )
+                                  // );
+
+
+                                  // Provider.of<Journeys>(context).addJourney(
+                                  //   Journey(
+                                  //       startTime: DateTime.now(),
+                                  //       userId: user.userId,
+                                  //       bikeId: "-M0O9yUJW7WUxmcE3_MJ",
+                                  //       // bikeOwnerId:
+                                  //       //     user.userId), //riding my own bike testing
+                                  //       bikeOwnerId:
+                                  //           'S31KUoJRB0dOt0Gu3bbLCuvBASJ2'),
+                                  // );
+
+                                  // //get the new journey
+                                  // Provider.of<Journeys>(context)
+                                  //     .getCurrentUserJourney()
+                                  //     .then((response) {
                                   //   Navigator.of(context).pushReplacementNamed(
-                                  //     CardScreen.routeName,
-                                  //     arguments: CardScreen(
-                                  //       chooseDefault: false,
-                                  //       chooseForJourney: true,
-                                  //       barcode: barcode
+                                  //     JourneyScreen.routeName,
+                                  //     arguments: JourneyScreen(
+                                  //       journey: response,
+                                  //       isUserBike: (response.bikeOwnerId == response.userId),
+                                  //       bikeId: response.bikeId,
                                   //     ),
                                   //   );
-                                  // /
-                                  // /
-                                  // /
-                                  // /
-                                  // /
-                                  // /
-                                  Bike bike = Provider.of<Bikes>(context).findById("-M0O9yUJW7WUxmcE3_MJ");
-                                  print('bike in journey $bike');
-                                  Provider.of<Bikes>(context).updateBike(bike.id, 
-                                    Bike(
-                                      qrCode: bike.qrCode,
-                                      lat: bike.lat,
-                                      lng: bike.lng,
-                                      name: bike.name,
-                                      model: bike.model,
-                                      isActive: true
-                                    )
-                                  );
-
-
-                                  Provider.of<Journeys>(context).addJourney(
-                                    Journey(
-                                        startTime: DateTime.now(),
-                                        userId: user.userId,
-                                        bikeId: "-M0O9yUJW7WUxmcE3_MJ",
-                                        // bikeOwnerId:
-                                        //     user.userId), //riding my own bike testing
-                                        bikeOwnerId:
-                                            'S31KUoJRB0dOt0Gu3bbLCuvBASJ2'),
-                                  );
-
-                                  //get the new journey
-                                  Provider.of<Journeys>(context)
-                                      .getCurrentUserJourney()
-                                      .then((response) {
-                                    // Provider.of<Bikes>(context).updateBike("-M0O9yUJW7WUxmcE3_MJ", ///response.bikeId, 
-                                    //   Bike(
-                                    //     isActive: true
-                                    //   )
-                                    // );
-                                    Navigator.of(context).pushReplacementNamed(
-                                      JourneyScreen.routeName,
-                                      arguments: JourneyScreen(
-                                        journey: response,
-                                        isUserBike: (response.bikeOwnerId == response.userId),
-                                        bikeId: "-M0O9yUJW7WUxmcE3_MJ", //fails if journey = null?
-                                      ),
-                                    );
-                                    // Navigator.of(context).pushNamed(QrScan.routeName);
-                                  });
-                                  /////////////////////////////
+                                  // });
+                                  ////////////////////////////////////////////////////////////////////
 
                                 })
                             : RaisedButton(

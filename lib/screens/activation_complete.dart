@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-
 import 'bike_list.dart';
 
 class ActivationCompleteScreen extends StatelessWidget {
   static const routeName = '/activation_complete';
-  // String bikeId;
   ActivationCompleteScreen();
 
   @override
@@ -25,7 +22,6 @@ class ActivationCompleteScreen extends StatelessWidget {
               icon: Icon(Icons.close),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/home');
-                // Navigator.of(context).pushReplacement(MapScreen.routeName);
               })
         ],
       ),

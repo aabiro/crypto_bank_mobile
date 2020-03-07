@@ -85,24 +85,10 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
             backgroundColor: Color(0xff673AB7),
             title: new Text(
               'Bike Detail',
-              // planType,
               style: TextStyle(),
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-          //   child: Text(
-          //     'Bike details',
-          //     textAlign: TextAlign.left,
-          //     style: TextStyle(
-          //       color: Colors.blueGrey,
-          //       fontSize: 15,
-          //       fontWeight: FontWeight.w800,
-          //       fontFamily: 'OpenSAns',
-          //     ),
-          //   ),
-          // ),
-           SizedBox(height: 15.0),
+          SizedBox(height: 15.0),
           buildInputField(nameController, 'Name of Bike'),
           SizedBox(height: 15.0),
           // buildInputField(typeController, 'Type'),
@@ -186,9 +172,8 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
                   Bike(
                       userId: Provider.of<Authentication>(context).userId,
                       qrCode: qrCode, //do this check later
-                      isActive: true,
+                      isActive: false,
                       name: name == "" || name == null ? 'New Bike' : name,
-                      //rasp pi helper get gps
                       model: dropdownValue,
                       lat: latlng.latitude,
                       lng: latlng.longitude),

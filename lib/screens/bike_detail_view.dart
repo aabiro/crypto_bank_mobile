@@ -431,18 +431,13 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                     } catch (error) {
                       print(error);
                       print('deleting failed'); //handle this error
-                      // Scaffold.of(context).showSnackBar(Snackbar(content:
-                      // Text('Deleteing failed!')));
                     }
-                    // Navigator.of(context).pop();
-
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             fullscreenDialog: true,
                             builder: (context) => BikeList(),
-                            maintainState: false));
-                    // Navigator.popAndPushNamed(context, QrScan.routeName, arguments: QrScan(true));
+                            maintainState: false),);
                   },
                   child: Text(
                     "Yes",

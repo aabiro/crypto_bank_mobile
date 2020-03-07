@@ -128,7 +128,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 OutlineButton(
                   padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   onPressed: () {
-                    // Navigator.popAndPushNamed(context, QrScan.routeName, arguments: QrScan(true));
                   },
                   child: Text(
                     "Yes",
