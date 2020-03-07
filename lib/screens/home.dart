@@ -516,20 +516,20 @@ class MapScreenState extends State<MapScreen> {
       // String barcode = 'QR001'; //have a few diff to show
       String barcode = await BarcodeScanner.scan();
       setState(() => this._barcode = barcode);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              fullscreenDialog: true,
-              builder: (context) => CardScreen(chooseDefault: false, chooseForJourney: true, barcode: barcode,),
-              maintainState: false));
-        // Navigator.of(context).pushReplacementNamed(
-        //   CardScreen.routeName,
-        //   arguments: CardScreen(
-        //     chooseDefault: false,
-        //     chooseForJourney: true,
-        //     barcode: barcode
-        //   ),
-        // );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       fullscreenDialog: true,
+        //       builder: (context) => CardScreen(chooseDefault: false, chooseForJourney: true, barcode: barcode,),
+        //       maintainState: false));
+        Navigator.of(context).pushNamed(
+          CardScreen.routeName,
+          arguments: CardScreen(
+            chooseDefault: false,
+            chooseForJourney: true,
+            barcode: barcode
+          ),
+        );
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         setState(() {
