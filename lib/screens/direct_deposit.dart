@@ -102,7 +102,7 @@ class _DirectDepositState extends State<DirectDeposit> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("Save",
+                child: Text("Done",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.w900)),

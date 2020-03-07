@@ -23,11 +23,8 @@ class QrScan extends StatefulWidget {
   State<StatefulWidget> createState() {
     return QrScanState();
   }
-
-  // QrScan get widget => super.activation;
 }
 
-//courtesy of medium.com
 class QrScanState extends State<QrScan> {
   // bool activation;
   // QrScanState(this.activation);
@@ -67,7 +64,6 @@ class QrScanState extends State<QrScan> {
                           fontSize: 20)),
                 ),
                 SizedBox(
-                  // height: 90,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
                     child: TextFormField(
@@ -79,19 +75,7 @@ class QrScanState extends State<QrScan> {
                           borderRadius: new BorderRadius.circular(30.0),
                           borderSide: new BorderSide(),
                         ),
-                        //fillColor: Colors.green
                       ),
-                      // validator: (val) {
-                      //   if(val.length==0) {
-                      //     return "Email cannot be empty";
-                      //   }else{
-                      //     return null;
-                      //   }
-                      // },
-                      // keyboardType: TextInputType.emailAddress,
-                      // style: new TextStyle(
-                      //   fontFamily: "Poppins",
-                      // ),
                     ),
                   ),
                 ),
@@ -139,7 +123,6 @@ class QrScanState extends State<QrScan> {
                       'Scan the QR code',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          // fontWeight: FontWeight.w800,
                           fontSize: 15),
                     ),
                   ),
@@ -147,17 +130,6 @@ class QrScanState extends State<QrScan> {
                 SizedBox(
                   height: 15,
                 ),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                //   // EdgeInsets.fromLTRB(30, 0, 30, 0),
-                //   child: Text(
-                //       "Just \$1.00 to unlock\nOnly 20 cents/min after",
-                //       textAlign: TextAlign.center,
-                //       style: TextStyle(
-                //           fontWeight: FontWeight.w800,
-                //           color: Colors.blueGrey,
-                //           fontSize: 15)),
-                // ),
               ],
             ),
           );
@@ -182,9 +154,6 @@ class QrScanState extends State<QrScan> {
       Navigator.of(context).popAndPushNamed(BikeFormScreen.routeName,
           arguments: BikeFormScreen(barcode));
     }
-
-    // Navigator.of(context).popAndPushNamed(BikeFormScreen.routeName,
-    //     arguments: BikeFormScreen(barcode));
   }
 
   void showError(String message, BuildContext context) {
@@ -211,15 +180,9 @@ class QrScanState extends State<QrScan> {
     try {
       // String barcode = 'QR001'; //have a few diff to show
       String barcode = await BarcodeScanner.scan();
-      if (barcode == activationCode) {
-        setState(() => this._barcode = barcode);
-        // final bikeId = Provider.of<Bikes>(context).findByQrCode(barcode).id;
-        // await new Future.delayed(const Duration(seconds: 5));
-        // if(widget.activation == false) {
-        //   Provider.of<Authentication>(context).isOnTrip = true;
-        //     Navigator.of(context).pushReplacementNamed(JourneyScreen.routeName,
-        //         arguments: JourneyScreen());
-        // } else {
+      // if (barcode == activationCode) { //implement later
+      if (true) {
+        setState(() => this._barcode = barcode); 
         Navigator.of(context).pushReplacementNamed(BikeFormScreen.routeName,
             arguments: BikeFormScreen(barcode));
       } else {
@@ -245,94 +208,9 @@ class QrScanState extends State<QrScan> {
     } on FormatException {
       setState(() => this._barcode =
           'null, the user pressed the return button before scanning something)');
-      // showError(this._barcode, context);
     } catch (e) {
       setState(() => this._barcode = 'Unknown error: $e');
       showError(this._barcode, context);
     }
   }
 }
-
-// Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                     children: <Widget>[
-//                       Column(
-//                         children: <Widget>[
-//                           Padding(
-//                             padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
-//                             child: Text(
-//                               'Start',
-//                               style: TextStyle(
-//                                 color: Constants.mainColor,
-//                                 fontSize: 15,
-//                                 fontWeight: FontWeight.w800,
-//                                 fontFamily: 'Comfortaa',
-//                               ),
-//                             ),
-//                           ),
-//                           Text(
-//                             '0',
-//                             style: TextStyle(
-//                               color: Constants.mainColor,
-//                               fontSize: 20,
-//                               fontWeight: FontWeight.w800,
-//                               fontFamily: 'Comfortaa',
-//                             ),
-//                           ),
-//                           SizedBox(height: 30),
-//                         ],
-//                       ),
-//                       Column(
-//                         children: <Widget>[
-//                           Padding(
-//                             padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
-//                             child: Text(
-//                               'Scan',
-//                               style: TextStyle(
-//                                 color: Colors.blueGrey,
-//                                 fontSize: 15,
-//                                 fontWeight: FontWeight.w800,
-//                                 fontFamily: 'Comfortaa',
-//                               ),
-//                             ),
-//                           ),
-//                           Text(
-//                             '0',
-//                             style: TextStyle(
-//                               color: Constants.mainColor,
-//                               fontSize: 20,
-//                               fontWeight: FontWeight.w800,
-//                               fontFamily: 'Comfortaa',
-//                             ),
-//                           ),
-//                           SizedBox(height: 30),
-//                         ],
-//                       ),
-//                       Column(
-//                         children: <Widget>[
-//                           Padding(
-//                             padding: EdgeInsets.fromLTRB(30, 10, 30, 30),
-//                             child: Text(
-//                               'Finish',
-//                               style: TextStyle(
-//                                 color: Colors.blueGrey,
-//                                 fontSize: 15,
-//                                 fontWeight: FontWeight.w800,
-//                                 fontFamily: 'Comfortaa',
-//                               ),
-//                             ),
-//                           ),
-//                           Text(
-//                             '0',
-//                             style: TextStyle(
-//                               color: Constants.mainColor,
-//                               fontSize: 20,
-//                               fontWeight: FontWeight.w800,
-//                               fontFamily: 'Comfortaa',
-//                             ),
-//                           ),
-//                           SizedBox(height: 30),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
