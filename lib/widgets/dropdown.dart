@@ -1,5 +1,3 @@
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:flutter_app/models/income_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 

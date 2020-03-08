@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_app/theme/constants.dart' as Constants;
-// import '../theme/secrets.dart' as Secrets;
 import 'dart:async';
 import '../screens/login.dart';
 import '../config_reader.dart';

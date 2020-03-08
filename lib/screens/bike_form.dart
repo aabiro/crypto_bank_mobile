@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/bikes.dart';
-import 'package:flutter_app/screens/order_complete.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'package:flutter_app/widgets/dropdown.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 import './add_credit_card.dart';
 import 'package:numberpicker/numberpicker.dart';
-
 import 'activation_complete.dart';
 
 class BikeFormScreen extends StatefulWidget {

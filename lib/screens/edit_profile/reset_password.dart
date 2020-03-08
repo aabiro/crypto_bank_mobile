@@ -1,10 +1,5 @@
-import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/authentication.dart';
-import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:provider/provider.dart';
 
 

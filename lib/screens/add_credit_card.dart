@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
 import '../models/credit_card.dart';
 import '../models/credit_card_form.dart';
 

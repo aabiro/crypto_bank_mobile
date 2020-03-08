@@ -1,17 +1,12 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_app/providers/authentication.dart';
-import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/services/mailer.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/bikes.dart';
 import '../providers/authentication.dart';
-import 'add_credit_card.dart';
-import 'activation_complete.dart';
-import 'journey.dart';
 import 'bike_form.dart';
 
 class QrScan extends StatefulWidget {

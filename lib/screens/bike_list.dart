@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/providers/authentication.dart';
-import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/screens/bike_list_item.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/empty_list.dart';
-import 'package:http/src/response.dart';
-import '../helpers/bike_helper.dart';
-import 'bike_detail_view.dart';
 import 'qr_scan.dart';
 import '../providers/bikes.dart';
 import 'package:provider/provider.dart';

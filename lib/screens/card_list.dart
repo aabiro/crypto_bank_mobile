@@ -8,15 +8,12 @@ import 'package:flutter_app/providers/user_card.dart';
 import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/journey.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-// import '../theme/secrets.dart' as Secrets;
 import 'package:flutter/src/material/card.dart' as Card;
 import 'package:flutter_app/widgets/empty_list.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_app/widgets/generic_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-// import 'package:square_in_app_payments/in_app_payments.dart';
-// import 'package:square_in_app_payments/models.dart';
 import 'add_credit_card.dart';
 
 class CardScreen extends StatefulWidget {

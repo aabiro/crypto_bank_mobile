@@ -4,7 +4,6 @@ import 'package:flutter_app/screens/add_credit_card.dart';
 import 'package:flutter_app/screens/card_list.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:provider/provider.dart';
-
 import 'direct_deposit.dart';
 
 class WalletScreen extends StatefulWidget {

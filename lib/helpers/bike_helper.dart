@@ -3,10 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/screens/activation_complete.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'package:http/http.dart';
-
-//http requests for bike
-
 
 class BikeHelper {
 

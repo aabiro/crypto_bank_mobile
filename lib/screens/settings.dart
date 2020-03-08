@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/bike_list.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-
-import 'become_lender.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const routeName = '/settings';

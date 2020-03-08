@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/order.dart';
-import 'package:flutter_app/screens/order_complete.dart';
 import 'package:flutter_app/screens/review_order.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import './add_credit_card.dart';
-import 'package:numberpicker/numberpicker.dart';
 
 class OrderLocksScreen extends StatefulWidget {
   static const routeName = '/order';

@@ -9,8 +9,6 @@ import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/journey.dart';
 import 'package:flutter_app/providers/journeys.dart';
 import 'package:flutter_app/screens/card_list.dart';
-import 'package:flutter_app/screens/qr_scan.dart';
-import 'package:flutter_app/screens/wallet.dart';
 import 'package:flutter_app/widgets/generic_screen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

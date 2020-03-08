@@ -1,20 +1,13 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-// import 'package:charts_flutter/flutter.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/screens/edit_profile/reset_email.dart';
 import 'package:flutter_app/screens/edit_profile/reset_password.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'package:flutter_app/models/income_chart.dart';
-import 'package:flutter_app/widgets/bar_chart.dart';
-import 'package:flutter_app/widgets/detail_fields.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
-
 import 'edit_profile/edit_username.dart';
 
 class ProfileScreen extends StatefulWidget {

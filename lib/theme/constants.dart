@@ -1,8 +1,6 @@
 library constants;
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 

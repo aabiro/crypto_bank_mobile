@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/services/local_authentication_service.dart';
-import 'package:flutter_app/services/service_locator.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import '../helpers/user_helper.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'dart:convert';
 import '../providers/authentication.dart';
-import 'package:provider/provider.dart';
-
-import 'package:path/path.dart';
 
 // Create a Form widget.
 class RegisterScreen extends StatefulWidget {

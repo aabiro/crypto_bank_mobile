@@ -9,7 +9,6 @@ import 'package:flutter_app/widgets/generic_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import "package:collection/collection.dart";
-
 import 'direct_deposit.dart';
 
 class StatsScreen extends StatefulWidget {

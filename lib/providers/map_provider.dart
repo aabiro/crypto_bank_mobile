@@ -1,19 +1,11 @@
 import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/helpers/maps_helper.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:async';
-import '../models/exception_handler.dart';
-import 'user_card.dart';
 import 'dart:async';
 import 'dart:ui' as ui;
-import 'dart:typed_data';
 import 'dart:io';
-import 'package:flutter/material.dart';
 
 class MapHelp with ChangeNotifier {
 

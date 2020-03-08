@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/bikes.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'package:flutter/material.dart';
-import 'package:flutter_app/components/app_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import '../helpers/maps_helper.dart';
 import '../models/place.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-// import 'package:flutter/services.dart' show rootBundle;
 
 class SetMapAreaScreen extends StatefulWidget {
   static const routeName = '/map_area';
