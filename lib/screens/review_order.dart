@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/main.dart';
 import 'package:flutter_app/models/order.dart';
 import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/services/mailer.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:provider/provider.dart';
-
-import 'add_credit_card.dart';
 import 'card_list.dart';
-import 'order_locks.dart';
 
 class ReviewOrder extends StatelessWidget {
   Order order;

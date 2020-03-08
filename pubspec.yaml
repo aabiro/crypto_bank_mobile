@@ -95,6 +95,7 @@ flutter:
     # - gng_text.png
     - givngo_text.png
     - g.png
+    - ./config/
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

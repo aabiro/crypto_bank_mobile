@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/helpers/cards_helper.dart';
-import 'package:flutter_app/main.dart';
 import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/bikes.dart';
@@ -10,7 +8,7 @@ import 'package:flutter_app/providers/user_card.dart';
 import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/journey.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import '../theme/secrets.dart' as Secrets;
+// import '../theme/secrets.dart' as Secrets;
 import 'package:flutter/src/material/card.dart' as Card;
 import 'package:flutter_app/widgets/empty_list.dart';
 import 'package:auto_size_text/auto_size_text.dart';

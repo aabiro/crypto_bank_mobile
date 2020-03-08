@@ -1,13 +1,17 @@
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-import '../theme/secrets.dart' as Secrets;
+// import '../theme/secrets.dart' as Secrets;
+import '../config_reader.dart';
 
 class Mailer {
 
 static Future<void> mailer(String mailToAddress, String mailToUsername, String qrCode) async {
-  String mailFromName = Secrets.mailFromName;
-  String username = Secrets.username;
-  String password = Secrets.password;
+  String mailFromName = ConfigReader.getSecretKey("mailFromName");
+  String username = ConfigReader.getSecretKey("username");
+  String password = ConfigReader.getSecretKey("password");
+  // String mailFromName = Secrets.mailFromName;
+  // String username = Secrets.username;
+  // String password = Secrets.password;
 
   //need to allow less secure apps on gmail to receive...
 

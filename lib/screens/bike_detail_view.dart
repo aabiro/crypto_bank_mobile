@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/main.dart';
 import 'package:flutter_app/screens/set_map_area.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/detail_fields.dart';
-import 'package:flutter_app/widgets/pie_chart.dart';
 import 'package:provider/provider.dart';
 import '../providers/bikes.dart';
 import '../providers/bike.dart';
-
 import 'alert_screen.dart';
 import 'bike_list.dart';
 import 'edit_bike.dart';

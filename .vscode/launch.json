@@ -11,3 +11,21 @@
         }
     ]
 }
+
+// {
+//     "version": "0.2.0",
+//     "configurations": [
+//       {
+//         "name": "Flutter Dev",
+//         "type": "dart",
+//         "request": "launch",
+//         "program": "lib/main_dev.dart"
+//       },
+//       {
+//         "name": "Flutter Test",
+//         "type": "dart",
+//         "request": "launch",
+//         "program": "lib/main_test.dart"
+//       }
+//     ]
+//   }

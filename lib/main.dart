@@ -5,7 +5,6 @@ import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/alert_screen.dart';
 import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/screens/bike_list.dart';
-import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/screens/card_list.dart';
 import 'package:flutter_app/screens/direct_deposit.dart';
 import 'package:flutter_app/screens/edit_bike.dart';
@@ -18,13 +17,8 @@ import 'package:flutter_app/screens/profile.dart';
 import 'package:flutter_app/screens/extra_screens/register_steps.dart';
 import 'package:flutter_app/screens/qr_scan.dart';
 import 'package:flutter_app/screens/register.dart';
-import 'package:flutter_app/screens/review_order.dart';
 import 'package:flutter_app/services/service_locator.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'package:flutter_app/screens/extra_screens/register_info.dart';
-import 'package:flutter_app/screens/extra_screens/register_address.dart';
-import 'package:flutter_app/screens/extra_screens/choose_upload.dart';
-import 'package:flutter_app/screens/extra_screens/photo_id.dart';
 import 'package:flutter_app/screens/settings.dart';
 import './screens/login.dart';
 import './screens/home.dart';
@@ -35,7 +29,6 @@ import './screens/become_lender.dart';
 import './screens/journey.dart';
 import './screens/wallet.dart';
 import './screens/bike_list.dart';
-import './screens/bike_detail_view.dart';
 import './screens/order_locks.dart';
 import './screens/add_credit_card.dart';
 import './screens/set_map_area.dart';
@@ -43,14 +36,12 @@ import './screens/order_complete.dart';
 import './screens/qr_scan.dart';
 import './screens/edit_bike.dart';
 import './screens/activation_complete.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:provider/provider.dart';
 import './providers/bikes.dart';
 import './providers/authentication.dart';
-// import './models/bike.dart';
+import './config_reader.dart';
 
 List<CameraDescription> cameras;
 
@@ -59,6 +50,7 @@ Future<Null> main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
+  await ConfigReader.initialize();
   cameras = await availableCameras();
   runApp(MyApp());
 }
@@ -167,7 +159,6 @@ class MyApp extends StatelessWidget {
             // ReviewOrder.routeName: (context) => ReviewOrder(''),
             OrderLocksScreen.routeName: (context) => OrderLocksScreen(),
             OrderCompleteScreen.routeName: (context) => OrderCompleteScreen()
-
             // CameraScreen.routeName: (context) => CameraScreen(cameras)
           },
         ),
@@ -263,81 +254,3 @@ class HomeScreenState extends State<HomeScreen> {
     ));
   }
 }
-
-class User {
-  User({this.id, this.username});
-  final int id;
-  String username;
-}
-
-/////////////////////Return objects////////////////////
-
-// class MyAppState extends State<MyApp> {
-//   static const _heroesUrl = 'http://10.0.2.2:8888/reads';
-
-//   Future<List<Hero>> getAll() async {
-//     final response = await http.get(_heroesUrl);
-//     print(response.body);
-//     List responseJson = json.decode(response.body.toString());
-//     List<Hero> userList = createHeroesList(responseJson);
-//     return userList;
-//   }
-
-//   List<Hero> createHeroesList(List data) {
-//     List<Hero> list = new List();
-
-//     for (int i = 0; i < data.length; i++) {
-//       String author = data[i]["author"];
-//       int id = data[i]["id"];
-//       Hero hero = new Hero(author: author, id: id);
-//       list.add(hero);
-//     }
-
-//     return list;
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(
-//           title: Text("List from Database"),
-//         ),
-//         body: new Container(
-//           child: new FutureBuilder<List<Hero>>(
-//             future: getAll(),
-//             builder: (context, snapshot) {
-
-//               if (snapshot.hasData) {
-//                 return new ListView.builder(
-//                   itemCount: snapshot.data.length,
-//                   itemBuilder: (context, index) {
-//                     return new Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         new Text(snapshot.data[index].author,
-//                           style: new TextStyle(fontWeight: FontWeight.bold)),
-//                         new Divider()
-//                       ]
-//                     );
-//                   }
-//                 );
-//               } else if (snapshot.hasError) {
-//                 return new Text("${snapshot.error}");
-//               }
-
-//               // By default, show a loading spinner
-//               return new CircularProgressIndicator();
-//             },
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class Hero {
-//   Hero({this.id, this.author});
-//   final int id;
-//   String author;
-// }

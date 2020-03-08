@@ -4,7 +4,7 @@ import 'package:flutter_app/providers/user_card.dart';
 import 'package:flutter_app/screens/activation_complete.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import '../theme/secrets.dart' as Secrets;
+// import '../theme/secrets.dart' as Secrets;
 import 'package:http/http.dart';
 import 'package:encrypt/encrypt.dart' as Encrypter;
 

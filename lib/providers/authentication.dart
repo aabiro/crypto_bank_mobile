@@ -6,14 +6,16 @@ import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import '../theme/secrets.dart' as Secrets;
+// import '../theme/secrets.dart' as Secrets;
 import 'dart:async';
 import '../screens/login.dart';
+import '../config_reader.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
 class Authentication with ChangeNotifier {
-  static String fireBaseApi = Secrets.fbAPI;
+  static String fireBaseApi = ConfigReader.getSecretKey("fbAPI");
+  // static String fireBaseApi = Secrets.fbAPI;
   // final GoogleSignIn _googleSignIn = GoogleSignIn();
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   String loginUrl =
@@ -263,7 +265,8 @@ class Authentication with ChangeNotifier {
 
         var facebookAccessToken = facebookLoginResult.accessToken.token;
         var providerId = 'facebook.com';
-        var requestUri = Secrets.requestUri;
+        var requestUri = ConfigReader.getSecretKey("requestUri");
+        // var requestUri = Secrets.requestUri;
         final firebaseOAuthUrl =
             "https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=$fireBaseApi";
         

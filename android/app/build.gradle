@@ -52,23 +52,31 @@ android {
     }
 
     buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-        }
-
         release {
-            minifyEnabled false
-            debuggable false
-            signingConfig signingConfigs.debug
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
             firebaseAppDistribution {
                 // appId= "1:645259548314:android:27c11dccde414da30ff123"
-                serviceCredentialsFile= rootProject.file('capstone-1576432202313-90ed88b3184c.json')
+                serviceCredentialsFile= "$APP_DIST_JSON"//rootProject.file('capstone-addb0-2ae26ea31e0f.json')
                 releaseNotesFile= rootProject.file("release-notes.txt")
                 testers="aaryn.alexander@gmail.com"
             }
         }
+        // debug {
+        //     signingConfig signingConfigs.debug
+        // }
+
+        // release {
+        //     minifyEnabled false
+        //     debuggable false
+        //     signingConfig signingConfigs.debug
+        //     proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        //     firebaseAppDistribution {
+        //         // appId= "1:645259548314:android:27c11dccde414da30ff123"
+        //         serviceCredentialsFile= rootProject.file('capstone-addb0-2ae26ea31e0f.json')
+        //         releaseNotesFile= rootProject.file("release-notes.txt")
+        //         testers="aaryn.alexander@gmail.com"
+        //     }
+        // }
     }
 
     // buildTypes {
