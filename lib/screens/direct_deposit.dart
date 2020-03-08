@@ -58,15 +58,11 @@ class _DirectDepositState extends State<DirectDeposit> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final auth = Provider.of<Authentication>(context);
     final bankField = buildInputField(bankController, "Institution Number", "");
     final transitField =
         buildInputField(transitController, "Transit Number", "");
     final accountField =
         buildInputField(accountController, "Account Number", "");
-    String bank = bankController.text;
-    String transit = transitController.text;
-    String account = accountController.text;
 
     return Scaffold(
       body: SingleChildScrollView(

@@ -21,15 +21,13 @@ class QrScan extends StatefulWidget {
 }
 
 class QrScanState extends State<QrScan> {
-  // bool activation;
-  // QrScanState(this.activation);
-
+  final activationCodeController = TextEditingController();
   String _barcode = "";
+
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Authentication>(context);
-    final activationCodeController = TextEditingController();
-    // String activationCode = activationCodeController.text; //fix inputs
+    final auth = Provider.of<Authentication>(context);  
+    // String activationCode = activationCodeController.text.toString().trim(); //TODO with QRCode
     String activationCode = "QR001";
 
     return Scaffold(
@@ -41,94 +39,96 @@ class QrScanState extends State<QrScan> {
           style: TextStyle(),
         ),
       ),
-      body: Builder(
-        builder: (BuildContext context) {
-          return Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 20, 30, 30),
-                  child: Text(
-                      "Enter the activation code sent in your email confirmation.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.blueGrey,
-                          fontSize: 20)),
-                ),
-                SizedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-                    child: TextFormField(
-                      controller: activationCodeController,
-                      decoration: new InputDecoration(
-                        labelText: "Enter Activation Code",
-                        fillColor: Colors.white,
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(30.0),
-                          borderSide: new BorderSide(),
+      body: SingleChildScrollView(
+          child: Builder(
+          builder: (BuildContext context) {
+            return Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 20, 30, 30),
+                    child: Text(
+                        "Enter the activation code sent in your email confirmation.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            color: Colors.blueGrey,
+                            fontSize: 20)),
+                  ),
+                  SizedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                      child: TextFormField(
+                        controller: activationCodeController,
+                        decoration: new InputDecoration(
+                          labelText: "Enter Activation Code",
+                          fillColor: Colors.white,
+                          border: new OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(30.0),
+                            borderSide: new BorderSide(),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.all(0),
-                  onPressed: () {
-                    Mailer.mailer(auth.email, auth.displayName, 'QR001');
-                  },
-                  child: Text("Resend code",
-                      style: TextStyle(
-                        color: Colors.blueGrey,
-                        fontFamily: 'OpenSans',
-                      ),
-                      textAlign: TextAlign.center),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                  child: Text(
-                      "Next scan the QR code on the Givngo bicycle lock.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.blueGrey,
-                          fontSize: 20)),
-                ),
-                Image.asset(
-                  'assets/qr_bike.png',
-                  height: 130,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 80, vertical: 10.0),
-                  child: RaisedButton(
-                    elevation: 0.5,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.0)),
-                    color: Constants.mainColor,
-                    textColor: Colors.white,
-                    splashColor: Colors.blueGrey,
+                  MaterialButton(
+                    minWidth: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.all(0),
                     onPressed: () {
-                      // bypass(activationCode, context);
-                      scan(activationCode, context);
+                      Mailer.mailer(auth.email, auth.displayName, 'QR001');
                     },
-                    child: const Text(
-                      'Scan the QR code',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 15),
+                    child: Text("Resend code",
+                        style: TextStyle(
+                          color: Colors.blueGrey,
+                          fontFamily: 'OpenSans',
+                        ),
+                        textAlign: TextAlign.center),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    child: Text(
+                        "Next scan the QR code on the Givngo bicycle lock.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            color: Colors.blueGrey,
+                            fontSize: 20)),
+                  ),
+                  Image.asset(
+                    'assets/qr_bike.png',
+                    height: 130,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 80, vertical: 10.0),
+                    child: RaisedButton(
+                      elevation: 0.5,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7.0)),
+                      color: Constants.mainColor,
+                      textColor: Colors.white,
+                      splashColor: Colors.blueGrey,
+                      onPressed: () {
+                        // bypass(activationCode, context);
+                        scan(activationCode, context);
+                      },
+                      child: const Text(
+                        'Scan the QR code',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 15),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-              ],
-            ),
-          );
-        },
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -170,7 +170,6 @@ class QrScanState extends State<QrScan> {
             ));
   }
 
-  //bike activation works
   Future scan(String activationCode, BuildContext _context) async {
     try {
       // String barcode = 'QR001'; //have a few diff to show

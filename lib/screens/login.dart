@@ -52,7 +52,6 @@ class MyCustomFormState extends State<LoginScreen> {
               expandedHeight: 140.0,
               elevation: 5,
               snap: true,
-              // stretch: true,
               floating: true,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
@@ -151,8 +150,6 @@ class MyCustomFormState extends State<LoginScreen> {
                                       borderRadius: BorderRadius.circular(30.0),
                                       color: Constants.accentColor,
                                       child: MaterialButton(
-                                        // minWidth: MediaQuery.of(context).size.width / 1.6,
-                                        // padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
                                         onPressed: _localAuth.authenticate,
                                         child: Text(
                                           "Use Face/Touch ID",

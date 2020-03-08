@@ -17,10 +17,8 @@ class _EditBikeState extends State<EditBike> {
   final conditionController = TextEditingController();
   String dropdownValue = "None";
   
-  
-
   buildInputField(
-      TextEditingController controller, String hintText, String initialValue) {
+    TextEditingController controller, String hintText, String initialValue) {
     return Padding(
       padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
       child: TextFormField(

@@ -65,13 +65,8 @@ class MyApp extends StatelessWidget {
           value: Authentication(),
         ),
         ChangeNotifierProxyProvider<Authentication, Bikes>(
-          // fix other providers to use token also
-          create: (_) => Bikes( //this is the issueeeeee!!
-            // auth.accessToken, 
-            // auth.userId,
-            // prevBikes.items
+          create: (_) => Bikes(
           ),
-          // update: (_, auth, prevBikes) => Bikes(auth.accessToken, prevBikes == null ? [] : prevBikes.items),
           update: (_, auth, prevBikes) => Bikes(
             auth.accessToken, 
             auth.userId,
@@ -81,7 +76,6 @@ class MyApp extends StatelessWidget {
           //send in user information for endpoints access
           ChangeNotifierProxyProvider<Authentication, UserCards>(
           create: (_) => UserCards( 
-            //this is the issueeeeee??
             ),
           update: (_, auth, prevCards) => UserCards(
             auth.accessToken, 
@@ -91,7 +85,6 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProxyProvider<Authentication, Journeys>(
           create: (_) => Journeys( 
-            //this is the issueeeeee??
             ),
           update: (_, auth, prevJourneys) => Journeys(
             auth.accessToken, 
@@ -102,10 +95,7 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<Authentication>(
         builder: (context, auth, _) => MaterialApp(
-          // title: '1er',
-          //The app theme
           theme: ThemeData(
-            // primarySwatch: Colors.indigo,
             accentColor: Constants.accentColor,
             fontFamily: 'Comfortaa',
             textTheme: ThemeData.light().textTheme.copyWith(
@@ -113,7 +103,6 @@ class MyApp extends StatelessWidget {
                     fontFamily: 'OpenSans',
                     fontWeight: FontWeight.bold,
                     fontSize: 18)),
-            //appBar theme
             appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
                     title: TextStyle(
@@ -130,8 +119,7 @@ class MyApp extends StatelessWidget {
             '/register': (context) => RegisterScreen(),
             '/register/steps': (context) => UserStepsScreen(),
             '/home': (context) => MapScreen(),
-            '/camera': (context) => CameraScreen(cameras),
-            // 'bike_list': (context) => BikeList(),
+            // '/camera': (context) => CameraScreen(cameras),
             LoginScreen.routeName: (context) => LoginScreen(),
             MapScreen.routeName: (context) => MapScreen(),
             SettingsScreen.routeName: (context) => SettingsScreen(),
@@ -146,7 +134,6 @@ class MyApp extends StatelessWidget {
             ActivationCompleteScreen.routeName: (context) =>
                 ActivationCompleteScreen(),
             CardScreen.routeName: (context) => CardScreen(),
-            // BikeDetailScreen.routeName: (context) => BikeDetailScreen(),
             BikeFormScreen.routeName: (context) => BikeFormScreen(''),
             EditBike.routeName: (context) => EditBike(''),
             EditUserName.routeName: (context) => EditUserName(),
@@ -154,9 +141,7 @@ class MyApp extends StatelessWidget {
             EditEmail.routeName: (context) => EditEmail(),
             DirectDeposit.routeName: (context) => DirectDeposit(),
             AlertScreen.routeName: (context) => AlertScreen(),
-            // FlutterBarcodeScanner.routeName: (context) => FlutterBarcodeScanner(),
             QrScan.routeName: (context) => QrScan(),
-            // ReviewOrder.routeName: (context) => ReviewOrder(''),
             OrderLocksScreen.routeName: (context) => OrderLocksScreen(),
             OrderCompleteScreen.routeName: (context) => OrderCompleteScreen()
             // CameraScreen.routeName: (context) => CameraScreen(cameras)

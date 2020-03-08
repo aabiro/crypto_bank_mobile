@@ -5,11 +5,7 @@ import 'package:flutter_app/theme/constants.dart' as Constants;
 
 class OrderLocksScreen extends StatefulWidget {
   static const routeName = '/order';
-  String planType; //how to use in state
-  // var planArray = [];
-  //company plan selector 30-?
-  //ind plan 1 - 29
-
+  String planType;
   OrderLocksScreen([this.planType]);
 
   @override
@@ -17,12 +13,18 @@ class OrderLocksScreen extends StatefulWidget {
 }
 
 class _OrderLocksScreenState extends State<OrderLocksScreen> {
+  final nameController = TextEditingController();
+  final streetController = TextEditingController();
+  final cityController = TextEditingController();
+  final countryController = TextEditingController();
+  final zipController = TextEditingController();
+  var dropdownValue = "1";
+
   List getPlanArray(String planType) {
     return widget.planType == 'Individual Plan'
         ? Constants.indPlanArray
         : Constants.compPlanArray;
   }
-  
 
   buildInputField(TextEditingController controller, String hintText) {
     return Padding(
@@ -48,49 +50,8 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final list = getPlanArray(widget.planType);
-    var dropdownValue = list.first;
-    final mediaQuery = MediaQuery.of(context);
-    final nameController = TextEditingController();
-    final streetController = TextEditingController();
-    final cityController = TextEditingController();
-    final countryController = TextEditingController();
-    final zipController = TextEditingController();
-    // var _currentValue;
-    // widget.planType == 'Individual Plan' ? _currentValue = 1 : _currentValue = 30;
-    
-    // var quantity = 1; //take from input of dropdown
-    // var lockPrice = 5.99;
-    // // this.planType == 'Individual Plan' ? lockPrice = 19.99 : lockPrice = 5.99;
-    // widget.planType == 'Individual Plan' ? lockPrice = 19.99 : lockPrice = 5.99;
-    // var locksTotal = quantity * lockPrice;
-    // var shipping = 2.33;
-    // var total = (locksTotal + shipping).toStringAsFixed(2);
-
-    // void next(int )
-
-    // void _showDialog() {
-    //   showDialog<int>(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return new NumberPickerDialog.integer(
-    //         minValue: 1,
-    //         maxValue: 10,
-    //         title: new Text("Pick a new price"),
-    //         initialIntegerValue: _currentValue,
-    //       );
-    //     }
-    //   ).then((int value)) {
-    //     if (value != null) {
-    //       setState(() => _currentPrice = value);
-    //     }
-    //   }
-    //   );
-    // }
-
     return Scaffold(
       body: SingleChildScrollView(
-        //add to Scroll whole screen
         child: Column(
           children: <Widget>[
             new AppBar(
@@ -98,7 +59,6 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
               backgroundColor: Color(0xff673AB7),
               title: new Text(
                 'Order Locks',
-                // planType,
                 style: TextStyle(),
               ),
             ),
@@ -116,18 +76,15 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
               ),
             ),
             SizedBox(
-              // height: 200,
               width: double.infinity,
               child: Padding(
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-
                   children: <Widget>[
                     Card(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.all(20),
@@ -142,26 +99,11 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
                               textAlign: TextAlign.left,
                             ),
                           ),
-                          //       NumberPicker.integer(
-                          // initialValue: _currentValue,
-                          // minValue: 1,
-                          // maxValue: 50,
-                          // onChanged: (newValue) =>
-                          //     setState(() => _currentValue = newValue)),
-                          //     SizedBox(height: 20,),
-                          //     Text("Current number: $_currentValue"),
-                          // Text(
-                          //   'Picker here : 2',
-                          //   style: TextStyle(
-                          //     color: Constants.mainColor,
-                          //     fontSize: 20,
-                          //     fontWeight: FontWeight.w800,
-                          //     fontFamily: 'Comfortaa',
-                          //   ),
-                          // ),
                           DropdownButton<String>(
                             hint: Text(
-                              dropdownValue.toString() == null ? "" : dropdownValue.toString(),
+                              dropdownValue.toString() == null
+                                  ? ""
+                                  : dropdownValue.toString(),
                               style: TextStyle(
                                   color: Colors.blueGrey,
                                   fontFamily: 'OpenSans',
@@ -227,37 +169,36 @@ class _OrderLocksScreenState extends State<OrderLocksScreen> {
             buildInputField(zipController, 'Zip Code'),
             SizedBox(height: 15.0),
             SizedBox(
-                // width: mediaQuery.size.width * 0.5,
-                // height: mediaQuery.size.height * 0.,
+                child: Padding(
+              padding: EdgeInsets.all(20),
+              child: RaisedButton(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7.0)),
+                textColor: Colors.white,
+                color: Constants.accentColor,
                 child: Padding(
                   padding: EdgeInsets.all(20),
-                                  child: RaisedButton(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7.0)),
-              textColor: Colors.white,
-              color: Constants.accentColor,
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                              child: Text('Review your order',
+                  child: Text('Review your order',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: 'OpenSans',
                           fontWeight: FontWeight.bold,
                           fontSize: 18)),
+                ),
+                onPressed: () {
+                  final order = Order(
+                      quantity: int.parse(dropdownValue),
+                      planType: widget.planType);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReviewOrder(order),
+                    ),
+                  );
+                },
               ),
-              onPressed: () {
-              final order = Order(quantity: int.parse(dropdownValue), planType: widget.planType);
-                  // Navigator.of(context).pushNamed(ReviewOrder.routeName);
-                            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ReviewOrder(order),
-              )
-          );
-              },
-            ),
-                )),
+            )),
             SizedBox(height: 20),
           ],
         ),

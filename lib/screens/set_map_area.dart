@@ -57,8 +57,6 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
       target: LatLng(43.65, -79.38), //toronto
       // target: LatLng(43.0095971,-81.2759223), //london
       zoom: 13,
-      // bearing: 45.0,
-      // tilt: 45.0
     );
     mc.animateCamera(CameraUpdate.newCameraPosition(userUocation));
   }
@@ -101,29 +99,23 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                       },
                       myLocationButtonEnabled: false,
                       mapToolbarEnabled: false,
-                      // initialCameraPosition: widget.initalLocation,
                       initialCameraPosition: CameraPosition(
                           target: LatLng(widget.initalLocation.lat,
                               widget.initalLocation.lng),
                           zoom: 8),
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                     child: SizedBox(
-                      // width: mediaQuery.size.width * 0.8,
-                                        child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.stretch,
+                      child: Column(
                         children: <Widget>[
-                          
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Align(
                                 alignment: Alignment.topCenter,
                                 child: SizedBox(
-                                  // height: 20,
                                   child: AutoSizeText(
                                     'Center on the map the area you \nwould like to service.\nHighlight with a circle or polygon.',
                                     textAlign: TextAlign.center,
@@ -139,91 +131,83 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-
-             
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: DropdownButton<String>(
-                            hint: Text(
-                              'Find My Ride',
-                              style: TextStyle(
-                                  color: Colors.grey[410],
-                                  fontFamily: 'OpenSans',
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 15),
-                            ),
-                            value: dropdownValue,
-                            icon: Icon(Icons.location_on,
-                                color: Constants.optionalColor),
-                            iconSize: 24,
-                            elevation: 16,
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontFamily: 'OpenSans',
-                                fontWeight: FontWeight.w800,
-                                fontSize: 18),
-                            underline: Container(
-                              height: 2,
-                              color: Constants.optionalColor,
-                            ),
-                            onChanged: (String newValue) {
-                              setState(() {
-                                dropdownValue = newValue;
-                              });
-                              Bike bike = bikesProv.findByName(newValue);
-                              MapsHelper.moveToBikeLocation(mc, bike.lat, bike.lng);
-                            },
-
-                            // items: <String>['Bike 1', 'Bike 2', 'Bmx', 'Mntn B']
-                            items:
-                                array.map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: DropdownButton<String>(
+                                    hint: Text(
+                                      'Find My Ride',
+                                      style: TextStyle(
+                                          color: Colors.grey[410],
+                                          fontFamily: 'OpenSans',
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 15),
+                                    ),
+                                    value: dropdownValue,
+                                    icon: Icon(Icons.location_on,
+                                        color: Constants.optionalColor),
+                                    iconSize: 24,
+                                    elevation: 16,
+                                    style: TextStyle(
+                                        color: Colors.blueGrey,
+                                        fontFamily: 'OpenSans',
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 18),
+                                    underline: Container(
+                                      height: 2,
+                                      color: Constants.optionalColor,
+                                    ),
+                                    onChanged: (String newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue;
+                                      });
+                                      Bike bike =
+                                          bikesProv.findByName(newValue);
+                                      MapsHelper.moveToBikeLocation(
+                                          mc, bike.lat, bike.lng);
+                                    },
+                                    items: array.map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ),
                             ],
                           )
                         ],
                       ),
                     ),
                   ),
-     Align(
-            alignment: Alignment.bottomRight,
-            child: SizedBox(
-              width: mediaQuery.size.width * 0.2,
-              height: mediaQuery.size.height * 0.12,
-              child: IconButton(
-                  //my location ocation searching gps fixed gps not fixed error error outline
-                  icon: Icon(
-                    Icons.gps_fixed,
-                    size: 30,
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: SizedBox(
+                      width: mediaQuery.size.width * 0.2,
+                      height: mediaQuery.size.height * 0.12,
+                      child: IconButton(
+                          icon: Icon(
+                            Icons.gps_fixed,
+                            size: 30,
+                          ),
+                          color: Constants.accentColor,
+                          onPressed: () {
+                            moveToUserLocation();
+                          }),
+                    ),
                   ),
-                  color: Constants.accentColor,
-                  // tooltip: 'Increase volume by 10',
-                  onPressed: (){
-                    moveToUserLocation();
-                  }),
-            ),
-          ),
-
-
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: RaisedButton(
                         color: Colors.white,
-                        // minWidth: MediaQuery.of(context).size.width,
                         padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                         onPressed: () {
                           Navigator.of(context).pop();
-                          // Navigator.pushNamed(context, '/delete');
                         },
                         child: Text(
                           "Done",
@@ -236,8 +220,6 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                       ),
                     ),
                   ),
-
-                  //aligns of buttons here
                 ],
               ),
             ),
@@ -245,54 +227,45 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
           Padding(
             padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
                     Column(
                       children: <Widget>[
                         Text(
-                      'Area Radius:',
-                      // textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 18),
-                    ),
+                          'Area Radius:',
+                          style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 18),
+                        ),
                       ],
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                      radius.toString(),
-                      style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 18),
-                    ),
-                                        Column(
-                        children: <Widget>[
+                    Row(children: <Widget>[
                       Text(
-                        ' km',
+                        radius.toString(),
                         style: TextStyle(
                             color: Colors.blueGrey,
                             fontWeight: FontWeight.w800,
                             fontSize: 18),
                       ),
-                      ],
-                    ),
-                      ]
-                    ), 
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            ' km',
+                            style: TextStyle(
+                                color: Colors.blueGrey,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ]),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     SliderTheme(
                       data: SliderTheme.of(context).copyWith(
@@ -323,10 +296,8 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     OutlineButton(
-                      // minWidth: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                       onPressed: () {
                         // Navigator.pushNamed(context, '/delete');

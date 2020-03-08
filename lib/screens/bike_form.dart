@@ -6,13 +6,11 @@ import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
-import './add_credit_card.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'activation_complete.dart';
 
 class BikeFormScreen extends StatefulWidget {
   static const routeName = '/bike_form';
-  String qrCode;
+  final qrCode;
   BikeFormScreen(this.qrCode);
 
   @override
@@ -20,12 +18,8 @@ class BikeFormScreen extends StatefulWidget {
 }
 
 class _BikeFormScreenState extends State<BikeFormScreen> {
-  // Random rnd;
-  // static int min = 0;
-  // static int max = Constants.torontoLocations.length;
-  // static Random rnd = new Random();
-  // static int randIndex = min + rnd.nextInt(max - min);
-  // LatLng latlng = Constants.torontoLocations[randIndex];
+  final nameController = TextEditingController();
+  String dropdownValue = "None";
 
   buildInputField(TextEditingController controller, String hintText) {
     return Padding(
@@ -52,10 +46,8 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final nameController = TextEditingController();
-    final conditionController = TextEditingController();
-    final typeController = TextEditingController();
-    String name = nameController.text;
+    final list = Constants.bikeTypes;
+    String name = nameController.text.toString().trim();
 
     int min = 0;
     int max = Constants.torontoLocations.length;
@@ -63,19 +55,12 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
     int randIndex = min + rnd.nextInt(max - min);
     LatLng latlng = Constants.torontoLocations[randIndex];
     print(latlng);
-    // String password = myPasswordController.text;
-    // final countryController = TextEditingController();
-    // final zipController = TextEditingController();
 
     final BikeFormScreen args = ModalRoute.of(context).settings.arguments;
     final qrCode = args.qrCode;
 
-    final list = Constants.bikeTypes;
-    var dropdownValue = list.first;
-
     return Scaffold(
       body: SingleChildScrollView(
-        //add to Scroll whole screen
         child: Column(children: <Widget>[
           new AppBar(
             centerTitle: true,
@@ -88,7 +73,6 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
           SizedBox(height: 15.0),
           buildInputField(nameController, 'Name of Bike'),
           SizedBox(height: 15.0),
-          // buildInputField(typeController, 'Type'),
           Padding(
               padding: EdgeInsets.fromLTRB(30, 10, 0, 0),
               child: Align(
@@ -109,7 +93,6 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: DropdownButton<String>(
-                      // isExpanded = true,
                       isExpanded: true,
                       hint: Text(
                         'Type',
@@ -149,14 +132,7 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
                 ),
 
                 ),
-          // BuildDropdown(dropdownValue, list),
-          SizedBox(height: 15.0),
-          // buildInputField(conditionController, 'Condition'),
-          SizedBox(height: 15.0),
-          // buildInputField(countryController, 'Country'),
-          // SizedBox(height: 15.0),
-          // buildInputField(zipController, 'Zip Code'),
-          // SizedBox(height: 15.0),
+          SizedBox(height: 30.0),
           Material(
             elevation: 5.0,
             borderRadius: BorderRadius.circular(7.0),
@@ -175,8 +151,6 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
                       lat: latlng.latitude,
                       lng: latlng.longitude),
                 );
-                // Provider.of<Authentication>(context).userId,
-                // Provider.of<Authentication>(context).accessToken);
                 Navigator.of(context)
                     .popAndPushNamed(ActivationCompleteScreen.routeName);
               },
@@ -184,15 +158,9 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
                 "Next",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    // fontSize: 40,
                     color: Colors.white,
                     fontWeight: FontWeight.w900),
               ),
-              // color: Color(),
-              // style: style.copyWith(
-              // //     color: Colors.white,
-              // fontWeight: FontWeight.bold)
-              // ),
             ),
           ),
         ]),

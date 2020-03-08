@@ -26,8 +26,7 @@ class ActivationCompleteScreen extends StatelessWidget {
         ],
       ),
       body: Column(
-        children: <Widget>[
-        
+        children: <Widget>[      
           Padding(
             padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
             child: Text(
@@ -50,17 +49,6 @@ class ActivationCompleteScreen extends StatelessWidget {
                     color: Colors.blueGrey,
                     fontSize: 15)),
           ),
-          // Padding(
-          // padding: EdgeInsets.all(5),
-          //   child: SizedBox(
-          //       width: double.infinity,
-          //       height: mediaQuery.size.height * 0.4,
-          //       child: Image.asset(
-          //           "assets/gnglogo.png",
-          //           fit: BoxFit.contain,
-          //         ),
-          //   )
-          // ),
           Padding(
             padding: EdgeInsets.all(20),
             child: SizedBox(
@@ -70,7 +58,6 @@ class ActivationCompleteScreen extends StatelessWidget {
                 elevation: 0.5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(7.0)),
-                // icon: Icon(Icons.attach_money),
                 textColor: Colors.white,
                 color: Constants.accentColor,
                 child: const Text(
@@ -82,8 +69,6 @@ class ActivationCompleteScreen extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.popAndPushNamed(context, BikeList.routeName);
-                  // Navigator.of(context).pushNamedAndRemoveUntil(
-                  //     '/bike_list', (Route<dynamic> route) => false);
                 },
               ),
             ),

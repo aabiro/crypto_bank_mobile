@@ -19,8 +19,7 @@ class OrderCompleteScreen extends StatelessWidget {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/home');
-                // Navigator.of(context).pushReplacement(MapScreen.routeName);
+                Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
               })
         ],
       ),
@@ -56,7 +55,6 @@ class OrderCompleteScreen extends StatelessWidget {
                   elevation: 0.5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(7.0)),
-                  // icon: Icon(Icons.attach_money),
                   textColor: Colors.white,
                   color: Constants.accentColor,
                   child: const Text('Ok',
@@ -65,8 +63,7 @@ class OrderCompleteScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 18)),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/home');
-                    // Navigator.pushNamed(context, '/camera');
+                    Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
                   },
                 )),
           )
