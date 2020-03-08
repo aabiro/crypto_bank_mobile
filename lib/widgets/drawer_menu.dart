@@ -42,20 +42,17 @@ class MenuDrawer extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.centerLeft,
-                // color: Color(0xff98c1d9),
                 color: Constants.mainColor,
                 child: Text('',
-                    // 'Menu',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
-                    )
-                    //Theme.of(context).primaryColor),
+                    ),
                     ),
               ),
               SizedBox(
-                height: 45,
+                height: mediaQuery.size.height * 0.13,
               ),
               buildListTile('Profile', Icons.account_box, () {
                 Navigator.of(context).popAndPushNamed(ProfileScreen.routeName);
@@ -86,19 +83,15 @@ class MenuDrawer extends StatelessWidget {
                       color: Colors.blueGrey),
                 ),
                 onTap: () {
-                  // UserHelper.logout(context);
                   Navigator.of(context).pop();
                   Provider.of<Authentication>(context).logout(context);
                 },
               ),
-              // buildListTile('Route for Trip', Icons.explore, () {
-              //   Navigator.of(context).popAndPushNamed(JourneyScreen.routeName);
-              // }),
             ],
           ),
         ),
         UserCardDrawer(),
-          ],
+        ],
       ),
     );
   }

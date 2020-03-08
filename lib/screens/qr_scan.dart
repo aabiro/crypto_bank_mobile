@@ -1,5 +1,6 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_app/providers/authentication.dart';
+import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/services/mailer.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;

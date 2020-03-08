@@ -133,11 +133,6 @@ class _CardScreenState extends State<CardScreen> {
                           ),
                         ),
                       ),
-                      // SizedBox(
-                      //   height: mediaQuery.size.height * 0.5,
-                      //   child: Padding(
-                      //     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      //     child:
                       Column(
                         children: <Widget>[
                           SizedBox(
@@ -146,9 +141,6 @@ class _CardScreenState extends State<CardScreen> {
                               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                               child: Container(
                                 child: ListView(
-                                  // physics: NeverScrollableScrollPhysics(),
-                                  // shrinkWrap: true,
-                                  // scrollDirection: Axis.vertical,
                                   children: cards != null && cards.length > 0
                                       ? cards?.map(
                                           (c) {
@@ -161,7 +153,6 @@ class _CardScreenState extends State<CardScreen> {
                                                     .width,
                                                 child: SizedBox(
                                                   child: Dismissible(
-                                                    // crossAxisEndOffset: 180.0,
                                                     dismissThresholds: {
                                                       DismissDirection
                                                           .endToStart: 0.1
@@ -203,11 +194,6 @@ class _CardScreenState extends State<CardScreen> {
                                                         },
                                                       );
                                                     },
-                                                    // confirmDismiss:
-                                                    //     (DismissDirection direction) async {
-                                                    //   // print('confirming dismiss ..');
-                                                    //   return await _showDialog();
-                                                    // },
                                                     key: ValueKey(c.id),
                                                     direction: DismissDirection
                                                         .endToStart,

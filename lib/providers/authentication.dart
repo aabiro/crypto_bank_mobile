@@ -224,7 +224,8 @@ class Authentication with ChangeNotifier {
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         print("Error");
-        showError(FacebookLoginStatus.error.toString(), context);
+        print(facebookLoginResult);
+        showError(facebookLoginResult.errorMessage.toString(), context);
         // onLoginStatusChanged(false);
         break;
       case FacebookLoginStatus.cancelledByUser:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/order.dart';
 import 'package:flutter_app/providers/authentication.dart';
+import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/services/mailer.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
@@ -71,6 +72,12 @@ class ReviewOrder extends StatelessWidget {
     var locksTotalString = locksTotal.toStringAsFixed(2);
     var shipping = 2.33;
     var total = (locksTotal + shipping).toStringAsFixed(2);
+
+
+    @override
+    void didChangeDependencies() {
+        Provider.of<UserCards>(context);
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,

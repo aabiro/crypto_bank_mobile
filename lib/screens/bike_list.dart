@@ -58,13 +58,6 @@ class _BikeListState extends State<BikeList> {
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.popAndPushNamed(context, '/home'),
         ),
-        // actions: <Widget>[
-        //   IconButton(
-        //       icon: Icon(Icons.add),
-        //       onPressed: () {
-        //         _showDialog();
-        //       }),
-        // ],
       ),
       body: Stack(
         children: <Widget>[

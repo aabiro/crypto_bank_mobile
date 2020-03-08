@@ -304,26 +304,17 @@ class MapScreenState extends State<MapScreen> {
                     child: GoogleMap(
                         onMapCreated: (mc) {
                           mapCreated(mc);
-                          // mc.setMapStyle(mapStyle)
                           MapsHelper.setStyle(mc, context);
+                          // mc.setMapStyle(mapStyle)          
                           // setStyle(mc, context);
                           // _controller.complete(mc);
                         },
                         initialCameraPosition: CameraPosition(
                             target: LatLng(40.6281, 14.4850), zoom: 5),
-                        markers: Set.from(markersA), //works
-                        // markers: Set.from(addBikeMarkers()),
-                        // myLocationEnabled: false,
+                        markers: Set.from(markersA), 
                         myLocationButtonEnabled: false,
                         mapToolbarEnabled: false,
-                        onTap: (pos) {
-                          // print(pos);
-                          // Marker m = Marker(
-                          //     markerId: MarkerId('1'), icon: customIcon, position: pos);
-                          // setState(() {
-                          //   markersA.add(m);
-                          // });
-                        }),
+                        ),
                   ),
                   Align(
                       alignment: Alignment.topCenter,

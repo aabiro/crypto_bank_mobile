@@ -39,8 +39,6 @@ class MyCustomFormState extends State<LoginScreen> {
         locator<LocalAuthenticationService>();
     final emailField = buildInputField(myEmailController, "Email");
     final passwordField = buildInputField(myPasswordController, "Password");
-    String email = myEmailController.text.toString().trim();
-    String password = myPasswordController.text.toString().trim();
 
     return Scaffold(
       body: NestedScrollView(
@@ -67,135 +65,137 @@ class MyCustomFormState extends State<LoginScreen> {
             ),
           ];
         },
-        body: Center(
+        body: SingleChildScrollView(
           child: Center(
-            child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 0.0),
-                    emailField,
-                    SizedBox(height: 10.0),
-                    passwordField,
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                      child: Container(
-                        width: 220,
-                        height: 130,
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 35.0,
-                                    width: 220,
-                                    child: Material(
-                                      elevation: 2.0,
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      color: Constants.mainColor,
-                                      child: MaterialButton(
-                                        minWidth:
-                                            MediaQuery.of(context).size.width /
-                                                1.6,
+            child: Center(
+              child: Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 0.0),
+                      emailField,
+                      SizedBox(height: 10.0),
+                      passwordField,
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                        child: Container(
+                          width: 220,
+                          height: 130,
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 35.0,
+                                      width: 220,
+                                      child: Material(
+                                        elevation: 2.0,
+                                        borderRadius: BorderRadius.circular(30.0),
+                                        color: Constants.mainColor,
+                                        child: MaterialButton(
+                                          minWidth:
+                                              MediaQuery.of(context).size.width /
+                                                  1.6,
+                                          onPressed: () {
+                                            Provider.of<Authentication>(context)
+                                                .login(myEmailController.text.toString().trim(), myPasswordController.text.toString().trim(), context);
+                                          },
+                                          child: Text(
+                                            "Login",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 35.0,
+                                      child: SignInButton(
+                                        Buttons.Facebook,
+                                        mini: false,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(40.0),
+                                        ),
                                         onPressed: () {
                                           Provider.of<Authentication>(context)
-                                              .login(email, password, context);
+                                              .initiateFacebookLogin(context);
                                         },
-                                        child: Text(
-                                          "Login",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 35,
+                                      width: 220,
+                                      child: Material(
+                                        elevation: 2.0,
+                                        borderRadius: BorderRadius.circular(30.0),
+                                        color: Constants.accentColor,
+                                        child: MaterialButton(
+                                          onPressed: _localAuth.authenticate,
+                                          child: Text(
+                                            "Use Face/Touch ID",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.white),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 35.0,
-                                    child: SignInButton(
-                                      Buttons.Facebook,
-                                      mini: false,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(40.0),
-                                      ),
-                                      onPressed: () {
-                                        Provider.of<Authentication>(context)
-                                            .initiateFacebookLogin(context);
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 35,
-                                    width: 220,
-                                    child: Material(
-                                      elevation: 2.0,
-                                      borderRadius: BorderRadius.circular(30.0),
-                                      color: Constants.accentColor,
-                                      child: MaterialButton(
-                                        onPressed: _localAuth.authenticate,
-                                        child: Text(
-                                          "Use Face/Touch ID",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    MaterialButton(
-                      minWidth: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/register');
-                      },
-                      child: Text("Or Register",
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: 'OpenSans',
-                          ),
-                          textAlign: TextAlign.center),
-                    ),
-                    MaterialButton(
-                      minWidth: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/register');
-                      },
-                      child: Text("Forgot password?",
-                          style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: 'OpenSans',
-                          ),
-                          textAlign: TextAlign.center),
-                    ),
-                  ],
+                      MaterialButton(
+                        minWidth: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 0.0),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/register');
+                        },
+                        child: Text("Or Register",
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textAlign: TextAlign.center),
+                      ),
+                      MaterialButton(
+                        minWidth: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/register');
+                        },
+                        child: Text("Forgot password?",
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textAlign: TextAlign.center),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

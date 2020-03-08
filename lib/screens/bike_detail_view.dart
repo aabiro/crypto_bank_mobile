@@ -63,28 +63,6 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
         ]);
   }
 
-  buildInputField(TextEditingController controller, String hintText) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-      child: TextFormField(
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
-        obscureText: false,
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: hintText,
-          hintStyle: TextStyle(
-            color: Color(0xff2196F3),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);

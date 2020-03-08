@@ -135,7 +135,7 @@ class MyApp extends StatelessWidget {
                 ActivationCompleteScreen(),
             CardScreen.routeName: (context) => CardScreen(),
             BikeFormScreen.routeName: (context) => BikeFormScreen(''),
-            EditBike.routeName: (context) => EditBike(''),
+            // EditBike.routeName: (context) => EditBike(''),
             EditUserName.routeName: (context) => EditUserName(),
             EditPassword.routeName: (context) => EditPassword(),
             EditEmail.routeName: (context) => EditEmail(),

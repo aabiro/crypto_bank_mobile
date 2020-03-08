@@ -17,8 +17,10 @@ class _EditBikeState extends State<EditBike> {
   final conditionController = TextEditingController();
   String dropdownValue = "None";
   
+  
+
   buildInputField(
-    TextEditingController controller, String hintText, String initialValue) {
+      TextEditingController controller, String hintText, String initialValue) {
     return Padding(
       padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
       child: TextFormField(
@@ -49,7 +51,7 @@ class _EditBikeState extends State<EditBike> {
     final nameField = buildInputField(
         nameController, "Name of Bike", bike.name != null ? bike.name : "");
     final mediaQuery = MediaQuery.of(context);
-    // String name = nameController.text;
+    String name = nameController.text;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -138,8 +140,7 @@ class _EditBikeState extends State<EditBike> {
               ),
             ),
           ),
-          SizedBox(height: 15.0),
-          SizedBox(height: 15.0),
+          SizedBox(height: 30.0),
           Material(
             elevation: 5.0,
             borderRadius: BorderRadius.circular(7.0),

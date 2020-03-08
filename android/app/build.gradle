@@ -58,46 +58,12 @@ android {
         release {
             signingConfig signingConfigs.debug
             firebaseAppDistribution {
-                // appId= "1:645259548314:android:27c11dccde414da30ff123"
                 serviceCredentialsFile= rootProject.file('capstone-addb0-2ae26ea31e0f.json') //"$APP_DIST_JSON"
                 releaseNotesFile= rootProject.file("release-notes.txt")
                 testers="aaryn.alexander@gmail.com, calebscott1515@gmail.com"
             }
         }
-        // debug {
-        //     signingConfig signingConfigs.debug
-        // }
-
-        // release {
-        //     minifyEnabled false
-        //     debuggable false
-        //     signingConfig signingConfigs.debug
-        //     proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
-        //     firebaseAppDistribution {
-        //         // appId= "1:645259548314:android:27c11dccde414da30ff123"
-        //         serviceCredentialsFile= rootProject.file('capstone-addb0-2ae26ea31e0f.json')
-        //         releaseNotesFile= rootProject.file("release-notes.txt")
-        //         testers="aaryn.alexander@gmail.com"
-        //     }
-        // }
     }
-
-    // buildTypes {
-    // release {
-    //     // TODO: Add your own signing config for the release build.
-    //     // Signing with the debug keys for now, so `flutter run --release` works.
-    //     signingConfig signingConfigs.debug
-    //     minifyEnabled false
-    //     debuggable false
-    //     // signingConfig signingConfigs.release
-    //         firebaseAppDistribution{
-    //             serviceCredentialsFile="$rootDir/android/app/capstone-1576432202313-90ed88b3184c.json"
-    //             // releaseNotesFile="release-notes.txt"
-    //             testers="aaryn.alexander@gmail.com"
-    //         }
-    //     }
-    // }
 }
 
 flutter {
