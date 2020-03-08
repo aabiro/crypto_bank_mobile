@@ -14,11 +14,11 @@ class EditBike extends StatefulWidget {
 
 class _EditBikeState extends State<EditBike> {
   final nameController = TextEditingController();
-  final typeController = TextEditingController();
   final conditionController = TextEditingController();
+  String dropdownValue = "Road bike";
 
-
-  buildInputField(TextEditingController controller, String hintText, String initialValue) {
+  buildInputField(
+      TextEditingController controller, String hintText, String initialValue) {
     return Padding(
       padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
       child: TextFormField(
@@ -44,16 +44,11 @@ class _EditBikeState extends State<EditBike> {
   @override
   Widget build(BuildContext context) {
     final list = Constants.bikeTypes;
-    var dropdownValue = list.first;
     final bikeProv = Provider.of<Bikes>(context);
     final bike = bikeProv.findById(widget.id);
-    final nameField = buildInputField(nameController, "Name of Bike", bike.name != null ? bike.name : "");
-    // final typeField = buildInputField(typeController, "Type");
-    // final conditionField = buildInputField(conditionController, "Condition");
+    final nameField = buildInputField(
+        nameController, "Name of Bike", bike.name != null ? bike.name : "");
     String name = nameController.text;
-
-    String type = typeController.text;
-    // String condition = conditionController.text; //add or image upload instead...
     final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -65,98 +60,86 @@ class _EditBikeState extends State<EditBike> {
             backgroundColor: Color(0xff673AB7),
             title: new Text(
               'Edit Bike',
-              // planType,
               style: TextStyle(),
             ),
           ),
           Padding(
-              padding: EdgeInsets.all(20),
-              child: SizedBox(
-                width: double.infinity,
-                child: new CircleAvatar(
-                  maxRadius: mediaQuery.size.height * 0.15,
-                  backgroundColor: Color(0xff9575CD),
-                  child: Text('AB',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                          fontWeight: FontWeight.w900)),
-                ),
+            padding: EdgeInsets.all(20),
+            child: SizedBox(
+              width: double.infinity,
+              child: new CircleAvatar(
+                maxRadius: mediaQuery.size.height * 0.15,
+                backgroundColor: Color(0xff9575CD),
+                child: Text('AB',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                        fontWeight: FontWeight.w900)),
               ),
             ),
+          ),
           SizedBox(height: 15.0),
-          // buildInputField(nameController, 'Name of Bike'),
           nameField,
           SizedBox(height: 15.0),
-          // buildInputField(typeController, 'Type'),
           Padding(
-              padding: EdgeInsets.fromLTRB(30, 10, 0, 0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  child: Text(
-                    "Type",
-                    style: TextStyle(fontSize: 15, color: Colors.blueGrey),
-                    textAlign: TextAlign.left,
-                  ),
+            padding: EdgeInsets.fromLTRB(30, 10, 0, 0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                child: Text(
+                  "Type",
+                  style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+                  textAlign: TextAlign.left,
                 ),
               ),
             ),
-            Padding(
-                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: DropdownButton<String>(
-                      // isExpanded = true,
-                      isExpanded: true,
-                      hint: Text(
-                        'Type',
-                        style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontFamily: 'OpenSans',
-                            fontWeight: FontWeight.w800,
-                            fontSize: 18),
-                      ),
-                      value: dropdownValue,
-                      icon: Icon(Icons.arrow_drop_down,
-                          color: Constants.mainColor),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontFamily: 'OpenSans',
-                          fontWeight: FontWeight.w800,
-                          fontSize: 18),
-                      underline: Container(
-                        height: 2,
-                        color: Constants.mainColor,
-                      ),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          dropdownValue = newValue;
-                        });
-                      },
-                      items: list.map<DropdownMenuItem<String>>((value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+            child: SizedBox(
+              width: double.infinity,
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  hint: Text(
+                    "Type",
+                    style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontFamily: 'OpenSans',
+                        fontWeight: FontWeight.w800,
+                        fontSize: 18),
                   ),
+                  value: dropdownValue,
+                  icon: Icon(Icons.arrow_drop_down, color: Constants.mainColor),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: TextStyle(
+                      color: Colors.blueGrey,
+                      fontFamily: 'OpenSans',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 18),
+                  underline: Container(
+                    height: 2,
+                    color: Constants.mainColor,
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                    });
+                  },
+                  items: list.map<DropdownMenuItem<String>>((value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                 ),
-
-                ),
-          // BuildDropdown(dropdownValue, list),
+              ),
+            ),
+          ),
           SizedBox(height: 15.0),
-          // buildInputField(conditionController, 'Condition'),
           SizedBox(height: 15.0),
-          // buildInputField(countryController, 'Country'),
-          // SizedBox(height: 15.0),
-          // buildInputField(zipController, 'Zip Code'),
-          // SizedBox(height: 15.0),
           Material(
             elevation: 5.0,
             borderRadius: BorderRadius.circular(7.0),
@@ -166,25 +149,17 @@ class _EditBikeState extends State<EditBike> {
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
                 print('update/edit bike id: ${widget.id}');
-                  print(dropdownValue);
-                  bike.name = name;
-                  bike.model = dropdownValue;
-                  bikeProv.updateBike(widget.id, bike); //update existing bike
-                  Navigator.of(context).pop();
+                bike.name = name;
+                bike.model = dropdownValue;
+                bikeProv.updateBike(widget.id, bike);
+                Navigator.of(context).pop();
               },
               child: Text(
                 "Save",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    // fontSize: 40,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w900),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
               ),
-              // color: Color(),
-              // style: style.copyWith(
-              // //     color: Colors.white,
-              // fontWeight: FontWeight.bold)
-              // ),
             ),
           ),
         ]),

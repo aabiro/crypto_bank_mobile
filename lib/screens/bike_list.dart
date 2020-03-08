@@ -15,8 +15,7 @@ class BikeList extends StatefulWidget {
 
 class _BikeListState extends State<BikeList> {
   var _init = true;
-  var _isLoading = false; //for a loader later see transform fetched data
-  //get bikes from the db from the user id
+  var _isLoading = false;
 
   @override
   void didChangeDependencies() {
@@ -24,7 +23,6 @@ class _BikeListState extends State<BikeList> {
       setState(() {
         _isLoading = true;
       });
-      // var accessToken = Provider.of<Authentication>(context).accessToken;
       Provider.of<Bikes>(context).getUserBikes().then((_) {
         setState(() {
           _isLoading = false;
