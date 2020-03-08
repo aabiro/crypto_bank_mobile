@@ -63,7 +63,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             firebaseAppDistribution {
-                appId= "1:645259548314:android:27c11dccde414da30ff123"
+                // appId= "1:645259548314:android:27c11dccde414da30ff123"
                 serviceCredentialsFile= rootProject.file('capstone-1576432202313-90ed88b3184c.json')
                 releaseNotesFile= rootProject.file("release-notes.txt")
                 testers="aaryn.alexander@gmail.com"
