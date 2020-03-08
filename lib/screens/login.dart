@@ -39,8 +39,8 @@ class MyCustomFormState extends State<LoginScreen> {
         locator<LocalAuthenticationService>();
     final emailField = buildInputField(myEmailController, "Email");
     final passwordField = buildInputField(myPasswordController, "Password");
-    String email = myEmailController.text;
-    String password = myPasswordController.text;
+    String email = myEmailController.text.toString().trim();
+    String password = myPasswordController.text.toString().trim();
 
     return Scaffold(
       body: NestedScrollView(

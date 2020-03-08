@@ -16,7 +16,7 @@ const Color accentColor = Color(0xff2196F3);
 
 
 
-const bikeTypes = ["Road bike", "Mountain bike", "BMX", "Commuting"];
+const bikeTypes = ["None", "Road bike", "Mountain bike", "BMX", "Commuting"];
 
 const torontoLocations = [
   LatLng(43.655531,-79.4090097),

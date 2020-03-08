@@ -38,26 +38,14 @@ class MyCustomFormState extends State<RegisterScreen> {
 
   Widget buildInputField(TextEditingController controller, String hintText) {
     return TextFormField(
-      // validator: (value) {
-      //         if (value.isEmpty) {
-      //           return 'Please enter some text';
-      //         }
-      //         return null;
-      //       },
       obscureText: false,
       controller: controller,
       decoration: InputDecoration(
-        // hintText: hintText,
         labelText: hintText,
         hintStyle: TextStyle(
           color: Color(0xff2196F3),
-          // fontStyle: FontStyle.italic,
         ),
       ),
-      // contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-      // hintText: hintText,
-      // border:
-      //     OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
   }
 
@@ -67,9 +55,9 @@ class MyCustomFormState extends State<RegisterScreen> {
     final passwordField = buildInputField(myPasswordController, "Password");
     final confirmPasswordField =
         buildInputField(myConfirmPasswordController, "Confirm Password");
-    String email = myEmailController.text;
-    String password = myPasswordController.text;
-    String confirmPassword = myConfirmPasswordController.text;
+    String email = myEmailController.text.toString().trim();
+    String password = myPasswordController.text.toString().trim();
+    String confirmPassword = myConfirmPasswordController.text.toString().trim();
 
     return Scaffold(
       body: NestedScrollView(
@@ -127,6 +115,8 @@ class MyCustomFormState extends State<RegisterScreen> {
                             minWidth: MediaQuery.of(context).size.width / 1.6,
                             onPressed: () {
                               if (password == confirmPassword) {
+                                print('email : $email');
+                                print('email text : ${myEmailController.text}');
                                 Provider.of<Authentication>(context,
                                         listen: false)
                                     .register(email, password, context);

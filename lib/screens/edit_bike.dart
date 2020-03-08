@@ -15,7 +15,9 @@ class EditBike extends StatefulWidget {
 class _EditBikeState extends State<EditBike> {
   final nameController = TextEditingController();
   final conditionController = TextEditingController();
-  String dropdownValue = "Road bike";
+  String dropdownValue = "None";
+  
+  
 
   buildInputField(
       TextEditingController controller, String hintText, String initialValue) {
@@ -48,8 +50,8 @@ class _EditBikeState extends State<EditBike> {
     final bike = bikeProv.findById(widget.id);
     final nameField = buildInputField(
         nameController, "Name of Bike", bike.name != null ? bike.name : "");
-    String name = nameController.text;
     final mediaQuery = MediaQuery.of(context);
+    // String name = nameController.text;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -103,7 +105,7 @@ class _EditBikeState extends State<EditBike> {
                 child: DropdownButton<String>(
                   isExpanded: true,
                   hint: Text(
-                    "Type",
+                    bike.model != null ? bike.model : "Type",
                     style: TextStyle(
                         color: Colors.blueGrey,
                         fontFamily: 'OpenSans',
@@ -149,7 +151,7 @@ class _EditBikeState extends State<EditBike> {
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
                 print('update/edit bike id: ${widget.id}');
-                bike.name = name;
+                bike.name = nameController.text;
                 bike.model = dropdownValue;
                 bikeProv.updateBike(widget.id, bike);
                 Navigator.of(context).pop();
