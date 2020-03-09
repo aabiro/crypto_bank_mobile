@@ -2,14 +2,12 @@ import 'package:flutter/cupertino.dart';
 
 class Journey with ChangeNotifier {
   String id;
-  DateTime startTime; //use with time.now for the timer / price
+  DateTime startTime;
   DateTime endTime;
-  int dayOfTheWeek; //?
+  int dayOfTheWeek;
   String bikeId;
   String userId;
   String bikeOwnerId;
-  //gps stuff ie start location/end location for the distance? should the owner see the bike in use,
-  // or just use time avg dist?
   String distance;
   bool hasEnded;
   double tripTotal;
