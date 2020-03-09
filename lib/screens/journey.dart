@@ -245,7 +245,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                   //   //       lng: bike.lng,
                                   //   //       name: bike.name,
                                   //   //       model: bike.model,
-                                  //   //       isActive: false));
+                                       //       isAvailable: true,
+                                  //   //       isActive: bike.isActive));
 
                                   //   // });
                                   // // print('bike in journey $bike');
@@ -259,7 +260,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                         name: bike.name,
                                         userId: bike.userId,
                                         model: bike.model,
-                                        isActive: false),
+                                        isAvailable: true,
+                                        isActive: bike.isActive),
                                   );
                                   Provider.of<Journeys>(context).updateJourney(
                                     journey.id,

@@ -178,7 +178,7 @@ class Authentication with ChangeNotifier {
   }
 
   Future<void> updateUser(String displayName, String photUrl) async {
-//     idToken	string	A Firebase Auth ID token for the user.
+//      idToken	string	A Firebase Auth ID token for the user.
 //      displayName	string	User's new display name.
 //      photoUrl	string	User's new photo url.
 //      deleteAttribute	List of strings	List of attributes to delete, "DISPLAY_NAME" or "PHOTO_URL". This will nullify these values.

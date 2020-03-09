@@ -432,7 +432,8 @@ class MapScreenState extends State<MapScreen> {
                                   //   //   name: bike.name,
                                   //   //   model: bike.model,
                                   //   //   userId: bike.userId,
-                                  //   //   isActive: true
+                                       //   isAvailable: false,
+                                  //   //   isActive: bike.isActive
                                   //   // )
                                   // );
 

@@ -17,8 +17,6 @@ class _EditBikeState extends State<EditBike> {
   final conditionController = TextEditingController();
   String dropdownValue = "None";
   
-  
-
   buildInputField(
       TextEditingController controller, String hintText, String initialValue) {
     return Padding(
@@ -105,7 +103,7 @@ class _EditBikeState extends State<EditBike> {
                 child: DropdownButton<String>(
                   isExpanded: true,
                   hint: Text(
-                    bike.model != null ? bike.model : "Type",
+                    bike.model != null ? bike.model : "None",
                     style: TextStyle(
                         color: Colors.blueGrey,
                         fontFamily: 'OpenSans',

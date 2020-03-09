@@ -457,8 +457,10 @@ class _CardScreenState extends State<CardScreen> {
                                                       lat: bike.lat,
                                                       lng: bike.lng,
                                                       name: bike.name,
+                                                      userId: bike.userId,
                                                       model: bike.model,
-                                                      isActive: true));
+                                                      isAvailable: false,
+                                                      isActive: bike.isActive));
                                           Provider.of<Journeys>(context)
                                               .addJourney(newJourney);
                                           // Provider.of<Journeys>(context).addJourney(

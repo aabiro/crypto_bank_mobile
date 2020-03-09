@@ -45,6 +45,11 @@ class Bike with ChangeNotifier {
       notifyListeners();
   }
 
+  void toggleAvailable() {
+      isAvailable = !isAvailable;
+      notifyListeners();
+  }
+
   String get bikeId {
     return id;
   }

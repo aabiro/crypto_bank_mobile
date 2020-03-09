@@ -142,12 +142,13 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
               minWidth: mediaQuery.size.width / 3,
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
-                
+                print('bike model: $dropdownValue');
                 Provider.of<Bikes>(context).addBike(
                   Bike(
                       userId: userId,
                       qrCode: qrCode, //do this check later
                       isActive: true,
+                      isAvailable: true,
                       name: name == "" || name == null ? 'New Bike' : name,
                       model: dropdownValue,
                       lat: latlng.latitude,
