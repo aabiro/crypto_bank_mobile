@@ -412,23 +412,28 @@ class MapScreenState extends State<MapScreen> {
                                         fontFamily: 'OpenSans',
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15)),
-                                onPressed: () {
+                                onPressed: () async {
                                   scan();
 
                                   //add a new journey if there is none, add to scan() with bikeId
                                   //////////////bypass below
-
-                                  // Bike bike = Provider.of<Bikes>(context).findById("-M0O9yUJW7WUxmcE3_MJ");
+                                  // var bikesProv = Provider.of<Bikes>(context);
+                                  // var bikes = await bikesProv.getAllUserBikes();
+                                  // if(bikes.length > 0) {
+                                  // Bike bike = bikesProv.findById(bikes[0].bikeId);
+                                  // bike.toggleActive();
                                   // print('bike in journey $bike');
-                                  // Provider.of<Bikes>(context).updateBike(bike.id, 
-                                  //   Bike(
-                                  //     qrCode: bike.qrCode,
-                                  //     lat: bike.lat,
-                                  //     lng: bike.lng,
-                                  //     name: bike.name,
-                                  //     model: bike.model,
-                                  //     isActive: true
-                                  //   )
+
+                                  // Provider.of<Bikes>(context).updateBike(bike.id, bike
+                                  //   // Bike(
+                                  //   //   qrCode: bike.qrCode,
+                                  //   //   lat: bike.lat,
+                                  //   //   lng: bike.lng,
+                                  //   //   name: bike.name,
+                                  //   //   model: bike.model,
+                                  //   //   userId: bike.userId,
+                                  //   //   isActive: true
+                                  //   // )
                                   // );
 
 
@@ -436,7 +441,7 @@ class MapScreenState extends State<MapScreen> {
                                   //   Journey(
                                   //       startTime: DateTime.now(),
                                   //       userId: user.userId,
-                                  //       bikeId: "-M0O9yUJW7WUxmcE3_MJ",
+                                  //       bikeId: bike.bikeId,
                                   //       // bikeOwnerId:
                                   //       //     user.userId), //riding my own bike testing
                                   //       bikeOwnerId:
@@ -452,10 +457,14 @@ class MapScreenState extends State<MapScreen> {
                                   //     arguments: JourneyScreen(
                                   //       journey: response,
                                   //       isUserBike: (response.bikeOwnerId == response.userId),
-                                  //       bikeId: response.bikeId,
+                                  //       bike: bike,
                                   //     ),
                                   //   );
                                   // });
+                                  // } else {
+                                  //   //do nothing
+                                  // }
+                                  
                                   ////////////////////////////////////////////////////////////////////
 
                                 })
@@ -473,12 +482,13 @@ class MapScreenState extends State<MapScreen> {
                                       fontSize: 15),
                                 ),
                                 onPressed: () {
+                                  Bike bike = Provider.of<Bikes>(context).findById(journey.bikeId);
                                   Navigator.of(context).pushReplacementNamed(
                                     JourneyScreen.routeName,
                                     arguments: JourneyScreen(
                                       journey: journey,
                                       isUserBike: (journey.bikeOwnerId == journey.userId),
-                                      bikeId: journey.bikeId,
+                                      bike: bike,
                                     ),
                                   );
                                 },

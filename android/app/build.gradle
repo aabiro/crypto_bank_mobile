@@ -52,11 +52,11 @@ android {
     }
 
     buildTypes {
-        debug {
-            signingConfig signingConfigs.debug
-        }
+        // debug {
+        //     signingConfig signingConfigs.debug
+        // }
         release {
-            signingConfig signingConfigs.debug
+            // signingConfig signingConfigs.debug
             firebaseAppDistribution {
                 serviceCredentialsFile= rootProject.file('capstone-addb0-2ae26ea31e0f.json') //"$APP_DIST_JSON"
                 releaseNotesFile= rootProject.file("release-notes.txt")

@@ -480,6 +480,7 @@ class _CardScreenState extends State<CardScreen> {
                                               .then((response) {
                                             print(
                                                 'response of get current journey: $response');
+                                            Bike bike = Provider.of<Bikes>(context).findById(response.bikeId); 
                                             Navigator.of(context)
                                                 .pushReplacementNamed(
                                               JourneyScreen.routeName,
@@ -488,7 +489,7 @@ class _CardScreenState extends State<CardScreen> {
                                                 isUserBike:
                                                     (response.bikeOwnerId ==
                                                         response.userId),
-                                                bikeId: response.bikeId,
+                                                bike: bike,
                                               ),
                                             );
                                           });

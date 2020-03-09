@@ -23,11 +23,6 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
   bool isSwitched = false;
   Bike bike;
 
-  @override
-  void didChangeDependencies() {
-    bike = Provider.of<Bikes>(context).findById(widget.bike.id);
-  }
-
   buildDetailFields(String title, String text) {
     return Column(
         children: [
@@ -69,6 +64,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
     final nameController = TextEditingController();
     final modelController = TextEditingController();
     final conditionController = TextEditingController();
+    // final bikeProv = Provider.of<Bikes>(context);
     // final BikeDetailScreen args = ModalRoute.of(context).settings.arguments;
     // final bike = Provider.of<Bikes>(context).findById(args.bike.id);
 
@@ -82,7 +78,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               centerTitle: true,
               backgroundColor: Color(0xff673AB7),
               title: new Text(
-                bike.name,
+                widget.bike.name,
                 style: TextStyle(),
               ),
             ),
@@ -116,10 +112,10 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                       ),
                     ),
                     SizedBox(height: 10.0),
-                    DetailField("Name", bike.name),
+                    DetailField("Name", widget.bike.name),
                     SizedBox(height: 15.0),
                     DetailField(
-                        "Type", bike.model == null ? "None" : bike.model),
+                        "Type", widget.bike.model == null ? "None" : widget.bike.model),
                     SizedBox(height: 10),
                     Material(
                       elevation: 5.0,
@@ -133,7 +129,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                             context,
                             MaterialPageRoute(
                                 fullscreenDialog: true,
-                                builder: (context) => EditBike(bike.id),
+                                builder: (context) => EditBike(widget.bike.id),
                                 maintainState: false),
                           );
                         },
@@ -214,18 +210,18 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                                 ),
                               ),
                               Switch(
-                                value: bike.isActive != null
-                                    ? !bike.isActive
+                                value: widget.bike.isActive != null
+                                    ? !widget.bike.isActive
                                     : true,
                                 onChanged: (value) {
                                   setState(() {
-                                    print(bike.isActive);
-                                    bike.toggleActive();
-                                    print(bike.isActive);
-                                    isSwitched = bike.isActive;
+                                    print(widget.bike.isActive);
+                                    widget.bike.toggleActive();
+                                    print(widget.bike.isActive);
+                                    isSwitched = widget.bike.isActive;
                                   });
                                   Provider.of<Bikes>(context)
-                                      .updateBike(bike.id, bike);
+                                      .updateBike(widget.bike.id, widget.bike);
                                 },
                                 activeTrackColor: Constants.mainColor,
                                 activeColor: Constants.optionalColor,
@@ -301,8 +297,8 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               child: OutlineButton(
                 padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
                 onPressed: () {
-                  print(bike.id);
-                  _showDialog(bike.id);
+                  print(widget.bike.id);
+                  _showDialog(widget.bike.id);
                 },
                 child: Text(
                   "Remove from Platform",
@@ -329,7 +325,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           title: new Text(
-            "Are you sure you want to remove this ride?",
+            "Are you sure you want to remove this bike?",
             style:
                 TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w800),
             textAlign: TextAlign.center,

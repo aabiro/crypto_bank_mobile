@@ -17,20 +17,21 @@ class _BikeListState extends State<BikeList> {
   var _init = true;
   var _isLoading = false;
 
-  @override
-  void didChangeDependencies() {
-    if (_init) {
-      setState(() {
-        _isLoading = true;
-      });
-      Provider.of<Bikes>(context).getUserBikes().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
-    }
-    _init = false;
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   if (_init) {
+  //     setState(() {
+  //       _isLoading = true;
+  //     });
+  //     Provider.of<Bikes>(context).getUserBikes();
+  //     Provider.of<Bikes>(context).getUserBikes(allBikes: true).then((_) {
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+  //     });
+  //   }
+  //   _init = false;
+  // }
 
   BoxDecoration myDecoration() {
     return BoxDecoration(
@@ -46,6 +47,7 @@ class _BikeListState extends State<BikeList> {
     final bikesData = Provider.of<Bikes>(context);
     final bikes = bikesData.userBikes;
     final mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -67,18 +69,13 @@ class _BikeListState extends State<BikeList> {
                 height: mediaQuery.size.height * 0.77,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  //make this a list view builder!!
                   child: ListView(
                       children: bikes != null && bikes.length > 0
                           ? bikes?.map<Widget>(
                               (bike) {
-                                //use .value because items are lost
                                 return ChangeNotifierProvider.value(
-                                  //notify of changes for each individual bike item
                                   value: bike,
-                                  child: BikeListItem(bike
-                                      // bike.id, bike.name, bike.isActive, bike.imageUrl
-                                      ),
+                                  child: BikeListItem(bike),
                                 );
                               },
                             )?.toList()

@@ -47,6 +47,7 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final list = Constants.bikeTypes;
+    var userId = Provider.of<Authentication>(context).userId;
     String name = nameController.text.toString().trim();
 
     int min = 0;
@@ -141,11 +142,12 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
               minWidth: mediaQuery.size.width / 3,
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
+                
                 Provider.of<Bikes>(context).addBike(
                   Bike(
-                      userId: Provider.of<Authentication>(context).userId,
+                      userId: userId,
                       qrCode: qrCode, //do this check later
-                      isActive: false,
+                      isActive: true,
                       name: name == "" || name == null ? 'New Bike' : name,
                       model: dropdownValue,
                       lat: latlng.latitude,
