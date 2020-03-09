@@ -2,17 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/services/local_authentication_service.dart';
 import 'package:flutter_app/services/service_locator.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import '../helpers/user_helper.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'dart:convert';
 import '../providers/authentication.dart';
-import 'package:provider/provider.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:path/path.dart';
 
 class LoginScreen extends StatefulWidget {
   static final routeName = '/login';
@@ -46,8 +39,6 @@ class MyCustomFormState extends State<LoginScreen> {
         locator<LocalAuthenticationService>();
     final emailField = buildInputField(myEmailController, "Email");
     final passwordField = buildInputField(myPasswordController, "Password");
-    String email = myEmailController.text;
-    String password = myPasswordController.text;
 
     return Scaffold(
       body: NestedScrollView(
@@ -56,10 +47,9 @@ class MyCustomFormState extends State<LoginScreen> {
             SliverAppBar(
               backgroundColor: Constants.mainColor,
               automaticallyImplyLeading: false,
-              expandedHeight: 120.0,
+              expandedHeight: 140.0,
               elevation: 5,
               snap: true,
-              // stretch: true,
               floating: true,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
@@ -75,7 +65,7 @@ class MyCustomFormState extends State<LoginScreen> {
             ),
           ];
         },
-        body: Center(
+        body: SingleChildScrollView(
           child: Center(
             child: Container(
               color: Colors.white,
@@ -114,7 +104,7 @@ class MyCustomFormState extends State<LoginScreen> {
                                                 1.6,
                                         onPressed: () {
                                           Provider.of<Authentication>(context)
-                                              .login(email, password, context);
+                                              .login(myEmailController.text.toString().trim(), myPasswordController.text.toString().trim(), context);
                                         },
                                         child: Text(
                                           "Login",
@@ -158,8 +148,6 @@ class MyCustomFormState extends State<LoginScreen> {
                                       borderRadius: BorderRadius.circular(30.0),
                                       color: Constants.accentColor,
                                       child: MaterialButton(
-                                        // minWidth: MediaQuery.of(context).size.width / 1.6,
-                                        // padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
                                         onPressed: _localAuth.authenticate,
                                         child: Text(
                                           "Use Face/Touch ID",
@@ -194,7 +182,7 @@ class MyCustomFormState extends State<LoginScreen> {
                     ),
                     MaterialButton(
                       minWidth: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.10),
+                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                       onPressed: () {
                         Navigator.pushNamed(context, '/register');
                       },

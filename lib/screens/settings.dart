@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/bike_list.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-
-import 'become_lender.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const routeName = '/settings';
@@ -128,7 +125,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 OutlineButton(
                   padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   onPressed: () {
-                    // Navigator.popAndPushNamed(context, QrScan.routeName, arguments: QrScan(true));
                   },
                   child: Text(
                     "Yes",

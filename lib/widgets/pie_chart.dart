@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/alert_screen.dart';
-import 'package:pie_chart/pie_chart.dart';
 
 class StandardCard extends StatelessWidget {
   String text;

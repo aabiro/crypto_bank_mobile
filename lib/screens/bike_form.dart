@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/bikes.dart';
-import 'package:flutter_app/screens/order_complete.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'package:flutter_app/widgets/dropdown.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
-import './add_credit_card.dart';
-import 'package:numberpicker/numberpicker.dart';
-
 import 'activation_complete.dart';
 
 class BikeFormScreen extends StatefulWidget {
   static const routeName = '/bike_form';
-  String qrCode;
+  final qrCode;
   BikeFormScreen(this.qrCode);
 
   @override
@@ -23,12 +18,8 @@ class BikeFormScreen extends StatefulWidget {
 }
 
 class _BikeFormScreenState extends State<BikeFormScreen> {
-  // Random rnd;
-  // static int min = 0;
-  // static int max = Constants.torontoLocations.length;
-  // static Random rnd = new Random();
-  // static int randIndex = min + rnd.nextInt(max - min);
-  // LatLng latlng = Constants.torontoLocations[randIndex];
+  final nameController = TextEditingController();
+  String dropdownValue = "None";
 
   buildInputField(TextEditingController controller, String hintText) {
     return Padding(
@@ -55,10 +46,9 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final nameController = TextEditingController();
-    final conditionController = TextEditingController();
-    final typeController = TextEditingController();
-    String name = nameController.text;
+    final list = Constants.bikeTypes;
+    var userId = Provider.of<Authentication>(context).userId;
+    String name = nameController.text.toString().trim();
 
     int min = 0;
     int max = Constants.torontoLocations.length;
@@ -66,46 +56,24 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
     int randIndex = min + rnd.nextInt(max - min);
     LatLng latlng = Constants.torontoLocations[randIndex];
     print(latlng);
-    // String password = myPasswordController.text;
-    // final countryController = TextEditingController();
-    // final zipController = TextEditingController();
 
     final BikeFormScreen args = ModalRoute.of(context).settings.arguments;
     final qrCode = args.qrCode;
 
-    final list = Constants.bikeTypes;
-    var dropdownValue = list.first;
-
     return Scaffold(
       body: SingleChildScrollView(
-        //add to Scroll whole screen
         child: Column(children: <Widget>[
           new AppBar(
             centerTitle: true,
             backgroundColor: Color(0xff673AB7),
             title: new Text(
               'Bike Detail',
-              // planType,
               style: TextStyle(),
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-          //   child: Text(
-          //     'Bike details',
-          //     textAlign: TextAlign.left,
-          //     style: TextStyle(
-          //       color: Colors.blueGrey,
-          //       fontSize: 15,
-          //       fontWeight: FontWeight.w800,
-          //       fontFamily: 'OpenSAns',
-          //     ),
-          //   ),
-          // ),
-           SizedBox(height: 15.0),
+          SizedBox(height: 15.0),
           buildInputField(nameController, 'Name of Bike'),
           SizedBox(height: 15.0),
-          // buildInputField(typeController, 'Type'),
           Padding(
               padding: EdgeInsets.fromLTRB(30, 10, 0, 0),
               child: Align(
@@ -126,7 +94,6 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: DropdownButton<String>(
-                      // isExpanded = true,
                       isExpanded: true,
                       hint: Text(
                         'Type',
@@ -166,14 +133,7 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
                 ),
 
                 ),
-          // BuildDropdown(dropdownValue, list),
-          SizedBox(height: 15.0),
-          // buildInputField(conditionController, 'Condition'),
-          SizedBox(height: 15.0),
-          // buildInputField(countryController, 'Country'),
-          // SizedBox(height: 15.0),
-          // buildInputField(zipController, 'Zip Code'),
-          // SizedBox(height: 15.0),
+          SizedBox(height: 30.0),
           Material(
             elevation: 5.0,
             borderRadius: BorderRadius.circular(7.0),
@@ -182,19 +142,18 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
               minWidth: mediaQuery.size.width / 3,
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
+                print('bike model: $dropdownValue');
                 Provider.of<Bikes>(context).addBike(
                   Bike(
-                      userId: Provider.of<Authentication>(context).userId,
+                      userId: userId,
                       qrCode: qrCode, //do this check later
                       isActive: true,
+                      isAvailable: true,
                       name: name == "" || name == null ? 'New Bike' : name,
-                      //rasp pi helper get gps
                       model: dropdownValue,
                       lat: latlng.latitude,
                       lng: latlng.longitude),
                 );
-                // Provider.of<Authentication>(context).userId,
-                // Provider.of<Authentication>(context).accessToken);
                 Navigator.of(context)
                     .popAndPushNamed(ActivationCompleteScreen.routeName);
               },
@@ -202,15 +161,9 @@ class _BikeFormScreenState extends State<BikeFormScreen> {
                 "Next",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    // fontSize: 40,
                     color: Colors.white,
                     fontWeight: FontWeight.w900),
               ),
-              // color: Color(),
-              // style: style.copyWith(
-              // //     color: Colors.white,
-              // fontWeight: FontWeight.bold)
-              // ),
             ),
           ),
         ]),

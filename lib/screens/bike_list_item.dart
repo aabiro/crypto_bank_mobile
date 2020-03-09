@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/providers/bikes.dart';
-import 'package:provider/provider.dart';
 import '../providers/bike.dart';
 import 'bike_detail_view.dart';
 
-
 class BikeListItem extends StatefulWidget {
-    // final String id;
   final Bike bike;
-  // final String name;
-  // final bool isActive;
-  // final String imageUrl;
   BikeListItem(this.bike);
-
-  
 
   @override
   _BikeListItemState createState() => _BikeListItemState();
@@ -25,16 +16,8 @@ class _BikeListItemState extends State<BikeListItem> {
   Widget build(BuildContext context) {
     Color textColor;
     (widget.bike.isActive) == true ? textColor = Colors.blueGrey : textColor = Colors.grey[350];
-    // final bike = Provider.of<Bike>(context);
-    // print(bike);
-    print(widget.bike.id); //when poped goes away...
-    // final BikeListItem args =
-    //     ModalRoute.of(context).settings.arguments;
-    // final bId = args.bikeId;
     return Padding(
       padding: EdgeInsets.all(0),
-      // child: Hero(
-      //   tag: "bike3",
       child: Card(
         child: InkWell(
           onTap: () => 
@@ -44,12 +27,6 @@ class _BikeListItemState extends State<BikeListItem> {
                       fullscreenDialog: true,
                       builder: (context) => BikeDetailScreen(widget.bike),
                       maintainState: false),),
-
-
-          // Navigator.of(context).pushNamed(
-          //   BikeDetailScreen.routeName,
-          //   arguments: BikeDetailScreen(bike.bikeId),
-          // ),
           child: Container(
             padding: EdgeInsets.all(20),
             width: double.infinity,

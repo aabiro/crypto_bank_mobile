@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/services/local_authentication_service.dart';
-import 'package:flutter_app/services/service_locator.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import '../helpers/user_helper.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
-import 'dart:convert';
 import '../providers/authentication.dart';
-import 'package:provider/provider.dart';
-
-import 'package:path/path.dart';
 
 // Create a Form widget.
 class RegisterScreen extends StatefulWidget {
@@ -46,26 +38,14 @@ class MyCustomFormState extends State<RegisterScreen> {
 
   Widget buildInputField(TextEditingController controller, String hintText) {
     return TextFormField(
-      // validator: (value) {
-      //         if (value.isEmpty) {
-      //           return 'Please enter some text';
-      //         }
-      //         return null;
-      //       },
       obscureText: false,
       controller: controller,
       decoration: InputDecoration(
-        // hintText: hintText,
         labelText: hintText,
         hintStyle: TextStyle(
           color: Color(0xff2196F3),
-          // fontStyle: FontStyle.italic,
         ),
       ),
-      // contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-      // hintText: hintText,
-      // border:
-      //     OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
     );
   }
 
@@ -75,9 +55,6 @@ class MyCustomFormState extends State<RegisterScreen> {
     final passwordField = buildInputField(myPasswordController, "Password");
     final confirmPasswordField =
         buildInputField(myConfirmPasswordController, "Confirm Password");
-    String email = myEmailController.text;
-    String password = myPasswordController.text;
-    String confirmPassword = myConfirmPasswordController.text;
 
     return Scaffold(
       body: NestedScrollView(
@@ -86,7 +63,7 @@ class MyCustomFormState extends State<RegisterScreen> {
             SliverAppBar(
               backgroundColor: Constants.mainColor,
               automaticallyImplyLeading: false,
-              expandedHeight: 120.0,
+              expandedHeight: 140.0,
               elevation: 5,
               floating: true,
               pinned: true,
@@ -104,71 +81,76 @@ class MyCustomFormState extends State<RegisterScreen> {
             ),
           ];
         },
-        body: Center(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  emailField,
-                  SizedBox(height: 15.0),
-                  passwordField,
-                  SizedBox(height: 15.0),
-                  confirmPasswordField,
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 35.0,
-                        width: 220,
-                        child: Material(
-                          elevation: 2.0,
-                          borderRadius: BorderRadius.circular(30.0),
-                          color: Constants.mainColor,
-                          child: MaterialButton(
-                            minWidth: MediaQuery.of(context).size.width / 1.6,
-                            onPressed: () {
-                              if (password == confirmPassword) {
-                                Provider.of<Authentication>(context,
-                                        listen: false)
-                                    .register(email, password, context);
-                              } else {
-                                showError("Passwords do not match!", context);
-                              }
-                            },
-                            child: Text(
-                              "Register",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    emailField,
+                    SizedBox(height: 15.0),
+                    passwordField,
+                    SizedBox(height: 15.0),
+                    confirmPasswordField,
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 35.0,
+                          width: 220,
+                          child: Material(
+                            elevation: 2.0,
+                            borderRadius: BorderRadius.circular(30.0),
+                            color: Constants.mainColor,
+                            child: MaterialButton(
+                              minWidth: MediaQuery.of(context).size.width / 1.6,
+                              onPressed: () {
+                                if (myPasswordController.text.toString().trim() == myConfirmPasswordController.text.toString().trim()) {
+                                  print('email text : ${myEmailController.text}');
+                                  Provider.of<Authentication>(context,
+                                          listen: false)
+                                      .register(myEmailController.text.toString().trim(), 
+                                      myPasswordController.text.toString().trim(), 
+                                      context);
+                                } else {
+                                  showError("Passwords do not match!", context);
+                                }
+                              },
+                              child: Text(
+                                "Register",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  MaterialButton(
-                    minWidth: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/login');
-                    },
-                    child: Text("Or Login",
-                        style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontFamily: 'OpenSans',
-                        ),
-                        textAlign: TextAlign.center),
-                  ),
-                ],
+                      ],
+                    ),
+                    MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      child: Text("Or Login",
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontFamily: 'OpenSans',
+                          ),
+                          textAlign: TextAlign.center),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

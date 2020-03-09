@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/main.dart';
 import 'package:flutter_app/screens/set_map_area.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:flutter_app/widgets/detail_fields.dart';
-import 'package:flutter_app/widgets/pie_chart.dart';
 import 'package:provider/provider.dart';
 import '../providers/bikes.dart';
 import '../providers/bike.dart';
-
 import 'alert_screen.dart';
 import 'bike_list.dart';
 import 'edit_bike.dart';
@@ -24,12 +21,10 @@ class BikeDetailScreen extends StatefulWidget {
 
 class _BikeDetailScreenState extends State<BikeDetailScreen> {
   bool isSwitched = false;
+  Bike bike;
 
   buildDetailFields(String title, String text) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
     return Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Align(
             alignment: Alignment.center,
@@ -63,42 +58,20 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
         ]);
   }
 
-  buildInputField(TextEditingController controller, String hintText) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-      child: TextFormField(
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
-        obscureText: false,
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: hintText,
-          hintStyle: TextStyle(
-            color: Color(0xff2196F3),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final nameController = TextEditingController();
     final modelController = TextEditingController();
     final conditionController = TextEditingController();
+    // final bikeProv = Provider.of<Bikes>(context);
     // final BikeDetailScreen args = ModalRoute.of(context).settings.arguments;
-    // final bike = Provider.of<Bikes>(context).findById(args.bikeId);
+    // final bike = Provider.of<Bikes>(context).findById(args.bike.id);
 
     // listen: false, //does not change on changeNotifier, check if does on update and open screen
 
     return Scaffold(
       body: SingleChildScrollView(
-        //add to Scroll whole screen
         child: Column(
           children: <Widget>[
             new AppBar(
@@ -106,17 +79,13 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               backgroundColor: Color(0xff673AB7),
               title: new Text(
                 widget.bike.name,
-                // planType,
                 style: TextStyle(),
               ),
             ),
             SizedBox(
-              // height: 200,
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-
                 children: <Widget>[
                   Column(
                     children: <Widget>[
@@ -143,15 +112,10 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                       ),
                     ),
                     SizedBox(height: 10.0),
-                    // buildInputField(nameController, 'Name'),
                     DetailField("Name", widget.bike.name),
                     SizedBox(height: 15.0),
-                    // buildInputField(modelController, 'Model'),
-                    DetailField("Type",
-                        widget.bike.model == null ? "None" : widget.bike.model),
-                    // SizedBox(height: 15.0),
-                    // buildInputField(conditionController, 'Condition'),
-                    // SizedBox(height: 0.30),
+                    DetailField(
+                        "Type", widget.bike.model == null ? "None" : widget.bike.model),
                     SizedBox(height: 10),
                     Material(
                       elevation: 5.0,
@@ -172,35 +136,24 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                         child: Text("Edit",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                // fontSize: 40,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w900)),
-                        // color: Color(),
-                        // style: style.copyWith(
-                        // //     color: Colors.white,
-                        // fontWeight: FontWeight.bold)
-                        // ),
                       ),
                     ),
                   ]),
                 ),
               ),
             ),
-            // StandardCard("Set Riding Area", SetMapAreaScreen() ),
             SizedBox(
               width: double.infinity,
               child: Padding(
                 padding: EdgeInsets.all(10),
-
-                // child: Hero(
-                //   tag: "bike",
                 child: Card(
                   child: InkWell(
-                    onTap: () => Navigator.of(context).pushNamed(SetMapAreaScreen.routeName),
+                    onTap: () => Navigator.of(context)
+                        .pushNamed(SetMapAreaScreen.routeName),
                     child: Container(
                       padding: EdgeInsets.all(20),
-
-                      // height: 85,
                       child: Column(
                         children: <Widget>[
                           Row(
@@ -230,42 +183,13 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                     ),
                   ),
                 ),
-                // ),
               ),
             ),
-            
-            // Card(
-            //               child: Padding(
-            //     padding: EdgeInsets.all(10),
-            //     child: FlatButton.icon(
-            //       icon: Icon(
-            //         Icons.pin_drop,
-            //         color: Colors.blueGrey,
-            //       ),
-            //       label: Text(
-            //         "Set Riding Area",
-            //         style: TextStyle(
-            //           color: Colors.blueGrey,
-            //           fontWeight: FontWeight.w800,
-            //           fontSize: 18,
-            //         ),
-            //       ),
-            //       onPressed: () {
-            //         Navigator.of(context).pushNamed(SetMapAreaScreen.routeName);
-            //       },
-            //     ),
-            //   ),
-            // ),
-           
             SizedBox(
-              // height: 200,
-              // width: double.infinity,
               child: Padding(
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-
                   children: <Widget>[
                     Column(
                       children: <Widget>[
@@ -311,7 +235,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                 ),
               ),
             ),
-             Padding(
+            Padding(
               padding: EdgeInsets.all(0),
               child: Text(
                 'Alerts',
@@ -327,9 +251,6 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               width: double.infinity,
               child: Padding(
                 padding: EdgeInsets.all(10),
-
-                // child: Hero(
-                //   tag: "bike",
                 child: Card(
                   child: InkWell(
                     onTap: () => Navigator.push(
@@ -340,8 +261,6 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                             maintainState: false)),
                     child: Container(
                       padding: EdgeInsets.all(20),
-
-                      // height: 85,
                       child: Column(
                         children: <Widget>[
                           Row(
@@ -375,12 +294,9 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
               ),
             ),
             SizedBox(
-              // width: double.infinity,
               child: OutlineButton(
-                // minWidth: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
                 onPressed: () {
-                  // print(bike);
                   print(widget.bike.id);
                   _showDialog(widget.bike.id);
                 },
@@ -402,16 +318,14 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
   }
 
   void _showDialog(String id) {
-    // flutter defined function
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // return object of type Dialog
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           title: new Text(
-            "Are you sure you want to remove this ride?",
+            "Are you sure you want to remove this bike?",
             style:
                 TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.w800),
             textAlign: TextAlign.center,
@@ -431,18 +345,14 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                     } catch (error) {
                       print(error);
                       print('deleting failed'); //handle this error
-                      // Scaffold.of(context).showSnackBar(Snackbar(content:
-                      // Text('Deleteing failed!')));
                     }
-                    // Navigator.of(context).pop();
-
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (context) => BikeList(),
-                            maintainState: false));
-                    // Navigator.popAndPushNamed(context, QrScan.routeName, arguments: QrScan(true));
+                      context,
+                      MaterialPageRoute(
+                          fullscreenDialog: true,
+                          builder: (context) => BikeList(),
+                          maintainState: false),
+                    );
                   },
                   child: Text(
                     "Yes",

@@ -9,8 +9,6 @@ import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/journey.dart';
 import 'package:flutter_app/providers/journeys.dart';
 import 'package:flutter_app/screens/card_list.dart';
-import 'package:flutter_app/screens/qr_scan.dart';
-import 'package:flutter_app/screens/wallet.dart';
 import 'package:flutter_app/widgets/generic_screen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -251,7 +249,6 @@ class MapScreenState extends State<MapScreen> {
       );
     }
     _init = false;
-
     super.initState();
   }
 
@@ -291,7 +288,7 @@ class MapScreenState extends State<MapScreen> {
         elevation: 5,
         backgroundColor: Constants.mainColor,
         title: Text(
-          'GivnGo',
+          'Givngo',
           style: TextStyle(),
         ),
       ),
@@ -307,33 +304,24 @@ class MapScreenState extends State<MapScreen> {
                     child: GoogleMap(
                         onMapCreated: (mc) {
                           mapCreated(mc);
-                          // mc.setMapStyle(mapStyle)
                           MapsHelper.setStyle(mc, context);
+                          // mc.setMapStyle(mapStyle)          
                           // setStyle(mc, context);
                           // _controller.complete(mc);
                         },
                         initialCameraPosition: CameraPosition(
                             target: LatLng(40.6281, 14.4850), zoom: 5),
-                        markers: Set.from(markersA), //works
-                        // markers: Set.from(addBikeMarkers()),
-                        // myLocationEnabled: false,
+                        markers: Set.from(markersA), 
                         myLocationButtonEnabled: false,
                         mapToolbarEnabled: false,
-                        onTap: (pos) {
-                          // print(pos);
-                          // Marker m = Marker(
-                          //     markerId: MarkerId('1'), icon: customIcon, position: pos);
-                          // setState(() {
-                          //   markersA.add(m);
-                          // });
-                        }),
+                        ),
                   ),
                   Align(
                       alignment: Alignment.topCenter,
                       child: userBikes != null && userBikes.length > 0
                           ? DropdownButton<String>(
                               hint: Text(
-                                'Find My Ride',
+                                'Find My Bike',
                                 style: TextStyle(
                                     color: Colors.grey[410],
                                     fontFamily: 'OpenSans',
@@ -424,32 +412,37 @@ class MapScreenState extends State<MapScreen> {
                                         fontFamily: 'OpenSans',
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15)),
-                                onPressed: () {
+                                onPressed: () async {
                                   scan();
+
                                   //add a new journey if there is none, add to scan() with bikeId
                                   //////////////bypass below
-                                  ///
-                                  ///String barcode = await BarcodeScanner.scan();
-                                  // setState(() => this._barcode = barcode);
-                                  //   Navigator.of(context).pushReplacementNamed(
-                                  //     CardScreen.routeName,
-                                  //     arguments: CardScreen(
-                                  //       chooseDefault: false,
-                                  //       chooseForJourney: true,
-                                  //       barcode: barcode
-                                  //     ),
-                                  //   );
-                                  ///
-                                  ///
-                                  ///
-                                  ///
-                                  ///
-                                  ///
+                                  // var bikesProv = Provider.of<Bikes>(context);
+                                  // var bikes = await bikesProv.getAllUserBikes();
+                                  // if(bikes.length > 0) {
+                                  // Bike bike = bikesProv.findById(bikes[0].bikeId);
+                                  // bike.toggleActive();
+                                  // print('bike in journey $bike');
+
+                                  // Provider.of<Bikes>(context).updateBike(bike.id, bike
+                                  //   // Bike(
+                                  //   //   qrCode: bike.qrCode,
+                                  //   //   lat: bike.lat,
+                                  //   //   lng: bike.lng,
+                                  //   //   name: bike.name,
+                                  //   //   model: bike.model,
+                                  //   //   userId: bike.userId,
+                                       //   isAvailable: false,
+                                  //   //   isActive: bike.isActive
+                                  //   // )
+                                  // );
+
+
                                   // Provider.of<Journeys>(context).addJourney(
                                   //   Journey(
                                   //       startTime: DateTime.now(),
                                   //       userId: user.userId,
-                                  //       bikeId: 'QR001',
+                                  //       bikeId: bike.bikeId,
                                   //       // bikeOwnerId:
                                   //       //     user.userId), //riding my own bike testing
                                   //       bikeOwnerId:
@@ -464,12 +457,16 @@ class MapScreenState extends State<MapScreen> {
                                   //     JourneyScreen.routeName,
                                   //     arguments: JourneyScreen(
                                   //       journey: response,
-                                  //       isUserBike: (journey.bikeOwnerId == journey.userId) //fails if journey = null?
+                                  //       isUserBike: (response.bikeOwnerId == response.userId),
+                                  //       bike: bike,
                                   //     ),
                                   //   );
-                                  //   // Navigator.of(context).pushNamed(QrScan.routeName);
                                   // });
-                                  /////////////////////////////
+                                  // } else {
+                                  //   //do nothing
+                                  // }
+                                  
+                                  ////////////////////////////////////////////////////////////////////
 
                                 })
                             : RaisedButton(
@@ -486,11 +483,13 @@ class MapScreenState extends State<MapScreen> {
                                       fontSize: 15),
                                 ),
                                 onPressed: () {
+                                  Bike bike = Provider.of<Bikes>(context).findById(journey.bikeId);
                                   Navigator.of(context).pushReplacementNamed(
                                     JourneyScreen.routeName,
                                     arguments: JourneyScreen(
                                       journey: journey,
-                                      isUserBike: (journey.bikeOwnerId == journey.userId)
+                                      isUserBike: (journey.bikeOwnerId == journey.userId),
+                                      bike: bike,
                                     ),
                                   );
                                 },
@@ -504,7 +503,7 @@ class MapScreenState extends State<MapScreen> {
               return GenericScreen('regular', 'There was an error!', 'Ok',
                   'assets/gnglogo.png', '/login');
             }
-            return SpinKitCircle(color: Constants.mainColor);
+            return SpinKitPulse(color: Constants.mainColor);
           },
         ),
       ),
@@ -517,7 +516,13 @@ class MapScreenState extends State<MapScreen> {
       // String barcode = 'QR001'; //have a few diff to show
       String barcode = await BarcodeScanner.scan();
       setState(() => this._barcode = barcode);
-        Navigator.of(context).pushReplacementNamed(
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //       fullscreenDialog: true,
+        //       builder: (context) => CardScreen(chooseDefault: false, chooseForJourney: true, barcode: barcode,),
+        //       maintainState: false));
+        Navigator.of(context).pushNamed(
           CardScreen.routeName,
           arguments: CardScreen(
             chooseDefault: false,

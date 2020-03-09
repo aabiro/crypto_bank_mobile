@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/providers/authentication.dart';
 import 'package:flutter_app/screens/bike_list.dart';
-import 'package:flutter_app/screens/journey.dart';
-import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_app/screens/settings.dart';
 import 'package:flutter_app/screens/wallet.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
@@ -13,8 +11,6 @@ import '../screens/profile.dart';
 import '../screens/settings.dart';
 import '../screens/become_lender.dart';
 import '../screens/stats.dart';
-import '../screens/journey.dart';
-import '../helpers/user_helper.dart';
 import 'user_card.dart';
 
 class MenuDrawer extends StatelessWidget {
@@ -46,20 +42,17 @@ class MenuDrawer extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.all(20),
                 alignment: Alignment.centerLeft,
-                // color: Color(0xff98c1d9),
                 color: Constants.mainColor,
                 child: Text('',
-                    // 'Menu',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
-                    )
-                    //Theme.of(context).primaryColor),
+                    ),
                     ),
               ),
               SizedBox(
-                height: 45,
+                height: mediaQuery.size.height * 0.13,
               ),
               buildListTile('Profile', Icons.account_box, () {
                 Navigator.of(context).popAndPushNamed(ProfileScreen.routeName);
@@ -90,19 +83,15 @@ class MenuDrawer extends StatelessWidget {
                       color: Colors.blueGrey),
                 ),
                 onTap: () {
-                  // UserHelper.logout(context);
                   Navigator.of(context).pop();
                   Provider.of<Authentication>(context).logout(context);
                 },
               ),
-              // buildListTile('Route for Trip', Icons.explore, () {
-              //   Navigator.of(context).popAndPushNamed(JourneyScreen.routeName);
-              // }),
             ],
           ),
         ),
         UserCardDrawer(),
-          ],
+        ],
       ),
     );
   }

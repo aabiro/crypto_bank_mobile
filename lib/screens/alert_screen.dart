@@ -20,12 +20,12 @@ class _AlertScreenState extends State<AlertScreen> {
     final mediaQuery = MediaQuery.of(context);
     return Scaffold(
         appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Constants.mainColor,
-            title: new Text(
-              'Alerts',
-              style: TextStyle(),
-            ),
+          centerTitle: true,
+          backgroundColor: Constants.mainColor,
+          title: new Text(
+            'Alerts',
+            style: TextStyle(),
+          ),
         ),
         body: SizedBox(
           height: mediaQuery.size.height,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/authentication.dart';
-import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:provider/provider.dart';
 
 

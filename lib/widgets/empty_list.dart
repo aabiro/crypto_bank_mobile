@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/providers/bikes.dart';
-import 'package:provider/provider.dart';
-import '../providers/bike.dart';
 
 class EmptyListItem extends StatefulWidget {
   final String text;

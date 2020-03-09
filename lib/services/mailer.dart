@@ -1,13 +1,17 @@
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-import '../theme/secrets.dart' as Secrets;
+// import '../theme/secrets.dart' as Secrets;
+import '../config_reader.dart';
 
 class Mailer {
 
 static Future<void> mailer(String mailToAddress, String mailToUsername, String qrCode) async {
-  String mailFromName = Secrets.mailFromName;
-  String username = Secrets.username;
-  String password = Secrets.password;
+  String mailFromName = ConfigReader.getSecretKey("mailFromName");
+  String username = ConfigReader.getSecretKey("username");
+  String password = ConfigReader.getSecretKey("password");
+  // String mailFromName = Secrets.mailFromName;
+  // String username = Secrets.username;
+  // String password = Secrets.password;
 
   //need to allow less secure apps on gmail to receive...
 
@@ -26,7 +30,7 @@ static Future<void> mailer(String mailToAddress, String mailToUsername, String q
     // ..bccRecipients.add(Address('bccAddress@example.com'))
     ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
     ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-    ..html = "<h1>Hi $mailToUsername,</h1>\n<p>Your lock will be coming shortly, attached is your receipt and your activation code for the lock mechanism is $qrCode.\n\nThank you for your support,\n\nThe GivnGo Team</p>";
+    ..html = "<h1>Hi $mailToUsername,</h1>\n<p>Your lock will be coming shortly, attached is your receipt and your activation code for the lock mechanism is $qrCode.\n\nThank you for your support,\n\nThe Givngo Team</p>";
 
   try {
     final sendReport = await send(message, smtpServer);

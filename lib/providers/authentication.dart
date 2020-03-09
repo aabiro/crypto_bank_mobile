@@ -1,19 +1,18 @@
 import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/screens/login.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_app/theme/constants.dart' as Constants;
-import '../theme/secrets.dart' as Secrets;
 import 'dart:async';
 import '../screens/login.dart';
+import '../config_reader.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
 class Authentication with ChangeNotifier {
-  static String fireBaseApi = Secrets.fbAPI;
+  static String fireBaseApi = ConfigReader.getSecretKey("fbAPI");
+  // static String fireBaseApi = Secrets.fbAPI;
   // final GoogleSignIn _googleSignIn = GoogleSignIn();
   // final FirebaseAuth _auth = FirebaseAuth.instance;
   String loginUrl =
@@ -71,8 +70,8 @@ class Authentication with ChangeNotifier {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
               title: Text('Error'),
               content: Text(message),
               actions: <Widget>[
@@ -94,14 +93,14 @@ class Authentication with ChangeNotifier {
           .post(
         url,
         body: json.encode(
-          {'idToken': _accessToken, 
-          'email': _email,
+          {
+            'idToken': _accessToken,
+            'email': _email,
           },
         ),
       )
           .then((response) {
         var data = json.decode(response.body);
-        // var msg = data['error']['message'];
         print('getting user data...');
         _email = data["email"];
         _displayName = data["displayName"];
@@ -130,25 +129,19 @@ class Authentication with ChangeNotifier {
         ),
       )
           .then((response) {
-        var data = json.decode(response.body);
-        var msg = data['error']['message'];
-
         if (response.statusCode < 200 ||
             response.statusCode >= 400 ||
             json == null) {
-          //handle exceptions
-          // var data = json.decode(response.body);
-          // var msg = data['error']['message'];
-          // showError(msg, context);
+          var data = json.decode(response.body);
+          var msg = data['error']['message'];
           showError(msg, context);
           throw new Exception(response.body);
         } else {
+          var data = json.decode(response.body);
           print('user updated: $data');
-
           _email = data["email"];
           _accessToken = data["idToken"];
           notifyListeners();
-          // print(data);
         }
       });
     } catch (e) {
@@ -177,15 +170,15 @@ class Authentication with ChangeNotifier {
   }
 
   void toggleIsOnTrip() {
-      if(_isOnTrip == null) {
-        //
-      }
-      _isOnTrip = !_isOnTrip;
-      notifyListeners();
+    if (_isOnTrip == null) {
+      //
+    }
+    _isOnTrip = !_isOnTrip;
+    notifyListeners();
   }
 
   Future<void> updateUser(String displayName, String photUrl) async {
-//     idToken	string	A Firebase Auth ID token for the user.
+//      idToken	string	A Firebase Auth ID token for the user.
 //      displayName	string	User's new display name.
 //      photoUrl	string	User's new photo url.
 //      deleteAttribute	List of strings	List of attributes to delete, "DISPLAY_NAME" or "PHOTO_URL". This will nullify these values.
@@ -203,12 +196,8 @@ class Authentication with ChangeNotifier {
                 'returnSecureToken': true
               }))
           .then((http.Response response) async {
-        var data = json.decode(response.body);
-        // var msg = data['error']['message'];
-        print('update all : $data');
-        // _displayName = ;
+        // var data = json.decode(response.body);
         final int statusCode = response.statusCode;
-        print('update user email status  $statusCode');
         if (statusCode < 200 || statusCode >= 400 || json == null) {
           //handle exceptions
           // var data = json.decode(response.body);
@@ -218,7 +207,6 @@ class Authentication with ChangeNotifier {
           throw new Exception(response.body);
         } else {
           var data = json.decode(response.body);
-          // var msg = data['displayName'];
           _displayName = data['displayName'];
           print('user updated');
           print('new displayName : $_displayName');
@@ -232,24 +220,21 @@ class Authentication with ChangeNotifier {
 
   void initiateFacebookLogin(BuildContext context) async {
     var facebookLogin = FacebookLogin();
-    var facebookLoginResult =
-        //  await facebookLogin.logInWithReadPermissions(['email']);
-        await facebookLogin.logIn(['email']);
-        // .then((response) {
-        //   _accessToken = response.accessToken;//facebookLoginResult']['accessToken'].token;
-        // });
+    var facebookLoginResult = await facebookLogin.logIn(['email']);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         print("Error");
+        print(facebookLoginResult);
+        showError(facebookLoginResult.errorMessage.toString(), context);
         // onLoginStatusChanged(false);
         break;
       case FacebookLoginStatus.cancelledByUser:
+        showError(FacebookLoginStatus.cancelledByUser.toString(), context);
         print("CancelledByUser");
         // onLoginStatusChanged(false);
         break;
       case FacebookLoginStatus.loggedIn:
         print("LoggedIn");
-
         final url =
             "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email,picture.height(200)&access_token=${facebookLoginResult.accessToken.token}";
         var graphResponse = await http.get(url);
@@ -263,10 +248,9 @@ class Authentication with ChangeNotifier {
 
         var facebookAccessToken = facebookLoginResult.accessToken.token;
         var providerId = 'facebook.com';
-        var requestUri = Secrets.requestUri;
+        var requestUri = ConfigReader.getSecretKey("requestUri");
         final firebaseOAuthUrl =
             "https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=$fireBaseApi";
-        
         try {
           await http
               .post(
@@ -275,7 +259,7 @@ class Authentication with ChangeNotifier {
               {
                 'requestUri': requestUri,
                 'postBody':
-                 'access_token=$facebookAccessToken&providerId=$providerId',
+                    'access_token=$facebookAccessToken&providerId=$providerId',
                 'returnSecureToken': true,
                 'returnIdpCredential': true
               },
@@ -284,84 +268,57 @@ class Authentication with ChangeNotifier {
               .then(
             (response) async {
               var data = json.decode(response.body);
-              // var msg = data['error']['message'];
-              print('update all : $data');
-              // _displayName = ;
               final int statusCode = response.statusCode;
-              print('update status $statusCode');
               if (statusCode < 200 || statusCode >= 400 || json == null) {
-                //handle exceptions
-                // var data = json.decode(response.body);
-                // var msg = data['error']['message'];
-                // showError(msg, context);
-
+                var data = json.decode(response.body);
+                var msg = data['error']['message'];
+                showError(msg, context);
                 throw new Exception(response.body);
               } else {
                 var data = json.decode(response.body);
-                  _userId = data["localId"];
-                  _photoUrl = profileData['picture']['data']['url'];
-                  _displayName = data['firstName'];
-                  _email = data['email'];
-                  _accessToken = data['idToken'];
-                  _isOnTrip = null;
-                  _expiry = DateTime.now()
+                _userId = data["localId"];
+                _photoUrl = profileData['picture']['data']['url'];
+                _displayName = data['firstName'];
+                _email = data['email'];
+                _accessToken = data['idToken'];
+                _isOnTrip = null;
+                _expiry = DateTime.now()
                     .add(Duration(seconds: int.parse(data['expiresIn'])));
-                   _logoutAuto(context);
-                print('user updated');
-                // print('new displayName : $msg');
+                _logoutAuto(context);
                 notifyListeners();
-                Navigator.pushReplacementNamed(
-                    context, '/home'); //should move to home page here
+                Navigator.pushReplacementNamed(context, '/home');
               }
             },
           );
         } catch (e) {
           print(e);
         }
-
         notifyListeners();
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
         break;
     }
   }
 
   Future<void> register(
       String email, String password, BuildContext context) async {
-    // final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
-    //   email: email,
-    //   password: password,
-    // )).user;
-    // print('user created');
-    // print(user.uid);
-
     try {
-      // FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
       await http
           .post(registerUrl,
               body: json.encode({
                 'email': email,
                 'password': password,
                 'returnSecureToken': true
-                // 'email': 'myem@gmail.com',
-                // 'password': 'test10',
-                // 'returnSecureToken': true
-                // 'email': 'aaryn@gmail.com',
-                // 'password': 'password22',
-                // 'returnSecureToken': true
               }))
           .then((http.Response response) async {
         final int statusCode = response.statusCode;
         print(statusCode);
         if (statusCode < 200 || statusCode >= 400 || json == null) {
-          //handle exceptions weak password invalid email/password etc.
-          // throw new Exception(response.body);
           var data = json.decode(response.body);
           var msg = data['error']['message'];
           showError(msg, context);
           throw new Exception(response.body);
         } else {
           print(json.decode(response.body));
-          // final storage = new FlutterSecureStorage();
           var data = json.decode(response.body);
           _accessToken = data["idToken"];
           _userId = data["localId"];
@@ -371,18 +328,12 @@ class Authentication with ChangeNotifier {
               .add(Duration(seconds: int.parse(data['expiresIn'])));
           _logoutAuto(context);
           notifyListeners();
-          // await storage.write(
-          //     key: "access_token",
-          //     value: data["access_token"]);
-          // await storage.write(key: "id", value: data["id"].toString());
-          // Navigator.pushReplacementNamed(context, '/home');
           Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
         }
       });
     } catch (e) {
       print(e);
     }
-    // print(json.decode(response.body));
   }
 
   Future<void> login(
@@ -394,16 +345,9 @@ class Authentication with ChangeNotifier {
                 'email': 'neww@gmail.com',
                 'password': 'test10',
                 'returnSecureToken': true,
-                // 'email': 'aaryn@gmail.com',
-                // 'password': 'password22',
-                // 'returnSecureToken': true,
-                // 'email': email,
-                // 'password': password,
-                // 'returnSecureToken': true
               }))
           .then((http.Response response) async {
         final int statusCode = response.statusCode;
-
         if (statusCode < 200 || statusCode >= 400 || json == null) {
           var data = json.decode(response.body);
           var msg = data['error']['message'];
@@ -411,7 +355,6 @@ class Authentication with ChangeNotifier {
           throw new Exception(response.body);
         } else {
           print(json.decode(response.body));
-          // final storage = new FlutterSecureStorage();
           var data = json.decode(response.body);
           _accessToken = data["idToken"];
           _userId = data["localId"];
@@ -421,11 +364,6 @@ class Authentication with ChangeNotifier {
               .add(Duration(seconds: int.parse(data['expiresIn'])));
           _logoutAuto(context);
           notifyListeners();
-          // await storage.write(
-          //     key: "access_token",
-          //     value: data["access_token"]);
-          // await storage.write(key: "id", value: data["id"].toString());
-          // Navigator.pushReplacementNamed(context, '/home');
           Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
         }
       });

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 
 class OrderCompleteScreen extends StatelessWidget {
@@ -13,15 +12,14 @@ class OrderCompleteScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Color(0xff673AB7),
         title: new Text(
-          'GivnGo',
+          'Givngo',
           style: TextStyle(),
         ),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/home');
-                // Navigator.of(context).pushReplacement(MapScreen.routeName);
+                Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
               })
         ],
       ),
@@ -57,7 +55,6 @@ class OrderCompleteScreen extends StatelessWidget {
                   elevation: 0.5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(7.0)),
-                  // icon: Icon(Icons.attach_money),
                   textColor: Colors.white,
                   color: Constants.accentColor,
                   child: const Text('Ok',
@@ -66,8 +63,7 @@ class OrderCompleteScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 18)),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/home');
-                    // Navigator.pushNamed(context, '/camera');
+                    Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
                   },
                 )),
           )

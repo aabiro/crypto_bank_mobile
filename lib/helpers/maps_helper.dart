@@ -1,10 +1,8 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:path/path.dart';
 import 'dart:ui' as ui;
 
 const GOOGLE_API_KEY = 'AIzaSyDoid-JXRFRIZ1XO819NyuYaCISf7ljXFo';

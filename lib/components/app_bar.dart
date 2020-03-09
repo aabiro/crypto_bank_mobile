@@ -7,7 +7,7 @@ class GnGAppBar extends StatelessWidget {
       centerTitle: true,
       backgroundColor: Color(0xff98c1d9),
       title: new Text(
-        'GivnGo',
+        'Givngo',
         style: TextStyle(),
       ),
     );
