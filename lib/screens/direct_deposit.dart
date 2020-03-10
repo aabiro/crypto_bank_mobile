@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/providers/authentication.dart';
-import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 class DirectDeposit extends StatefulWidget {
@@ -14,8 +12,6 @@ class DirectDeposit extends StatefulWidget {
 }
 
 class _DirectDepositState extends State<DirectDeposit> {
-  var _isLoading = false;
-  var _init = true;
   final bankController = TextEditingController();
   final transitController = TextEditingController();
   final accountController = TextEditingController();

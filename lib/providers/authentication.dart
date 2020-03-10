@@ -267,7 +267,6 @@ class Authentication with ChangeNotifier {
           )
               .then(
             (response) async {
-              var data = json.decode(response.body);
               final int statusCode = response.statusCode;
               if (statusCode < 200 || statusCode >= 400 || json == null) {
                 var data = json.decode(response.body);

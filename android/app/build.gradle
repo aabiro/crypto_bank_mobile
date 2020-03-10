@@ -28,7 +28,7 @@ apply plugin: 'com.google.firebase.appdistribution'
 apply plugin: 'com.google.gms.google-services'
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def googleMapApiKey = properties.getProperty('google.map.key')
+// def googleMapApiKey = properties.getProperty('google.map.key')
 
 android {
     compileSdkVersion 28
@@ -54,9 +54,13 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            firebaseAppDistribution {
+                serviceCredentialsFile= rootProject.file('capstone-addb0-2ae26ea31e0f.json') //"$APP_DIST_JSON"
+                releaseNotesFile= rootProject.file("release-notes.txt")
+                testers="aaryn.alexander@gmail.com, calebscott1515@gmail.com"
+            }
         }
         release {
-            signingConfig signingConfigs.debug
             firebaseAppDistribution {
                 serviceCredentialsFile= rootProject.file('capstone-addb0-2ae26ea31e0f.json') //"$APP_DIST_JSON"
                 releaseNotesFile= rootProject.file("release-notes.txt")

@@ -24,6 +24,7 @@ class Bikes with ChangeNotifier {
 
   Future<void> updateBike(String id, Bike newBike) async { //update userbikes too, check edit on detail view
     final bikeIndex = allBikes.indexWhere((bike) => bike.id == id);
+    final bikeIndexUser = userBikes.indexWhere((bike) => bike.id == id);
     if (bikeIndex >= 0) {
       final url =
           "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
@@ -49,7 +50,8 @@ class Bikes with ChangeNotifier {
         // notifyListeners();
         throw ExceptionHandler('Cannot update bike.');
       }
-      userBikes[bikeIndex] = newBike;
+      allBikes[bikeIndex] = newBike;
+      userBikes[bikeIndexUser] = newBike;
       print('updated bike :${response.toString()}');
       notifyListeners();
     } else {
@@ -62,18 +64,22 @@ class Bikes with ChangeNotifier {
         "https://capstone-addb0.firebaseio.com/bikes/$id.json?auth=$token";
     //has been added to user bikes
     final bikeIndex = userBikes.indexWhere((bike) => bike.id == id);
-    var bike = userBikes[bikeIndex];
-    // print('delete bike id: ${bike.id}, at index $bikeIndex');
+    final bikeIndexAll = allBikes.indexWhere((bike) => bike.id == id);
+    var bike1 = userBikes[bikeIndex];
     userBikes.removeAt(bikeIndex);
+    var bike2 = allBikes[bikeIndexAll];
+    allBikes.removeAt(bikeIndexAll); 
     notifyListeners();
     final response = await http.delete(url);
     if (response.statusCode >= 400) {
       userBikes.insert(bikeIndex,
-          bike); //keep bike if the delete did not work, optimistic updating
+          bike1); 
+      allBikes.insert(bikeIndexAll, bike2); //keep bike if the delete did not work, optimistic updating
       notifyListeners();
       throw ExceptionHandler('Cannot delete bike.');
     }
-    bike = null;
+    bike1 = null;
+    bike2 = null;
   }
 
   //the bikes shown on map
@@ -218,7 +224,6 @@ class Bikes with ChangeNotifier {
             }))
         .then(
       (response) {
-        var data = json.decode(response.body);
         final newBike = Bike(
             id: json
                 .decode(response.body)["name"],

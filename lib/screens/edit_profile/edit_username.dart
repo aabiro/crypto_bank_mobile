@@ -12,9 +12,7 @@ class EditUserName extends StatefulWidget {
 }
 
 class _EditUserNameState extends State<EditUserName> {
-  var _isLoading = false;
-  var _init = true;
-  
+  final usernameController = TextEditingController();
 
   // Widget buildInputField(TextEditingController controller, String labelText, String hintText, String initialValue) {
   //   controller.text = initialValue;
@@ -36,7 +34,6 @@ class _EditUserNameState extends State<EditUserName> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final auth = Provider.of<Authentication>(context);
-    final usernameController = TextEditingController();
     // final usernameField = buildInputField(usernameController, "Username", auth.displayName != null ? auth.displayName : "", auth.displayName != null ? auth.displayName : "");  
     String username = usernameController.text;
 

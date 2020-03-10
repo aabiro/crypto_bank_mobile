@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/providers/bike.dart';
 import 'package:flutter_app/providers/bikes.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 import 'package:provider/provider.dart';
 
 class EditBike extends StatefulWidget {
   static const routeName = '/edit_bike';
-  final String id;
+  final Bike bike;
 
-  EditBike([this.id]);
+  EditBike([this.bike]);
   @override
   _EditBikeState createState() => _EditBikeState();
 }
 
 class _EditBikeState extends State<EditBike> {
   final nameController = TextEditingController();
-  final conditionController = TextEditingController();
   String dropdownValue = "None";
   
   buildInputField(
@@ -45,9 +45,9 @@ class _EditBikeState extends State<EditBike> {
   Widget build(BuildContext context) {
     final list = Constants.bikeTypes;
     final bikeProv = Provider.of<Bikes>(context);
-    final bike = bikeProv.findById(widget.id);
+    // final bike = bikeProv.findById(widget.id);
     final nameField = buildInputField(
-        nameController, "Name of Bike", bike.name != null ? bike.name : "");
+        nameController, "Name of Bike", widget.bike.name != null ? widget.bike.name : "");
     final mediaQuery = MediaQuery.of(context);
     String name = nameController.text;
 
@@ -103,7 +103,7 @@ class _EditBikeState extends State<EditBike> {
                 child: DropdownButton<String>(
                   isExpanded: true,
                   hint: Text(
-                    bike.model != null ? bike.model : "None",
+                    widget.bike.model != null ? widget.bike.model : "None",
                     style: TextStyle(
                         color: Colors.blueGrey,
                         fontFamily: 'OpenSans',
@@ -147,11 +147,11 @@ class _EditBikeState extends State<EditBike> {
               minWidth: mediaQuery.size.width / 3,
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
-                print('update/edit bike id: ${widget.id}');
-                bike.name = nameController.text;
-                bike.model = dropdownValue;
-                bikeProv.updateBike(widget.id, bike);
-                Navigator.of(context).pop();
+                print('update/edit bike id: ${widget.bike.id}');
+                widget.bike.name = nameController.text;
+                widget.bike.model = dropdownValue;
+                bikeProv.updateBike(widget.bike.id, widget.bike);
+                Navigator.of(context).pop(widget.bike);
               },
               child: Text(
                 "Save",

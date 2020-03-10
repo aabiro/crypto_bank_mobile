@@ -16,15 +16,17 @@ class BikeList extends StatefulWidget {
 class _BikeListState extends State<BikeList> {
   var _init = true;
   var _isLoading = false;
+  var bikes;
 
   // @override
-  // void didChangeDependencies() {
+  // void initState() {
   //   if (_init) {
   //     setState(() {
   //       _isLoading = true;
   //     });
   //     Provider.of<Bikes>(context).getUserBikes();
-  //     Provider.of<Bikes>(context).getUserBikes(allBikes: true).then((_) {
+  //     Provider.of<Bikes>(context).getAllUserBikes().then((response) {
+  //       bikes = response;
   //       setState(() {
   //         _isLoading = false;
   //       });

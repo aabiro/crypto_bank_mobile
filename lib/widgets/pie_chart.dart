@@ -11,7 +11,7 @@ class StandardCard extends StatelessWidget {
     dataMap.putIfAbsent("Completed", () => 5);
     dataMap.putIfAbsent("In Progress", () => 3);
     
-     SizedBox(
+    return SizedBox(
               width: double.infinity,
               child: Padding(
                 padding: EdgeInsets.all(10),

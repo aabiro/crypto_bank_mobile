@@ -19,16 +19,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   var _isLoading = false;
-
   var _init = true;
-
   final usernameController = TextEditingController();
-
   final passwordController = TextEditingController();
-
   final emailController = TextEditingController();
-
-    File _image;
+  File _image;
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);

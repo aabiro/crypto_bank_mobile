@@ -23,6 +23,14 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
   bool isSwitched = false;
   Bike bike;
 
+  @override
+  void initState() {
+      Future.delayed(Duration.zero).then((_) {
+        Provider.of<Bikes>(context).getUserBikes(allBikes: true);
+      },);
+    super.initState();
+  }
+
   buildDetailFields(String title, String text) {
     return Column(
         children: [
@@ -61,9 +69,6 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final nameController = TextEditingController();
-    final modelController = TextEditingController();
-    final conditionController = TextEditingController();
     // final bikeProv = Provider.of<Bikes>(context);
     // final BikeDetailScreen args = ModalRoute.of(context).settings.arguments;
     // final bike = Provider.of<Bikes>(context).findById(args.bike.id);
@@ -129,7 +134,7 @@ class _BikeDetailScreenState extends State<BikeDetailScreen> {
                             context,
                             MaterialPageRoute(
                                 fullscreenDialog: true,
-                                builder: (context) => EditBike(widget.bike.id),
+                                builder: (context) => EditBike(widget.bike),
                                 maintainState: false),
                           );
                         },

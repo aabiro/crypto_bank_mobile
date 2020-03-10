@@ -14,7 +14,6 @@ class ReviewOrder extends StatelessWidget {
   static const routeName = '/review_order';
 
   Widget buildCard(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
     return Container(
       child: Card(
         shape: RoundedRectangleBorder(
@@ -56,7 +55,6 @@ class ReviewOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var auth = Provider.of<Authentication>(context, listen: false);
-    final mediaQuery = MediaQuery.of(context);
     var quantity = this.order.quantity; //take from input of dropdown
     var lockPrice = 5.99;
     var _currentValue;

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
 
 class BuildDropdown extends StatefulWidget {
-  // String title;
   List array;
   String hintText;
   String dropdownValue;
@@ -20,7 +19,6 @@ class _BuildDropdownState extends State<BuildDropdown> {
           child: Align(
         alignment: Alignment.bottomLeft,
         child: DropdownButton<String>(
-          // isExpanded = true,
           isExpanded: true,
           hint: Text(widget.hintText == null ? widget.dropdownValue.toString() : widget.hintText,
             style: TextStyle(

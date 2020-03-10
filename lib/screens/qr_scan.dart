@@ -1,6 +1,5 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_app/providers/authentication.dart';
-import 'package:flutter_app/providers/user_cards.dart';
 import 'package:flutter_app/screens/bike_form.dart';
 import 'package:flutter_app/services/mailer.dart';
 import 'package:flutter_app/theme/constants.dart' as Constants;
@@ -111,8 +110,8 @@ class QrScanState extends State<QrScan> {
                       textColor: Colors.white,
                       splashColor: Colors.blueGrey,
                       onPressed: () {
-                        // bypass(activationCode, context);
-                        scan(activationCode, context);
+                        bypass(activationCode, context);
+                        // scan(activationCode, context);
                       },
                       child: const Text(
                         'Scan the QR code',
