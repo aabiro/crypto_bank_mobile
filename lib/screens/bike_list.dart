@@ -60,7 +60,7 @@ class _BikeListState extends State<BikeList> {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.popAndPushNamed(context, '/home'),
+          onPressed: () => Navigator.pushNamed(context, '/home'),
         ),
       ),
       body: Stack(
@@ -116,9 +116,6 @@ class _BikeListState extends State<BikeList> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15)),
                       ),
-                      // icon: Icon(
-                      //   Icons.center_focus_strong,
-                      //   size: 25,
                     ),
                   ),
                 ),

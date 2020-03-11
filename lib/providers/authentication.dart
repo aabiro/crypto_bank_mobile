@@ -220,7 +220,7 @@ class Authentication with ChangeNotifier {
 
   void initiateFacebookLogin(BuildContext context) async {
     var facebookLogin = FacebookLogin();
-    var facebookLoginResult = await facebookLogin.logIn(['email']);
+    var facebookLoginResult = await facebookLogin.logIn(['email', 'public_profile']);
     switch (facebookLoginResult.status) {
       case FacebookLoginStatus.error:
         print("Error");
@@ -229,8 +229,6 @@ class Authentication with ChangeNotifier {
         // onLoginStatusChanged(false);
         break;
       case FacebookLoginStatus.cancelledByUser:
-        showError(FacebookLoginStatus.cancelledByUser.toString(), context);
-        print("CancelledByUser");
         // onLoginStatusChanged(false);
         break;
       case FacebookLoginStatus.loggedIn:
@@ -285,7 +283,7 @@ class Authentication with ChangeNotifier {
                     .add(Duration(seconds: int.parse(data['expiresIn'])));
                 _logoutAuto(context);
                 notifyListeners();
-                Navigator.pushReplacementNamed(context, '/home');
+                Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
               }
             },
           );

@@ -26,8 +26,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   File _image;
 
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    // var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    // var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       _image = image;
@@ -145,7 +145,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        //add to Scroll whole screen
         child: Column(
           children: <Widget>[
             new AppBar(
@@ -164,8 +163,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   backgroundImage: auth.photoUrl != null && auth.photoUrl.isNotEmpty
                   ? NetworkImage(auth.photoUrl)
                   : null,
-                  // backgroundImage:
-                  //     NetworkImage(auth.photoUrl != null ? auth.photoUrl : ''), //wont work with no photo
                   backgroundColor: Color(0xff9575CD),
                   child: Text(
                     (auth.photoUrl == null || auth.photoUrl == "") &&
@@ -194,8 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: <Widget>[
                   Material(
                     child: Column(
-                      children: <Widget>[
-                        
+                      children: <Widget>[                
                         MaterialButton(
                           minWidth: MediaQuery.of(context).size.width / 1.6,
                           onPressed: () {
@@ -344,65 +340,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ));
   }
 }
-
-///if need to change
-///            SizedBox(height: 30),
-// Padding(
-//     padding: EdgeInsets.all(30),
-//     child: usernameField
-// ),
-// Padding(
-//     padding: EdgeInsets.all(30),
-//     child:
-
-//     Row(
-//       children: <Widget>[
-//       emailField,
-
-//     ], ),
-
-//     ),
-// // TextFormField(
-// //   decoration: InputDecoration(
-// //     labelText: 'Enter your username'
-// //   ),
-// // ),
-
-// Padding(
-//     padding: EdgeInsets.all(30),
-//     child: Row(
-//       children : <Widget>[
-//       passwordField,
-//        IconButton(
-//       icon: Icon(Icons.arrow_forward),
-//       onPressed: () {
-//         Navigator.pushReplacementNamed(context, '/change_password');
-//         // Navigator.of(context).pushReplacement(MapScreen.routeName);
-//       })
-
-//     ],)
-// ),
-// Material(
-//   elevation: 5.0,
-//   borderRadius: BorderRadius.circular(7.0),
-//   color: Color(0xff2196F3),
-//   child: MaterialButton(
-//     minWidth: mediaQuery.size.width / 3,
-//     padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-//     onPressed: () {
-//       Provider.of<Authentication>(context).updateUser(username, "photUrl");
-//       Navigator.of(context).pop();
-//     },
-//     child: Text("Save",
-//         textAlign: TextAlign.center,
-//         style: TextStyle(
-//             // fontSize: 40,
-//             color: Colors.white,
-//             fontWeight: FontWeight.w900)),
-//     // color: Color(),
-//     // style: style.copyWith(
-//     // //     color: Colors.white,
-//     // fontWeight: FontWeight.bold)
-//     // ),
-//   ),
-// ),

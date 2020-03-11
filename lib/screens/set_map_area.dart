@@ -15,7 +15,6 @@ class SetMapAreaScreen extends StatefulWidget {
   final Place initalLocation;
   final bool isEditing;
 
-  //need to use phone gps again
   SetMapAreaScreen(
       {this.initalLocation = const Place(lat: 37.422, lng: -122.084),
       this.isEditing = false});
@@ -84,7 +83,6 @@ class _SetMapAreaScreenState extends State<SetMapAreaScreen> {
         children: <Widget>[
           SizedBox(
             height: mediaQuery.size.height / 1.7,
-            // width: mediaQuery.size.width,
             child: Padding(
               padding: EdgeInsets.all(0),
               child: Stack(

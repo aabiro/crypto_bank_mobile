@@ -32,7 +32,6 @@ import './screens/add_credit_card.dart';
 import './screens/set_map_area.dart';
 import './screens/order_complete.dart';
 import './screens/qr_scan.dart';
-import './screens/edit_bike.dart';
 import './screens/activation_complete.dart';
 import 'dart:async';
 import 'package:camera/camera.dart';

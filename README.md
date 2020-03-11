@@ -1,29 +1,15 @@
-# flutter_app
+# Givngo
 
-A new Flutter application.
+A ride sharing app where you can lend out your bike to other users.
 
-## Getting Started
+Register, order a lock, activate your bike on the platform to make money, and borrow other users' bikes when you need a ride.
 
-This project is a starting point for a Flutter application.
+Use any QR Code to scan for Activate Bike and Start Trip:
 
-A few resources to get you started if this is your first Flutter project:
+![Activate Bike or Start Trip](/assets/qr001.png)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+**QR001**
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Activate Bike or Start Trip](/assets/qr002.png)
 
-Update all pods and secrets
-update bundle id's on both spots
-
-in ios
-```pod update 'FBSDKCoreKit'```
-
-In the crypto_bank_mobile folder
-```flutter build ios```
-```flutter run```
-
-In Xcode 
-Product >> Run
+**QR002**

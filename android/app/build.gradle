@@ -41,6 +41,15 @@ android {
         disable 'InvalidPackage'
     }
 
+    signingConfigs {
+        config {
+            keyAlias 'key'
+            keyPassword 'O2tr341989*'
+            storeFile rootProject.file("key.jks")
+            storePassword 'O2tr341989*'
+        }
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.flutter_app"
@@ -61,6 +70,7 @@ android {
             }
         }
         release {
+            signingConfig signingConfigs.config
             firebaseAppDistribution {
                 serviceCredentialsFile= rootProject.file('capstone-addb0-2ae26ea31e0f.json') //"$APP_DIST_JSON"
                 releaseNotesFile= rootProject.file("release-notes.txt")

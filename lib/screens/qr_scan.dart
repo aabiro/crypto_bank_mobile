@@ -110,8 +110,8 @@ class QrScanState extends State<QrScan> {
                       textColor: Colors.white,
                       splashColor: Colors.blueGrey,
                       onPressed: () {
-                        bypass(activationCode, context);
-                        // scan(activationCode, context);
+                        // bypass(activationCode, context);
+                        scan(activationCode, context);
                       },
                       child: const Text(
                         'Scan the QR code',

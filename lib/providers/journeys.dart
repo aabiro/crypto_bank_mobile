@@ -77,7 +77,7 @@ class Journeys with ChangeNotifier {
         );
         // print('newJourney : $newJourney');
         allJourneys.add(
-            newJourney); //journeys would be called on null if using constuctor initialized list
+            newJourney);
         notifyListeners();
         
       },
@@ -85,7 +85,6 @@ class Journeys with ChangeNotifier {
     return newJourney;
   }
 
-  //fix this
   Future<Journey> getCurrentUserJourney() async {
     var userJourney;
     var url;

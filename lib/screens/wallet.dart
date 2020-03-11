@@ -11,8 +11,6 @@ class WalletScreen extends StatefulWidget {
 
   @override
   _WalletScreenState createState() => _WalletScreenState();
-
-  
 }
 
 class _WalletScreenState extends State<WalletScreen> {
@@ -32,11 +30,9 @@ class _WalletScreenState extends State<WalletScreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     print(lastDefaultDigits);
-    // var cards = Provider.of<UserCards>(context);
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          //add to Scroll whole screen
           child: Column(
             children: <Widget>[
               AppBar(
@@ -70,7 +66,6 @@ class _WalletScreenState extends State<WalletScreen> {
                               children: <Widget>[
                                 Icon(Icons.credit_card,
                                     color: Colors.blueGrey),
-                                // Icon(Icons.attach_money),
                                 Expanded(
                                   child: Text(
                                     'Add Payment Method',
@@ -88,24 +83,6 @@ class _WalletScreenState extends State<WalletScreen> {
                     ),
                   ),
                 ),
-
-                //   child: buildCard(
-                //   'Add Payment Method',
-                //   Icon(Icons.attach_money),
-                //   "credit",
-                //   "credit",
-                //   context)
-                // ),
-                // Padding(
-                //     padding: EdgeInsets.all(10),
-                //     child:
-
-                //         buildCard(
-                //         'Enroll in Direct Deposit',
-                //         Icon(Icons.account_balance_wallet),
-                //         "deposit",
-                //         '',
-                //         context)
               ),
               Padding(
                 padding: EdgeInsets.all(10),
@@ -125,7 +102,6 @@ class _WalletScreenState extends State<WalletScreen> {
                               children: <Widget>[
                                 Icon(
                                   Icons.account_balance,
-                                  // Icons.account_balance_wallet,
                                     color: Colors.blueGrey),
                                 Expanded(
                                   child: Text(
@@ -164,31 +140,21 @@ class _WalletScreenState extends State<WalletScreen> {
                 child: Padding(
                   padding: EdgeInsets.all(20),
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Text(
-                            "Credit Card\n ending in ${lastDefaultDigits}",
+                            "Credit Card\n ending in ${lastDefaultDigits != null ? lastDefaultDigits : "XXXX"}",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.blueGrey,
                                 fontFamily: 'Comfortaa',
-                                // fontWeight: FontWeight.w900,
                                 fontSize: 15),
                           ),
                           OutlineButton(
-                            // minWidth: MediaQuery.of(context).size.width,
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                             onPressed: () {
-                            //   Navigator.of(context).push(
-                            //     CardScreen.routeName,
-                            //     arguments: CardScreen(
-                            //       chooseDefault: false,
-                            //     ),
-                            //   );
-                            // },
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -210,8 +176,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     ],
                   ),
                 ),
-              ),
-              
+              ),         
               Padding(
                 padding: const EdgeInsets.all(25.0),
                 child: SizedBox(

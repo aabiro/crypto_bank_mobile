@@ -47,18 +47,13 @@ class MapScreenState extends State<MapScreen> {
     //make this userlocation
     target: LatLng(43.65, -79.38),
     zoom: 13,
-    // bearing: 45.0,
-    // tilt: 45.0
   );
   List<Marker> markers = [];
   List<Marker> userMarker = [];
-
   BitmapDescriptor myIcon;
   BitmapDescriptor customIcon;
   List<Marker> markersA = [];
-
   String _barcode = "";
-
   // Uint8List markerIcon;
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -92,8 +87,6 @@ class MapScreenState extends State<MapScreen> {
       target: LatLng(43.65, -79.38), //toronto
       // target: LatLng(43.0095971,-81.2759223), //london
       zoom: 13,
-      // bearing: 45.0,
-      // tilt: 45.0
     );
     mc.animateCamera(CameraUpdate.newCameraPosition(userUocation));
   }
@@ -136,13 +129,6 @@ class MapScreenState extends State<MapScreen> {
       });
       Future.delayed(Duration.zero).then((_) {
         Provider.of<Bikes>(context).getUserBikes(allBikes: true);
-        // .then((_) {
-          
-        //   allBikes = Provider.of<Bikes>(context).allBikes;
-        //   print(allBikes);
-
-        // });
-        // print(allBikes);
       });
       Future.delayed(Duration.zero).then((_) {
         user = Provider.of<Authentication>(context);
@@ -195,7 +181,6 @@ class MapScreenState extends State<MapScreen> {
       //  });
 
       //
-      // allBikes.forEach((bikeId, bikeData) {
       markersA.add(
         //change to current position
         Marker(
@@ -310,7 +295,7 @@ class MapScreenState extends State<MapScreen> {
                           // _controller.complete(mc);
                         },
                         initialCameraPosition: CameraPosition(
-                            target: LatLng(40.6281, 14.4850), zoom: 5),
+                            target: LatLng(43.65, -79.38), zoom: 5),
                         markers: Set.from(markersA), 
                         myLocationButtonEnabled: false,
                         mapToolbarEnabled: false,
@@ -364,7 +349,6 @@ class MapScreenState extends State<MapScreen> {
                       width: mediaQuery.size.width * 0.15,
                       height: mediaQuery.size.height * 0.15,
                       child: IconButton(
-                          //my location ocation searching gps fixed gps not fixed error error outline
                           icon: Icon(
                             Icons.gps_fixed,
                             size: 30,
@@ -379,9 +363,7 @@ class MapScreenState extends State<MapScreen> {
                       width: mediaQuery.size.width * 0.15,
                       height: mediaQuery.size.height * 0.15,
                       child: IconButton(
-                          //my location ocation searching gps fixed gps not fixed error error outline
                           icon: Icon(
-                            // Icons.error_outline,
                             Icons.cached,
                             size: 30,
                           ),
@@ -510,18 +492,11 @@ class MapScreenState extends State<MapScreen> {
     );
   }
 
-  //ride not activate
+  //Scan to Ride
   Future scan() async {
     try {
-      // String barcode = 'QR001'; //have a few diff to show
       String barcode = await BarcodeScanner.scan();
       setState(() => this._barcode = barcode);
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       fullscreenDialog: true,
-        //       builder: (context) => CardScreen(chooseDefault: false, chooseForJourney: true, barcode: barcode,),
-        //       maintainState: false));
         Navigator.of(context).pushNamed(
           CardScreen.routeName,
           arguments: CardScreen(
@@ -547,34 +522,6 @@ class MapScreenState extends State<MapScreen> {
       setState(() => this._barcode = 'Unknown error: $e');
       showError(this._barcode, context);
     }
-
-      // final bikesProv = Provider.of<Bikes>(context);
-      // final bikeId = bikesProv.findByQrCode(this._barcode).id;
-      // final bikeOwnerId = bikesProv.findByQrCode(this._barcode).userId;
-      // print('bikeOwnerId : $bikeOwnerId, bikeId : $bikeId');
-
-      // create the new journey
-      // Provider.of<Journeys>(context).addJourney(
-      //   Journey(
-      //       startTime: DateTime.now(),
-      //       userId: user.userId,
-      //       bikeId: 'bikeId',
-      //       bikeOwnerId: 'bikeOwnerId'),
-      // );
-
-      print('gets here');
-
-      // goto journey screen
-      // Provider.of<Journeys>(context).getCurrentUserJourney().then((response) {
-      //   print('response of get current journey: $response');
-      //   Navigator.of(context).pushReplacementNamed(
-      //     JourneyScreen.routeName,
-      //     arguments: JourneyScreen(
-      //       journey: response,
-      //       isUserBike: (journey.bikeOwnerId == journey.userId)
-      //     ),
-      //   );
-      // });
   }
 
     void showError(String message, BuildContext context) {

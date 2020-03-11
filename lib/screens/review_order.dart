@@ -23,7 +23,6 @@ class ReviewOrder extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(20),
           width: double.infinity,
-          // height: 200,
           child: Column(
             children: <Widget>[
               Padding(
@@ -55,7 +54,7 @@ class ReviewOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var auth = Provider.of<Authentication>(context, listen: false);
-    var quantity = this.order.quantity; //take from input of dropdown
+    var quantity = this.order.quantity;
     var lockPrice = 5.99;
     var _currentValue;
     this.order.planType == 'Individual Plan'
@@ -80,7 +79,6 @@ class ReviewOrder extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        //add to Scroll whole screen
         child: Column(
           children: <Widget>[
             AppBar(
@@ -109,7 +107,6 @@ class ReviewOrder extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(20),
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -120,11 +117,9 @@ class ReviewOrder extends StatelessWidget {
                           style: TextStyle(
                               color: Colors.blueGrey,
                               fontFamily: 'Comfortaa',
-                              // fontWeight: FontWeight.w900,
                               fontSize: 15),
                         ),
                         OutlineButton(
-                          // minWidth: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
                           onPressed: () {
                             Navigator.push(
@@ -173,7 +168,6 @@ class ReviewOrder extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.blueGrey,
                         fontFamily: 'Comfortaa',
-                        // fontWeight: FontWeight.w900,
                         fontSize: 15),
                   ),
                   SizedBox(height: 10),
@@ -183,7 +177,6 @@ class ReviewOrder extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.blueGrey,
                         fontFamily: 'Comfortaa',
-                        // fontWeight: FontWeight.w900,
                         fontSize: 15),
                   ),
                   SizedBox(height: 5),
@@ -197,13 +190,10 @@ class ReviewOrder extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.blueGrey,
                         fontFamily: 'Comfortaa',
-                        // fontWeight: FontWeight.w900,
                         fontSize: 15),
                   ),
                   SizedBox(height: 20),
                   SizedBox(
-                    // width: mediaQuery.size.width * 0.5,
-                    // height: mediaQuery.size.height * 0.07,
                     child: RaisedButton(
                       elevation: 3,
                       shape: RoundedRectangleBorder(
@@ -222,8 +212,6 @@ class ReviewOrder extends StatelessWidget {
                       ),
                       onPressed: () {
                         this.order.isApproved = true;
-                        //add order to db
-                        //send mail and show dialog here
                         print(auth.email);
                         Mailer.mailer(auth.email, auth.displayName, '001');
                         _showDialog(context);
@@ -244,7 +232,6 @@ class ReviewOrder extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // return object of type Dialog
         return Padding(
           padding: EdgeInsets.fromLTRB(20, 100, 20, 60),
           child: AlertDialog(
